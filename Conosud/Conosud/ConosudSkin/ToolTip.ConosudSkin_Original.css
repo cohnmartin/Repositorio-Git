@@ -1,0 +1,221 @@
+/* RADTOOLTIP "SUNSET" SKIN */
+
+div.radtooltip_ConosudSkin.ResizeElement
+{
+	border: solid 1px #bbb;
+	background: #f4ede1;
+}
+
+div.radtooltip_ConosudSkin
+{
+	position: absolute;
+	cursor: default;
+	border: solid 1px #cbbda9;
+	
+	background: url(ToolTip/sprite.gif) 0 0 repeat-x ;
+}
+
+div.radtooltip_ConosudSkin.LoadingSign
+{	
+	background: url(ToolTip/Loading.gif) no-repeat center !important;
+	width: 100% !important; 
+	height: 100% !important;
+	text-align:left !important;
+	border:0;
+}
+
+div.radtooltip_ConosudSkin div
+{
+
+}
+
+
+
+div.radtooltip_ConosudSkin div.ToolTipCallout
+{
+	display:none;
+}
+
+div.radtooltip_ConosudSkin.visiblecallout
+{
+	/**/	
+}
+
+div.radtooltip_ConosudSkin.visiblecallout div.ToolTipCallout
+{
+	display: block;
+}
+
+
+div.radtooltip_ConosudSkin table.ToolTipWrapper
+{
+	padding: 0; margin: 0;
+	border-collapse: collapse;
+}
+
+div.radtooltip_ConosudSkin table.ToolTipWrapper td
+{		
+	padding: 0; margin: 0;
+	border-collapse: collapse;
+	background-color:transparent;
+}
+
+div.radtooltip_ConosudSkin table.ToolTipWrapper td.ToolTipTopLeft
+{
+	background: url(ToolTip/sprite.gif) 0 0 repeat-x ;
+
+}
+div.radtooltip_ConosudSkin table.ToolTipWrapper td.ToolTipTopRight
+{
+	background: url(ToolTip/sprite.gif) 0 0 repeat-x ;
+
+}
+div.radtooltip_ConosudSkin table.ToolTipWrapper td.ToolTipTopCenter
+{
+	background: url(ToolTip/sprite.gif) 0 0 repeat-x ;
+	
+}	
+	
+div.radtooltip_ConosudSkin table.ToolTipWrapper td.ToolTipBottomLeft,
+div.radtooltip_ConosudSkin table.ToolTipWrapper td.ToolTipBottomRight
+{
+	height: 4px; width: 4px; line-height: 4px;
+}
+div.radtooltip_ConosudSkin table.ToolTipWrapper td.ToolTipBottomCenter
+{
+	height: 4px; line-height: 4px;
+}
+
+div.radtooltip_ConosudSkin table.ToolTipWrapper td.ToolTipLeftMiddle,
+div.radtooltip_ConosudSkin table.ToolTipWrapper td.ToolTipRightMiddle
+{
+	width: 4px;
+}
+
+div.radtooltip_ConosudSkin table.ToolTipWrapper td.ToolTipContent
+{
+	font: normal 11px Arial, Verdana, Sans-serif;
+	height: 100%;
+	color:#333;
+}
+
+div.radtooltip_ConosudSkin div.ToolTipTitlebar
+{	
+	color: White;
+	font: bold  13px Verdana, Arial, Sans-serif;
+	float:left;
+	width: 100% !important; 
+	text-align:left;
+
+}
+
+div.radtooltip_ConosudSkin table.ToolTipWrapper td.ToolTipTopCenter div.ToolTipTitlebar div
+{
+	float: left;
+	margin-right: 12px;
+	line-height: 21px;	
+}
+
+div.radtooltip_ConosudSkin a.CloseButton,
+div.radtooltip_ConosudSkin a.CloseButton:hover
+{
+	display: block; float: right;
+	width: 16px; line-height: 16px; height: 16px;
+	margin-right: -4px;
+	background: url(ToolTip/close.gif) no-repeat;
+	text-indent: -9999px;
+	outline: none;
+}
+
+div.radtooltip_ConosudSkin div.ToolTipCallout
+{
+	position: absolute; top: 0; left: 0;
+	line-height: 11px; height: 11px; width: 11px;
+	
+	background-image: url(ToolTip/Callouts.gif);
+		
+	background-repeat: no-repeat;
+}
+
+/* position="Center" */
+div.radtooltip_ConosudSkin .Center
+{
+	background: none !important;
+}
+
+/* position="BottomRight" */
+.radtooltip_ConosudSkin .TopLeft
+{
+	margin-top: -11px; margin-left: 15px;
+}
+
+/* position="BottomCenter" */
+.radtooltip_ConosudSkin .TopCenter
+{
+	left: 50% !important;
+	margin-top: -11px; margin-left: -5px;
+	background-position: 0 -11px !important;
+}
+
+/* position="BottomLeft" */
+.radtooltip_ConosudSkin .TopRight
+{
+	left: 100% !important;
+	margin-top: -11px; margin-left: -26px;
+	background-position: 0 -22px !important;
+}
+
+/* position="TopCenter" */
+.radtooltip_ConosudSkin .BottomCenter
+{
+	top: 100% !important; left: 50% !important;
+	margin-left: -5px !important; margin-top: 0 !important;
+	width: 100% !important;
+	background-position: 0 -55px !important;
+}
+
+/* position="TopLeft" */
+.radtooltip_ConosudSkin .BottomRight
+{
+	top: 100% !important; left: 100% !important;
+	margin-left: -25px !important; margin-top: 0px !important;
+	background-position: 0 -66px !important;
+}
+
+/* position="TopRight" */
+.radtooltip_ConosudSkin .BottomLeft
+{
+	top: 100% !important;
+	margin-left: 26px !important; margin-top: 0px !important;
+	background-position: 0 -88px !important;
+}
+
+/* position="MiddleRight" */
+.radtooltip_ConosudSkin .MiddleLeft
+{
+	top: 50% !important;
+	margin-left: -11px; margin-top: -5px;
+	background-position: 0 -44px !important;
+}
+
+/* position="MiddleLeft" */
+.radtooltip_ConosudSkin .MiddleRight
+{
+	left: 100% !important; top: 50% !important;
+	margin-left: 0px; margin-top: -5px;
+	background-position: 0 -33px;
+}
+
+div.radtooltip_ConosudSkin table.ToolTipWrapper td.ToolTipTopLeft,   
+div.radtooltip_ConosudSkin table.ToolTipWrapper td.ToolTipTopCenter,   
+div.radtooltip_ConosudSkin table.ToolTipWrapper td.ToolTipTopRight,   
+div.radtooltip_ConosudSkin table.ToolTipWrapper td.ToolTipLeftMiddle,   
+div.radtooltip_ConosudSkin table.ToolTipWrapper td.ToolTipContent,   
+div.radtooltip_ConosudSkin table.ToolTipWrapper td.ToolTipRightMiddle,   
+div.radtooltip_ConosudSkin table.ToolTipWrapper td.ToolTipBottomLeft,   
+div.radtooltip_ConosudSkin table.ToolTipWrapper td.ToolTipBottomCenter,   
+div.radtooltip_ConosudSkin table.ToolTipWrapper td.ToolTipBottomRight   
+{
+    padding: 0;
+    border: 0;
+}

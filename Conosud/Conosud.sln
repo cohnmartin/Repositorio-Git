@@ -1,0 +1,59 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Conosud", "Conosud\", "{8F12CA1D-6AEB-44BA-ABE9-392F4DE414F9}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		ProjectReferences = "{E21D6130-C633-4E4A-900C-575966DF1241}|Entidades.dll;{DDACB432-E830-4B38-AE60-E9489340C3BB}|ControlsAjaxNotti.dll;"
+		Debug.AspNetCompiler.VirtualPath = "/Conosud"
+		Debug.AspNetCompiler.PhysicalPath = "Conosud\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\Conosud\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/Conosud"
+		Release.AspNetCompiler.PhysicalPath = "Conosud\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\Conosud\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "1304"
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entidades", "Entidades\Entidades.csproj", "{E21D6130-C633-4E4A-900C-575966DF1241}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControlsAjaxNotti", "..\ControlesAjax\ControlsAjaxNotti.csproj", "{DDACB432-E830-4B38-AE60-E9489340C3BB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|.NET = Debug|.NET
+		Debug|Any CPU = Debug|Any CPU
+		Release|.NET = Release|.NET
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8F12CA1D-6AEB-44BA-ABE9-392F4DE414F9}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{8F12CA1D-6AEB-44BA-ABE9-392F4DE414F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F12CA1D-6AEB-44BA-ABE9-392F4DE414F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F12CA1D-6AEB-44BA-ABE9-392F4DE414F9}.Release|.NET.ActiveCfg = Debug|Any CPU
+		{8F12CA1D-6AEB-44BA-ABE9-392F4DE414F9}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F12CA1D-6AEB-44BA-ABE9-392F4DE414F9}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{E21D6130-C633-4E4A-900C-575966DF1241}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{E21D6130-C633-4E4A-900C-575966DF1241}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E21D6130-C633-4E4A-900C-575966DF1241}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E21D6130-C633-4E4A-900C-575966DF1241}.Release|.NET.ActiveCfg = Release|Any CPU
+		{E21D6130-C633-4E4A-900C-575966DF1241}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E21D6130-C633-4E4A-900C-575966DF1241}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DDACB432-E830-4B38-AE60-E9489340C3BB}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{DDACB432-E830-4B38-AE60-E9489340C3BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDACB432-E830-4B38-AE60-E9489340C3BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDACB432-E830-4B38-AE60-E9489340C3BB}.Release|.NET.ActiveCfg = Release|Any CPU
+		{DDACB432-E830-4B38-AE60-E9489340C3BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDACB432-E830-4B38-AE60-E9489340C3BB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

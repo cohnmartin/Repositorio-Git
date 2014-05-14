@@ -1,0 +1,223 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Database Name="Conosud" Class="ConosudDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=INFO1\SQL2005;Initial Catalog=ConosudSitio;Persist Security Info=True;User ID=sa" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="ConosudConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.SegMenu" Member="SegMenus">
+    <Type Name="SegMenu">
+      <Column Name="IdSegMenu" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Descripcion" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="PadreId" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="Posicion" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Icono" Type="System.String" DbType="VarChar(150)" CanBeNull="true" />
+      <Column Name="Url" Type="System.String" DbType="VarChar(150)" CanBeNull="true" />
+      <Column Name="Target" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Association Name="SegMenu_SegMenu" Member="ColHijosSegMenus" Storage="_SegMenus" ThisKey="IdSegMenu" OtherKey="PadreId" Type="SegMenu" />
+      <Association Name="SegMenu_SegRolMenu" Member="ColSegRolMenus" Storage="_SegRolMenus" ThisKey="IdSegMenu" OtherKey="Menu" Type="SegRolMenu" />
+      <Association Name="SegMenu_SegMenu" Member="ObjPadreSegMenu" Storage="_SegMenu1" ThisKey="PadreId" OtherKey="IdSegMenu" Type="SegMenu" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.SegRol" Member="SegRols">
+    <Type Name="SegRol">
+      <Column Name="IdSegRol" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Descripcion" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Association Name="SegRol_SegRolMenu" Member="ColSegRolMenus" Storage="_SegRolMenus" ThisKey="IdSegRol" OtherKey="Rol" Type="SegRolMenu" />
+      <Association Name="SegRol_SegUsuarioRol" Member="ColSegUsuarioRols" Storage="_SegUsuarioRols" ThisKey="IdSegRol" OtherKey="Rol" Type="SegUsuarioRol" />
+      <Association Name="SegRol_RolesPlanilla" Member="ColRolesPlanillas" ThisKey="IdSegRol" OtherKey="IdRol" Type="RolesPlanilla" />
+    </Type>
+  </Table>
+  <Table Name="dbo.SegRolMenu" Member="SegRolMenus">
+    <Type Name="SegRolMenu">
+      <Column Name="IdSegRolMenu" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Menu" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="Rol" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="Lectura" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="Modificacion" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="Creacion" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="SegMenu_SegRolMenu" Member="ObjSegMenu" Storage="_SegMenu" ThisKey="Menu" OtherKey="IdSegMenu" Type="SegMenu" IsForeignKey="true" />
+      <Association Name="SegRol_SegRolMenu" Member="ObjSegRol" Storage="_SegRol" ThisKey="Rol" OtherKey="IdSegRol" Type="SegRol" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.SegUsuario" Member="SegUsuarios">
+    <Type Name="SegUsuario">
+      <Column Name="IdSegUsuario" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Password" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Login" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="IdEmpresa" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="SegUsuario_SegUsuarioRol" Member="ColSegUsuarioRols" Storage="_SegUsuarioRols" ThisKey="IdSegUsuario" OtherKey="Usuario" Type="SegUsuarioRol" />
+      <Association Name="Empresa_SegUsuario" Member="ObjEmpresa" ThisKey="IdEmpresa" OtherKey="IdEmpresa" Type="Empresa" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.SegUsuarioRol" Member="SegUsuarioRols">
+    <Type Name="SegUsuarioRol">
+      <Column Name="IdSegUsuarioRol" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Usuario" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="Rol" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Association Name="SegRol_SegUsuarioRol" Member="ObjSegRol" Storage="_SegRol" ThisKey="Rol" OtherKey="IdSegRol" Type="SegRol" IsForeignKey="true" />
+      <Association Name="SegUsuario_SegUsuarioRol" Member="ObjSegUsuario" Storage="_SegUsuario" ThisKey="Usuario" OtherKey="IdSegUsuario" Type="SegUsuario" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.RolesPlanilla" Member="RolesPlanillas">
+    <Type Name="RolesPlanilla">
+      <Column Name="IdRolPlanilla" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="IdPlanilla" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="IdRol" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Association Name="SegRol_RolesPlanilla" Member="ObjSegRol" ThisKey="IdRol" OtherKey="IdSegRol" Type="SegRol" IsForeignKey="true" />
+      <Association Name="Plantilla_RolesPlanilla" Member="Plantilla" ThisKey="IdPlanilla" OtherKey="IdPlantilla" Type="Plantilla" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Contrato" Member="Contratos">
+    <Type Name="Contrato">
+      <Column Name="IdContrato" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Codigo" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Servicio" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Column Name="FechaInicio" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="FechaVencimiento" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Prorroga" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="TipoContrato" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="true" />
+      <Column Name="Contratadopor" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="true" />
+      <Association Name="Contrato_ContratoEmpresa" Member="ColContratoEmpresas" ThisKey="IdContrato" OtherKey="IdContrato" Type="ContratoEmpresa" />
+      <Association Name="Clasificacion_Contrato" Member="Clasificacion" ThisKey="TipoContrato" OtherKey="IdClasificacion" Type="Clasificacion" IsForeignKey="true" DeleteRule="CASCADE" />
+      <Association Name="Clasificacion_Contrato1" Member="Clasificacion1" ThisKey="Contratadopor" OtherKey="IdClasificacion" Type="Clasificacion" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ContratoEmpresas" Member="ContratoEmpresas">
+    <Type Name="ContratoEmpresa">
+      <Column Name="IdContratoEmpresas" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="IdContrato" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="true" />
+      <Column Name="IdEmpresa" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="true" />
+      <Column Name="EsContratista" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="Comentario" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Association Name="ContratoEmpresa_CabeceraHojasDeRuta" Member="ColCabeceraHojasDeRutas" ThisKey="IdContratoEmpresas" OtherKey="IdContratoEmpresa" Type="CabeceraHojasDeRuta" />
+      <Association Name="ContratoEmpresa_ArchivosAdjunto" Member="ArchivosAdjuntos" ThisKey="IdContratoEmpresas" OtherKey="IdContratoEmpresa" Type="ArchivosAdjunto" />
+      <Association Name="Contrato_ContratoEmpresa" Member="ObjContrato" ThisKey="IdContrato" OtherKey="IdContrato" Type="Contrato" IsForeignKey="true" />
+      <Association Name="Empresa_ContratoEmpresa" Member="ObjEmpresa" ThisKey="IdEmpresa" OtherKey="IdEmpresa" Type="Empresa" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Empresa" Member="Empresas">
+    <Type Name="Empresa">
+      <Column Name="IdEmpresa" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="RazonSocial" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="CUIT" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="FechaAlta" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="RepresentanteTecnico" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="PrestacionEmergencia" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="Direccion" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="Telefono" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="CorreoElectronico" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Association Name="Empresa_SegUsuario" Member="ColSegUsuarios" ThisKey="IdEmpresa" OtherKey="IdEmpresa" Type="SegUsuario" />
+      <Association Name="Empresa_ContratoEmpresa" Member="ColContratoEmpresas" ThisKey="IdEmpresa" OtherKey="IdEmpresa" Type="ContratoEmpresa" />
+    </Type>
+  </Table>
+  <Table Name="dbo.CabeceraHojasDeRuta" Member="CabeceraHojasDeRutas">
+    <Type Name="CabeceraHojasDeRuta">
+      <Column Name="IdCabeceraHojasDeRuta" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="IdEstado" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="FechaAprobacion" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Periodo" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="NroCarpeta" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="IdContratoEmpresa" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="Publicar" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="Estimacion" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="FechaEstimacion" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="FechaAprobacionSinLegajos" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Association Name="CabeceraHojasDeRuta_HojasDeRuta" Member="ColHojasDeRutas" ThisKey="IdCabeceraHojasDeRuta" OtherKey="IdCabeceraHojaDeRuta" Type="HojasDeRuta" />
+      <Association Name="CabeceraHojasDeRuta_ContEmpLegajo" Member="ContEmpLegajos" ThisKey="IdCabeceraHojasDeRuta" OtherKey="IdCabecerHojaRuta" Type="ContEmpLegajo" />
+      <Association Name="ContratoEmpresa_CabeceraHojasDeRuta" Member="ObjContratoEmpresa" ThisKey="IdContratoEmpresa" OtherKey="IdContratoEmpresas" Type="ContratoEmpresa" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="Clasificacion_CabeceraHojasDeRuta" Member="ObjEstado" ThisKey="IdEstado" OtherKey="IdClasificacion" Type="Clasificacion" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.HojasDeRuta" Member="HojasDeRutas">
+    <Type Name="HojasDeRuta">
+      <Column Name="IdHojaDeRuta" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="IdCabeceraHojaDeRuta" Type="System.Int64" DbType="BigInt NOT NULL" IsReadOnly="true" CanBeNull="false" />
+      <Column Name="IdPlanilla" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="HojaComentario" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="HojaFechaControlado" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="HojaAprobado" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="HojaFechaAprobacion" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="DocComentario" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="DocFechaEntrega" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="AuditadoPor" Type="System.String" DbType="NVarChar(256)" CanBeNull="true" />
+      <Association Name="CabeceraHojasDeRuta_HojasDeRuta" Member="ObjCabeceraHojasDeRuta" ThisKey="IdCabeceraHojaDeRuta" OtherKey="IdCabeceraHojasDeRuta" Type="CabeceraHojasDeRuta" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="Plantilla_HojasDeRuta" Member="ObjPlantilla" ThisKey="IdPlanilla" OtherKey="IdPlantilla" Type="Plantilla" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Plantilla" Member="Plantillas">
+    <Type Name="Plantilla">
+      <Column Name="IdPlantilla" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Descripcion" Type="System.String" DbType="VarChar(250)" CanBeNull="true" />
+      <Column Name="Codigo" Type="System.String" DbType="NChar(10)" CanBeNull="true" />
+      <Column Name="IdCategoria" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="true" />
+      <Association Name="Plantilla_RolesPlanilla" Member="RolesPlanillas" ThisKey="IdPlantilla" OtherKey="IdPlanilla" Type="RolesPlanilla" />
+      <Association Name="Plantilla_HojasDeRuta" Member="HojasDeRutas" ThisKey="IdPlantilla" OtherKey="IdPlanilla" Type="HojasDeRuta" />
+      <Association Name="CategoriasItem_Plantilla" Member="CategoriasItem" ThisKey="IdCategoria" OtherKey="IdCategoria" Type="CategoriasItem" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Clasificacion" Member="Clasificacions">
+    <Type Name="Clasificacion">
+      <Column Name="IdClasificacion" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Descripcion" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="IdPadre" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="true" />
+      <Column Name="Codigo" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Tipo" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Association Name="Clasificacion_Contrato" Member="Contratos" ThisKey="IdClasificacion" OtherKey="TipoContrato" Type="Contrato" />
+      <Association Name="Clasificacion_Contrato1" Member="Contratos1" ThisKey="IdClasificacion" OtherKey="Contratadopor" Type="Contrato" />
+      <Association Name="Clasificacion_CabeceraHojasDeRuta" Member="CabeceraHojasDeRutas" ThisKey="IdClasificacion" OtherKey="IdEstado" Type="CabeceraHojasDeRuta" />
+      <Association Name="Clasificacion_Legajo" Member="Legajos" ThisKey="IdClasificacion" OtherKey="TipoDoc" Type="Legajo" />
+      <Association Name="Clasificacion_Legajo1" Member="Legajos1" ThisKey="IdClasificacion" OtherKey="Nacionalidad" Type="Legajo" />
+      <Association Name="Clasificacion_Legajo2" Member="Legajos2" ThisKey="IdClasificacion" OtherKey="EstadoCivil" Type="Legajo" />
+      <Association Name="Clasificacion_Legajo3" Member="Legajos3" ThisKey="IdClasificacion" OtherKey="Provincia" Type="Legajo" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ArchivosAdjuntos" Member="ArchivosAdjuntos">
+    <Type Name="ArchivosAdjunto">
+      <Column Name="IdArchivoAdjunto" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="NombreArchivo" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="IdContratoEmpresa" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="FechaAdjunto" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="ContratoEmpresa_ArchivosAdjunto" Member="ContratoEmpresa" ThisKey="IdContratoEmpresa" OtherKey="IdContratoEmpresas" Type="ContratoEmpresa" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.CategoriasItems" Member="CategoriasItems">
+    <Type Name="CategoriasItem">
+      <Column Name="IdCategoria" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Nombre" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="Descripcion" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Column Name="Dialimitepresentacion" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="CategoriasItem_Plantilla" Member="Plantillas" ThisKey="IdCategoria" OtherKey="IdCategoria" Type="Plantilla" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ContEmpLegajos" Member="ContEmpLegajos">
+    <Type Name="ContEmpLegajo">
+      <Column Name="IdContEmpLegajos" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="IdContratoEmpresas" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="IdLegajos" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="IdCabecerHojaRuta" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Association Name="CabeceraHojasDeRuta_ContEmpLegajo" Member="CabeceraHojasDeRuta" ThisKey="IdCabecerHojaRuta" OtherKey="IdCabeceraHojasDeRuta" Type="CabeceraHojasDeRuta" IsForeignKey="true" DeleteRule="CASCADE" />
+      <Association Name="Legajo_ContEmpLegajo" Member="Legajo" ThisKey="IdLegajos" OtherKey="IdLegajos" Type="Legajo" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Legajos" Member="Legajos">
+    <Type Name="Legajo">
+      <Column Name="IdLegajos" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Apellido" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Nombre" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="TipoDoc" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="NroDoc" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="FechaNacimiento" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Sexo" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="EstadoCivil" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="CUIL" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Nacionalidad" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="Direccion" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="CodigoPostal" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Provincia" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="TelefonoFijo" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="CorreoElectronico" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Association Name="Legajo_ContEmpLegajo" Member="ContEmpLegajos" ThisKey="IdLegajos" OtherKey="IdLegajos" Type="ContEmpLegajo" />
+      <Association Name="Clasificacion_Legajo" Member="Clasificacion" ThisKey="TipoDoc" OtherKey="IdClasificacion" Type="Clasificacion" IsForeignKey="true" />
+      <Association Name="Clasificacion_Legajo1" Member="Clasificacion1" ThisKey="Nacionalidad" OtherKey="IdClasificacion" Type="Clasificacion" IsForeignKey="true" />
+      <Association Name="Clasificacion_Legajo2" Member="Clasificacion2" ThisKey="EstadoCivil" OtherKey="IdClasificacion" Type="Clasificacion" IsForeignKey="true" />
+      <Association Name="Clasificacion_Legajo3" Member="Clasificacion3" ThisKey="Provincia" OtherKey="IdClasificacion" Type="Clasificacion" IsForeignKey="true" />
+    </Type>
+  </Table>
+</Database>

@@ -1,0 +1,185 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="_UpgradeWizard_Files\UpgradeWizardLog.xslt"?>
+<log>
+  <event action="Analyze" type="Success" name="Register Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\ABMClasificaciones.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\ABMClasificaciones.aspx" />
+  <event action="Analyze" type="Success" name="ABMClasificaciones.aspx" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\ABMClasificaciones.aspx" />
+  <event action="Analyze" type="Success" name="Register Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\ABMContratos.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\ABMContratos.aspx" />
+  <event action="Analyze" type="Success" name="ABMContratos.aspx" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\ABMContratos.aspx" />
+  <event action="Analyze" type="Success" name="Register Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\ABMEmpresas.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\ABMEmpresas.aspx" />
+  <event action="Analyze" type="Success" name="ABMEmpresas.aspx" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\ABMEmpresas.aspx" />
+  <event action="Analyze" type="Success" name="Register Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\ABMEmpresas2.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\ABMEmpresas2.aspx" />
+  <event action="Analyze" type="Success" name="ABMEmpresas2.aspx" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\ABMEmpresas2.aspx" />
+  <event action="Analyze" type="Success" name="Register Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\ABMItems.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\ABMItems.aspx" />
+  <event action="Analyze" type="Success" name="ABMItems.aspx" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\ABMItems.aspx" />
+  <event action="Analyze" type="Success" name="Register Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\ABMLegajos.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\ABMLegajos.aspx" />
+  <event action="Analyze" type="Success" name="ABMLegajos.aspx" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\ABMLegajos.aspx" />
+  <event action="Analyze" type="Success" name="Register Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\ABMLegajos2.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\ABMLegajos2.aspx" />
+  <event action="Analyze" type="Success" name="ABMLegajos2.aspx" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\ABMLegajos2.aspx" />
+  <event action="Analyze" type="Success" name="Register Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\ABMRoles.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\ABMRoles.aspx" />
+  <event action="Analyze" type="Success" name="ABMRoles.aspx" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\ABMRoles.aspx" />
+  <event action="Analyze" type="Success" name="Register Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\ABMUsuarios.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\ABMUsuarios.aspx" />
+  <event action="Analyze" type="Success" name="ABMUsuarios.aspx" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\ABMUsuarios.aspx" />
+  <event action="Analyze" type="Success" name="Register Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\AprobacionHojaSinLegajos.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\AprobacionHojaSinLegajos.aspx" />
+  <event action="Analyze" type="Success" name="AprobacionHojaSinLegajos.aspx" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\AprobacionHojaSinLegajos.aspx" />
+  <event action="Analyze" type="Success" name="Register Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\AsignacionEmpresasContratos.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\AsignacionEmpresasContratos.aspx" />
+  <event action="Analyze" type="Success" name="AsignacionEmpresasContratos.aspx" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\AsignacionEmpresasContratos.aspx" />
+  <event action="Analyze" type="Success" name="Register Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\AsignacionLegajosContratos.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\AsignacionLegajosContratos.aspx" />
+  <event action="Analyze" type="Success" name="AsignacionLegajosContratos.aspx" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\AsignacionLegajosContratos.aspx" />
+  <event action="Analyze" type="Success" name="Register Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\AsignacionSubContratista.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\AsignacionSubContratista.aspx" />
+  <event action="Analyze" type="Success" name="AsignacionSubContratista.aspx" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\AsignacionSubContratista.aspx" />
+  <event action="Analyze" type="Success" name="Binary References" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\Bin\" />
+  <event action="Analyze" type="Success" name="Assembly References" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\Bin\Entidades.dll.config" />
+  <event action="Analyze" type="Success" name="Http Handlers" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\Bin\Entidades.dll.config" />
+  <event action="Analyze" type="Success" name="Handlers (IIS7+)" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\Bin\Entidades.dll.config" />
+  <event action="Analyze" type="Success" name="Config Sections" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\Bin\Entidades.dll.config" />
+  <event action="Analyze" type="Success" name="Render Extensions" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\Bin\Entidades.dll.config" />
+  <event action="Analyze" type="Success" name="Entidades.dll.config" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\Bin\Entidades.dll.config" />
+  <event action="Analyze" type="Success" name="Register Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\CambiarClave.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\CambiarClave.aspx" />
+  <event action="Analyze" type="Success" name="CambiarClave.aspx" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\CambiarClave.aspx" />
+  <event action="Analyze" type="Success" name="Register Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\CargarHojaRuta.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\CargarHojaRuta.aspx" />
+  <event action="Analyze" type="Success" name="CargarHojaRuta.aspx" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\CargarHojaRuta.aspx" />
+  <event action="Analyze" type="Success" name="Register Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\Clasificaciones.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\Clasificaciones.aspx" />
+  <event action="Analyze" type="Success" name="Clasificaciones.aspx" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\Clasificaciones.aspx" />
+  <event action="Analyze" type="Success" name="Register Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\ConsultaDocumentacion.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\ConsultaDocumentacion.aspx" />
+  <event action="Analyze" type="Success" name="ConsultaDocumentacion.aspx" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\ConsultaDocumentacion.aspx" />
+  <event action="Analyze" type="Success" name="Register Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\ConsultaHojadeRuta.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\ConsultaHojadeRuta.aspx" />
+  <event action="Analyze" type="Success" name="ConsultaHojadeRuta.aspx" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\ConsultaHojadeRuta.aspx" />
+  <event action="Analyze" type="Success" name="Register Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\ConsultaHojaRuta.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\ConsultaHojaRuta.aspx" />
+  <event action="Analyze" type="Success" name="ConsultaHojaRuta.aspx" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\ConsultaHojaRuta.aspx" />
+  <event action="Analyze" type="Success" name="Register Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\ConsultDocumentacion.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\ConsultDocumentacion.aspx" />
+  <event action="Analyze" type="Success" name="ConsultDocumentacion.aspx" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\ConsultDocumentacion.aspx" />
+  <event action="Analyze" type="Success" name="Register Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\Contratos.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\Contratos.aspx" />
+  <event action="Analyze" type="Success" name="Contratos.aspx" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\Contratos.aspx" />
+  <event action="Analyze" type="Success" name="Register Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\Default.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\Default.aspx" />
+  <event action="Analyze" type="Success" name="Default.aspx" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\Default.aspx" />
+  <event action="Analyze" type="Success" name="Register Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\DefaultMasterPage.master" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\DefaultMasterPage.master" />
+  <event action="Analyze" type="Success" name="DefaultMasterPage.master" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\DefaultMasterPage.master" />
+  <event action="Analyze" type="Success" name="Register Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\Empresas.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\Empresas.aspx" />
+  <event action="Analyze" type="Success" name="Empresas.aspx" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\Empresas.aspx" />
+  <event action="Analyze" type="Success" name="Register Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\EnContruccion.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\EnContruccion.aspx" />
+  <event action="Analyze" type="Success" name="EnContruccion.aspx" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\EnContruccion.aspx" />
+  <event action="Analyze" type="Success" name="Register Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\Estimaciones.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\Estimaciones.aspx" />
+  <event action="Analyze" type="Success" name="Estimaciones.aspx" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\Estimaciones.aspx" />
+  <event action="Analyze" type="Success" name="Register Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\GestionHojadeRuta.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\GestionHojadeRuta.aspx" />
+  <event action="Analyze" type="Success" name="GestionHojadeRuta.aspx" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\GestionHojadeRuta.aspx" />
+  <event action="Analyze" type="Success" name="Register Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\GestionImportacionDatos.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\GestionImportacionDatos.aspx" />
+  <event action="Analyze" type="Success" name="GestionImportacionDatos.aspx" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\GestionImportacionDatos.aspx" />
+  <event action="Analyze" type="Success" name="Register Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\Imagenes.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\Imagenes.aspx" />
+  <event action="Analyze" type="Success" name="Imagenes.aspx" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\Imagenes.aspx" />
+  <event action="Analyze" type="Success" name="Register Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\IngresoDocumentacion.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\IngresoDocumentacion.aspx" />
+  <event action="Analyze" type="Success" name="IngresoDocumentacion.aspx" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\IngresoDocumentacion.aspx" />
+  <event action="Analyze" type="Success" name="Register Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\Legajos.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\Legajos.aspx" />
+  <event action="Analyze" type="Success" name="Legajos.aspx" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\Legajos.aspx" />
+  <event action="Analyze" type="Success" name="Register Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\LegajosInfo.ascx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\LegajosInfo.ascx" />
+  <event action="Analyze" type="Success" name="LegajosInfo.ascx" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\LegajosInfo.ascx" />
+  <event action="Analyze" type="Success" name="Register Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\Login.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\Login.aspx" />
+  <event action="Analyze" type="Success" name="Login.aspx" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\Login.aspx" />
+  <event action="Analyze" type="Success" name="Register Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\MiPagina.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\MiPagina.aspx" />
+  <event action="Analyze" type="Success" name="MiPagina.aspx" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\MiPagina.aspx" />
+  <event action="Analyze" type="Success" name="Register Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\NewUser.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\NewUser.aspx" />
+  <event action="Analyze" type="Success" name="NewUser.aspx" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\NewUser.aspx" />
+  <event action="Analyze" type="Success" name="Register Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\Plantilla.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\Plantilla.aspx" />
+  <event action="Analyze" type="Success" name="Plantilla.aspx" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\Plantilla.aspx" />
+  <event action="Analyze" type="Success" name="Register Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\prueba upload.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\prueba upload.aspx" />
+  <event action="Analyze" type="Success" name="prueba upload.aspx" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\prueba upload.aspx" />
+  <event action="Analyze" type="Success" name="Register Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\PruebaBusquedaXml.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\PruebaBusquedaXml.aspx" />
+  <event action="Analyze" type="Success" name="PruebaBusquedaXml.aspx" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\PruebaBusquedaXml.aspx" />
+  <event action="Analyze" type="Success" name="Register Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\PruebaCargaHojadeRuta.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\PruebaCargaHojadeRuta.aspx" />
+  <event action="Analyze" type="Success" name="PruebaCargaHojadeRuta.aspx" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\PruebaCargaHojadeRuta.aspx" />
+  <event action="Analyze" type="Success" name="Register Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\PruebaConex.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\PruebaConex.aspx" />
+  <event action="Analyze" type="Success" name="PruebaConex.aspx" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\PruebaConex.aspx" />
+  <event action="Analyze" type="Success" name="Register Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\publicaciones.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\publicaciones.aspx" />
+  <event action="Analyze" type="Success" name="publicaciones.aspx" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\publicaciones.aspx" />
+  <event action="Analyze" type="Success" name="Register Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\ReporteComentariosHojas.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\ReporteComentariosHojas.aspx" />
+  <event action="Analyze" type="Success" name="ReporteComentariosHojas.aspx" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\ReporteComentariosHojas.aspx" />
+  <event action="Analyze" type="Success" name="Register Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\ReporteGestionAuditoria.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\ReporteGestionAuditoria.aspx" />
+  <event action="Analyze" type="Success" name="ReporteGestionAuditoria.aspx" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\ReporteGestionAuditoria.aspx" />
+  <event action="Analyze" type="Success" name="Register Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\ReporteHojadeRuta.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\ReporteHojadeRuta.aspx" />
+  <event action="Analyze" type="Success" name="ReporteHojadeRuta.aspx" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\ReporteHojadeRuta.aspx" />
+  <event action="Analyze" type="Success" name="Register Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\ReporteResumenHojas.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\ReporteResumenHojas.aspx" />
+  <event action="Analyze" type="Success" name="ReporteResumenHojas.aspx" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\ReporteResumenHojas.aspx" />
+  <event action="Analyze" type="Success" name="Register Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\ReporteSemaforoDinamico.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\ReporteSemaforoDinamico.aspx" />
+  <event action="Analyze" type="Success" name="ReporteSemaforoDinamico.aspx" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\ReporteSemaforoDinamico.aspx" />
+  <event action="Analyze" type="Success" name="Register Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\ReporteSemaforoEstatico.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\ReporteSemaforoEstatico.aspx" />
+  <event action="Analyze" type="Success" name="ReporteSemaforoEstatico.aspx" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\ReporteSemaforoEstatico.aspx" />
+  <event action="Analyze" type="Success" name="Register Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\ReporteViewerPeriodoHistorico.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\ReporteViewerPeriodoHistorico.aspx" />
+  <event action="Analyze" type="Success" name="ReporteViewerPeriodoHistorico.aspx" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\ReporteViewerPeriodoHistorico.aspx" />
+  <event action="Analyze" type="Success" name="Register Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\SelContratoLegajos.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\SelContratoLegajos.aspx" />
+  <event action="Analyze" type="Success" name="SelContratoLegajos.aspx" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\SelContratoLegajos.aspx" />
+  <event action="Analyze" type="Success" name="Assembly References" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\web.config" />
+  <event action="Analyze" type="Success" name="Http Handlers" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\web.config" />
+  <event action="Analyze" type="Success" name="Handlers (IIS7+)" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\web.config" />
+  <event action="Analyze" type="Success" name="Config Sections" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\web.config" />
+  <event action="Analyze" type="Success" name="Render Extensions" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\web.config" />
+  <event action="Analyze" type="Success" name="web.config" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\web.config" />
+  <event action="Analyze" type="Success" name="H:\...\Conosud\" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud" />
+  <event action="Analyze" type="Success" name="Assembly References" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Entidades\Entidades.csproj" />
+  <event action="Analyze" type="Success" name="Assembly References" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Entidades\App.Config" />
+  <event action="Analyze" type="Success" name="Http Handlers" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Entidades\App.Config" />
+  <event action="Analyze" type="Success" name="Handlers (IIS7+)" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Entidades\App.Config" />
+  <event action="Analyze" type="Success" name="Config Sections" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Entidades\App.Config" />
+  <event action="Analyze" type="Success" name="Render Extensions" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Entidades\App.Config" />
+  <event action="Analyze" type="Success" name="App.Config" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Entidades\App.Config" />
+  <event action="Analyze" type="Success" name="InformexPeriodoHistorico.resx" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Entidades\InformexPeriodoHistorico.resx" />
+  <event action="Analyze" type="Success" name="Entidades" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Entidades\Entidades.csproj" />
+  <event action="Analyze" type="Success" name="Conosud" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud.sln" />
+  <event action="Upgrade" type="Success" name="Register Directives" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\ReporteViewerPeriodoHistorico.aspx" />
+  <event action="Upgrade" type="Success" name="ReporteViewerPeriodoHistorico.aspx" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\ReporteViewerPeriodoHistorico.aspx" />
+  <event action="Upgrade" type="Success" name="Assembly References" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\web.config" />
+  <event action="Upgrade" type="Success" name="Http Handlers" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\web.config" />
+  <event action="Upgrade" type="Success" name="Handlers (IIS7+)" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\web.config" />
+  <event action="Upgrade" type="Success" name="web.config" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud\web.config" />
+  <event action="Upgrade" type="Success" name="H:\...\Conosud\" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud" />
+  <event action="Upgrade" type="Success" name="Assembly References" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Entidades\Entidades.csproj" />
+  <event action="Upgrade" type="Success" name="Entidades" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Entidades\Entidades.csproj" />
+  <event action="Upgrade" type="Success" name="Conosud" path="H:\Sistemas\Desarrollo\Conosud 2008\Conosud\Conosud.sln" />
+</log>

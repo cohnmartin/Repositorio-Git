@@ -1,0 +1,13 @@
+﻿Total Registros:2324
+Total Contratos:0
+Referencia a objeto no establecida como instancia de un objeto.
+   en GestionConsolaPlanTrabajo.<BindResults>b__2(<>f__AnonymousType0`4 w) en \\hmfsw\web\dtcwin105\conosudsrlgestion.com.ar\public_html\GestionConsolaPlanTrabajo.aspx.cs:línea 87
+   en System.Linq.Enumerable.WhereListIterator`1.MoveNext()
+   en System.Linq.Enumerable.Count[TSource](IEnumerable`1 source)
+   en GestionConsolaPlanTrabajo.BindResults() en \\hmfsw\web\dtcwin105\conosudsrlgestion.com.ar\public_html\GestionConsolaPlanTrabajo.aspx.cs:línea 87
+Total Registros:2319
+Total Contratos:0
+Total Sindicato:1162
+Total Registros:3542
+Total Contratos:0
+Total Sindicato:1507

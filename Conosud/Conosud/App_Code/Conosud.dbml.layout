@@ -1,0 +1,276 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 18.5, 11.125" name="Conosud">
+  <DataContextMoniker Name="/ConosudDataContext" />
+  <nestedChildShapes>
+    <classShape Id="2cd04245-aecb-42dc-80b5-b48b5b46c63f" absoluteBounds="3.75, 1.25, 2, 1.9178898111979166">
+      <DataClassMoniker Name="/ConosudDataContext/SegMenu" />
+      <nestedChildShapes>
+        <elementListCompartment Id="3485fb0e-92c5-4c5f-a942-b94c39c21d2f" absoluteBounds="3.7649999999999997, 1.71, 1.9700000000000002, 1.3578898111979165" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="44e06743-d536-4247-a622-209d25d863d2" absoluteBounds="0.75, 4.375, 2, 1.0961531575520844">
+      <DataClassMoniker Name="/ConosudDataContext/SegRol" />
+      <nestedChildShapes>
+        <elementListCompartment Id="20612ed5-4fcf-4add-a7fe-ad5389bd8701" absoluteBounds="0.765, 4.835, 1.9700000000000002, 0.53615315755208326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="606703b7-738a-4119-85aa-51e46c627614" absoluteBounds="0.5, 1.25, 2, 1.7535424804687498">
+      <DataClassMoniker Name="/ConosudDataContext/SegRolMenu" />
+      <nestedChildShapes>
+        <elementListCompartment Id="41477303-5270-49d6-9fd3-7c1e5543bc7c" absoluteBounds="0.51500000000000012, 1.71, 1.9700000000000002, 1.19354248046875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="5c5529c5-7a96-4c32-8ead-7f5ac497481f" absoluteBounds="3, 5.625, 2, 1.4248478190104166">
+      <DataClassMoniker Name="/ConosudDataContext/SegUsuario" />
+      <nestedChildShapes>
+        <elementListCompartment Id="3d3e2bce-7199-4802-b0bd-014f08008612" absoluteBounds="3.0149999999999997, 6.085, 1.9700000000000002, 0.86484781901041663" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="3d3091f7-d723-43d4-b279-695e055a3e92" absoluteBounds="3.875, 3.875, 2, 1.2605004882812505">
+      <DataClassMoniker Name="/ConosudDataContext/SegUsuarioRol" />
+      <nestedChildShapes>
+        <elementListCompartment Id="5994a3e3-f3d1-4fb5-a999-32dc36995f48" absoluteBounds="3.89, 4.335, 1.9700000000000002, 0.70050048828125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(4.4579043738732 : 3.16788981119792); (4.4579043738732 : 3.41788981119792); (5.05600494165665 : 3.41788981119792); (5.05600494165665 : 3.16788981119792)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/ConosudDataContext/SegMenu/SegMenu_SegMenu" />
+      <nodes>
+        <classShapeMoniker Id="2cd04245-aecb-42dc-80b5-b48b5b46c63f" />
+        <classShapeMoniker Id="2cd04245-aecb-42dc-80b5-b48b5b46c63f" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(3.75 : 2.12677124023437); (2.5 : 2.12677124023437)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/ConosudDataContext/SegMenu/SegMenu_SegRolMenu" />
+      <nodes>
+        <classShapeMoniker Id="2cd04245-aecb-42dc-80b5-b48b5b46c63f" />
+        <classShapeMoniker Id="606703b7-738a-4119-85aa-51e46c627614" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(1.625 : 4.375); (1.625 : 3.00354248046875)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/ConosudDataContext/SegRol/SegRol_SegRolMenu" />
+      <nodes>
+        <classShapeMoniker Id="44e06743-d536-4247-a622-209d25d863d2" />
+        <classShapeMoniker Id="606703b7-738a-4119-85aa-51e46c627614" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(2.75 : 4.75525024414063); (3.875 : 4.75525024414063)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/ConosudDataContext/SegRol/SegRol_SegUsuarioRol" />
+      <nodes>
+        <classShapeMoniker Id="44e06743-d536-4247-a622-209d25d863d2" />
+        <classShapeMoniker Id="3d3091f7-d723-43d4-b279-695e055a3e92" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(4.4375 : 5.625); (4.4375 : 5.13550048828125)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/ConosudDataContext/SegUsuario/SegUsuario_SegUsuarioRol" />
+      <nodes>
+        <classShapeMoniker Id="5c5529c5-7a96-4c32-8ead-7f5ac497481f" />
+        <classShapeMoniker Id="3d3091f7-d723-43d4-b279-695e055a3e92" />
+      </nodes>
+    </associationConnector>
+    <classShape Id="8d745980-7e5b-49eb-a125-78c6984916b7" absoluteBounds="3.75, 7.375, 2, 1.26050048828125">
+      <DataClassMoniker Name="/ConosudDataContext/RolesPlanilla" />
+      <nestedChildShapes>
+        <elementListCompartment Id="d4816acf-06b6-47f9-a7ef-11fd2680b2d2" absoluteBounds="3.765, 7.835, 1.9700000000000002, 0.70050048828125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(0.84375 : 5.47115315755208); (0.84375 : 7.84375); (3.75 : 7.84375)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/ConosudDataContext/SegRol/SegRol_RolesPlanilla" />
+      <nodes>
+        <classShapeMoniker Id="44e06743-d536-4247-a622-209d25d863d2" />
+        <classShapeMoniker Id="8d745980-7e5b-49eb-a125-78c6984916b7" />
+      </nodes>
+    </associationConnector>
+    <classShape Id="510bd8a8-cead-4e1b-8c7e-903b75a98070" absoluteBounds="7.25, 4.75, 2, 2.0822371419270831">
+      <DataClassMoniker Name="/ConosudDataContext/Contrato" />
+      <nestedChildShapes>
+        <elementListCompartment Id="356cd059-61d6-461b-ade4-a969af6c67fc" absoluteBounds="7.265, 5.21, 1.9700000000000002, 1.5222371419270833" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="32eaa747-6a58-4131-a8c0-ed59bfb8db1c" absoluteBounds="10.875, 2, 2, 1.5891951497395831">
+      <DataClassMoniker Name="/ConosudDataContext/ContratoEmpresa" />
+      <nestedChildShapes>
+        <elementListCompartment Id="704d1cbf-eb91-4d9d-9342-c333b11648a7" absoluteBounds="10.89, 2.46, 1.9700000000000002, 1.0291951497395833" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(9.25 : 4.75); (9.875 : 4.125); (9.875 : 3.96419514973958); (10.5012214578075 : 3.96419514973958); (10.8762214578075 : 3.58919514973958)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/ConosudDataContext/Contrato/Contrato_ContratoEmpresa" />
+      <nodes>
+        <classShapeMoniker Id="510bd8a8-cead-4e1b-8c7e-903b75a98070" />
+        <classShapeMoniker Id="32eaa747-6a58-4131-a8c0-ed59bfb8db1c" />
+      </nodes>
+    </associationConnector>
+    <classShape Id="478063ce-b31c-4c95-ad96-bae1dc5dd919" absoluteBounds="6.75, 7.375, 2, 2.24658447265625">
+      <DataClassMoniker Name="/ConosudDataContext/Empresa" />
+      <nestedChildShapes>
+        <elementListCompartment Id="d6bf2faf-10d9-463a-8f62-1f52242d7fd2" absoluteBounds="6.765, 7.835, 1.9700000000000002, 1.68658447265625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(7.75 : 7.375); (7.75 : 7.08223714192708); (9.26041541666667 : 7.08223714192708 : JumpStart); (9.55208458333333 : 7.08223714192708 : JumpEnd); (9.75 : 7.08223714192708); (9.75 : 2.79459757486979); (10.875 : 2.79459757486979)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/ConosudDataContext/Empresa/Empresa_ContratoEmpresa" />
+      <nodes>
+        <classShapeMoniker Id="478063ce-b31c-4c95-ad96-bae1dc5dd919" />
+        <classShapeMoniker Id="32eaa747-6a58-4131-a8c0-ed59bfb8db1c" />
+      </nodes>
+    </associationConnector>
+    <classShape Id="b9b4b9e2-cb92-4efe-9e73-19f490cf9041" absoluteBounds="10.375, 4.375, 2, 2.4109318033854166">
+      <DataClassMoniker Name="/ConosudDataContext/CabeceraHojasDeRuta" />
+      <nestedChildShapes>
+        <elementListCompartment Id="d1d0762f-d481-447b-868e-c85110eaddfc" absoluteBounds="10.39, 4.835, 1.9700000000000002, 1.8509318033854165" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(11.6568632289037 : 3.58919514973958); (11.6568632289037 : 4.375)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/ConosudDataContext/ContratoEmpresa/ContratoEmpresa_CabeceraHojasDeRuta" />
+      <nodes>
+        <classShapeMoniker Id="32eaa747-6a58-4131-a8c0-ed59bfb8db1c" />
+        <classShapeMoniker Id="b9b4b9e2-cb92-4efe-9e73-19f490cf9041" />
+      </nodes>
+    </associationConnector>
+    <classShape Id="1fa29512-34be-4977-a948-cd45bec5dc20" absoluteBounds="9.75, 7.25, 2, 2.4109318033854166">
+      <DataClassMoniker Name="/ConosudDataContext/HojasDeRuta" />
+      <nestedChildShapes>
+        <elementListCompartment Id="4e04aa6a-802b-4e3a-9f20-aca431a3d407" absoluteBounds="9.765, 7.71, 1.9700000000000002, 1.8509318033854165" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(11.0625 : 6.78593180338542); (11.0625 : 7.25)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/ConosudDataContext/CabeceraHojasDeRuta/CabeceraHojasDeRuta_HojasDeRuta" />
+      <nodes>
+        <classShapeMoniker Id="b9b4b9e2-cb92-4efe-9e73-19f490cf9041" />
+        <classShapeMoniker Id="1fa29512-34be-4977-a948-cd45bec5dc20" />
+      </nodes>
+    </associationConnector>
+    <classShape Id="c254837d-1948-4800-80aa-8766440aaa93" absoluteBounds="13.25, 6.625, 2, 1.4248478190104168">
+      <DataClassMoniker Name="/ConosudDataContext/Plantilla" />
+      <nestedChildShapes>
+        <elementListCompartment Id="cb9118fe-a38e-43ef-aa07-d32b43d7a716" absoluteBounds="13.265, 7.085, 1.9700000000000002, 0.86484781901041674" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(12.625 : 7.44914181119792); (12.2708333333333 : 7.44914181119792 : JumpStart); (12.1041666666667 : 7.44914181119792 : JumpEnd); (12 : 7.44914181119792); (12 : 10.1215844726562); (9.55208458333333 : 10.1215844726562 : JumpStart); (9.26041541666667 : 10.1215844726562 : JumpEnd); (4.75 : 10.1215844726562); (4.75 : 8.63550048828125)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/ConosudDataContext/Plantilla/Plantilla_RolesPlanilla" />
+      <nodes>
+        <classShapeMoniker Id="c254837d-1948-4800-80aa-8766440aaa93" />
+        <classShapeMoniker Id="8d745980-7e5b-49eb-a125-78c6984916b7" />
+      </nodes>
+    </associationConnector>
+    <classShape Id="0dbd5b4e-cb94-4b95-a147-184014315bc5" absoluteBounds="7.5, 2, 2, 1.5891951497395831">
+      <DataClassMoniker Name="/ConosudDataContext/Clasificacion" />
+      <nestedChildShapes>
+        <elementListCompartment Id="8e8bb477-9db7-44d2-8fb3-326ed5e13de3" absoluteBounds="7.5150000000000006, 2.46, 1.9700000000000002, 1.0291951497395833" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(8.375 : 3.58919514973958); (8.375 : 4.75)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/ConosudDataContext/Clasificacion/Clasificacion_Contrato" />
+      <nodes>
+        <classShapeMoniker Id="0dbd5b4e-cb94-4b95-a147-184014315bc5" />
+        <classShapeMoniker Id="510bd8a8-cead-4e1b-8c7e-903b75a98070" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(8.875 : 3.58919514973958); (8.875 : 4.75)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/ConosudDataContext/Clasificacion/Clasificacion_Contrato1" />
+      <nodes>
+        <classShapeMoniker Id="0dbd5b4e-cb94-4b95-a147-184014315bc5" />
+        <classShapeMoniker Id="510bd8a8-cead-4e1b-8c7e-903b75a98070" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(9.40625 : 3.58919514973958); (9.40625 : 4.53125); (10.375 : 4.53125)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/ConosudDataContext/Clasificacion/Clasificacion_CabeceraHojasDeRuta" />
+      <nodes>
+        <classShapeMoniker Id="0dbd5b4e-cb94-4b95-a147-184014315bc5" />
+        <classShapeMoniker Id="b9b4b9e2-cb92-4efe-9e73-19f490cf9041" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(13.25 : 7.64992390950521); (11.75 : 7.64992390950521)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/ConosudDataContext/Plantilla/Plantilla_HojasDeRuta" />
+      <nodes>
+        <classShapeMoniker Id="c254837d-1948-4800-80aa-8766440aaa93" />
+        <classShapeMoniker Id="1fa29512-34be-4977-a948-cd45bec5dc20" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(6.75 : 9.15979248046875); (3.34375 : 9.15979248046875); (3.34375 : 7.04984781901042)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/ConosudDataContext/Empresa/Empresa_SegUsuario" />
+      <nodes>
+        <classShapeMoniker Id="478063ce-b31c-4c95-ad96-bae1dc5dd919" />
+        <classShapeMoniker Id="5c5529c5-7a96-4c32-8ead-7f5ac497481f" />
+      </nodes>
+    </associationConnector>
+    <classShape Id="5d047511-f136-49aa-94d8-330d245d5817" absoluteBounds="13.5, 2.75, 2, 1.4248478190104168">
+      <DataClassMoniker Name="/ConosudDataContext/ArchivosAdjunto" />
+      <nestedChildShapes>
+        <elementListCompartment Id="7f44e0df-2dfa-4a90-baf3-036f202e9cb5" absoluteBounds="13.515, 3.21, 1.9700000000000002, 0.86484781901041674" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(12.875 : 3.16959757486979); (13.5 : 3.16959757486979)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/ConosudDataContext/ContratoEmpresa/ContratoEmpresa_ArchivosAdjunto" />
+      <nodes>
+        <classShapeMoniker Id="32eaa747-6a58-4131-a8c0-ed59bfb8db1c" />
+        <classShapeMoniker Id="5d047511-f136-49aa-94d8-330d245d5817" />
+      </nodes>
+    </associationConnector>
+    <classShape Id="68200081-af7c-4a7a-85b8-009bd07e868f" absoluteBounds="14.875, 4.5, 2, 1.4248478190104168">
+      <DataClassMoniker Name="/ConosudDataContext/CategoriasItem" />
+      <nestedChildShapes>
+        <elementListCompartment Id="51c21944-d736-4754-91f1-e8be7eeb0f17" absoluteBounds="14.89, 4.96, 1.9700000000000002, 0.86484781901041674" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(14.4375 : 6.29984781901042); (14.4375 : 6.625)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/ConosudDataContext/CategoriasItem/CategoriasItem_Plantilla" />
+      <nodes>
+        <classShapeMoniker Id="68200081-af7c-4a7a-85b8-009bd07e868f" />
+        <classShapeMoniker Id="c254837d-1948-4800-80aa-8766440aaa93" />
+      </nodes>
+    </associationConnector>
+    <classShape Id="2ffcb619-f10e-415f-b33f-fb3dad76364c" absoluteBounds="13.375, 8.625, 2, 1.4248478190104168">
+      <DataClassMoniker Name="/ConosudDataContext/ContEmpLegajo" />
+      <nestedChildShapes>
+        <elementListCompartment Id="e2172d83-a5e3-4590-9d02-7256b2f2b9c7" absoluteBounds="13.39, 9.085, 1.9700000000000002, 0.86484781901041674" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(12.1875 : 6.78593180338542); (12.1875 : 9.96071614583333); (13.375 : 9.96071614583333)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/ConosudDataContext/CabeceraHojasDeRuta/CabeceraHojasDeRuta_ContEmpLegajo" />
+      <nodes>
+        <classShapeMoniker Id="b9b4b9e2-cb92-4efe-9e73-19f490cf9041" />
+        <classShapeMoniker Id="2ffcb619-f10e-415f-b33f-fb3dad76364c" />
+      </nodes>
+    </associationConnector>
+    <classShape Id="41af1ec7-7918-4fd0-8cea-a33fcc40d5f8" absoluteBounds="16.25, 7.5, 2, 3.23266845703125">
+      <DataClassMoniker Name="/ConosudDataContext/Legajo" />
+      <nestedChildShapes>
+        <elementListCompartment Id="87a69b96-dd82-45cb-b444-72551ecff2c7" absoluteBounds="16.265, 7.96, 1.9700000000000002, 2.67266845703125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(16.25 : 9.33742390950521); (15.375 : 9.33742390950521)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/ConosudDataContext/Legajo/Legajo_ContEmpLegajo" />
+      <nodes>
+        <classShapeMoniker Id="41af1ec7-7918-4fd0-8cea-a33fcc40d5f8" />
+        <classShapeMoniker Id="2ffcb619-f10e-415f-b33f-fb3dad76364c" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(9.4375025 : 3.58919514973958); (9.4375025 : 10.4271264648437); (16.25 : 10.4271264648437)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/ConosudDataContext/Clasificacion/Clasificacion_Legajo" />
+      <nodes>
+        <classShapeMoniker Id="0dbd5b4e-cb94-4b95-a147-184014315bc5" />
+        <classShapeMoniker Id="41af1ec7-7918-4fd0-8cea-a33fcc40d5f8" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(9.3749975 : 3.58919514973958); (9.3749975 : 10.24310296875); (16.25 : 10.24310296875)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/ConosudDataContext/Clasificacion/Clasificacion_Legajo1" />
+      <nodes>
+        <classShapeMoniker Id="0dbd5b4e-cb94-4b95-a147-184014315bc5" />
+        <classShapeMoniker Id="41af1ec7-7918-4fd0-8cea-a33fcc40d5f8" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(9.46875125 : 3.58919514973958); (9.46875125 : 10.6111499609375); (16.25 : 10.6111499609375)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/ConosudDataContext/Clasificacion/Clasificacion_Legajo2" />
+      <nodes>
+        <classShapeMoniker Id="0dbd5b4e-cb94-4b95-a147-184014315bc5" />
+        <classShapeMoniker Id="41af1ec7-7918-4fd0-8cea-a33fcc40d5f8" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(9.34374875 : 3.58919514973958); (9.34374875 : 10.21185046875); (16.25 : 10.21185046875)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/ConosudDataContext/Clasificacion/Clasificacion_Legajo3" />
+      <nodes>
+        <classShapeMoniker Id="0dbd5b4e-cb94-4b95-a147-184014315bc5" />
+        <classShapeMoniker Id="41af1ec7-7918-4fd0-8cea-a33fcc40d5f8" />
+      </nodes>
+    </associationConnector>
+  </nestedChildShapes>
+</ordesignerObjectsDiagram>
