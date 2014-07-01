@@ -211,8 +211,20 @@ public partial class GestionPedidosTemporales : BasePage
             }
         }
     }
-    
-    
+
+    protected void GrillaTemporalesTarjeta_ItemDataBound(object sender, GridItemEventArgs e)
+    {
+        if (e.Item is GridDataItem)
+        {
+            if (e.Item.DataItem is CabeceraPedido)
+            {
+                (e.Item.FindControl("btnEliminar") as ImageButton).Attributes.Add("onclick", "return blockConfirm('Esta seguro que desea eliminar el pedido pendiente?', event, 330, 100,'','Eliminar Pedido');");
+                (e.Item.FindControl("btnEliminar") as ImageButton).Attributes.Add("IdPedido", (e.Item.DataItem as CabeceraPedido).IdCabeceraPedido.ToString());
+
+            }
+        }
+    }
+
     protected void btnEliminar_Click(object sender, EventArgs e)
     {
 
