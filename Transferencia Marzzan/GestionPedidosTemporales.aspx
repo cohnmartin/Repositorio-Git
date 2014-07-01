@@ -263,8 +263,10 @@
                                                               <ItemStyle Width="140px" />
                                                               <HeaderStyle Width="140px" HorizontalAlign="Center" />
                                                           </telerik:GridTemplateColumn>
-                                                          <telerik:GridBoundColumn DataField="UltimaModificacion" DataType="System.DateTime" DataFormatString="{0:dd/MM/yyyy HH:mm}"
-                                                              HeaderText="Ultima Modificación" SortExpression="FechaPedido" UniqueName="FechaPedido">
+
+
+                                                          <telerik:GridBoundColumn DataField="objTarjeta.Descripcion" 
+                                                              HeaderText="Tarjeta" UniqueName="TarjetaColumn">
                                                               <ItemStyle HorizontalAlign="Center" />
                                                               <HeaderStyle Width="90px" HorizontalAlign="Center" />
                                                           </telerik:GridBoundColumn>
@@ -283,14 +285,14 @@
                                                               <ItemStyle HorizontalAlign="Center" />
                                                               <HeaderStyle Width="55px" HorizontalAlign="Center" />
                                                           </telerik:GridBoundColumn>
-                                                          
-                                                          <telerik:GridTemplateColumn HeaderText="Estado" UniqueName="EstadoColumn">
-                                                              <ItemTemplate>
-                                                                  <img id="imgEstado" runat="server" alt="Aun no tiene Saldo" src="Imagenes/mailFlagRed.gif" />
-                                                              </ItemTemplate>
-                                                              <HeaderStyle HorizontalAlign="Center" Width="18px" />
-                                                              <ItemStyle Width="18px" HorizontalAlign="Center" />
-                                                          </telerik:GridTemplateColumn>
+
+                                                          <telerik:GridBoundColumn DataField="EstadoOperacionTarjeta"  HeaderText="Estado"
+                                                              UniqueName="EstadoOperacionTarjetaColumn" >
+                                                              <ItemStyle HorizontalAlign="Center" />
+                                                              <HeaderStyle Width="155px" HorizontalAlign="Center" />
+                                                          </telerik:GridBoundColumn>
+
+                                                         
                                                           
                                                           <telerik:GridTemplateColumn HeaderText="" UniqueName="EditarColumn">
                                                               <ItemTemplate>
@@ -301,7 +303,7 @@
                                                           </telerik:GridTemplateColumn>
                                                           <telerik:GridTemplateColumn UniqueName="Template1" HeaderText="">
                                                               <ItemTemplate>
-                                                                  <asp:ImageButton runat="server" ID="btnEliminarSaldo" ImageUrl="~/Imagenes/Delete.gif"
+                                                                  <asp:ImageButton runat="server" ID="btnEliminarTarjeta" ImageUrl="~/Imagenes/Delete.gif"
                                                                       OnClick="btnEliminar_Click" Mensaje="Eliminando Pedido Pendientes..."/>
                                                               </ItemTemplate>
                                                                <HeaderStyle HorizontalAlign="Center" Width="18px" />

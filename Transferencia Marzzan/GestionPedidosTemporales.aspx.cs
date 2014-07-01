@@ -117,12 +117,12 @@ public partial class GestionPedidosTemporales : BasePage
 
 
         GrillaTemporales.DataSource =  from C in  cabeceras
-                                       where ! C.HuboFaltaSaldo.Value
+                                       where ( C.HuboFaltaSaldo.HasValue && !C.HuboFaltaSaldo.Value)
                                        select C;
 
 
         GrillaTemporalesSaldo.DataSource =  from C in  cabeceras
-                                       where C.HuboFaltaSaldo.Value
+                                            where (C.HuboFaltaSaldo.HasValue && C.HuboFaltaSaldo.Value)
                                        select C;
 
 
@@ -133,13 +133,13 @@ public partial class GestionPedidosTemporales : BasePage
 
 
         GrillaTemporales.MasterTableView.DetailTables[0].DataSource = from D in  detalles
-                                                                          where ! D.objCabecera.HuboFaltaSaldo.Value
+                                                                          where (D.objCabecera.HuboFaltaSaldo.HasValue && !D.objCabecera.HuboFaltaSaldo.Value)
                                                                           select D;
         GrillaTemporales.MasterTableView.DetailTables[0].DataBind();
 
 
         GrillaTemporalesSaldo.MasterTableView.DetailTables[0].DataSource = from D in detalles
-                                                                           where D.objCabecera.HuboFaltaSaldo.Value
+                                                                           where (D.objCabecera.HuboFaltaSaldo.HasValue && D.objCabecera.HuboFaltaSaldo.Value)
                                                                            select D;
         GrillaTemporalesSaldo.MasterTableView.DetailTables[0].DataBind();
 
@@ -218,8 +218,8 @@ public partial class GestionPedidosTemporales : BasePage
         {
             if (e.Item.DataItem is CabeceraPedido)
             {
-                (e.Item.FindControl("btnEliminar") as ImageButton).Attributes.Add("onclick", "return blockConfirm('Esta seguro que desea eliminar el pedido pendiente?', event, 330, 100,'','Eliminar Pedido');");
-                (e.Item.FindControl("btnEliminar") as ImageButton).Attributes.Add("IdPedido", (e.Item.DataItem as CabeceraPedido).IdCabeceraPedido.ToString());
+                (e.Item.FindControl("btnEliminarTarjeta") as ImageButton).Attributes.Add("onclick", "return blockConfirm('Esta seguro que desea eliminar el pedido pendiente?', event, 330, 100,'','Eliminar Pedido');");
+                (e.Item.FindControl("btnEliminarTarjeta") as ImageButton).Attributes.Add("IdPedido", (e.Item.DataItem as CabeceraPedido).IdCabeceraPedido.ToString());
 
             }
         }
