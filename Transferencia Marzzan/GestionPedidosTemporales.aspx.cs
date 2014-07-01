@@ -78,7 +78,7 @@ public partial class GestionPedidosTemporales : BasePage
 
              cabeceras = (from C in dc.CabeceraPedidos
                          where (C.Cliente == cliente.IdCliente )
-                         && (((C.EsTemporal.HasValue && C.EsTemporal.Value) && (C.HuboFaltaSaldo.HasValue)) || (C.objFormaDePago.Descripcion.Contains("Tarjeta") && C.EstadoOperacionTarjeta != "APROBADA"))
+                         && (((C.EsTemporal.HasValue && C.EsTemporal.Value) && (C.HuboFaltaSaldo.HasValue)) || (C.FormaPago == 271))
                          select C).ToList<CabeceraPedido>();
       
         }
@@ -100,7 +100,7 @@ public partial class GestionPedidosTemporales : BasePage
 
             cabeceras = (from C in dc.CabeceraPedidos
                              where IdsConsultores.Contains(C.Cliente)
-                             && (((C.EsTemporal.HasValue && C.EsTemporal.Value) && (C.HuboFaltaSaldo.HasValue)) || (C.objFormaDePago.Descripcion.Contains("Tarjeta") && C.EstadoOperacionTarjeta != "APROBADA"))
+                             && (((C.EsTemporal.HasValue && C.EsTemporal.Value) && (C.HuboFaltaSaldo.HasValue)) || (C.FormaPago == 271))
                              select C).ToList<CabeceraPedido>();
 
         }
