@@ -1,0 +1,21 @@
+USE [Marzzan-WebActual]
+GO
+/****** Object:  Table [dbo].[SujetosNoCategorizados]    Script Date: 07/17/2014 19:34:31 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[SujetosNoCategorizados](
+	[IdSujetoNoCategorizado] [bigint] IDENTITY(1,1) NOT NULL,
+	[CodClienteBejerman] [varchar](50) NULL,
+	[NombreCliente] [varchar](150) NULL,
+ CONSTRAINT [PK_SujetosNoCategorizados] PRIMARY KEY CLUSTERED 
+(
+	[IdSujetoNoCategorizado] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
