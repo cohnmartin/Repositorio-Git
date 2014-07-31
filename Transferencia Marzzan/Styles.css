@@ -1,0 +1,718 @@
+.rgGroupItemImageCerrado
+{
+    cursor: hand;
+    background-position: 2px 7px;
+    background-image: url('images/SingleMinus.gif');
+    background-repeat: no-repeat;
+    height: 10px;
+    width: 15px;
+    padding-left: 2px;
+}
+
+.rgGroupItemImageAbierto
+{
+    cursor: hand;
+    background-position: 2px 7px;
+    background-image: url('images/SinglePlus.gif');
+    background-repeat: no-repeat;
+    height: 10px;
+    width: 15px;
+    padding-left: 2px;
+}
+
+.btnBasic_Marzzan
+{
+    border-style: none;
+    border-color: inherit;
+    border-width: medium;
+    background: url('Imagenes/btnBasic.gif') no-repeat 0 0px !important;
+    cursor: hand;
+    font-family: Tahoma, 'BorderStyle= none';
+    font-size: "12px";
+    color: #336699;
+    height: 30px;
+    width: 120px;
+    font-weight: bold;
+}
+
+.HeaderVista_Marzzan
+{
+    background-position: 0 -2300px;
+    border-top: 0;
+    background-image: url('Imagenes/sprite_vista.gif');
+    background-repeat: repeat;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #fff #dcf2fc #3c7fb1 #8bbdde;
+    color: #333;
+    font-family: "segoe ui" ,arial,sans-serif;
+    font-size: 12px;
+    height: 23px;
+    text-align: center;
+    padding: 0px 0px 0px 0px;
+    line-height: 1em;
+}
+
+.HeaderVista_Marzzan_sunset
+{
+   background-position: 0 -7550px;
+    border-top: 0;
+    background-image:url('Imagenes/sprite_sunset.gif');
+    background-repeat: repeat;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #e98879 #cd6a3f #71250a #872b07;
+    color: white;
+    font-family: "segoe ui" ,arial,sans-serif;
+    font-size: 12px;
+    height: 23px;
+    text-align: center;
+    padding: 0px 0px 0px 0px;
+    line-height: 1em;
+}
+
+
+.TdVista_Marzzan
+{
+    border-top: 0;
+    border-style: solid;
+    border-width: 1px;
+    border-color: black #dcf2fc #3c7fb1 #8bbdde;
+    color: #333;
+    font-family: "segoe ui" ,arial,sans-serif;
+    font-size: 12px;
+    height: 23px;
+    text-align: center;
+    padding: 0px 0px 0px 0px;
+    line-height: 1em;
+}
+
+
+.lblBlack
+{
+    color: black;
+    font-family: Sans-Serif;
+    font-size: 11px;
+    text-transform: capitalize;
+}
+.alert-JQueryUI
+{
+    font-size: 14px;
+}
+
+.autocomplete-w1
+{
+    background: url('../imagenes/shadow.png') no-repeat right bottom;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    margin: 8px 0 0 6px; /* IE6 fix: */
+    _background: none;
+    _margin: 0;
+    font-size: 12px;
+}
+.autocomplete
+{
+    border: 1px solid #999;
+    background: #FFF;
+    cursor: default;
+    text-align: left;
+    max-height: 350px;
+    overflow: auto;
+    margin: -6px 6px 6px -6px; /* IE6 specific: */
+    _height: 350px;
+    _margin: 0;
+    _overflow-x: hidden;
+    font-family: "Segoe UI" ,tahoma,verdana,sans-serif;
+    font-size: 11px;
+}
+.autocomplete .selected
+{
+    background: #F0F0F0;
+}
+.autocomplete div
+{
+    padding: 2px 5px;
+    white-space: nowrap;
+}
+.autocomplete strong
+{
+    font-weight: bold;
+    color: #CC0000;
+    font-size: 12px;
+}
+
+/* r.a.d.ajax - load user controls stylesheet */
+.processMessageTooltipGral
+{
+    position: absolute;
+    top: 40%;
+    left: 40%;
+    padding: 5px;
+    width: 100%;
+    height: 50%;
+    z-index: 1001;
+    background-color: Transparent;
+    vertical-align: middle;
+    text-align: center;
+    z-index: 100000000;
+}
+
+.progressBackgroundFilterBlack
+{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    overflow: hidden;
+    padding: 0;
+    margin: 0;
+    background-color: Black;
+    filter: alpha(opacity=25);
+    opacity: 0.2;
+    z-index: 1000;
+}
+.progressBackgroundFilterBlue
+{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    overflow: auto;
+    padding: 0;
+    margin: 0;
+    background-color: #CFF0FE;
+    filter: alpha(opacity=35);
+    opacity: 0.2;
+    z-index: 1000;
+}
+.processMessage
+{
+    position: absolute;
+    top: 60%;
+    left: 38%;
+    padding: 5px;
+    width: 24%;
+    z-index: 1001;
+    background-color: Transparent;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.processMessageSolicitud
+{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    background-color: Black;
+    filter: alpha(opacity=40);
+    opacity: 0.2;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.processToolTip
+{
+    z-index: 1001;
+    vertical-align: middle;
+    text-align: center;
+}
+.CabeceraDatos
+{
+    background: transparent url(Imagenes/CabeceraDatos.jpg) no-repeat left bottom;
+    font: normal 12px Sans-serif,Arial, Verdana;
+    color: black;
+    height: 117px;
+    width: 720px;
+}
+.TitulosCabecera
+{
+    font-weight: bold;
+    text-align: left;
+    font-family: "Segoe UI" ,tahoma,verdana,sans-serif;
+    font-size: 11px;
+}
+
+.PageContent
+{
+    font: normal 12px Sans-serif,Arial, Verdana;
+    color: black;
+    margin-top: 5px;
+    margin-left: 0px;
+}
+
+.CabeceraContent
+{
+    font: normal 12px Sans-serif,Arial, Verdana;
+    color: black;
+    margin-top: 5px;
+    margin-left: 40px;
+    vertical-align: text-bottom;
+    text-align: left;
+}
+.CabeceraContentInicial
+{
+    background: transparent url(Imagenes/PantallaInicio.jpg) no-repeat center top;
+    font: normal 12px Sans-serif,Arial, Verdana;
+    color: black;
+    margin-top: 0px;
+    height: 489px;
+    margin-left: 0px;
+    vertical-align: middle;
+}
+.CabeceraInicial
+{
+    background: transparent url(Imagenes/EncabezadoSandramarzzan.png) no-repeat center top;
+    font: normal 12px Sans-serif,Arial, Verdana;
+    color: black;
+    margin-top: 0px;
+    height: 117px;
+    margin-left: 0px;
+}
+
+.btnNormalStyle
+{
+    background: transparent url('Imagenes/btnSolicitar.gif') 0 -90px no-repeat !important;
+    cursor: hand;
+}
+.btnOverStyle
+{
+    background: transparent url('Imagenes/btnSolicitar.gif') 0 -120px no-repeat !important;
+    cursor: hand;
+}
+.btnDownStyle
+{
+    background: transparent url('Imagenes/btnSolicitar.gif') 0 -120px no-repeat !important;
+    cursor: hand;
+}
+
+
+
+
+.btnNormalStyle_Marron
+{
+    background: transparent url('Imagenes/btnBasic_Marron.gif') 0 0px no-repeat !important;
+    cursor: hand;
+}
+.btnOverStyle_Marron
+{
+    background: transparent url('Imagenes/btnBasic_Marron.gif') 0 -30px no-repeat !important;
+    cursor: hand;
+}
+.btnDownStyle_Marron
+{
+    background: transparent url('Imagenes/btnBasic_Marron.gif') 0 -60px no-repeat !important;
+    cursor: hand;
+}
+
+.btnAgregarStyle
+{
+    background: transparent url('Imagenes/btnAgregar.gif') 0 0px no-repeat !important;
+    cursor: hand;
+}
+
+.btnAgregarOverStyle
+{
+    background: transparent url('Imagenes/btnAgregar.gif') 0 -30px no-repeat !important;
+    cursor: hand;
+}
+.btnAgregarDownStyle
+{
+    background: transparent url('Imagenes/btnAgregar.gif') 0 -60px no-repeat !important;
+    cursor: hand;
+}
+
+.btnGrayStyle
+{
+    background: transparent url('Imagenes/btnSolicitar.gif') 0 -60px no-repeat !important;
+    color: White;
+    cursor: hand;
+}
+.btnGrayOverStyle
+{
+    background: transparent url('Imagenes/btnSolicitar.gif') 0 -30px no-repeat !important;
+    color: White;
+    cursor: hand;
+}
+.btnGrayDownStyle
+{
+    background: transparent url('Imagenes/btnSolicitar.gif') 0 -60px no-repeat !important;
+    color: White;
+    cursor: hand;
+}
+
+.btnVolverStyle
+{
+    background: transparent url('Imagenes/btnBasic.gif') 0 -210px no-repeat !important;
+    color: White;
+    cursor: hand;
+}
+.btnVolverOverStyle
+{
+    background: transparent url('Imagenes/btnBasic.gif') 0 -240px no-repeat !important;
+    color: Black;
+    cursor: hand;
+}
+.btnVolverDownStyle
+{
+    background: transparent url('Imagenes/btnBasic.gif') 0 -270px no-repeat !important;
+    color: White;
+    cursor: hand;
+}
+
+.MenuConsultaSaldo
+{
+    background: url('Imagenes/MenuMarzzan.gif') 0 -20px repeat-x;
+    height: 18px;
+    width: 180px;
+    cursor: default;
+}
+
+.MenuConsultaSaldoOver
+{
+    background: url('Imagenes/MenuMarzzan.gif') 0 0px repeat-x;
+    height: 18px;
+    width: 180px;
+    cursor: hand;
+}
+
+.MenuPedido
+{
+    background: url('Imagenes/MenuMarzzan.gif') 0 -100px repeat-x;
+    height: 18px;
+    width: 180px;
+    cursor: default;
+}
+
+.MenuPedidoOver
+{
+    background: url('Imagenes/MenuMarzzan.gif') 0 -80px repeat-x;
+    height: 18px;
+    width: 180px;
+    cursor: hand;
+}
+
+.MenuRealizarPedido
+{
+    background: url('Imagenes/MenuMarzzan.gif') 0 -60px repeat-x;
+    height: 18px;
+    width: 180px;
+    cursor: default;
+}
+
+.MenuRealizarPedidoOver
+{
+    background: url('Imagenes/MenuMarzzan.gif') 0 -40px repeat-x;
+    height: 18px;
+    width: 180px;
+    cursor: hand;
+}
+.MenuDerivaciones
+{
+    background: url('Imagenes/MenuMarzzan.gif') 0 -140px repeat-x;
+    height: 18px;
+    width: 180px;
+    cursor: default;
+}
+
+.MenuDerivacionesOver
+{
+    background: url('Imagenes/MenuMarzzan.gif') 0 -120px repeat-x;
+    height: 18px;
+    width: 180px;
+    cursor: hand;
+}
+.MenuAltaFinal
+{
+    background: url('Imagenes/MenuMarzzan.gif') 0 -180px repeat-x;
+    height: 18px;
+    width: 180px;
+    cursor: default;
+}
+
+.MenuAltaFinalOver
+{
+    background: url('Imagenes/MenuMarzzan.gif') 0 -160px repeat-x;
+    height: 18px;
+    width: 180px;
+    cursor: hand;
+}
+.MenuAltaConsultor
+{
+    background: url('Imagenes/MenuMarzzan.gif') 0 -220px repeat-x;
+    height: 18px;
+    width: 180px;
+    cursor: default;
+}
+
+.MenuAltaConsultorOver
+{
+    background: url('Imagenes/MenuMarzzan.gif') 0 -200px repeat-x;
+    height: 18px;
+    width: 180px;
+    cursor: hand;
+}
+
+.MenuSalir
+{
+    background: url('Imagenes/MenuMarzzan.gif') 0 -300px repeat-x;
+    height: 18px;
+    width: 180px;
+    cursor: default;
+}
+
+.MenuSalirOver
+{
+    background: url('Imagenes/MenuMarzzan.gif') 0 -280px repeat-x;
+    height: 18px;
+    width: 180px;
+    cursor: hand;
+}
+
+.MenuRegalo
+{
+    background: url('Imagenes/MenuMarzzan.gif') 0 -260px repeat-x;
+    height: 18px;
+    width: 180px;
+    cursor: default;
+}
+
+.MenuRegaloOver
+{
+    background: url('Imagenes/MenuMarzzan.gif') 0 -240px repeat-x;
+    height: 18px;
+    width: 180px;
+    cursor: hand;
+}
+
+.MenuGestionPromos
+{
+    background: url('Imagenes/MenuMarzzan.gif') 0 -340px repeat-x;
+    height: 18px;
+    width: 180px;
+    cursor: default;
+}
+
+.MenuGestionPromosOver
+{
+    background: url('Imagenes/MenuMarzzan.gif') 0 -320px repeat-x;
+    height: 18px;
+    width: 180px;
+    cursor: hand;
+}
+
+.MenuGestionTransporte
+{
+    background: url('Imagenes/MenuMarzzan.gif') 0 -380px repeat-x;
+    height: 18px;
+    width: 180px;
+    cursor: default;
+}
+
+.MenuGestionTransporteOver
+{
+    background: url('Imagenes/MenuMarzzan.gif') 0 -360px repeat-x;
+    height: 18px;
+    width: 180px;
+    cursor: hand;
+}
+
+.MenuGestionRegalo
+{
+    background: url('Imagenes/MenuMarzzan.gif') 0 -420px repeat-x;
+    height: 18px;
+    width: 180px;
+    cursor: default;
+}
+
+.MenuGestionRegaloOver
+{
+    background: url('Imagenes/MenuMarzzan.gif') 0 -400px repeat-x;
+    height: 18px;
+    width: 180px;
+    cursor: hand;
+}
+
+.MenuGestionMail
+{
+    background: url('Imagenes/MenuMarzzan.gif') 0 -460px repeat-x;
+    height: 18px;
+    width: 180px;
+    cursor: default;
+}
+
+.MenuGestionMailOver
+{
+    background: url('Imagenes/MenuMarzzan.gif') 0 -440px repeat-x;
+    height: 18px;
+    width: 180px;
+    cursor: hand;
+}
+.MenuGestionConsultores
+{
+    background: url('Imagenes/MenuMarzzan.gif') 0 -500px repeat-x;
+    height: 18px;
+    width: 180px;
+    cursor: default;
+}
+
+.MenuGestionConsultoresOver
+{
+    background: url('Imagenes/MenuMarzzan.gif') 0 -480px repeat-x;
+    height: 18px;
+    width: 180px;
+    cursor: hand;
+}
+
+
+.Header_panelContainerSimple
+{
+    background: transparent url(Imagenes/EncabezadoSandramarzzan.png) no-repeat center top;
+    font: normal 12px Arial, Verdana, Sans-serif;
+    color: #a6a896;
+    height: 117px;
+    width: 100%;
+    z-index: 10000;
+}
+
+.HeaderDer_panelContainerSimple
+{
+    background: transparent url(Imagenes/arribaizquierda_v2.jpg) no-repeat left top;
+    font: normal 12px Arial, Verdana, Sans-serif;
+    color: #a6a896;
+    height: 116px;
+    width: 105px;
+    vertical-align: top;
+}
+.HeaderIzq_panelContainerSimple
+{
+    background: transparent url(Imagenes/arribaderecha_v2.jpg) no-repeat left top;
+    font: normal 12px Arial, Verdana, Sans-serif;
+    color: #a6a896;
+    height: 116px;
+    width: 105px;
+    vertical-align: top;
+}
+
+.Footer_panelContainerSimple
+{
+    background: transparent url(Imagenes/abajomedio.jpg) no-repeat left top;
+    font: normal 12px Arial, Verdana, Sans-serif;
+    color: #a6a896;
+    height: 61px;
+    width: 726px;
+}
+
+.FooterDer_panelContainerSimple
+{
+    background: transparent url(Imagenes/abajoizquierda.jpg) no-repeat left top;
+    font: normal 12px Arial, Verdana, Sans-serif;
+    color: #a6a896;
+    height: 61px;
+    width: 107px;
+    vertical-align: top;
+}
+.FooterIzq_panelContainerSimple
+{
+    background: transparent url(Imagenes/abajoderecha.jpg) no-repeat left top;
+    font: normal 12px Arial, Verdana, Sans-serif;
+    color: #a6a896;
+    height: 61px;
+    width: 107px;
+    vertical-align: top;
+}
+
+
+
+.Header_panelContainer
+{
+    background: transparent url(Imagenes/sandramarzzan_v1.jpg) no-repeat left top;
+    font: normal 12px Arial, Verdana, Sans-serif;
+    color: #a6a896;
+    height: 195px;
+    width: 724px;
+}
+.HeaderDer_panelContainer
+{
+    background: transparent url(Imagenes/arribaizquierda_v1.jpg) no-repeat left top;
+    font: normal 12px Arial, Verdana, Sans-serif;
+    color: #a6a896;
+    height: 195px;
+    width: 105px;
+    vertical-align: top;
+}
+.HeaderIzq_panelContainer
+{
+    background: transparent url(Imagenes/arribaderecha_v1.jpg) no-repeat left top;
+    font: normal 12px Arial, Verdana, Sans-serif;
+    color: #a6a896;
+    height: 195px;
+    width: 105px;
+    vertical-align: top;
+}
+.txtStyleControlValor
+{
+    border: 1px solid #CACACA;
+    background: white url(Imagenes/TextNum.gif) no-repeat right top;
+    text-align: center;
+    color: #000000;
+    font-size: 11px;
+    height: 15px;
+    position: absolute;
+    top: -1000px;
+    text-align: center;
+}
+.txtFormatSimple
+{
+    border: 1px solid #CACACA;
+    background: white url(Imagenes/TextNum.gif) no-repeat right top;
+    text-align: center;
+    color: #000000;
+    font-weight: bold;
+    width: 25px;
+    font-size: 11px;
+    height: 15px;
+}
+
+.txtFormatSimpleNoNumeric
+{
+    border: 1px solid #CACACA;
+    background: white;
+    text-align: center;
+    color: #000000;
+    font-weight: bold;
+    width: 25px;
+    font-size: 11px;
+    height: 15px;
+}
+
+.panelContainer
+{
+    background: transparent url(Imagenes/carrito.jpg) no-repeat left bottom;
+    width: 100%;
+    height: 100%;
+    font: normal 12px Arial, Verdana, Sans-serif;
+    color: #a6a896;
+}
+
+.contentContainer
+{
+    width: 100%;
+    height: 100%;
+    cursor: default;
+}
+
+.panelContent
+{
+    margin-left: 0px;
+    margin-top: 0px;
+}
+
