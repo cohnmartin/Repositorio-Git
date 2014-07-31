@@ -232,6 +232,7 @@ public partial class NotaDePedido : BasePage
                 DescuentosProductos = (from C in dcB.VeoArticulosyDescuentos
                                        select C).ToList();
 
+
             }
 
 
@@ -297,6 +298,10 @@ public partial class NotaDePedido : BasePage
                                                   where (d.objProducto.Tipo == 'P' || d.objProducto.Tipo == 'D') && d.ValorTotal < 0
                                                   select d).ToList();
 
+                    Session["productosRegalosSeleccionados"] = (from d in CurrentCabecera.DetallePedidos
+                                                                where d.objPromocionOrigen != null
+                                                                select d).ToList();
+
                     CargarArbolProductos();
                     UCTotalizadorNivel.IniciarControl();
                     CargarFormaDePago(cliente);
@@ -309,6 +314,9 @@ public partial class NotaDePedido : BasePage
                     cboConsultores.SelectedIndex = 0;
 
                     txtObservacion.Text = CurrentCabecera.Retira;
+
+
+                    //ControlarCambiosPrecios(CurrentCabecera);
                     ActualizarTotalesGenerales();
 
                 }
@@ -405,6 +413,275 @@ public partial class NotaDePedido : BasePage
         UcTotalizadorPedidos.LineaPedidoEliminada += new DeletePedidoHanddler(TotalizadorPedidos_LineaPedidoEliminada);
     }
 
+    /// <summary>
+    /// Funcion para controlar:
+    /// 1.	Cambio de Precios de articulos
+    /// 2.	Cambio de Precios en las promociones
+    /// 3.	Cambio de Precio en los gastos de envio
+    /// 4.	Desactivación de articulo 
+    /// 5.	Vigencia de Promociones
+    /// </summary>
+    private void ControlarCambiosPrecios(CabeceraPedido CurrentCabecera)
+    {
+
+        bool huboCambios = false;
+        using (Marzzan_InfolegacyDataContext dc = new Marzzan_InfolegacyDataContext())
+        {
+
+            /// Recuperar los valores actuales de todos los elementos del detalle para ver si hay alguna diferencia.
+            /// sin tener en cuentas los detalles que hacen referencia a promociones directas. Es decir detalles del tipo P o D con valor
+            /// positivo, estas se controlan en un paso posterior.
+            List<long> ids = CurrentCabecera.DetallePedidos.Where(d => (d.objProducto.Tipo == 'A' || d.objProducto.Tipo == 'G') || ((d.objProducto.Tipo == 'P' || d.objProducto.Tipo == 'D') && d.ValorTotal < 0)).Select(w => w.Presentacion.Value).ToList();
+            List<long> idsPrePedido = CurrentCabecera.DetallePedidos.Select(w => w.IdDetallePedido).ToList();
+            List<long> idsRequeridos = (from d in dc.DetalleProductosRequeridos
+                                        where idsPrePedido.Contains(d.DetallePedidoPromoDirecta.Value)
+                                        select d.IdPresentacion.Value
+                                        ).ToList();
+
+
+            ids.AddRange(idsRequeridos);
+
+
+            var listaPrecios = (from p in dc.Presentacions
+                                where ids.Contains(p.IdPresentacion)
+                                select new
+                                {
+                                    idPresentacion = p.IdPresentacion,
+                                    Precio = p.objProducto.Tipo == 'A' || p.objProducto.Tipo == 'G' ? p.Precio : p.objProducto.Precio * -1,
+                                    activo = !p.Activo.HasValue ? true : p.Activo.Value
+
+
+                                }).ToList();
+
+
+            /// 1 y 3 Calculo las diferencias en el detalle para los productos, gasto de envio y promociones inferidas y directas
+            var productosConDiferencia = (from d in CurrentCabecera.DetallePedidos
+                                          join p in listaPrecios on d.Presentacion.Value equals p.idPresentacion
+                                          where p.Precio != d.ValorUnitario &&
+                                          ((d.objProducto.Tipo == 'A' || d.objProducto.Tipo == 'G') || ((d.objProducto.Tipo == 'P' || d.objProducto.Tipo == 'D') && d.ValorTotal < 0))
+                                          select new
+                                          {
+                                              d.objProducto.Descripcion,
+                                              d.ValorUnitario,
+                                              p.Precio,
+                                              d.IdDetallePedido
+                                          }).ToList();
+
+
+            if (productosConDiferencia.Count > 0)
+            {
+                foreach (var item in productosConDiferencia)
+                {
+                    DetallePedido detalle = CurrentCabecera.DetallePedidos.Where(w => w.IdDetallePedido == item.IdDetallePedido).FirstOrDefault();
+                    if (detalle != null)
+                    {
+
+                        detalle.ValorUnitario = item.Precio;
+                        detalle.ValorTotal = detalle.Cantidad * detalle.ValorUnitario;
+                        huboCambios = true;
+
+                    }
+                }
+
+            }
+
+            ///2. buso si hay diferencia en las promociones directas segun los componentes requeridos
+            /// es decir debo controlar que la suma de los productos requeridos siga siendo igual al valor indicado
+            /// para el detalle de tipo promocion directa. ( Tipo P o D con valor Positivo).
+            List<DetallePedido> promosDirectas = CurrentCabecera.DetallePedidos.Where(d => ((d.objProducto.Tipo == 'P' || d.objProducto.Tipo == 'D') && d.ValorTotal > 0)).ToList();
+            foreach (var item in promosDirectas)
+            {
+
+                /// Recupero la composición de los elementos requeridos del producto tipo PROMOCION
+                var composicionRequeridos = from R in dc.Composicions
+                                            where R.TipoComposicion == "C" && R.objProducto.IdProducto == item.Producto.Value
+                                            group R by R.Grupo into c
+                                            select new { Grupo = c.Key, componentes = c };
+
+                decimal valorPromoDirecta = 0;
+                foreach (var grupo in composicionRequeridos)
+                {
+                    decimal valorUnitario = grupo.componentes.FirstOrDefault().objPresentacion.Precio.Value;
+                    var cantidadRequerida = Convert.ToInt16(grupo.componentes.FirstOrDefault().Cantidad);
+                    valorPromoDirecta += valorUnitario * cantidadRequerida;
+
+
+                    foreach (var itemRequerido in item.colProductosRequeridos)
+                    {
+                        var itemNuevoPrecio = listaPrecios.Where(w => w.idPresentacion == itemRequerido.IdPresentacion).FirstOrDefault();
+                        if (itemNuevoPrecio != null)
+                        {
+                            itemRequerido.ValorUnitario = valorUnitario;
+                        }
+                    }
+
+
+                }
+
+                if (valorPromoDirecta != item.ValorTotal)
+                {
+                    item.ValorTotal = valorPromoDirecta;
+                    item.ValorUnitario = valorPromoDirecta;
+                    huboCambios = true;
+                }
+
+
+
+            }
+
+            /// 4. Determino si hay algun producto del tipo A que ya no este mas activo, de ser así
+            /// entonces lo debo eliminar del pedido (las promociones se controlar por separado).
+            var productosDesactivados = (from d in CurrentCabecera.DetallePedidos
+                                         join p in listaPrecios on d.Presentacion.Value equals p.idPresentacion
+                                         where p.activo == false && d.objProducto.Tipo == 'A'
+                                         select new
+                                         {
+                                             d.objProducto.Descripcion,
+                                             d.IdDetallePedido
+                                         }).ToList();
+
+            foreach (var item in productosDesactivados)
+            {
+                DetallePedido detEliminar = CurrentCabecera.DetallePedidos.Where(w => w.IdDetallePedido == item.IdDetallePedido).FirstOrDefault();
+
+                (Session["detPedido"] as List<DetallePedido>).Remove(detEliminar);
+
+                if (detEliminar.IdDetallePedido > 0)
+                {
+
+                    using (Marzzan_InfolegacyDataContext dcEliminar = new Marzzan_InfolegacyDataContext())
+                    {
+                        dcEliminar.CommandTimeout = 300;
+
+                        DetallePedido Detalle = (from D in dcEliminar.DetallePedidos
+                                                 where D.IdDetallePedido == detEliminar.IdDetallePedido
+                                                 select D).SingleOrDefault();
+
+                        dcEliminar.DetallePedidos.DeleteOnSubmit(Detalle);
+                        dcEliminar.SubmitChanges();
+                        huboCambios = true;
+                    }
+
+                }
+            }
+
+
+            /// 5. Busco para las promociones en el pedido si las mismas siguen en vigencia
+            /// según la feha inicial, final y el transporte.
+            var promosDelPedido = (from d in CurrentCabecera.DetallePedidos
+                                   where d.objProducto.Tipo == 'P' || d.objProducto.Tipo == 'D'
+                                   select new
+                                   {
+                                       d.objProducto.Descripcion,
+                                       d.objProducto.objConfPromocion.FechaInicio,
+                                       d.objProducto.objConfPromocion.FechaFinal,
+                                       d.objProducto.objConfPromocion.ColTransportistas,
+                                       d.objProducto.objConfPromocion.MontoMinimo,
+                                       d.objProducto.objConfPromocion.TipoPromo,
+                                       d.IdDetallePedido,
+                                       d.ValorTotal,
+                                       detalle = d
+
+                                   }).ToList();
+
+            foreach (var item in promosDelPedido)
+            {
+                decimal MontoActual = (from P in (Session["detPedido"] as List<DetallePedido>) select P.ValorTotal.Value).Sum();
+                bool eliminarPromo = false;
+                /// Si tiene establecido transportes y el transporte del pedido NO esta dentro de la lista entonces hay que sacar la promo.
+                if ((item.ColTransportistas.Count > 0 && !item.ColTransportistas.Any(w => w.Transporte.ToLower() == lblTransporte.Text.ToLower())))
+                {
+                    eliminarPromo = true;
+                }
+                /// si la promocion no esta mas vigente por el rango de fechas  entonces hay que sacar la promo.
+                else if (DateTime.Now.Date < item.FechaInicio.Date || DateTime.Now.Date > item.FechaFinal.Date)
+                {
+                    eliminarPromo = true;
+                }
+                /// si la promocion no esta mas vigente por el monto minimo entonces hay que sacar la promo.
+                /// Solo debo realizar el control si la promocion es inferida. Las promos directas tiene el valor del detalle
+                /// en positivo.
+                else if (MontoActual < item.MontoMinimo && item.ValorTotal < 0)
+                {
+                    eliminarPromo = true;
+                }
+                /// si la promocion no esta mas vigente por el TIPO DE CLIENTE entonces hay que sacar la promo.
+                else if (CurrentCabecera.objCliente.TipoConsultor != item.TipoPromo)
+                {
+                    eliminarPromo = true;
+                }
+
+
+
+                if (eliminarPromo)
+                {
+                    using (Marzzan_InfolegacyDataContext dcEliminar = new Marzzan_InfolegacyDataContext())
+                    {
+                        dcEliminar.CommandTimeout = 300;
+
+                        /// entonces debo eliminar:
+                        ///     a. el detalle en cuestion
+                        ///     b. los productos requeridos que fueron seleccionados 
+                        ///     c. los regalos seleccionados si existe.
+
+                        (Session["detPedido"] as List<DetallePedido>).Remove(item.detalle);
+                        (Session["PromosGuardadas"] as List<DetallePedido>).Remove(item.detalle);
+
+                        /////////////// a. ///////////////
+                        DetallePedido Detalle = (from D in dcEliminar.DetallePedidos
+                                                 where D.IdDetallePedido == item.detalle.IdDetallePedido
+                                                 select D).SingleOrDefault();
+
+                        dcEliminar.DetallePedidos.DeleteOnSubmit(Detalle);
+
+
+                        /////////////// b. ///////////////
+                        List<DetalleProductosRequeridos> Detalles = (from D in dcEliminar.DetalleProductosRequeridos
+                                                                     where D.IdDetalleProductosRequeridos == item.detalle.IdDetallePedido
+                                                                     select D).ToList();
+
+                        dcEliminar.DetalleProductosRequeridos.DeleteAllOnSubmit(Detalles);
+
+                        /////////////// c. ///////////////
+                        List<DetallePedido> DetalleRelacionados = (from D in dcEliminar.DetallePedidos
+                                                                   where D.CabeceraPedido == item.detalle.CabeceraPedido && D.PromocionOrigen == item.detalle.IdDetallePedido
+                                                                   select D).ToList();
+
+                        dcEliminar.DetallePedidos.DeleteAllOnSubmit(DetalleRelacionados);
+
+                        /// Persisto los cambios
+                        dcEliminar.SubmitChanges();
+
+                        huboCambios = true;
+                    }
+
+
+                }
+            }
+
+            /// 6. ACTUALIZACION DE REMITOS
+            /// LOS REMITOS NO SE GRABAN CUANDO SE GUARDA EN FORMA TEMPORAL, POR LO QUE NO HAY QUE HACER NADA CUANDO SE EDITA.
+
+            /// 7. CONTROLAR CAMBIOS EN LOS PORCENTAJES POR PROVINCIA
+            /// EL PORCENTAJE SE CALCULA EN EL METODO "CalcularTotalPedido" Y ESTE SE EJECUTA CUANDO SE INICIA LA EDICION POR LO QUE LOS
+            /// MONTOS SON RE CALCULADOS.
+
+            /// 8. CONTROLAR CAMBIOS EN LOS PORCENTAJES DE DESCUENTO EN LOS PRODUCTOS
+            /// CUANDO LOS PORCENTAJES SON ACTUALIZADOS SE PRODUCE LA MISMA SITUACIÓN QUE LOS PORCENTAJES DE LAS PROVINCIAS, POR LO
+            /// QUE SE ACTUALIZA AUTOMATICAMENTE CDO SE EDITA LA OPERACION.
+
+
+
+
+        }
+
+        if (huboCambios)
+        {
+            ScriptManager.RegisterStartupScript(Page, typeof(Page), "EdicionActualizada", "AlertaEdicionActualizada();", true);
+        }
+
+
+    }
 
     #region Eventos
     public void RadAjaxManager1_AjaxRequest(object sender, AjaxRequestEventArgs e)
@@ -1037,14 +1314,14 @@ public partial class NotaDePedido : BasePage
         DetallePedido newDetalle = null;
         string mensajeStock = "";
 
-        ///// Si el pedido NO es temporal, PERO el medio de pago es tarjeta, entonces lo marco como 
-        ///// temporal, ya que es necesario la aprobación de la misma, y grabo la operación como temporal
-        ///// indicando que es pago con tarjeta para aplicar la logica particular de la misma.
-        //if (!EsTemporal && cboFormaPago.SelectedItem.Text.Contains("Tarjeta"))
-        //{
-        //    EsPagoConTarjeta = true;
-        //    EsTemporal = true;
-        //}
+        /// Si el pedido NO es temporal, PERO el medio de pago es tarjeta, entonces lo marco como 
+        /// temporal, ya que es necesario la aprobación de la misma, y grabo la operación como temporal
+        /// indicando que es pago con tarjeta para aplicar la logica particular de la misma.
+        if (!EsTemporal && cboFormaPago.SelectedItem.Text.Contains("Tarjeta"))
+        {
+            EsPagoConTarjeta = true;
+            EsTemporal = false;
+        }
 
 
         if (ControlStockValido(EsTemporal, out mensajeStock))
@@ -2310,8 +2587,9 @@ public partial class NotaDePedido : BasePage
                         RelacionarRemitosPendientes(cabecera);
                         GenerarPedidoConCredito(cabecera);
                         Contexto.SubmitChanges();
-                        //ActualizarTotalPedido(cabecera.IdCabeceraPedido);
                         ActualizarSolicitudProductosEspeciales(cabecera.DetallePedidos.ToList());
+                        cabecera = ActualizarTotalPedido(cabecera.IdCabeceraPedido);
+
                         if (!EsClienteEspecial)
                             EnviarMailAvisoPedido(cabecera);
 
@@ -2349,8 +2627,7 @@ public partial class NotaDePedido : BasePage
 
                     }
 
-                    //ActualizarTotalPedido(cabecera.IdCabeceraPedido);
-
+                    cabecera = ActualizarTotalPedido(cabecera.IdCabeceraPedido);
 
                     /// Mando a imprimir, si se realizo la solicitud del pedido
                     if (EsTemporal)
@@ -2444,7 +2721,7 @@ public partial class NotaDePedido : BasePage
 
         if (!EsTemporal)
         {
-            List<long> productoControl = new List<long>() { 4707 };
+            List<long> productoControl = new List<long>() { 4707, 6687 };
 
             List<DetallePedido> ProductoStockLimitado = (from P in (Session["detPedido"] as List<DetallePedido>)
                                                          where productoControl.Contains(P.Presentacion.Value)
@@ -2572,7 +2849,7 @@ public partial class NotaDePedido : BasePage
             var RemitosConComposicion = (from p in Contexto.ComposicionRemitos
                                          select p).Distinct().ToList();
 
-
+            string divDetalle = "<div>";
             foreach (var remito in UCTotalizadorNivel.RemitosPendientesNoAfectados)
             {
                 if (RemitosConComposicion.Any(w => w.CodigoRemito == remito.CodArticulo))
@@ -2581,6 +2858,8 @@ public partial class NotaDePedido : BasePage
                     var remitoPresentacion = (from p in Contexto.Presentacions
                                               where p.Codigo == remito.CodArticulo
                                               select p).FirstOrDefault();
+
+                    divDetalle += "REM: " + remitoPresentacion.Descripcion + "  $ " + remito.Cantidad * remito.Precio * -1 + "<br>";
 
                     if (remitoPresentacion != null)
                     {
@@ -2598,17 +2877,24 @@ public partial class NotaDePedido : BasePage
                         foreach (var comp in componentes)
                         {
                             descuentoRemito += comp.Cantidad.Value * comp.objPresentacion.Precio.Value;
+
+                            divDetalle += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;COMP: " + comp.objPresentacion.objProducto.Descripcion + "  $ " + comp.Cantidad.Value * comp.objPresentacion.Precio.Value + "<br>";
                         }
                     }
                 }
                 else
                 {
                     descuentoRemito += remito.Cantidad * remito.Precio * -1;
+
+                    divDetalle += "REM: " + remito.DescArticulo + "  $ " + remito.Cantidad * remito.Precio * -1 + "<br>";
                 }
 
             }
-        }
 
+            //divDetalle += "</div>";
+            //DivHelp.InnerHtml = divDetalle;
+            //upCabeceraPagina.Update();
+        }
 
 
         return descuentoRemito;
@@ -2767,7 +3053,7 @@ public partial class NotaDePedido : BasePage
     /// despues de grabar, por las dudas de errores al grabar.
     /// </summary>
     /// <param name="IdPedido"></param>
-    private void ActualizarTotalPedido(long IdPedido)
+    private CabeceraPedido ActualizarTotalPedido(long IdPedido)
     {
         Marzzan_InfolegacyDataContext NewContext = new Marzzan_InfolegacyDataContext();
 
@@ -2792,6 +3078,8 @@ public partial class NotaDePedido : BasePage
         cab.DetalleImpuestos = DetalleImpuestosCalculados;
 
         NewContext.SubmitChanges();
+
+        return cab;
     }
 
 
@@ -2846,28 +3134,42 @@ public partial class NotaDePedido : BasePage
         {
             if (UCTotalizadorNivel.PoseeRequerimientoPagoFacil)
             {
-                /// Si tiene un requerimiento de pago facil
-                /// quiere decir que esta penalizado y solo puede
-                /// usar como forma de pago Pago Fácil o Pago Mis Cuentas
-                FormasDePago = Contexto.FormaDePagos.Where(w => !w.Descripcion.Contains("Contra") && w.Cliente == 2).ToList();
-
-
-
-            }
-            else
-            {
-                if (CurrrentCliente.Cod_CondVta == "SIN")
+                if (CurrrentCliente.Login == "DEMO")
                 {
-
                     FormasDePago = (from Fp in Contexto.FormaDePagos
                                     where Fp.Cliente == 2
                                     select Fp).ToList();
                 }
                 else
                 {
+
+                    /// Si tiene un requerimiento de pago facil
+                    /// quiere decir que esta penalizado y solo puede
+                    /// usar como forma de pago Pago Fácil o Pago Mis Cuentas
+                    FormasDePago = Contexto.FormaDePagos.Where(w => !w.Descripcion.Contains("Contra") && w.Cliente == 2 && w.Codigo != "TRJ").ToList();
+                }
+            }
+            else
+            {
+                if (CurrrentCliente.Login == "DEMO")
+                {
                     FormasDePago = (from Fp in Contexto.FormaDePagos
                                     where Fp.Cliente == 2
-                                    && Fp.Codigo != "SIN"
+                                    select Fp).ToList();
+                }
+
+                else if (CurrrentCliente.Cod_CondVta == "SIN")
+                {
+
+                    FormasDePago = (from Fp in Contexto.FormaDePagos
+                                    where Fp.Cliente == 2 && Fp.Codigo != "TRJ"
+                                    select Fp).ToList();
+                }
+                else
+                {
+                    FormasDePago = (from Fp in Contexto.FormaDePagos
+                                    where Fp.Cliente == 2
+                                    && Fp.Codigo != "SIN" && Fp.Codigo != "TRJ"
                                     select Fp).ToList();
                 }
             }
@@ -2918,7 +3220,7 @@ public partial class NotaDePedido : BasePage
 
             decimal Total = 0;
             decimal MontoTotal = 0;
-            decimal MontoTotalPromocionesDescuento = 0;
+            decimal DescuentosPromociones = 0;
             decimal DescuentoProvincia = 0;
             decimal ValorFlete = Convert.ToDecimal(lblTransporteValorHidden.Value);
             decimal PorcentajeDescuentoProvincia = Convert.ToDecimal(lblProvinciaPorcentajeDescuentoHidden.Value);
@@ -2929,16 +3231,15 @@ public partial class NotaDePedido : BasePage
                      select P.Cantidad.Value).Sum();
 
             /// Sumo todos los productos directos
-            MontoTotal = (from P in (Session["detPedido"] as List<DetallePedido>)
-                          select P.ValorTotal.Value).Sum();
+            MontoTotal = (from P in (Session["detPedido"] as List<DetallePedido>) select P.ValorTotal.Value).Sum();
 
 
             if (Session["PromosGeneradas"] != null && (Session["PromosGeneradas"] as List<DetallePedido>).Count > 0)
             {
-                MontoTotalPromocionesDescuento = (from P in (Session["PromosGeneradas"] as List<DetallePedido>)
-                                                  where P.ColRegalos != null && P.ColRegalos.Any(w => w.TipoRegalo == "Descuento")
-                                                  && P.ValorTotal.HasValue
-                                                  select P.ValorTotal.Value).Sum();
+                DescuentosPromociones = (from P in (Session["PromosGeneradas"] as List<DetallePedido>)
+                                         where P.ColRegalos != null && P.ColRegalos.Any(w => w.TipoRegalo == "Descuento")
+                                         && P.ValorTotal.HasValue
+                                         select P.ValorTotal.Value).Sum();
             }
 
             /// Se calculan los descuentos según el porcentaje de cada producto.
@@ -2949,23 +3250,25 @@ public partial class NotaDePedido : BasePage
 
             /// Descuento de las provincias
             /// Articulos - promos + flete = total 
-            DescuentoProvincia = Math.Round(((MontoTotal - MontoTotalPromocionesDescuento + ValorFlete + DescuentosRemitos + DescuentosGenerales) * PorcentajeDescuentoProvincia) / 100, 2);
+            DescuentoProvincia = Math.Round(((MontoTotal - DescuentosPromociones + ValorFlete + DescuentosRemitos + DescuentosGenerales) * PorcentajeDescuentoProvincia) / 100, 2);
 
             /// Actualizo tooltip del detalle del monto del pedido.
             lblMontoProductos.Text = string.Format("$ {0:0.00}", (MontoTotal));
             lblCostoFlete.Text = string.Format("$ {0:0.00}", (ValorFlete));
-            lblDescuentos.Text = string.Format("$ {0:0.00}", (MontoTotalPromocionesDescuento));
+            lblDescuentos.Text = string.Format("$ {0:0.00}", (DescuentosPromociones));
             lblDescuentoProvincia.Text = string.Format("$ {0:0.00}", (DescuentoProvincia));
             lblDescuentoRemitos.Text = string.Format("$ {0:0.00}", (Math.Abs(DescuentosRemitos)));
             lblDescuentosGenerales.Text = string.Format("$ {0:0.00}", (Math.Abs(DescuentosGenerales)));
 
-            MontoTotal += ValorFlete - MontoTotalPromocionesDescuento - DescuentoProvincia + DescuentosRemitos + DescuentosGenerales;
+            MontoTotal += ValorFlete - DescuentosPromociones - DescuentoProvincia + DescuentosRemitos + DescuentosGenerales;
 
             MontoTotal = CalculoImpuestos(MontoTotal);
 
             txtTotalGeneral.Text = string.Format("{0:0}", (Total));
             txtMontoGeneral.Text = string.Format("$ {0:0.00}", (MontoTotal));
             lblMontoActual.Text = string.Format("$ {0:0.00}", (MontoTotal));
+            lblTotalDetalle.Text = string.Format("$ {0:0.00}", (MontoTotal));
+
 
         }
         else
@@ -3022,7 +3325,10 @@ public partial class NotaDePedido : BasePage
         decimal imp212 = 0;
         decimal imp30 = 0;
         decimal neto = 0;
+
+        decimal montoSujetoNoCategorizado = 1400;
         string codSituacionImpositiva = DeteminarSituacionImpositiva(currentCliente);
+
         ///Cambio solicitado el 02/12/2013 donde la regla de negocio dice que si es de tierra del fuego
         ///no se tiene que calcular ningun tipo de impuesto.
         if (ProvinciaDireccionSeleccionada != "" && ProvinciaDireccionSeleccionada == "TIERRA DEL FUEGO")
@@ -3041,42 +3347,42 @@ public partial class NotaDePedido : BasePage
             switch (codSituacionImpositiva)
             {
                 case "7": //Sujeto no Categorizado
-                    //if (MontoTotal >= 1500)
-                    //{
+                    if (MontoTotal >= montoSujetoNoCategorizado)
+                    {
 
-                    // Caclulo del Neto del pedido
-                    neto = MontoTotal * Convert.ToDecimal("0,904975");
+                        // Caclulo del Neto del pedido
+                        neto = MontoTotal * Convert.ToDecimal("0,904975");
 
-                    // Calculo del RG212
-                    imp212 = Math.Round((neto) * (GR212 / 100), 2);
+                        // Calculo del RG212
+                        imp212 = Math.Round((neto) * (GR212 / 100), 2);
 
-                    // Calculo del RG30
-                    imp30 = Math.Round(((neto) / Convert.ToDecimal("1,21")) * (GR30JUJUY / 100), 2);
+                        // Calculo del RG30
+                        imp30 = Math.Round(((neto) / Convert.ToDecimal("1,21")) * (GR30JUJUY / 100), 2);
 
-                    MontoTotal = neto + imp30 + imp212;
-                    lblImpuestos.Text = string.Format("$ {0:0.00}", (imp30 + imp212));
-                    lblNeto.Text = string.Format("$ {0:0.00}", (neto));
-                    lblIVA.Text = string.Format("$ {0:0.00}", (0));
-                    lblRG30.Text = string.Format("$ {0:0.00}", (imp30));
-                    lblRG212.Text = string.Format("$ {0:0.00}", (imp212));
+                        MontoTotal = neto + imp30 + imp212;
+                        lblImpuestos.Text = string.Format("$ {0:0.00}", (imp30 + imp212));
+                        lblNeto.Text = string.Format("$ {0:0.00}", (neto));
+                        lblIVA.Text = string.Format("$ {0:0.00}", (0));
+                        lblRG30.Text = string.Format("$ {0:0.00}", (imp30));
+                        lblRG212.Text = string.Format("$ {0:0.00}", (imp212));
 
-                    /// Finalmente actualizo el total final dentro del detalle.
-                    lblTotalDetalle.Text = string.Format("$ {0:0.00}", (MontoTotal));
+                        /// Finalmente actualizo el total final dentro del detalle.
+                        lblTotalDetalle.Text = string.Format("$ {0:0.00}", (MontoTotal));
 
-                    ImpuestoCalculado = imp30 + imp212;
-                    DetalleImpuestosCalculados = lblNeto.Text + "@" + lblIVA.Text + "@" + lblRG30.Text + "@" + lblRG212.Text + "@" + lblTotalDetalle.Text;
+                        ImpuestoCalculado = imp30 + imp212;
+                        DetalleImpuestosCalculados = lblNeto.Text + "@" + lblIVA.Text + "@" + lblRG30.Text + "@" + lblRG212.Text + "@" + lblTotalDetalle.Text;
 
-                    //}
-                    //else
-                    //{
-                    //    ImpuestoCalculado = 0;
-                    //    DetalleImpuestosCalculados = "";
-                    //    lblImpuestos.Text = string.Format("$ {0:0.00}", 0);
-                    //    lblNeto.Text = string.Format("$ {0:0.00}", 0);
-                    //    lblIVA.Text = string.Format("$ {0:0.00}", (0));
-                    //    lblRG30.Text = string.Format("$ {0:0.00}", 0);
-                    //    lblRG212.Text = string.Format("$ {0:0.00}", 0);
-                    //}
+                    }
+                    else
+                    {
+                        ImpuestoCalculado = 0;
+                        DetalleImpuestosCalculados = "";
+                        lblImpuestos.Text = string.Format("$ {0:0.00}", 0);
+                        lblNeto.Text = string.Format("$ {0:0.00}", 0);
+                        lblIVA.Text = string.Format("$ {0:0.00}", (0));
+                        lblRG30.Text = string.Format("$ {0:0.00}", 0);
+                        lblRG212.Text = string.Format("$ {0:0.00}", 0);
+                    }
                     break;
                 case "1": //Inscripto
                     neto = MontoTotal / Convert.ToDecimal("1,21");
@@ -3119,13 +3425,9 @@ public partial class NotaDePedido : BasePage
 
                     break;
                 default:
+                    lblImpuestos.Text = string.Format("$ {0:0.00}", 0);
                     ImpuestoCalculado = 0;
                     DetalleImpuestosCalculados = "";
-                    lblImpuestos.Text = string.Format("$ {0:0.00}", 0);
-                    lblNeto.Text = string.Format("$ {0:0.00}", 0);
-                    lblIVA.Text = string.Format("$ {0:0.00}", (0));
-                    lblRG30.Text = string.Format("$ {0:0.00}", 0);
-                    lblRG212.Text = string.Format("$ {0:0.00}", 0);
                     break;
             }
 
@@ -3140,42 +3442,42 @@ public partial class NotaDePedido : BasePage
                 switch (codSituacionImpositiva)
                 {
                     case "7": //Sujeto no Categorizado
-                        //if (MontoTotal >= 1500)
-                        //{
+                        if (MontoTotal >= montoSujetoNoCategorizado)
+                        {
 
-                        // Caclulo del Neto del pedido
-                        neto = MontoTotal * Convert.ToDecimal("0,904975");
+                            // Caclulo del Neto del pedido
+                            neto = MontoTotal * Convert.ToDecimal("0,904975");
 
-                        // Calculo del RG212
-                        imp212 = Math.Round((neto) * (GR212 / 100), 2);
+                            // Calculo del RG212
+                            imp212 = Math.Round((neto) * (GR212 / 100), 2);
 
-                        // Calculo del RG30
-                        imp30 = Math.Round(((neto) / Convert.ToDecimal("1,21")) * (GR30SNC / 100), 2);
+                            // Calculo del RG30
+                            imp30 = Math.Round(((neto) / Convert.ToDecimal("1,21")) * (GR30SNC / 100), 2);
 
-                        MontoTotal = neto + imp30 + imp212;
-                        lblImpuestos.Text = string.Format("$ {0:0.00}", (imp30 + imp212));
-                        lblNeto.Text = string.Format("$ {0:0.00}", (neto));
-                        lblIVA.Text = string.Format("$ {0:0.00}", (0));
-                        lblRG30.Text = string.Format("$ {0:0.00}", (imp30));
-                        lblRG212.Text = string.Format("$ {0:0.00}", (imp212));
+                            MontoTotal = neto + imp30 + imp212;
+                            lblImpuestos.Text = string.Format("$ {0:0.00}", (imp30 + imp212));
+                            lblNeto.Text = string.Format("$ {0:0.00}", (neto));
+                            lblIVA.Text = string.Format("$ {0:0.00}", (0));
+                            lblRG30.Text = string.Format("$ {0:0.00}", (imp30));
+                            lblRG212.Text = string.Format("$ {0:0.00}", (imp212));
 
-                        /// Finalmente actualizo el total final dentro del detalle.
-                        lblTotalDetalle.Text = string.Format("$ {0:0.00}", (MontoTotal));
+                            /// Finalmente actualizo el total final dentro del detalle.
+                            lblTotalDetalle.Text = string.Format("$ {0:0.00}", (MontoTotal));
 
-                        ImpuestoCalculado = imp30 + imp212;
-                        DetalleImpuestosCalculados = lblNeto.Text + "@" + lblIVA.Text + "@" + lblRG30.Text + "@" + lblRG212.Text + "@" + lblTotalDetalle.Text;
+                            ImpuestoCalculado = imp30 + imp212;
+                            DetalleImpuestosCalculados = lblNeto.Text + "@" + lblIVA.Text + "@" + lblRG30.Text + "@" + lblRG212.Text + "@" + lblTotalDetalle.Text;
 
-                        //}
-                        //else
-                        //{
-                        //    ImpuestoCalculado = 0;
-                        //    DetalleImpuestosCalculados = "";
-                        //    lblImpuestos.Text = string.Format("$ {0:0.00}", 0);
-                        //    lblNeto.Text = string.Format("$ {0:0.00}", 0);
-                        //    lblIVA.Text = string.Format("$ {0:0.00}", (0));
-                        //    lblRG30.Text = string.Format("$ {0:0.00}", 0);
-                        //    lblRG212.Text = string.Format("$ {0:0.00}", 0);
-                        //}
+                        }
+                        else
+                        {
+                            ImpuestoCalculado = 0;
+                            DetalleImpuestosCalculados = "";
+                            lblImpuestos.Text = string.Format("$ {0:0.00}", 0);
+                            lblNeto.Text = string.Format("$ {0:0.00}", 0);
+                            lblIVA.Text = string.Format("$ {0:0.00}", (0));
+                            lblRG30.Text = string.Format("$ {0:0.00}", 0);
+                            lblRG212.Text = string.Format("$ {0:0.00}", 0);
+                        }
                         break;
                     case "1": //Inscripto
                         neto = MontoTotal / Convert.ToDecimal("1,21");
@@ -3218,13 +3520,9 @@ public partial class NotaDePedido : BasePage
 
                         break;
                     default:
+                        lblImpuestos.Text = string.Format("$ {0:0.00}", 0);
                         ImpuestoCalculado = 0;
                         DetalleImpuestosCalculados = "";
-                        lblImpuestos.Text = string.Format("$ {0:0.00}", 0);
-                        lblNeto.Text = string.Format("$ {0:0.00}", 0);
-                        lblIVA.Text = string.Format("$ {0:0.00}", (0));
-                        lblRG30.Text = string.Format("$ {0:0.00}", 0);
-                        lblRG212.Text = string.Format("$ {0:0.00}", 0);
                         break;
                 }
 
@@ -3236,42 +3534,42 @@ public partial class NotaDePedido : BasePage
                 switch (codSituacionImpositiva)
                 {
                     case "7": //Sujeto no Categorizado
-                        //if (MontoTotal >= 1500)
-                        //{
-                        // Caclulo del Neto del pedido
-                        // Porcentaje de Descuento: 0,904975"
-                        neto = MontoTotal * Convert.ToDecimal("0,904975");
+                        if (MontoTotal >= montoSujetoNoCategorizado)
+                        {
+                            // Caclulo del Neto del pedido
+                            // Porcentaje de Descuento: 0,904975"
+                            neto = MontoTotal * Convert.ToDecimal("0,904975");
 
 
-                        // Calculo del RG212
-                        imp212 = Math.Round((neto) * (GR212 / 100), 2);
+                            // Calculo del RG212
+                            imp212 = Math.Round((neto) * (GR212 / 100), 2);
 
 
-                        MontoTotal = neto + imp212;
-                        lblImpuestos.Text = string.Format("$ {0:0.00}", (imp212));
-                        lblNeto.Text = string.Format("$ {0:0.00}", (neto));
-                        lblIVA.Text = string.Format("$ {0:0.00}", (0));
-                        lblRG30.Text = string.Format("$ {0:0.00}", (0));
-                        lblRG212.Text = string.Format("$ {0:0.00}", (imp212));
+                            MontoTotal = neto + imp212;
+                            lblImpuestos.Text = string.Format("$ {0:0.00}", (imp212));
+                            lblNeto.Text = string.Format("$ {0:0.00}", (neto));
+                            lblIVA.Text = string.Format("$ {0:0.00}", (0));
+                            lblRG30.Text = string.Format("$ {0:0.00}", (0));
+                            lblRG212.Text = string.Format("$ {0:0.00}", (imp212));
 
 
-                        /// Finalmente actualizo el total final dentro del detalle.
-                        lblTotalDetalle.Text = string.Format("$ {0:0.00}", (MontoTotal));
+                            /// Finalmente actualizo el total final dentro del detalle.
+                            lblTotalDetalle.Text = string.Format("$ {0:0.00}", (MontoTotal));
 
-                        ImpuestoCalculado = imp212;
-                        DetalleImpuestosCalculados = lblNeto.Text + "@" + lblIVA.Text + "@" + lblRG30.Text + "@" + lblRG212.Text + "@" + lblTotalDetalle.Text;
+                            ImpuestoCalculado = imp212;
+                            DetalleImpuestosCalculados = lblNeto.Text + "@" + lblIVA.Text + "@" + lblRG30.Text + "@" + lblRG212.Text + "@" + lblTotalDetalle.Text;
 
-                        //}
-                        //else
-                        //{
-                        //    ImpuestoCalculado = 0;
-                        //    DetalleImpuestosCalculados = "";
-                        //    lblImpuestos.Text = string.Format("$ {0:0.00}", 0);
-                        //    lblNeto.Text = string.Format("$ {0:0.00}", 0);
-                        //    lblIVA.Text = string.Format("$ {0:0.00}", (0));
-                        //    lblRG30.Text = string.Format("$ {0:0.00}", 0);
-                        //    lblRG212.Text = string.Format("$ {0:0.00}", 0);
-                        //}
+                        }
+                        else
+                        {
+                            ImpuestoCalculado = 0;
+                            DetalleImpuestosCalculados = "";
+                            lblImpuestos.Text = string.Format("$ {0:0.00}", 0);
+                            lblNeto.Text = string.Format("$ {0:0.00}", 0);
+                            lblIVA.Text = string.Format("$ {0:0.00}", (0));
+                            lblRG30.Text = string.Format("$ {0:0.00}", 0);
+                            lblRG212.Text = string.Format("$ {0:0.00}", 0);
+                        }
                         break;
                     case "1": //Inscripto
                         neto = MontoTotal / Convert.ToDecimal("1,21");
@@ -3311,13 +3609,9 @@ public partial class NotaDePedido : BasePage
 
                         break;
                     default:
+                        lblImpuestos.Text = string.Format("$ {0:0.00}", 0);
                         ImpuestoCalculado = 0;
                         DetalleImpuestosCalculados = "";
-                        lblImpuestos.Text = string.Format("$ {0:0.00}", 0);
-                        lblNeto.Text = string.Format("$ {0:0.00}", 0);
-                        lblIVA.Text = string.Format("$ {0:0.00}", (0));
-                        lblRG30.Text = string.Format("$ {0:0.00}", 0);
-                        lblRG212.Text = string.Format("$ {0:0.00}", 0);
                         break;
                 }
             }
@@ -3332,15 +3626,14 @@ public partial class NotaDePedido : BasePage
 
         if ((Session["detPedido"] as List<DetallePedido>).Count > 0)
         {
+            /// Calculo las promociones para actualizar la promociones
+            CalcularPromociones();
+
             /// El primer llamado es para actualizar el total del 
             /// pedido con la modificación del detalle que se ha realizado
             /// pedido, actualización o eliminación de productos
             CalcularTotalPedido();
-            /// Calculo las promociones para actualizar la promociones
-            CalcularPromociones();
-            /// vuelvo a actualizar el total del pedido
-            /// ya que las promociones afectan el total.
-            CalcularTotalPedido();
+
         }
         else
         {
@@ -3827,7 +4120,8 @@ public partial class NotaDePedido : BasePage
             #region Carga de Variables
             Helpers.HelperPromocion helper = new Helpers.HelperPromocion();
 
-            decimal MontoActual = decimal.Parse(lblMontoProductos.Text.Replace("$", ""));
+            decimal MontoActual = (from P in (Session["detPedido"] as List<DetallePedido>) select P.ValorTotal.Value).Sum(); //decimal.Parse(lblMontoProductos.Text.Replace("$", ""));
+
 
             long[] idProductosSolicitados = (from P in (Session["detPedido"] as List<DetallePedido>)
                                              select P.Producto.Value).ToArray<long>();
@@ -3943,26 +4237,26 @@ public partial class NotaDePedido : BasePage
 
                 #region Generación Promociones con Solicitud Directa
                 Random randomUsoInterno = new Random();
-                List<DetallePedido> promosSolicitadas = (Session["detPedido"] as List<DetallePedido>).Where(w => w.Tipo == "P" || w.Tipo == "D").ToList();
+                List<DetallePedido> promosSolicitadasDirectas = (Session["detPedido"] as List<DetallePedido>).Where(w => w.Tipo == "P" || w.Tipo == "D").ToList();
 
-                foreach (DetallePedido promoDelDetalle in promosSolicitadas)
+                foreach (DetallePedido promoDelDetalleDirectas in promosSolicitadasDirectas)
                 {
                     bool generarPromociones = false;
                     List<DetallePedido> promosGeneradaExistente = new List<DetallePedido>();
-                    if (promoDelDetalle.IdRelacionDetallePromo != 0)
+                    if (promoDelDetalleDirectas.IdRelacionDetallePromo != 0)
                     {
 
-                        promosGeneradaExistente = (Session["PromosGeneradas"] as List<DetallePedido>).Where(w => w.IdRelacionDetallePromo == promoDelDetalle.IdRelacionDetallePromo).ToList();
+                        promosGeneradaExistente = (Session["PromosGeneradas"] as List<DetallePedido>).Where(w => w.IdRelacionDetallePromo == promoDelDetalleDirectas.IdRelacionDetallePromo).ToList();
                         if (promosGeneradaExistente.Count > 0)
                         {
-                            if (promosGeneradaExistente.Count <= promoDelDetalle.Cantidad)
+                            if (promosGeneradaExistente.Count <= promoDelDetalleDirectas.Cantidad)
                             {
                                 generarPromociones = true;
                                 AllPromosGeneradas.AddRange(promosGeneradaExistente);
                             }
                             else
                             {
-                                int CantidadValida = Convert.ToInt32(promoDelDetalle.Cantidad.Value);
+                                int CantidadValida = Convert.ToInt32(promoDelDetalleDirectas.Cantidad.Value);
                                 AllPromosGeneradas.AddRange(promosGeneradaExistente.Take(CantidadValida).ToList());
                             }
                         }
@@ -3981,12 +4275,12 @@ public partial class NotaDePedido : BasePage
                     {
                         /// Le asigno un Id Interno para poder relaciones la promo del detalle 
                         /// con la promo generada.
-                        if (promoDelDetalle.IdRelacionDetallePromo == 0)
+                        if (promoDelDetalleDirectas.IdRelacionDetallePromo == 0)
                         {
-                            if (promoDelDetalle.IdDetallePedido == 0)
-                                promoDelDetalle.IdRelacionDetallePromo = randomUsoInterno.Next(-1000, -1);
+                            if (promoDelDetalleDirectas.IdDetallePedido == 0)
+                                promoDelDetalleDirectas.IdRelacionDetallePromo = randomUsoInterno.Next(-1000, -1);
                             else
-                                promoDelDetalle.IdRelacionDetallePromo = promoDelDetalle.IdDetallePedido;
+                                promoDelDetalleDirectas.IdRelacionDetallePromo = promoDelDetalleDirectas.IdDetallePedido;
                         }
 
 
@@ -3994,7 +4288,7 @@ public partial class NotaDePedido : BasePage
                         descripcionPromo.Add("|");
 
                         Producto promoSolicitada = (from P in Contexto.Presentacions
-                                                    where P.Codigo.Trim() == promoDelDetalle.CodigoCompleto
+                                                    where P.Codigo.Trim() == promoDelDetalleDirectas.CodigoCompleto
                                                     select P.objProducto).First<Producto>();
 
 
@@ -4004,7 +4298,7 @@ public partial class NotaDePedido : BasePage
                                                 group R by R.Grupo into c
                                                 select new { Grupo = c.Key, componentes = c };
 
-                        for (int i = 0; i < promoDelDetalle.Cantidad - promosGeneradaExistente.Count; i++)
+                        for (int i = 0; i < promoDelDetalleDirectas.Cantidad - promosGeneradaExistente.Count; i++)
                         {
 
                             DetallePedido promoGeneradaxSolicitud = new DetallePedido();
@@ -4094,7 +4388,7 @@ public partial class NotaDePedido : BasePage
                                 if (item.componentes.Count() == 1)
                                 {
                                     /// Verifico si en la coleccion de elementos requeridos guardado esta este definicion
-                                    DetalleProductosRequeridos detExistente = promoDelDetalle.colProductosRequeridos.Where(w => w.Tipo == "Fijo"
+                                    DetalleProductosRequeridos detExistente = promoDelDetalleDirectas.colProductosRequeridos.Where(w => w.Tipo == "Fijo"
                                         && w.IdProducto == item.componentes.FirstOrDefault().objProductoHijo.IdProducto
                                         && w.IdPresentacion == item.componentes.FirstOrDefault().objPresentacion.IdPresentacion
                                         && w.Grupo == i).FirstOrDefault();
@@ -4102,21 +4396,21 @@ public partial class NotaDePedido : BasePage
                                     if (detExistente == null || promosGeneradaExistente.Count > 0)
                                     {
                                         DetalleProductosRequeridos det = new DetalleProductosRequeridos();
-                                        det.Cantidad = 1;
+                                        det.Cantidad = int.Parse(item.componentes.FirstOrDefault().Cantidad);
                                         det.Tipo = "Fijo";
                                         det.objDetallePedido = promoGeneradaxSolicitud;
                                         det.IdProducto = item.componentes.FirstOrDefault().objProductoHijo.IdProducto;
                                         det.IdPresentacion = item.componentes.FirstOrDefault().objPresentacion.IdPresentacion;
                                         det.ValorUnitario = item.componentes.FirstOrDefault().objPresentacion.Precio.Value;
                                         det.CodigoCompleto = item.componentes.FirstOrDefault().objPresentacion.Codigo;
-                                        det.DescripcionProducto = "<b><span style='color:Blue' >1</span></b> " + item.componentes.FirstOrDefault().objProductoHijo.Descripcion + " x " + item.componentes.FirstOrDefault().objPresentacion.Descripcion;
+                                        det.DescripcionProducto = "<b><span style='color:Blue' >" + item.componentes.FirstOrDefault().Cantidad + "</span></b> " + item.componentes.FirstOrDefault().objProductoHijo.Descripcion + " x " + item.componentes.FirstOrDefault().objPresentacion.Descripcion;
                                         promoGeneradaxSolicitud.colProductosRequeridos.Add(det);
                                         valorPromocionSegunComponentes += item.componentes.FirstOrDefault().objPresentacion.Precio.Value;
                                     }
                                     else
                                     {
                                         DetalleProductosRequeridos det = new DetalleProductosRequeridos();
-                                        det.Cantidad = 1;
+                                        det.Cantidad = int.Parse(item.componentes.FirstOrDefault().Cantidad);
                                         det.Tipo = "Fijo";
                                         det.objDetallePedido = promoGeneradaxSolicitud;
                                         det.IdProducto = detExistente.IdProducto;
@@ -4139,10 +4433,10 @@ public partial class NotaDePedido : BasePage
 
                             /// Solo si hay promociones generadas y no se esta creando una nueva
                             /// busco los productos requeridos que estan guardados.
-                            if (promoDelDetalle.Cantidad > 0 && promosGeneradaExistente.Count == 0)
+                            if (promoDelDetalleDirectas.Cantidad > 0 && promosGeneradaExistente.Count == 0)
                             {
                                 /// Genero todos los productos requeridos que fueron guardado
-                                List<DetalleProductosRequeridos> detalles = promoDelDetalle.colProductosRequeridos.Where(w => w.Tipo == "Dinamico" && w.Grupo == i).ToList();
+                                List<DetalleProductosRequeridos> detalles = promoDelDetalleDirectas.colProductosRequeridos.Where(w => w.Tipo == "Dinamico" && w.Grupo == i).ToList();
                                 foreach (DetalleProductosRequeridos detalle in detalles)
                                 {
                                     DetalleProductosRequeridos det = new DetalleProductosRequeridos();
@@ -4169,7 +4463,7 @@ public partial class NotaDePedido : BasePage
 
 
                             promoGeneradaxSolicitud.IdDetallePedido = randomUsoInterno.Next(-1000, -1);
-                            promoGeneradaxSolicitud.IdRelacionDetallePromo = promoDelDetalle.IdRelacionDetallePromo;
+                            promoGeneradaxSolicitud.IdRelacionDetallePromo = promoDelDetalleDirectas.IdRelacionDetallePromo;
                             promoGeneradaxSolicitud.Cantidad = 1;
                             promoGeneradaxSolicitud.Producto = promoSolicitada.IdProducto;
                             promoGeneradaxSolicitud.Presentacion = promoSolicitada.ColPresentaciones[0].IdPresentacion;
@@ -4183,8 +4477,8 @@ public partial class NotaDePedido : BasePage
                             promoGeneradaxSolicitud.ValorUnitario = promoSolicitada.Precio;
                             promoGeneradaxSolicitud.ValorTotal = promoSolicitada.Precio;
 
-                            promoDelDetalle.ValorUnitario = valorPromocionSegunComponentes;
-                            promoDelDetalle.ValorTotal = promoDelDetalle.ValorUnitario * promoDelDetalle.Cantidad;
+                            promoDelDetalleDirectas.ValorUnitario = valorPromocionSegunComponentes;
+                            promoDelDetalleDirectas.ValorTotal = promoDelDetalleDirectas.ValorUnitario * promoDelDetalleDirectas.Cantidad;
 
                             AllPromosGeneradas.Add(promoGeneradaxSolicitud);
                         }
@@ -4703,29 +4997,30 @@ public partial class NotaDePedido : BasePage
                 /// que se guardo anteriormente.
                 if (Session["PromosGuardadas"] != null)
                 {
-                    foreach (DetallePedido item in (Session["PromosGuardadas"] as List<DetallePedido>))
+                    foreach (DetallePedido promoGuardada in (Session["PromosGuardadas"] as List<DetallePedido>))
                     {
-                        var promoGenerada = (from p in AllPromosGeneradas
-                                             where p.Producto == item.objProducto.IdProducto
-                                             && p.IdDetalleLineaGuardado == 0
-                                             select p).FirstOrDefault();
+                        var promoReGenerada = (from p in AllPromosGeneradas
+                                               where p.Producto == promoGuardada.objProducto.IdProducto
+                                               && p.IdDetalleLineaGuardado == 0
+                                               select p).FirstOrDefault();
 
-                        if (promoGenerada != null)
+                        if (promoReGenerada != null)
                         {
-                            promoGenerada.IdDetalleLineaGuardado = item.IdDetallePedido;
-                            promoGenerada.ValorTotal = Math.Abs(item.ValorTotal.Value);
+                            promoReGenerada.IdDetalleLineaGuardado = promoGuardada.IdDetallePedido;
+                            promoReGenerada.ValorTotal = Math.Abs(promoGuardada.ValorTotal.Value);
 
                             int indexRegalo = 0;
-                            foreach (DetallePedido detProdSel in item.ColProductosSeleccionados)
+                            //foreach (DetallePedido detProdSel in promoGuardada.ColProductosSeleccionados)
+                            foreach (DetallePedido detProdSel in (Session["productosRegalosSeleccionados"] as List<DetallePedido>).Where(w => w.PromocionOrigen == promoGuardada.IdDetallePedido).ToList())
                             {
-                                promoGenerada.ColRegalos[indexRegalo].TipoRegalo = "Producto";
-                                promoGenerada.ColRegalos[indexRegalo].IdPresentacionPreSeleccionado = detProdSel.objPresentacion.IdPresentacion;
-                                promoGenerada.IdRegaloSeleccionado = detProdSel.objPresentacion.IdPresentacion;
+                                promoReGenerada.ColRegalos[indexRegalo].TipoRegalo = "Producto";
+                                promoReGenerada.ColRegalos[indexRegalo].IdPresentacionPreSeleccionado = detProdSel.objPresentacion.IdPresentacion;
+                                promoReGenerada.IdRegaloSeleccionado = detProdSel.objPresentacion.IdPresentacion;
 
                                 if (!detProdSel.objProducto.Descripcion.Contains("x Unidad"))
-                                    promoGenerada.ColRegalos[indexRegalo].DescripcionPreSeleccionado = detProdSel.objProducto.objPadre.Descripcion + " " + detProdSel.objProducto.Descripcion + " x " + detProdSel.objPresentacion.Descripcion;
+                                    promoReGenerada.ColRegalos[indexRegalo].DescripcionPreSeleccionado = detProdSel.objProducto.objPadre.Descripcion + " " + detProdSel.objProducto.Descripcion + " x " + detProdSel.objPresentacion.Descripcion;
                                 else
-                                    promoGenerada.ColRegalos[indexRegalo].DescripcionPreSeleccionado = detProdSel.objProducto.Descripcion;
+                                    promoReGenerada.ColRegalos[indexRegalo].DescripcionPreSeleccionado = detProdSel.objProducto.Descripcion;
 
                                 indexRegalo++;
                             }
