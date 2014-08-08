@@ -179,12 +179,10 @@ public partial class GestionSolicitudAltaConsultor : BasePage
 
                     using (Marzzan_BejermanDataContext dcB = new Marzzan_BejermanDataContext())
                     {
-                        /// LAS LINEAS COMENTADAS CON TEMP ES A PEDIDO DE MIGUEL Y CONSISTE HACER QUE NO SE DE
-                        /// DE ALTA AL USUAIO EN BEJERMNA. (07/08/2014)
-                        /// genero el nuevo cliente en bejerman y verifico si el mismo existe o no 
+                        /// Genero el nuevo cliente en bejerman y verifico si el mismo existe o no 
                         /// en la base de datos.
-                        //TEMP: Clientes cliBejerman = GenerarClienteBejerman(dcB);
-                        _clienteExistente = false;
+                        Clientes cliBejerman = GenerarClienteBejerman(dcB);
+                        
 
                         /// Si el cliente es existente solo se da de alta la solicitud en la web
                         /// pero no en bejerman.
@@ -214,18 +212,17 @@ public partial class GestionSolicitudAltaConsultor : BasePage
                         }
                         else
                         {
-                            //TEMP: newSolicitud.CodigoBejerman = cliBejerman.cli_Cod;
-                            newSolicitud.CodigoBejerman = "000000";
+                            newSolicitud.CodigoBejerman = cliBejerman.cli_Cod;
                             ScriptManager.RegisterStartupScript(Page, typeof(Page), "EnvioCorrecto", "ConfirmacionEnvio();", true);
 
                             /// 1. Evio el mail a la consola del usuario LOGEADO para informar la confirmación del alta.
                             EnviarMailSolicitud(dc, long.Parse(Session["IdUsuario"].ToString()), cboGrupos.SelectedValue, "Solicitud Alta - Solicitud Exitosa: " + txtApellido.Text.ToUpper() + " " + txtNombres.Text.ToUpper(), "La solicitud se completo en forma exitosa, a la brevedad el revendedor estará disponible para ser utilizado.");
 
-                            ///TEMP:  2. Evio de mail a la consola del usuario de LOGISTICA para informar el alta SIN TRASNPORTE.
-                            //if (cliBejerman.clitrn_Cod == null && _idLogistica != null)
-                            //{
-                            //    EnviarMailSolicitud(dc, _idLogistica, "", "Alta Sin Transporte", "El Líder " + lblCoordinadora.Text + " ha realizado un alta satisfactoria para: <b>" + cliBejerman.cli_Cod + " - " + txtApellido.Text.ToUpper() + " " + txtNombres.Text.ToUpper() + "</b>, pero la misma no posee un TRANSPORTE para la localidad seleccionada: '<b>" + txtNuevo_Depart_loc.Text + "'</b>, se solicita que verifique los datos de LOCALIDAD de la misma.");
-                            //}
+                            //2. Evio de mail a la consola del usuario de LOGISTICA para informar el alta SIN TRASNPORTE.
+                            if (cliBejerman.clitrn_Cod == null && _idLogistica != null)
+                            {
+                                EnviarMailSolicitud(dc, _idLogistica, "", "Alta Sin Transporte", "El Líder " + lblCoordinadora.Text + " ha realizado un alta satisfactoria para: <b>" + cliBejerman.cli_Cod + " - " + txtApellido.Text.ToUpper() + " " + txtNombres.Text.ToUpper() + "</b>, pero la misma no posee un TRANSPORTE para la localidad seleccionada: '<b>" + txtNuevo_Depart_loc.Text + "'</b>, se solicita que verifique los datos de LOCALIDAD de la misma.");
+                            }
 
                             /// 3. Evio de mail a la consola del ASISTENTE para informar el alta correcta.
                             if (_idAsistenteResponsable != null)
@@ -363,33 +360,45 @@ public partial class GestionSolicitudAltaConsultor : BasePage
 
 
 
-
-            TipoIVA tipoIva = (TipoIVA)Enum.Parse(typeof(TipoIVA), cboCondicionIVA.SelectedValue);
-            newClienteB.clisiv_Cod = Convert.ToChar(((int)tipoIva).ToString());
-            newClienteBCRM.clrsiv_Cod = Convert.ToChar(((int)tipoIva).ToString());
-
-            switch (tipoIva)
+            if (cboCondicionIVA.SelectedValue == "ConsumidorFinal")
             {
-                case TipoIVA.Inscripto:
-                    newClienteB.clisig_Cod = Convert.ToChar(((int)TipoGanacia.Inscripto).ToString());
-                    newClienteBCRM.clrsig_Cod = Convert.ToChar(((int)TipoGanacia.Inscripto).ToString());
-                    break;
-                case TipoIVA.Monotributista:
-                    newClienteB.clisig_Cod = Convert.ToChar(((int)TipoGanacia.NoAlcanzado).ToString());
-                    newClienteBCRM.clrsig_Cod = Convert.ToChar(((int)TipoGanacia.NoAlcanzado).ToString());
-                    break;
-                case TipoIVA.NoCategorizado:
-                    newClienteB.clisig_Cod = Convert.ToChar(((int)TipoGanacia.NoInscripto).ToString());
-                    newClienteBCRM.clrsig_Cod = Convert.ToChar(((int)TipoGanacia.NoInscripto).ToString());
-                    break;
-                default:
-                    break;
+                newClienteB.clisiv_Cod = Convert.ToChar("3");
+                newClienteBCRM.clrsiv_Cod = Convert.ToChar("3");
+
+                newClienteB.clisig_Cod = Convert.ToChar(((int)TipoGanacia.NoAlcanzado).ToString());
+                newClienteBCRM.clrsig_Cod = Convert.ToChar(((int)TipoGanacia.NoAlcanzado).ToString());
             }
+            else
+            {
+                TipoIVA tipoIva = (TipoIVA)Enum.Parse(typeof(TipoIVA), cboCondicionIVA.SelectedValue);
+                newClienteB.clisiv_Cod = Convert.ToChar(((int)tipoIva).ToString());
+                newClienteBCRM.clrsiv_Cod = Convert.ToChar(((int)tipoIva).ToString());
+
+                switch (tipoIva)
+                {
+                    case TipoIVA.Inscripto:
+                        newClienteB.clisig_Cod = Convert.ToChar(((int)TipoGanacia.Inscripto).ToString());
+                        newClienteBCRM.clrsig_Cod = Convert.ToChar(((int)TipoGanacia.Inscripto).ToString());
+                        break;
+                    case TipoIVA.Monotributista:
+                        newClienteB.clisig_Cod = Convert.ToChar(((int)TipoGanacia.NoAlcanzado).ToString());
+                        newClienteBCRM.clrsig_Cod = Convert.ToChar(((int)TipoGanacia.NoAlcanzado).ToString());
+                        break;
+                    case TipoIVA.NoCategorizado:
+                        newClienteB.clisig_Cod = Convert.ToChar(((int)TipoGanacia.NoInscripto).ToString());
+                        newClienteBCRM.clrsig_Cod = Convert.ToChar(((int)TipoGanacia.NoInscripto).ToString());
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+           
 
             newClienteB.cli_CUIT = txtCuit.Text.Replace("-", "");
             newClienteB.clisib_Cod = char.Parse(cboIB.SelectedValue);
             newClienteB.cli_NroIB = txtNroIb.Text.Trim();
-            newClienteB.cli_Habilitado = true;
+            newClienteB.cli_Habilitado = false;
             newClienteB.clidlp_Cod = null;
             newClienteB.clidco_Cod = cboProvincias.Text.ToLower().Contains("tierra del fuego") ? "03" : null;
             newClienteB.clizon_Cod = null;
@@ -400,7 +409,7 @@ public partial class GestionSolicitudAltaConsultor : BasePage
             newClienteBCRM.clr_CUIT = txtCuit.Text.Replace("-", "");
             newClienteBCRM.clrsib_Cod = char.Parse(cboIB.SelectedValue);
             newClienteBCRM.clr_NroIB = txtNroIb.Text.Trim();
-            newClienteBCRM.clr_Habilitado = true;
+            newClienteBCRM.clr_Habilitado = false;
             newClienteBCRM.clrdlp_Cod = null;
             newClienteBCRM.clrdco_Cod = cboProvincias.Text.ToLower().Contains("tierra del fuego") ? "03" : null;
             newClienteBCRM.clrzon_Cod = null;
