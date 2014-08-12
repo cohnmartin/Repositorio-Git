@@ -2314,22 +2314,22 @@ public partial class GestionImpresionComprobantes : BasePage
             if (detalle.objProducto.Tipo == 'P' || detalle.objProducto.Tipo == 'R' || detalle.objProducto.Tipo == 'G'
                          || detalle.objProducto.Tipo == 'D' || detalle.objProducto.Tipo == 'I' || detalle.objProducto.Tipo == 'N')
             {
-                return detalle.objProducto.Descripcion;
+                return detalle.objPresentacion.objProducto.Descripcion;
             }
             else
             {
-                if (detalle.objProducto.DescripcionCompleta.ToLower().Contains("incorporac"))
+                if (detalle.objPresentacion.objProducto.DescripcionCompleta.ToLower().Contains("incorporac"))
                 {
-                    return detalle.objProducto.Descripcion + " x " + detalle.objPresentacion.Descripcion;
+                    return detalle.objPresentacion.objProducto.Descripcion + " x " + detalle.objPresentacion.Descripcion;
                 }
                 else
                 {
-                    if (detalle.objProducto.objPadre.objPadre.Codigo == "02")
+                    if (detalle.objPresentacion.objProducto.objPadre.objPadre.Codigo == "02")
                     {
-                        return detalle.objProducto.objPadre.Descripcion + " " + detalle.objProducto.DescripcionCompleta + detalle.objPresentacion.Descripcion;
+                        return detalle.objPresentacion.objProducto.objPadre.Descripcion + " " + detalle.objPresentacion.objProducto.DescripcionCompleta + detalle.objPresentacion.Descripcion;
                     }
                     else
-                        return detalle.objProducto.DescripcionCompleta + detalle.objPresentacion.Descripcion;
+                        return detalle.objPresentacion.objProducto.DescripcionCompleta + detalle.objPresentacion.Descripcion;
                 }
             }
 
