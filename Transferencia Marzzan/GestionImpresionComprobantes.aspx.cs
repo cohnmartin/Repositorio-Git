@@ -2014,26 +2014,27 @@ public partial class GestionImpresionComprobantes : BasePage
         {
             if (codigo == null) { codigo = ""; }
 
-            iTextSharp.text.pdf.PdfPTable ptable = new iTextSharp.text.pdf.PdfPTable(2);
+            iTextSharp.text.pdf.PdfPTable ptable = new iTextSharp.text.pdf.PdfPTable(1);
             ptable.DefaultCell.BorderColor = BaseColor.WHITE;
             ptable.DefaultCell.BorderWidth = 1;
             ptable.DefaultCell.PaddingLeft = 0;
             ptable.DefaultCell.PaddingTop = 0;
             ptable.DefaultCell.PaddingBottom = 0;
-            ptable.SetWidths(new float[] { 82, 18 });
+            ptable.SetWidths(new float[] { 95});
             ptable.HorizontalAlignment = Rectangle.ALIGN_LEFT;
 
             ptable.AddCell(new iTextSharp.text.Phrase(descripcion, font10B));
 
-
-            Barcode128 code128 = new Barcode128();
-            code128.Code = codigo;
-            code128.StartStopText = false;
-            code128.BarHeight = 10;
-            code128.X = 0.5f;
-            ptable.AddCell(new iTextSharp.text.Phrase(new iTextSharp.text.Chunk(code128.CreateImageWithBarcode(cb, null, null), 0, 0)));
-            ptable.Rows[0].GetCells()[1].HorizontalAlignment = Element.ALIGN_CENTER;
-            ptable.Rows[0].GetCells()[1].VerticalAlignment = Element.ALIGN_MIDDLE;
+            ///Solicitado por Miguel (13/08/2014)
+            
+            //Barcode128 code128 = new Barcode128();
+            //code128.Code = codigo;
+            //code128.StartStopText = false;
+            //code128.BarHeight = 10;
+            //code128.X = 0.5f;
+            //ptable.AddCell(new iTextSharp.text.Phrase(new iTextSharp.text.Chunk(code128.CreateImageWithBarcode(cb, null, null), 0, 0)));
+            //ptable.Rows[0].GetCells()[1].HorizontalAlignment = Element.ALIGN_CENTER;
+            //ptable.Rows[0].GetCells()[1].VerticalAlignment = Element.ALIGN_MIDDLE;
 
             return ptable;
 
