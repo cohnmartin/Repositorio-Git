@@ -97,7 +97,7 @@
 02 - Tal Cual\tab 62 - Masculino\tab 094 - 27M_Label\tab 01 - 5 ml\tab Plum\'edn-27M_Label-5 ml- \tab 2020000007   -094-01 \tab 8,5\tab 0\par
 02 - Tal Cual\tab 61 - Femenino\tab 023 - 09F_One\tab 01 - 5 ml\tab Plum\'edn-09F_One-5 ml- \tab 2020000007   -023-01 \tab 9,5\tab 1\par
 04 - Deditos\tab 31 - Deditos\tab 024 - Plum\'edn Deditos\tab 01 - 5 ml\tab Plum\'edn-Deditos-5 ml- \tab 2020000007   -024-01 \tab 9,5\tab 1\par
-04 - Deditos\tab 30 - Caricias\tab 029 - Plum\'edn Garabatos\tab 01 - 5 ml\tab Plum\'edn-Garabatos-5 ml- \tab 2020000007   -029-01 \tab 9,5\tab 1\par
+04 - Deditos\tab 32 - Garabatos\tab 029 - Plum\'edn Garabatos\tab 01 - 5 ml\tab Plum\'edn-Garabatos-5 ml- \tab 2020000007   -029-01 \tab 9,5\tab 1\par
 04 - Deditos\tab 30 - Caricias\tab 022 - Plum\'edn Caricias\tab 01 - 5 ml\tab Plum\'edn-Caricias-5 ml- \tab 2020000007   -022-01 \tab 9,5\tab 1\par
 05 - Inquietos\tab 41 - Nenes\tab 098 - Plum\'edn Nenes Inquietos\tab 01 - 5 ml\tab Plum\'edn-Nenes Inquietos-5 ml- \tab 2020000007   -098-01 \tab 9,5\tab 1\par
 02 - Tal Cual\tab 61 - Femenino\tab 067 - 37F_Sexy\tab 01 - 5 ml\tab Plum\'edn-37F_Sexy-5 ml- \tab 2020000007   -067-01 \tab 9,5\tab 1\par
@@ -142,9 +142,9 @@
 50 - Herramientas de Venta\tab 69 - Accesorios y Merchandisin\tab 000 - Sticker Precios x 50 Unidades\tab 00 - Unidad\tab Sticker Precios x 50 Unidades- - - \tab 2500000039039   \tab 1\tab 0\par
 50 - Herramientas de Venta\tab 66 - Folleter\'eda y Papeler\'eda\tab 000 - Art\'edculo Folleto Instructivo Cosm\'e9tica B\'e1sica\tab 00 - Unidad\tab Art\'edculo Folleto Instructivo Cosm\'e9tica B\'e1sica- - - \tab 2500000030040   \tab 0\tab 0\par
 08 - Sandra Marzzan Exclusiva\tab 62 - Masculino\tab 122 - Momentos\tab 01 - 5 ml\tab Plum\'edn-Momentos-5 ml- \tab 2080000007   -122-01 \tab 9,5\tab 1\par
-08 - Sandra Marzzan Exclusiva\tab 62 - Masculino\tab 123 - Lazos de Seda\tab 01 - 5 ml\tab Plum\'edn-Lazos de Seda-5 ml- \tab 2080000007   -123-01 \tab 9,5\tab 1\par
-08 - Sandra Marzzan Exclusiva\tab 62 - Masculino\tab 124 - Sensible\tab 01 - 5 ml\tab Plum\'edn-Sensible-5 ml- \tab 2080000007   -124-01 \tab 9,5\tab 1\par
-08 - Sandra Marzzan Exclusiva\tab 62 - Masculino\tab 125 - Deseo Secreto\tab 01 - 5 ml\tab Plum\'edn-Deseo Secreto-5 ml- \tab 2080000007   -125-01 \tab 9,5\tab 1\par
+08 - Sandra Marzzan Exclusiva\tab 61 - Femenino\tab 123 - Lazos de Seda\tab 01 - 5 ml\tab Plum\'edn-Lazos de Seda-5 ml- \tab 2080000007   -123-01 \tab 9,5\tab 1\par
+08 - Sandra Marzzan Exclusiva\tab 61 - Femenino\tab 124 - Sensible\tab 01 - 5 ml\tab Plum\'edn-Sensible-5 ml- \tab 2080000007   -124-01 \tab 9,5\tab 1\par
+08 - Sandra Marzzan Exclusiva\tab 61 - Femenino\tab 125 - Deseo Secreto\tab 01 - 5 ml\tab Plum\'edn-Deseo Secreto-5 ml- \tab 2080000007   -125-01 \tab 9,5\tab 1\par
 04 - Deditos\tab 33 - Lefrance\tab 026 - Jab\'f3n Huella Lefrance\tab 20 - 90 ml\tab Jab\'f3n Huella-Lefrance-90 ml- \tab 1043300008002-026-20 \tab 42\tab 1\par
 50 - Herramientas de Venta\tab 68 - Muestras\tab 000 - Pouchs x 7 u\tab 00 - Unidad\tab Pouchs x 7 u- - - \tab 2501800016085   \tab 5\tab 0\par
 50 - Herramientas de Venta\tab 68 - Muestras\tab 000 - Pouchs x 21 u\tab 00 - Unidad\tab Pouchs x 21 u- - - \tab 2501800016086   \tab 11\tab 0\par
@@ -347,7 +347,7 @@
 50 - Herramientas de Venta\tab 69 - Accesorios y Merchandisin\tab 000 - Porta Cosmeticos Alta Cosmetica\tab 00 - Unidad\tab Porta Cosmeticos Alta Cosmetica- - - \tab 2500000031072   \tab 20\tab 0\par
 50 - Herramientas de Venta\tab 68 - Muestras\tab 000 - Pouchs x 5 u\tab 00 - Unidad\tab Pouchs x 5 u- - - \tab 2500000016075   \tab 0\tab 0\par
 06 - Nuevo Latido\tab 61 - Femenino\tab 120 - Verdad\tab 01 - 5 ml\tab Plum\'edn-Verdad-5 ml- \tab 2060000007   -120-01 \tab 9,5\tab 1\par
-06 - Nuevo Latido\tab 61 - Femenino\tab 121 - Consecuencia\tab 01 - 5 ml\tab Plum\'edn-Consecuencia-5 ml- \tab 2060000007   -121-01 \tab 9,5\tab 1\par
+06 - Nuevo Latido\tab 62 - Masculino\tab 121 - Consecuencia\tab 01 - 5 ml\tab Plum\'edn-Consecuencia-5 ml- \tab 2060000007   -121-01 \tab 9,5\tab 1\par
 02 - Tal Cual\tab 61 - Femenino\tab 068 - 40F_Nina\tab 10 - 50 ml\tab Eau de Parfum-40F_Nina-50 ml- \tab 1020000002   -068-10 \tab 110\tab 1\par
 02 - Tal Cual\tab 61 - Femenino\tab 068 - 40F_Nina\tab 01 - 5 ml\tab Plum\'edn-40F_Nina-5 ml- \tab 2020000007   -068-01 \tab 9,5\tab 1\par
 50 - Herramientas de Venta\tab 66 - Folleter\'eda y Papeler\'eda\tab 000 - Tarjeta de Felicidades x 5 u\tab 00 - Unidad\tab Tarjeta de Felicidades x 5 u- - - \tab 2500000030082   \tab 4\tab 0\par
@@ -579,6 +579,7 @@
 50 - Herramientas de Venta\tab 66 - Folleter\'eda y Papeler\'eda\tab 000 - Art\'edculo Folleto Portaplum\'edn\tab 00 - Unidad\tab Art\'edculo Folleto Portaplum\'edn- - - \tab 2506600030033   \tab 0\tab 0\par
 01 - La Casa del Aroma\tab 07 - Difusor\tab 308 - Jardines de Pra\tab 01 - 5 ml\tab Plum\'edn-Jardines de Pra-5 ml- \tab 2010700007001-308-01 \tab 9,5\tab 1\par
 50 - Herramientas de Venta\tab 00 - Ninguna\tab 000 - Gatillo Aromatizador 500 ml\tab 00 - Unidad\tab Gatillo Aromatizador 500 ml- - - \tab 2500000032001   \tab 0,01\tab 1\par
+04 - Deditos\tab 16 - Ambientador\tab 000 - SM Ambientador Autom\'e1tico Anal\'f3gico\tab 00 - Unidad\tab SM Ambientador Autom\'e1tico Anal\'f3gico----- \tab 1041600116002-000-00 \tab 239\tab 1\par
 01 - La Casa del Aroma\tab 03 - Selectivo\tab 181 - Banana Republic\tab 50 - 500 ml\tab Aromatizador-Banana Republic-500 ml- \tab 1010300001   -181-50 \tab 93\tab 1\par
 01 - La Casa del Aroma\tab 01 - Fresh\tab 131 - Burbujas de Jab\tab 50 - 500 ml\tab Aromatizador-Burbujas de Jab-500 ml- \tab 1010100001   -131-50 \tab 79\tab 1\par
 01 - La Casa del Aroma\tab 01 - Fresh\tab 131 - Burbujas de Jab\tab 30 - 120 ml\tab Aromatizador-Burbujas de Jab-120 ml- \tab 1010100001   -131-30 \tab 45\tab 1\par
@@ -756,7 +757,7 @@
 50 - Herramientas de Venta\tab 66 - Folleter\'eda y Papeler\'eda\tab 000 - Cat\'e1logo SM x 3 u\tab 00 - Unidad\tab Cat\'e1logo SM x 3 u- - - \tab 2506600030037   \tab 16\tab 0\par
 50 - Herramientas de Venta\tab 66 - Folleter\'eda y Papeler\'eda\tab 000 - Cat\'e1logo SM x 5 u\tab 00 - Unidad\tab Cat\'e1logo SM x 5 u- - - \tab 2506600030038   \tab 22\tab 0\par
 04 - Deditos\tab 34 - Tartinet\tab 028 - Plum\'edn Tartinet\tab 01 - 5 ml\tab Plum\'edn-Tartinet-5 ml- \tab 2043400007   -028-01 \tab 9,5\tab 1\par
-08 - Sandra Marzzan Exclusiva\tab 62 - Masculino\tab 127 - Unica\tab 01 - 5 ml\tab Plum\'edn-Unica-5 ml- \tab 2080000007   -127-01 \tab 9,5\tab 1\par
+08 - Sandra Marzzan Exclusiva\tab 61 - Femenino\tab 127 - Unica\tab 01 - 5 ml\tab Plum\'edn-Unica-5 ml- \tab 2080000007   -127-01 \tab 9,5\tab 1\par
 50 - Herramientas de Venta\tab 68 - Muestras\tab 000 - Pouchs x 7 u Nivel 4\tab 00 - Unidad\tab Pouchs x 7 u Nivel 4- - - \tab 2506800016001   \tab 3,8\tab 0\par
 05 - Inquietos\tab 42 - Unisex\tab 096 - Gel de Ba\'f1o Cositas Inquiet\tab 40 - 200 ml\tab Gel de Ba\'f1o-Cositas Inquiet-200 ml- \tab 1054200014   -096-40 \tab 68\tab 1\par
 51 - Incorporaciones\tab 67 - Incorporaciones\tab 000 - Incorporaci\'f3n N\'ba 6 Productos\tab 00 - Unidad\tab Incorporaci\'f3n N\'ba 6 Productos- - - \tab 2516700019001   \tab 236,5\tab 0\par
@@ -1016,8 +1017,12 @@
 13 - Tendencia\tab 87 - Carteras\tab 000 - Cartera Verde Jade\tab 00 - Unidad\tab Cartera Verde Jade----- \tab 1138700180177-000-00 \tab 820\tab 0\par
 13 - Tendencia\tab 87 - Carteras\tab 000 - Cartera Canela\tab 00 - Unidad\tab Cartera Canela----- \tab 1138700180178-000-00 \tab 820\tab 0\par
 50 - Herramientas de Venta\tab 69 - Accesorios y Merchandisin\tab 000 - Caja de Kit Sandra Marzzan\tab 00 - Unidad\tab Caja de Kit Sandra Marzzan- - - \tab 1506900075014   \tab 15,8\tab 1\par
+50 - Herramientas de Venta\tab 66 - Folleter\'eda y Papeler\'eda\tab 000 - Cat\'e1logo SM x 5 u 2014 05       \tab 00 - Unidad\tab Cat\'e1logo SM x 5 u 2014 05       - - - \tab 2506600030043   \tab 45\tab 1\par
+50 - Herramientas de Venta\tab 66 - Folleter\'eda y Papeler\'eda\tab 000 - Cat\'e1logo SM x 3 u 2014 05       \tab 00 - Unidad\tab Cat\'e1logo SM x 3 u 2014 05       - - - \tab 2506600030044   \tab 30,5\tab 1\par
+50 - Herramientas de Venta\tab 66 - Folleter\'eda y Papeler\'eda\tab 000 - Cat\'e1logo SM 2014 05       \tab 00 - Unidad\tab Cat\'e1logo SM 2014 05       - - - \tab 2506600030045   \tab 11\tab 1\par
+50 - Herramientas de Venta\tab 66 - Folleter\'eda y Papeler\'eda\tab 000 - Revista Revendedor/a 2014 05\tab 00 - Unidad\tab Revista Revendedor/a 2014 05- - - \tab 2506600030046   \tab 6,5\tab 1\par
 08 - Sandra Marzzan Exclusiva\tab 61 - Femenino\tab 132 - Martinica\tab 23 - 100 ml\tab Eau de Parfum-Martinica-100 ml- \tab 1080000002   -132-23 \tab 193\tab 1\par
-08 - Sandra Marzzan Exclusiva\tab 62 - Masculino\tab 132 - Martinica\tab 01 - 5 ml\tab Plum\'edn-Martinica-5 ml- \tab 2080000007   -132-01 \tab 9,5\tab 1\par
+08 - Sandra Marzzan Exclusiva\tab 61 - Femenino\tab 132 - Martinica\tab 01 - 5 ml\tab Plum\'edn-Martinica-5 ml- \tab 2080000007   -132-01 \tab 9,5\tab 1\par
 12 - Imagen\tab 83 - Rostro\tab 000 - Brillo Labial Tentaci\'f3n\tab 00 - Unidad\tab Brillo Labial Tentaci\'f3n----- \tab 1128300152004-000-00 \tab 57\tab 1\par
 01 - La Casa del Aroma\tab 01 - Fresh\tab 001 - Acqua\tab 01 - 5 ml\tab Plum\'edn-Acqua-5 ml- \tab 2010100007   -001-01 \tab 9,5\tab 1\par
 01 - La Casa del Aroma\tab 05 - Aromas Regionales\tab 110 - Aguas Grandes\tab 01 - 5 ml\tab Plum\'edn-Aguas Grandes-5 ml- \tab 2010500007   -110-01 \tab 9,5\tab 1\par
@@ -1067,6 +1072,7 @@
 01 - La Casa del Aroma\tab 07 - Difusor\tab 197 - Repuesto F Citr\tab 20 - 90 ml\tab Difusor Arom\'e1tico-Repuesto F Citr-90 ml- \tab 1010700110   -197-20 \tab 84\tab 1\par
 50 - Herramientas de Venta\tab 66 - Folleter\'eda y Papeler\'eda\tab 000 - Cat\'e1logo SM\tab 00 - Unidad\tab Cat\'e1logo SM- - - \tab 2506600030061   \tab 6\tab 0\par
 50 - Herramientas de Venta\tab 66 - Folleter\'eda y Papeler\'eda\tab 000 - Revista Revendedor/a SM\tab 00 - Unidad\tab Revista Revendedor/a SM- - - \tab 2506600030062   \tab 2,5\tab 0\par
+13 - Tendencia\tab 87 - Carteras\tab 000 - Bolso Playero Jazm\'edn\tab 00 - Unidad\tab Bolso Playero Jazm\'edn----- \tab 1138700180018-000-00 \tab 1000\tab 1\par
 12 - Imagen\tab 83 - Rostro\tab 000 - L\'e1piz Labial Glitter Rojo Glam\tab 00 - Unidad\tab L\'e1piz Labial Glitter Rojo Glam----- \tab 1128301150001-000-00 \tab 60\tab 1\par
 12 - Imagen\tab 83 - Rostro\tab 000 - L\'e1piz Labial Glitter Rosa Star\tab 00 - Unidad\tab L\'e1piz Labial Glitter Rosa Star----- \tab 1128301150002-000-00 \tab 60\tab 1\par
 12 - Imagen\tab 83 - Rostro\tab 000 - L\'e1piz Labial Perlado Cereza\tab 00 - Unidad\tab L\'e1piz Labial Perlado Cereza----- \tab 1128301150020-000-00 \tab 58\tab 1\par
@@ -1077,6 +1083,20 @@
 12 - Imagen\tab 83 - Rostro\tab 000 - L\'e1piz Labial Cremoso P\'farpura\tab 00 - Unidad\tab L\'e1piz Labial Cremoso P\'farpura----- \tab 1128301150041-000-00 \tab 58\tab 1\par
 12 - Imagen\tab 83 - Rostro\tab 000 - L\'e1piz Labial Cremoso Rojo Pasi\'f3n\tab 00 - Unidad\tab L\'e1piz Labial Cremoso Rojo Pasi\'f3n----- \tab 1128301150042-000-00 \tab 58\tab 1\par
 12 - Imagen\tab 83 - Rostro\tab 000 - L\'e1piz Labial Cremoso Rojo Rub\'ed\tab 00 - Unidad\tab L\'e1piz Labial Cremoso Rojo Rub\'ed----- \tab 1128301150043-000-00 \tab 58\tab 1\par
+13 - Tendencia\tab 87 - Carteras\tab 000 - Cartera Amanda\tab 00 - Unidad\tab Cartera Amanda----- \tab 1138700180011-000-00 \tab 1000\tab 1\par
+13 - Tendencia\tab 87 - Carteras\tab 000 - Cartera Charlotte\tab 00 - Unidad\tab Cartera Charlotte----- \tab 1138700180012-000-00 \tab 1000\tab 1\par
+13 - Tendencia\tab 87 - Carteras\tab 000 - Cartera Chloe\tab 00 - Unidad\tab Cartera Chloe----- \tab 1138700180013-000-00 \tab 1000\tab 1\par
+13 - Tendencia\tab 87 - Carteras\tab 000 - Cartera Greta\tab 00 - Unidad\tab Cartera Greta----- \tab 1138700180014-000-00 \tab 1000\tab 1\par
+13 - Tendencia\tab 87 - Carteras\tab 000 - Cartera Isabella\tab 00 - Unidad\tab Cartera Isabella----- \tab 1138700180015-000-00 \tab 1000\tab 1\par
+13 - Tendencia\tab 87 - Carteras\tab 000 - Cartera Juana\tab 00 - Unidad\tab Cartera Juana----- \tab 1138700180016-000-00 \tab 1000\tab 1\par
+13 - Tendencia\tab 87 - Carteras\tab 000 - Cartera Simona\tab 00 - Unidad\tab Cartera Simona----- \tab 1138700180017-000-00 \tab 1000\tab 1\par
+12 - Imagen\tab 82 - Manos\tab 000 - Esmalte Cremoso Zafiro\tab 03 - 10 ml\tab Esmalte Cremoso Zafiro---10 ml- \tab 1128201140005-000-03 \tab 49\tab 1\par
+12 - Imagen\tab 82 - Manos\tab 000 - Esmalte Cremoso Chicle\tab 03 - 10 ml\tab Esmalte Cremoso Chicle---10 ml- \tab 1128201140006-000-03 \tab 49\tab 1\par
+12 - Imagen\tab 82 - Manos\tab 000 - Esmalte Cremoso Jade\tab 03 - 10 ml\tab Esmalte Cremoso Jade---10 ml- \tab 1128201140007-000-03 \tab 49\tab 1\par
+12 - Imagen\tab 82 - Manos\tab 000 - Esmalte Cremoso Capri\tab 03 - 10 ml\tab Esmalte Cremoso Capri---10 ml- \tab 1128201140008-000-03 \tab 49\tab 1\par
+12 - Imagen\tab 82 - Manos\tab 000 - Esmalte Cremoso Tutti Frutti\tab 03 - 10 ml\tab Esmalte Cremoso Tutti Frutti---10 ml- \tab 1128201140009-000-03 \tab 49\tab 1\par
+12 - Imagen\tab 82 - Manos\tab 000 - Esmalte Cremoso Naranja\tab 03 - 10 ml\tab Esmalte Cremoso Naranja---10 ml- \tab 1128201140010-000-03 \tab 49\tab 1\par
+01 - La Casa del Aroma\tab 03 - Selectivo\tab 142 - Arrorr\'f3\tab 50 - 500 ml\tab Aromatizador-Arrorr\'f3-500 ml- \tab 1010300001   -142-50 \tab 93\tab 1\par
 50 - Herramientas de Venta\tab 00 - Ninguna\tab 000 - Reloj Escritorio SM\tab 00 - Unidad\tab Reloj Escritorio SM- - - \tab 2500000031099   \tab 0\tab 0\par
 01 - La Casa del Aroma\tab 84 - Velas\tab 300 - Vainilla\tab 00 - Unidad\tab Vela-Vainilla--- \tab 1018400130   -300-00 \tab 52\tab 1\par
 01 - La Casa del Aroma\tab 84 - Velas\tab 301 - Pomelo_Mel\'f3n\tab 00 - Unidad\tab Vela-Pomelo_Mel\'f3n--- \tab 1018400130   -301-00 \tab 52\tab 1\par
@@ -1086,6 +1106,9 @@
 01 - La Casa del Aroma\tab 16 - Ambientador\tab 199 - Vainillas Espec\tab 43 - 270 ml\tab Repuesto Ambientador-Vainillas Espec-270 ml- \tab 1011600118   -199-43 \tab 70\tab 1\par
 01 - La Casa del Aroma\tab 16 - Ambientador\tab 200 - Lluvia de Flor\tab 43 - 270 ml\tab Repuesto Ambientador-Lluvia de Flor-270 ml- \tab 1011600118   -200-43 \tab 70\tab 1\par
 01 - La Casa del Aroma\tab 16 - Ambientador\tab 201 - Frutal Fresco\tab 43 - 270 ml\tab Repuesto Ambientador-Frutal Fresco-270 ml- \tab 1011600118   -201-43 \tab 70\tab 1\par
+01 - La Casa del Aroma\tab 03 - Selectivo\tab 142 - Arrorr\'f3\tab 01 - 5 ml\tab Plum\'edn-Arrorr\'f3-5 ml- \tab 2010300007   -142-01 \tab 9,5\tab 1\par
+02 - Tal Cual\tab 62 - Masculino\tab 177 - 45M_Invict\tab 01 - 5 ml\tab Plum\'edn-45M_Invict-5 ml- \tab 2026200007   -177-01 \tab 9,5\tab 1\par
+02 - Tal Cual\tab 62 - Masculino\tab 177 - 45M_Invict\tab 10 - 50 ml\tab Eau de Parfum-45M_Invict-50 ml- \tab 1026200002   -177-10 \tab 110\tab 1\par
 50 - Herramientas de Venta\tab 00 - Ninguna\tab 000 - Billetera SM\tab 00 - Unidad\tab Billetera SM- - - \tab 2500000031100   \tab 0\tab 1\par
 50 - Herramientas de Venta\tab 66 - Folleter\'eda y Papeler\'eda\tab 000 - Revista Consultora 2011 5\tab 00 - Unidad\tab Revista Consultora 2011 5- - - \tab 2506600030041   \tab 2,2\tab 0\par
 50 - Herramientas de Venta\tab 66 - Folleter\'eda y Papeler\'eda\tab 000 - Cat\'e1logo SM 2011 5\tab 00 - Unidad\tab Cat\'e1logo SM 2011 5- - - \tab 2506600030042   \tab 5,5\tab 0\par
@@ -1133,12 +1156,12 @@
 08 - Sandra Marzzan Exclusiva\tab 62 - Masculino\tab 312 - Summer Hombre\tab 01 - 5 ml\tab Plum\'edn-Summer Hombre-5 ml- \tab 2086200007   -312-01 \tab 9,5\tab 1\par
 08 - Sandra Marzzan Exclusiva\tab 62 - Masculino\tab 312 - Summer Hombre\tab 15 - 60 ml\tab Eau de Parfum-Summer Hombre-60 ml- \tab 1086200002   -312-15 \tab 148\tab 1\par
 08 - Sandra Marzzan Exclusiva\tab 61 - Femenino\tab 311 - Summer Mujer\tab 15 - 60 ml\tab Eau de Parfum-Summer Mujer-60 ml- \tab 1086100002   -311-15 \tab 146\tab 1\par
-13 - Tendencia\tab 86 - Fundas\tab 000 - Funda Celular Fucsia\tab 00 - Unidad\tab Funda Celular Fucsia----- \tab 1138600190013-000-00 \tab 45\tab 0\par
+13 - Tendencia\tab 86 - Fundas\tab 000 - Funda Celular Fucsia\tab 00 - Unidad\tab Funda Celular Fucsia----- \tab 1138600190013-000-00 \tab 45\tab 1\par
 13 - Tendencia\tab 86 - Fundas\tab 000 - Funda Celular Negra\tab 00 - Unidad\tab Funda Celular Negra----- \tab 1138600190014-000-00 \tab 45\tab 0\par
 13 - Tendencia\tab 86 - Fundas\tab 000 - Funda Celular Aguamarina\tab 00 - Unidad\tab Funda Celular Aguamarina----- \tab 1138600190015-000-00 \tab 45\tab 0\par
 13 - Tendencia\tab 86 - Fundas\tab 000 - Funda Celular Pin Up 1\tab 00 - Unidad\tab Funda Celular Pin Up 1----- \tab 1138600190016-000-00 \tab 45\tab 0\par
 13 - Tendencia\tab 86 - Fundas\tab 000 - Funda Celular Pin Up 2\tab 00 - Unidad\tab Funda Celular Pin Up 2----- \tab 1138600190017-000-00 \tab 45\tab 0\par
-02 - Tal Cual\tab 62 - Masculino\tab 169 - 10M_HBoss+Bolsa\tab 10 - 50 ml\tab Eau de Parfum Destacado-10M_HBoss+Bolsa-50 ml- \tab 1026200002   -169-10 \tab 54\tab 0\par
+02 - Tal Cual\tab 62 - Masculino\tab 169 - 10M_HBoss+Bolsa\tab 10 - 50 ml\tab Eau de Parfum-10M_HBoss+Bolsa-50 ml- \tab 1026200002   -169-10 \tab 54\tab 0\par
 50 - Herramientas de Venta\tab 00 - Ninguna\tab 000 - Insumo Carpeta Institucional Gris\tab 00 - Unidad\tab Insumo Carpeta Institucional Gris- - - \tab 2500000030110   \tab 2,89\tab 0\par
 02 - Tal Cual\tab 62 - Masculino\tab 223 - 40M_Guess\tab 10 - 50 ml\tab Eau de Parfum-40M_Guess-50 ml- \tab 1026200002   -223-10 \tab 110\tab 1\par
 02 - Tal Cual\tab 61 - Femenino\tab 219 - 61F_Guess\tab 10 - 50 ml\tab Eau de Parfum-61F_Guess-50 ml- \tab 1026100002   -219-10 \tab 110\tab 1\par
