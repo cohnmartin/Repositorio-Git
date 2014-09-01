@@ -1171,14 +1171,14 @@ public partial class NotaDePedido : BasePage
                 /// Si esta este producto y se esta realizando el pedido, no se debe
                 /// agregar este producto sino que se tiene que reemplazar por:
                 /// 1. Stickers Deditos $10 (2041600039001-000-00 ) - IdPre: 5479
-                /// 2. SM Ambientador Automatico Digital x unidad $146 (1041600116001-000-00 ) - IdPre: 5486
+                /// 2. SM Ambientador Automático Analógico x unidad (1.04.1600.116.002-000-00 ) - IdPre: 5486
 
                 Presentacion StickersDeditos = (from P in Contexto.Presentacions
                                                 where P.IdPresentacion == 5532
                                                 select P).FirstOrDefault<Presentacion>();
 
-                Presentacion AmbientadorAutomaticoDigital = (from P in Contexto.Presentacions
-                                                             where P.IdPresentacion == 5486
+                Presentacion AmbientadorAutomaticoAnalogico = (from P in Contexto.Presentacions
+                                                             where P.IdPresentacion == 6707
                                                              select P).FirstOrDefault<Presentacion>();
 
 
@@ -1194,11 +1194,11 @@ public partial class NotaDePedido : BasePage
 
                 DetallePedido newDetallePlacerAD = new DetallePedido();
                 newDetallePlacerAD.Cantidad = det.Cantidad;
-                newDetallePlacerAD.CodigoCompleto = AmbientadorAutomaticoDigital.Codigo;
-                newDetallePlacerAD.Presentacion = AmbientadorAutomaticoDigital.IdPresentacion;
-                newDetallePlacerAD.Producto = AmbientadorAutomaticoDigital.objProducto.IdProducto;
-                newDetallePlacerAD.ValorUnitario = AmbientadorAutomaticoDigital.Precio;
-                newDetallePlacerAD.ValorTotal = det.Cantidad * AmbientadorAutomaticoDigital.Precio;
+                newDetallePlacerAD.CodigoCompleto = AmbientadorAutomaticoAnalogico.Codigo;
+                newDetallePlacerAD.Presentacion = AmbientadorAutomaticoAnalogico.IdPresentacion;
+                newDetallePlacerAD.Producto = AmbientadorAutomaticoAnalogico.objProducto.IdProducto;
+                newDetallePlacerAD.ValorUnitario = AmbientadorAutomaticoAnalogico.Precio;
+                newDetallePlacerAD.ValorTotal = det.Cantidad * AmbientadorAutomaticoAnalogico.Precio;
                 nuevosDetalles.Add(newDetallePlacerAD);
 
 
@@ -1209,14 +1209,14 @@ public partial class NotaDePedido : BasePage
                 /// Si esta este producto y se esta realizando el pedido, no se debe
                 /// agregar este producto sino que se tiene que reemplazar por:
                 /// 1. Stickers Inquietos $10 (2051600039001-000-00 ) - IdPre: 5480
-                /// 2. SM Ambientador Automatico Digital x unidad $146 (1041600116001-000-00 ) - IdPre: 5486
+                /// 2. SM Ambientador Automático Analógico x unidad (1.04.1600.116.002-000-00 ) - IdPre: 5486
 
                 Presentacion StickersInquietos = (from P in Contexto.Presentacions
                                                   where P.IdPresentacion == 5533
                                                   select P).FirstOrDefault<Presentacion>();
 
-                Presentacion AmbientadorAutomaticoDigital = (from P in Contexto.Presentacions
-                                                             where P.IdPresentacion == 5486
+                Presentacion AmbientadorAutomaticoAnalogico = (from P in Contexto.Presentacions
+                                                             where P.IdPresentacion == 6707
                                                              select P).FirstOrDefault<Presentacion>();
 
 
@@ -1231,11 +1231,11 @@ public partial class NotaDePedido : BasePage
 
                 DetallePedido newDetallePlacerAD = new DetallePedido();
                 newDetallePlacerAD.Cantidad = det.Cantidad;
-                newDetallePlacerAD.CodigoCompleto = AmbientadorAutomaticoDigital.Codigo;
-                newDetallePlacerAD.Presentacion = AmbientadorAutomaticoDigital.IdPresentacion;
-                newDetallePlacerAD.Producto = AmbientadorAutomaticoDigital.objProducto.IdProducto;
-                newDetallePlacerAD.ValorUnitario = AmbientadorAutomaticoDigital.Precio;
-                newDetallePlacerAD.ValorTotal = det.Cantidad * AmbientadorAutomaticoDigital.Precio;
+                newDetallePlacerAD.CodigoCompleto = AmbientadorAutomaticoAnalogico.Codigo;
+                newDetallePlacerAD.Presentacion = AmbientadorAutomaticoAnalogico.IdPresentacion;
+                newDetallePlacerAD.Producto = AmbientadorAutomaticoAnalogico.objProducto.IdProducto;
+                newDetallePlacerAD.ValorUnitario = AmbientadorAutomaticoAnalogico.Precio;
+                newDetallePlacerAD.ValorTotal = det.Cantidad * AmbientadorAutomaticoAnalogico.Precio;
                 nuevosDetalles.Add(newDetallePlacerAD);
 
 
@@ -3326,7 +3326,7 @@ public partial class NotaDePedido : BasePage
         decimal imp30 = 0;
         decimal neto = 0;
 
-        decimal montoSujetoNoCategorizado = 1400;
+        decimal montoSujetoNoCategorizado = 0;
         string codSituacionImpositiva = DeteminarSituacionImpositiva(currentCliente);
 
         ///Cambio solicitado el 02/12/2013 donde la regla de negocio dice que si es de tierra del fuego
