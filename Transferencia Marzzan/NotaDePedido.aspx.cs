@@ -2051,6 +2051,96 @@ public partial class NotaDePedido : BasePage
 
                 #endregion
 
+                #region  Detalle Gatillo Aromatizador 500 ml: 26/09/2014
+                // Producto Difusor: 4868
+                // Presentaciones con descripcion: Repuesto
+
+
+                /*
+                 * Cambio 24/09/2014
+                 1.01.0200.001.   -018-50        Aromatizador Sensaciones 500 ml 
+                 1.01.0100.001.   -009-50        Aromatizador Soliflor 500 ml 
+                
+                 Debe asignarle el siguiente artículo: 
+
+                 2.50.0000.032.001        Gatillo Aromatizador 500 ml 
+                 */
+
+                if (!EsTemporal)
+                {
+                    string[] CodigosAromatizadores = new string[] { "1010200001   -018-50 ", "1010100001   -009-50 " };
+
+                    long CantidadAromatizador = Convert.ToInt64(((from N in cabecera.DetallePedidos
+                                                                  where CodigosAromatizadores.Contains(N.CodigoCompleto)
+                                                                  select N.Cantidad.Value).Sum() * 1));
+
+
+                    if (CantidadAromatizador > 0)
+                    {
+
+                        Presentacion preGatilloAromatizador = (from P in Contexto.Presentacions
+                                                               where P.Codigo == "2500000032001"
+                                                               select P).SingleOrDefault();
+
+
+                        newDetalle = new DetallePedido();
+                        newDetalle.Cantidad = CantidadAromatizador;
+                        newDetalle.CodigoCompleto = preGatilloAromatizador.Codigo;
+                        newDetalle.Presentacion = preGatilloAromatizador.IdPresentacion;
+                        newDetalle.Producto = preGatilloAromatizador.objProducto.IdProducto;
+                        newDetalle.ValorUnitario = preGatilloAromatizador.Precio;
+                        newDetalle.ValorTotal = newDetalle.ValorUnitario * newDetalle.Cantidad;
+
+                        cabecera.DetallePedidos.Add(newDetalle);
+                    }
+                }
+
+                #endregion
+
+                #region  Detalle Hornillos : 26/09/2014
+                /*
+                 * Cambio 24/09/2014
+                1.01.8500.170.003-000-00        Hornillo Geo Salmón - -        :         
+                1.01.8500.170.004-000-00        Hornillo Geo Verde - -         
+                1.01.8500.170.001-000-00        Hornillo Prisma - - 
+
+                Cada vez que pidan cualquiera de los hornillos, la nota de pedido de agregar una vela por cada hornillo pedido. 
+
+                El artículo correspondiente a la vela es 2.50.0000.110.001        Vela de Regalo Hornillo         
+
+                 */
+
+                if (!EsTemporal)
+                {
+                    string[] CodigosHornillos = new string[] { "1018500170003-000-00 ", "1018500170004-000-00 ", "1018500170001-000-00 " };
+
+                    long CantidadHornillos = Convert.ToInt64(((from N in cabecera.DetallePedidos
+                                                               where CodigosHornillos.Contains(N.CodigoCompleto)
+                                                                  select N.Cantidad.Value).Sum() * 1));
+
+
+                    if (CantidadHornillos > 0)
+                    {
+
+                        Presentacion preVela = (from P in Contexto.Presentacions
+                                                               where P.Codigo == "2500000110001"
+                                                               select P).SingleOrDefault();
+
+
+                        newDetalle = new DetallePedido();
+                        newDetalle.Cantidad = CantidadHornillos;
+                        newDetalle.CodigoCompleto = preVela.Codigo;
+                        newDetalle.Presentacion = preVela.IdPresentacion;
+                        newDetalle.Producto = preVela.objProducto.IdProducto;
+                        newDetalle.ValorUnitario = preVela.Precio;
+                        newDetalle.ValorTotal = newDetalle.ValorUnitario * newDetalle.Cantidad;
+
+                        cabecera.DetallePedidos.Add(newDetalle);
+                    }
+                }
+
+                #endregion
+
                 #region  Detalle Bolsa Lienzo LCDA
                 // Producto Bolsa Lienzo LCDA: 4868
                 // Presentaciones con descripcion: Repuesto
