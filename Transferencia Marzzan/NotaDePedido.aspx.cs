@@ -2051,7 +2051,7 @@ public partial class NotaDePedido : BasePage
 
                 #endregion
 
-                #region  Detalle Gatillo Aromatizador 500 ml: 26/09/2014 Actualizado 20/10/2014
+                #region  Detalle Gatillo Aromatizador 500 ml: 26/09/2014
                 // Producto Difusor: 4868
                 // Presentaciones con descripcion: Repuesto
 
@@ -4499,7 +4499,7 @@ public partial class NotaDePedido : BasePage
                                         det.CodigoCompleto = item.componentes.FirstOrDefault().objPresentacion.Codigo;
                                         det.DescripcionProducto = "<b><span style='color:Blue' >" + item.componentes.FirstOrDefault().Cantidad + "</span></b> " + item.componentes.FirstOrDefault().objProductoHijo.Descripcion + " x " + item.componentes.FirstOrDefault().objPresentacion.Descripcion;
                                         promoGeneradaxSolicitud.colProductosRequeridos.Add(det);
-                                        valorPromocionSegunComponentes += item.componentes.FirstOrDefault().objPresentacion.Precio.Value;
+                                        valorPromocionSegunComponentes += item.componentes.FirstOrDefault().objPresentacion.Precio.Value* int.Parse(item.componentes.FirstOrDefault().Cantidad);
                                     }
                                     else
                                     {
@@ -4513,7 +4513,7 @@ public partial class NotaDePedido : BasePage
                                         det.CodigoCompleto = detExistente.CodigoCompleto;
                                         det.DescripcionProducto = detExistente.DescripcionProducto;
                                         promoGeneradaxSolicitud.colProductosRequeridos.Add(det);
-                                        valorPromocionSegunComponentes += detExistente.ValorUnitario.Value;
+                                        valorPromocionSegunComponentes += detExistente.ValorUnitario.Value*int.Parse(item.componentes.FirstOrDefault().Cantidad);
 
                                     }
                                 }
