@@ -2051,7 +2051,7 @@ public partial class NotaDePedido : BasePage
 
                 #endregion
 
-                #region  Detalle Gatillo Aromatizador 500 ml: 26/09/2014
+                #region  Detalle Gatillo Aromatizador 500 ml: 26/09/2014 Actualizado 20/10/2014
                 // Producto Difusor: 4868
                 // Presentaciones con descripcion: Repuesto
 
@@ -2060,7 +2060,11 @@ public partial class NotaDePedido : BasePage
                  * Cambio 24/09/2014
                  1.01.0200.001.   -018-50        Aromatizador Sensaciones 500 ml 
                  1.01.0100.001.   -009-50        Aromatizador Soliflor 500 ml 
-                
+                 1.01.0300.001.   -142-50        Aromatizador Arrorró 500 ml        01 
+                 1.01.0100.001.   -003-50        Aromatizador Brisas 500 ml        01 
+                 1.01.0507.001.   -203-50        Aromatizador Rio en Flor 500 ml        01 
+                 1.01.0100.001.   -012-50        Aromatizador Suavechito 500 ml        01
+                 * 
                  Debe asignarle el siguiente artículo: 
 
                  2.50.0000.032.001        Gatillo Aromatizador 500 ml 
@@ -2068,7 +2072,7 @@ public partial class NotaDePedido : BasePage
 
                 if (!EsTemporal)
                 {
-                    string[] CodigosAromatizadores = new string[] { "1010200001   -018-50 ", "1010100001   -009-50 " };
+                    string[] CodigosAromatizadores = new string[] { "1010200001   -018-50 ", "1010100001   -009-50 ", "1010300001   -142-50 ", "1010100001   -003-50 ", "1010507001   -203-50 ", "1010100001   -012-50 " };
 
                     long CantidadAromatizador = Convert.ToInt64(((from N in cabecera.DetallePedidos
                                                                   where CodigosAromatizadores.Contains(N.CodigoCompleto)
