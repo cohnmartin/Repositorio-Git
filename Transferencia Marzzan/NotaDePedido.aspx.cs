@@ -1445,18 +1445,20 @@ public partial class NotaDePedido : BasePage
 
                 #endregion
 
-                #region Control LIMITE POR PROVINCIA Y LIMITE GENERAL
+                #region Control LIMITE GENERAL
                 if ((!EsTemporal && !EsClienteEspecial))
                 {
 
                     if (TipoCliente.ToString() != Convert.ToString((int)TipoClientes.PotencialBolso))
                     {
-                        /// Control LIMITE POR PROVINCIA
-                        if (TotalComprado < LimitePorProvincia)
-                        {
-                            ScriptManager.RegisterStartupScript(upSolicitudPedido, typeof(UpdatePanel), "MinimoReq", "AlertaMinimoRequeridoProvincia(" + LimitePorProvincia + ");", true);
-                            return;
-                        }
+                        /// ESTE CONTROL NO SE REALIZA MAS SOBRE LOS PEDIDOS COMISIONABLES
+                        /// SINO QUE SE DEBE HACER SOBRE EL TOTAL DEL PEDIDO. MAIL: 30/10/2014
+                        ///// Control LIMITE POR PROVINCIA
+                        //if (TotalComprado < LimitePorProvincia)
+                        //{
+                        //    ScriptManager.RegisterStartupScript(upSolicitudPedido, typeof(UpdatePanel), "MinimoReq", "AlertaMinimoRequeridoProvincia(" + LimitePorProvincia + ");", true);
+                        //    return;
+                        //}
 
 
                         /// Control LIMITE GENERAL
@@ -2072,7 +2074,8 @@ public partial class NotaDePedido : BasePage
 
                 if (!EsTemporal)
                 {
-                    string[] CodigosAromatizadores = new string[] { "1010200001   -018-50 ", "1010100001   -009-50 ", "1010300001   -142-50 ", "1010100001   -003-50 ", "1010507001   -203-50 ", "1010100001   -012-50 " };
+                    string[] CodigosAromatizadores = new string[] { "1010200001   -018-50 ", "1010100001   -009-50 ", "1010300001   -142-50 ", "1010100001   -003-50 ", "1010507001   -203-50 "
+                        , "1010100001   -012-50 ", "1010300001   -244-50 ", "1010300001   -021-50 ", "1010200001   -015-50 ", "1010100001   -017-50 ", "1010100001   -011-50 "};
 
                     long CantidadAromatizador = Convert.ToInt64(((from N in cabecera.DetallePedidos
                                                                   where CodigosAromatizadores.Contains(N.CodigoCompleto)
@@ -2593,6 +2596,22 @@ public partial class NotaDePedido : BasePage
                 cabecera.MontoTotal = CalculoImpuestos(Total);
                 cabecera.Impuestos = ImpuestoCalculado;
                 cabecera.DetalleImpuestos = DetalleImpuestosCalculados;
+
+                #region Control LIMITE POR PROVINCIA -Sin tener en cuenta los impuestos
+                if ((!EsTemporal && !EsClienteEspecial))
+                {
+
+                    if (TipoCliente.ToString() != Convert.ToString((int)TipoClientes.PotencialBolso))
+                    {
+                        /// Control LIMITE POR PROVINCIA
+                        if (Total < LimitePorProvincia)
+                        {
+                            ScriptManager.RegisterStartupScript(upSolicitudPedido, typeof(UpdatePanel), "MinimoReq", "AlertaMinimoRequeridoProvincia(" + LimitePorProvincia + ");", true);
+                            return;
+                        }
+                    }
+                }
+                 #endregion
 
                 #region Control de limites de compra por la forma de pago
                 if ((!FaltaSaldo && !EsTemporal))
