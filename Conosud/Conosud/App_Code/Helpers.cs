@@ -69,6 +69,8 @@ public class Helpers
 
     public abstract class Constantes
     {
+        public const string ContextoVehiculosYPF = "Vehiculos YPF";
+
         public abstract class PaginaMenu_
         {
             public const string Empresas = "ABMEmpresas2";
@@ -83,13 +85,6 @@ public class Helpers
             public const string GestionPublicacion = "GestionPublicacion";
             public const string GestionUsuarios = "ABMUsuarios2";
             public const string GestionRoles = "ABMRoles2";
-            
-            
-
-            
-            
-            
-            
         }
 
     
