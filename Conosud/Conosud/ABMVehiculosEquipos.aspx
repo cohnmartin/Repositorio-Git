@@ -31,14 +31,107 @@
 
         function AplicarCambios() {
 
-            $find("<%=ServerControlWindow1.ClientID %>").ShowWaiting(false, 'Grabando Cambios...');
-
             var result = $find("<%=GridVehiculos.ClientID %>").getValuesEdit($find("<%=pnlEdicion.ClientID %>"));
             var id = $find("<%=GridVehiculos.ClientID %>").get_KeyValueSelected();
-            if (id == undefined)
-                id = "";
+            var FechaVencimientoContrato = "";
 
-            PageMethods.Grabar(result, id, ($find("<%=GridVehiculos.ClientID %>").get_pageSize() * $find("<%=GridVehiculos.ClientID %>").get_currentPageIndex()), $find("<%=GridVehiculos.ClientID %>").get_pageSize(), FillGrid, Error);
+            if (id == undefined) {
+                id = "";
+                FechaVencimientoContrato = result["NroContrato"] != null && result["NroContrato"].split(':').length > 0 ? result["NroContrato"].split(':')[1].trim() : "";
+            }
+            else {
+                if ($find("<%=GridVehiculos.ClientID %>").get_ItemDataByKey(id).FechaVencimientoContrato != undefined)
+                    FechaVencimientoContrato = $find("<%=GridVehiculos.ClientID %>").get_ItemDataByKey(id).FechaVencimientoContrato.format("dd/MM/yyyy");
+                else
+                    FechaVencimientoContrato = Date("10/10/2080");
+            }
+
+            var fechaMinima = FechaMinimaValida(result, FechaVencimientoContrato);
+            if (fechaMinima == null) {
+                $find("<%=ServerControlWindow1.ClientID %>").ShowWaiting(false, 'Grabando Cambios...');
+                PageMethods.Grabar(result, id, ($find("<%=GridVehiculos.ClientID %>").get_pageSize() * $find("<%=GridVehiculos.ClientID %>").get_currentPageIndex()), $find("<%=GridVehiculos.ClientID %>").get_pageSize(), FillGrid, Error);
+            }
+            else {
+                alert("La Fecha de Vencimiento de la Credencial no es válida, la misma es MAYOR a la fecha mínima: " + fechaMinima);
+            }
+
+            return;
+
+//            $find("<%=ServerControlWindow1.ClientID %>").ShowWaiting(false, 'Grabando Cambios...');
+
+//            var result = $find("<%=GridVehiculos.ClientID %>").getValuesEdit($find("<%=pnlEdicion.ClientID %>"));
+//            var id = $find("<%=GridVehiculos.ClientID %>").get_KeyValueSelected();
+//            if (id == undefined)
+//                id = "";
+
+//            PageMethods.Grabar(result, id, ($find("<%=GridVehiculos.ClientID %>").get_pageSize() * $find("<%=GridVehiculos.ClientID %>").get_currentPageIndex()), $find("<%=GridVehiculos.ClientID %>").get_pageSize(), FillGrid, Error);
+        }
+
+        function FechaMinimaValida(datos, FechaVencimientoContrato) {
+            var date_sort_asc = function (date1, date2) {
+                // This is a comparison function that will result in dates being sorted in  
+                // ASCENDING order. As you can see, JavaScript's native comparison operators  
+                // can be used to compare dates. This was news to me. 
+                if (date1 > date2) return 1;
+                if (date1 < date2) return -1;
+                return 0;
+            };
+
+
+            var arrayFecha = new Array();
+            var fechaMinima = null;
+            var fechaVenciminetoContrato = TransformDate($find("<%=cboContrato.ClientID %>").get_selectedItem() != null ? $find("<%=cboContrato.ClientID %>").get_selectedItem().get_attributes().getAttribute("FechaMinima") : FechaVencimientoContrato);
+            var fechaSeguro = TransformDate(datos.FechaVencimientoSeguro);
+            var fechaCENT = TransformDate(datos.FechaVencimientoHabilitacion);
+            var fechaUltimoPagoSeguro = TransformDate(datos.FechaUltimoPagoSeguro);
+            var fechaEE = TransformDate(datos.FechaVencimientoHabilitacionEE);
+            var fechaIngresada = TransformDate(datos.VencimientoCredencial);
+            
+
+            
+
+            if (fechaSeguro != null) { arrayFecha.push(fechaSeguro) };
+            if (fechaCENT != null) { arrayFecha.push(fechaCENT) };
+            if (fechaVenciminetoContrato != null) { arrayFecha.push(fechaVenciminetoContrato) };
+            if (fechaUltimoPagoSeguro != null) { arrayFecha.push(fechaUltimoPagoSeguro) };
+            if (fechaEE != null) { arrayFecha.push(fechaEE) };
+
+            arrayFecha.sort(date_sort_asc);
+            fechaMinima = arrayFecha[0];
+
+            if (fechaIngresada != undefined && fechaIngresada > fechaMinima) {
+                var strDesc = " correspondiente al ";
+                if (fechaMinima == fechaVenciminetoContrato)
+                    strDesc += " vencimiento del contrato";
+                else if (fechaMinima == fechaSeguro)
+                    strDesc += " vencimiento del seguro";
+                else if (fechaMinima == fechaCENT)
+                    strDesc += " vencimiento de la habilitación CENT";
+                else if (fechaMinima == fechaUltimoPagoSeguro)
+                    strDesc += " vencimiento otorgado por el último pago del seguro";
+                else if (fechaMinima == fechaEE)
+                    strDesc += " vencimiento de la habilitación Equipos Elevación";
+
+
+                return fechaMinima.format("dd/MM/yyyy") + strDesc;
+            }
+            else
+                return null;
+
+        }
+
+
+
+        function TransformDate(date) {
+            if (date != undefined) {
+                var dia = parseFloat(date.substr(0, 2));
+                var mes = parseFloat(date.substr(3, 2)) - 1;
+                var año = parseFloat(date.substr(6));
+
+                return new Date(año, mes, dia);
+            }
+            else
+                return null;
         }
 
         function CambioPagina(sender, page) {
@@ -55,10 +148,6 @@
             return sStr;
         }
 
-
-        
-
-       
     </script>
     <script type="text/javascript">
         function EliminarVehiculo(sender, Id) {
@@ -77,6 +166,9 @@
 
         function EditarVehiculo(sender, Id) {
             showResultado = false;
+            $find("<%= cboContrato.ClientID %>").clearItems();
+            $find("<%= cboContrato.ClientID %>").clearSelection();
+
             $find("<%=pnlEdicion.ClientID %>").ClearElements();
 
             $find("<%=GridVehiculos.ClientID %>").initEdit($find("<%=ServerControlWindow1.ClientID %>"), Id);
@@ -318,6 +410,8 @@
                                         Display="false" NameControlManger="txtFechaHabilitacionEE" ExportToExcel="true" />
                                     <cc1:Column HeaderName="FechaVencimientoHabilitacionEE" DataFieldName="FechaVencimientoHabilitacionEE"
                                         Display="false" NameControlManger="txtFechaVencimientoEE" ExportToExcel="true" />
+                                    <cc1:Column HeaderName="FechaVencimientoContrato" DataFieldName="FechaVencimientoContrato"
+                                        Display="false" ExportToExcel="false" />
                                 </Columns>
                             </cc1:ClientControlGrid>
                         </td>
@@ -621,7 +715,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <asp:Label ID="Label35" runat="server" SkinID="lblConosud" Text="Fecha Ult. Pago:"></asp:Label>
+                                                        <asp:Label ID="Label35" runat="server" SkinID="lblConosud" Text="Vigencia Ult. Pago:"></asp:Label>
                                                     </td>
                                                     <td style="padding-left: 5px; padding-right: 5px">
                                                         <telerik:RadDatePicker ID="txtFechaUltPago" MinDate="1950/1/1" runat="server" ZIndex="922000000">

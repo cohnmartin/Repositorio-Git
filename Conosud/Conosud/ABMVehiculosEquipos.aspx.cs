@@ -406,7 +406,7 @@ public partial class ABMVehiculosEquipos : System.Web.UI.Page
         if (e.Text != "")
         {
             long idEmpresa = long.Parse(e.Text);
-
+            DateTime fechaAlta = DateTime.Parse("10/10/2080");
 
             /// Cargo los contratos para la empresa seleccionada
             var Contratos = (from c in Contexto.ContratoEmpresas
@@ -416,6 +416,7 @@ public partial class ABMVehiculosEquipos : System.Web.UI.Page
                              {
                                  c.Contrato.Codigo,
                                  c.Contrato.IdContrato,
+                                 FechaVencimiento = c.Contrato != null ? (c.Contrato.Prorroga != null && c.Contrato.Prorroga > c.Contrato.FechaVencimiento ? c.Contrato.Prorroga : c.Contrato.FechaVencimiento) : fechaAlta,
                              }).Distinct();
 
             cboContrato.Items.Clear();
@@ -423,7 +424,11 @@ public partial class ABMVehiculosEquipos : System.Web.UI.Page
             {
                 foreach (var item in Contratos)
                 {
-                    cboContrato.Items.Add(new RadComboBoxItem(item.Codigo, item.IdContrato.ToString()));
+                    RadComboBoxItem a = new RadComboBoxItem("", "");
+                    a.Value = item.IdContrato.ToString();
+                    a.Text = item.Codigo + " - FV: " + item.FechaVencimiento.Value.ToShortDateString();
+                    a.Attributes.Add("FechaMinima", item.FechaVencimiento.Value.ToShortDateString());
+                    cboContrato.Items.Add(a);
                 }
             }
             else
@@ -500,8 +505,11 @@ public partial class ABMVehiculosEquipos : System.Web.UI.Page
 
         if (Datos["ContratoAfectado"] != null)
         {
-            hayCambios = CurrentVehiEqui.ContratoAfectado != long.Parse(Datos["ContratoAfectado"].ToString()) ? true : hayCambios != true ? false : true;
-            CurrentVehiEqui.ContratoAfectado = long.Parse(Datos["ContratoAfectado"].ToString());
+            if (Datos["ContratoAfectado"].ToString() != "")
+            {
+                hayCambios = CurrentVehiEqui.ContratoAfectado != long.Parse(Datos["ContratoAfectado"].ToString()) ? true : hayCambios != true ? false : true;
+                CurrentVehiEqui.ContratoAfectado = long.Parse(Datos["ContratoAfectado"].ToString());
+            }
         }
         else
             CurrentVehiEqui.ContratoAfectado = null;
@@ -871,6 +879,7 @@ public partial class ABMVehiculosEquipos : System.Web.UI.Page
         string tipoUsuario = HttpContext.Current.Session["TipoUsuario"].ToString();
         string tipoAlta = HttpContext.Current.Session["TipoAlta"].ToString();
         long IdEmpresa = 0;
+        DateTime fechaAlta = DateTime.Parse("10/10/2080");
 
         if (tipoUsuario == "Cliente")
         {
@@ -924,7 +933,8 @@ public partial class ABMVehiculosEquipos : System.Web.UI.Page
                                  v.FechaInicialSeguro,
                                  v.FechaVencimientoSeguro,
                                  v.FechaUltimoPagoSeguro,
-                                 DescCompañia = v.objCompañiaSeguro.Descripcion
+                                 DescCompañia = v.objCompañiaSeguro.Descripcion,
+                                 FechaVencimientoContrato = v.objContrato != null ? (v.objContrato.Prorroga != null && v.objContrato.Prorroga > v.objContrato.FechaVencimiento ? v.objContrato.Prorroga : v.objContrato.FechaVencimiento) : fechaAlta,
                              }).Skip(start).Take(take).ToList();
 
             datos.Add("Datos", vehiculos);
@@ -977,7 +987,8 @@ public partial class ABMVehiculosEquipos : System.Web.UI.Page
                                  v.FechaInicialSeguro,
                                  v.FechaVencimientoSeguro,
                                  v.FechaUltimoPagoSeguro,
-                                 DescCompañia = v.objCompañiaSeguro.Descripcion
+                                 DescCompañia = v.objCompañiaSeguro.Descripcion,
+                                 FechaVencimientoContrato = v.objContrato != null ? (v.objContrato.Prorroga != null && v.objContrato.Prorroga > v.objContrato.FechaVencimiento ? v.objContrato.Prorroga : v.objContrato.FechaVencimiento) : fechaAlta,
 
                              }).Skip(start).Take(take).ToList();
             

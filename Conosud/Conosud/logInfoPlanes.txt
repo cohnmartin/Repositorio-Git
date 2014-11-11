@@ -11,3 +11,11 @@ Total Sindicato:1162
 Total Registros:3542
 Total Contratos:0
 Total Sindicato:1507
+La tabla externa no tiene el formato esperado.
+   at System.Data.OleDb.OleDbConnectionInternal..ctor(OleDbConnectionString constr, OleDbConnection connection)
+   at System.Data.OleDb.OleDbConnectionFactory.CreateConnection(DbConnectionOptions options, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningObject)
+   at System.Data.ProviderBase.DbConnectionFactory.CreateNonPooledConnection(DbConnection owningConnection, DbConnectionPoolGroup poolGroup)
+   at System.Data.ProviderBase.DbConnectionFactory.GetConnection(DbConnection owningConnection)
+   at System.Data.ProviderBase.DbConnectionClosed.OpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory)
+   at System.Data.OleDb.OleDbConnection.Open()
+   at GestionConsolaPlanTrabajo.BindResults() in c:\Desarrollo\Repositorio\Conosud\Conosud\GestionConsolaPlanTrabajo.aspx.cs:line 80

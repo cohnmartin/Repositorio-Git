@@ -120,7 +120,7 @@ public partial class GestionPublicacion : System.Web.UI.Page
                 //a esta hoja como en "poceso de auditoria". 
                 List<Entidades.HojasDeRuta> ItemsAuditados = (from I in item.HojasDeRuta
                                                               where (I.HojaComentario != null && I.HojaComentario != "")
-                                                              || I.HojaFechaAprobacion != null || I.AuditoriaTerminada.Value
+                                                              || I.HojaFechaAprobacion != null || (I.AuditoriaTerminada.HasValue && I.AuditoriaTerminada.Value)
                                                               select I).ToList();
 
                 if (ItemsAuditados.Count > 0)

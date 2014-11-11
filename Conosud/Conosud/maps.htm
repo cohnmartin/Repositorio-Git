@@ -1,0 +1,243 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=ISO-8859-1">
+    <title>Rutas en Google Maps</title>
+    <script src=" http://maps.google.com/?file=api&amp;v=2.x&amp;key=ABQIAAAAUnJY3ChJhF0YgyTSDJuVfBTqu-zEVMNfNVaqfAe9FKyfKhfBExSs9LrIQ7GOuBeSnaddg05sRmEBxQ"
+        type="text/javascript"></script>
+    <script type="text/javascript">
+
+        var map;
+        var gdir;
+        var geocoder = null;
+
+        function load() {
+
+            if (GBrowserIsCompatible()) {
+                map = new GMap2(document.getElementById("map"));
+                gdir = new GDirections(map, document.getElementById("direcciones"));
+                GEvent.addListener(gdir, "load", onGDirectionsLoad);
+                GEvent.addListener(gdir, "error", mostrarError);
+
+                //obtenerRuta("-32.879011, -68.813566", "-32.898903,-68.84335");
+                //obtenerRuta("-32.879011, -68.813566", "-32.89775,-68.831762");
+                //obtenerRuta("-32.879011, -68.813566", "-32.899191,-68.821119");
+                //var url = "https://maps.googleapis.com/maps/api/distancematrix/json?mode=walking&sensor=false&origins=-32.922357,-68.801731&destinations=-32.885354,-68.800904|-32.911874,-68.824250|-32.884200,-68.841072"
+
+                /// Indico las coordenadas del punto de partida
+                var origin = new google.maps.LatLng(-32.882045, -68.816157);
+
+                // Cargo cada uno de los destinos posibles para que se calcule las distancias.
+                var destinosPosibles = new Array();
+
+                //var destino1 = new google.maps.LatLng(-32.885354, -68.800904);
+                //var destino2 = new google.maps.LatLng(-32.911874, -68.824250);
+                //var destino3 = new google.maps.LatLng(-32.884200, -68.841072);
+
+                /*destinosPosibles.push(new google.maps.LatLng(-32.885354, -68.800904));
+                destinosPosibles.push(new google.maps.LatLng(-32.911874, -68.824250));
+                destinosPosibles.push(new google.maps.LatLng(-32.884200, -68.841072));
+                destinosPosibles.push(new google.maps.LatLng(-32.904256, -68.8335202));
+                destinosPosibles.push(new google.maps.LatLng(-32.9140856, -68.8303275));
+                destinosPosibles.push(new google.maps.LatLng(-32.9172802, -68.8328978));
+                destinosPosibles.push(new google.maps.LatLng(-32.9237286, -68.8345501));
+                destinosPosibles.push(new google.maps.LatLng(-32.9245931, -68.8338849));
+                destinosPosibles.push(new google.maps.LatLng(-32.9233683, -68.8284561));
+                destinosPosibles.push(new google.maps.LatLng(-32.9173883, -68.8220617));
+                destinosPosibles.push(new google.maps.LatLng(-32.9149025, -68.8141438));
+                destinosPosibles.push(new google.maps.LatLng(-32.9171812, -68.8261816));*/
+
+
+                destinosPosibles.push(new google.maps.LatLng(-32.8851613, -68.8238986));
+                destinosPosibles.push(new google.maps.LatLng(-32.883874, -68.823688));
+                destinosPosibles.push(new google.maps.LatLng(-32.883126, -68.823527));
+                destinosPosibles.push(new google.maps.LatLng(-32.882189, -68.823678));
+                destinosPosibles.push(new google.maps.LatLng(-32.880541, -68.823613));
+                destinosPosibles.push(new google.maps.LatLng(-32.880658, -68.821832));
+                destinosPosibles.push(new google.maps.LatLng(-32.880595, -68.821060));
+                destinosPosibles.push(new google.maps.LatLng(-32.880631, -68.821049));
+                destinosPosibles.push(new google.maps.LatLng(-32.880261, -68.818732));
+                destinosPosibles.push(new google.maps.LatLng(-32.880180, -68.817551));
+                destinosPosibles.push(new google.maps.LatLng(-32.880360, -68.819912));
+                destinosPosibles.push(new google.maps.LatLng(-32.880090, -68.815728));
+                destinosPosibles.push(new google.maps.LatLng(-32.881045, -68.815631));
+                destinosPosibles.push(new google.maps.LatLng(-32.882000, -68.815642));
+                destinosPosibles.push(new google.maps.LatLng(-32.883226, -68.815599));
+                destinosPosibles.push(new google.maps.LatLng(-32.883009, -68.813539));
+                destinosPosibles.push(new google.maps.LatLng(-32.8849504, -68.8122555));
+                destinosPosibles.push(new google.maps.LatLng(-32.8844685, -68.7922878));
+                destinosPosibles.push(new google.maps.LatLng(-32.8819636, -68.7918417));
+                destinosPosibles.push(new google.maps.LatLng(-32.881246, -68.796475));
+                destinosPosibles.push(new google.maps.LatLng(-32.880426, -68.802784));
+                destinosPosibles.push(new google.maps.LatLng(-32.8917965, -68.8034859));
+                destinosPosibles.push(new google.maps.LatLng(-32.8967908, -68.805776));
+                destinosPosibles.push(new google.maps.LatLng(-32.8963527, -68.8288938));
+                destinosPosibles.push(new google.maps.LatLng(-32.8997339, -68.8243861));
+                /*destinosPosibles.push(new google.maps.LatLng( -32.9104305,  -68.8275156));
+                destinosPosibles.push(new google.maps.LatLng( -32.9099929,  -68.8308766));
+                destinosPosibles.push(new google.maps.LatLng( -32.915497,  -68.8365195));
+                destinosPosibles.push(new google.maps.LatLng(-32.9167364, -68.8346089));*/
+
+                var contador = 0;
+                var idprocess = window.setInterval(function () {
+
+                    var service = new google.maps.DistanceMatrixService();
+                    service.getDistanceMatrix(
+                {
+                    origins: [origin], //array of origins
+                    destinations: destinosPosibles, //aray of destionations
+                    travelMode: google.maps.TravelMode.WALKING,
+                    unitSystem: google.maps.UnitSystem.METRIC,
+                    avoidHighways: false,
+                    avoidTolls: false
+                }, function (response, status) {
+                    if (status == google.maps.DistanceMatrixStatus.OK) {
+
+                        var origins = response.originAddresses;
+                        var destinations = response.destinationAddresses;
+                        var outputDiv = document.getElementById('outputDiv');
+                        outputDiv.innerHTML += '<br><br>' + contador + '<br><br>';
+                        var minDistance = 10000;
+                        var pointMin;
+                        var destinoMin;
+                        for (var i = 0; i < origins.length; i++) {
+                            var results = response.rows[i].elements;
+
+                            for (var j = 0; j < results.length; j++) {
+                                outputDiv.innerHTML += origins[i] + ' to ' + destinations[j] + ': ' + results[j].distance.text + ' in ' + results[j].duration.text + '<br>';
+                                if (results[j].distance.value < minDistance) {
+                                    pointMin = results[j];
+                                    minDistance = results[j].distance.value;
+                                    destinoMin = destinations[j];
+                                }
+                            }
+                        }
+                    }
+                });
+
+                if (contador < 15)
+                        contador++;
+                    else
+                        window.clearInterval(idprocess);
+
+                }, 2000);
+
+
+
+
+
+
+
+
+
+            }
+        }
+
+
+        function obtenerRuta(desde, hasta) {
+            var i;
+            var tipo;
+            //comprobar tipo trayecto seleccionado
+            for (i = 0; i < document.form_ruta.tipo.length; i++) {
+                if (document.form_ruta.tipo[i].checked) {
+                    break;
+                }
+            }
+            tipo = document.form_ruta.tipo[i].value;
+            if (tipo == 1) {
+                //a pie
+                gdir.load("from: " + desde + " to: " + hasta, { "travelMode": G_TRAVEL_MODE_WALKING });
+                gdir.load("from: " + desde + " to: -32.9173883, - 68.8220617", { "travelMode": G_TRAVEL_MODE_WALKING });
+            } else {
+                //conduccion
+                gdir.load("from: " + desde + " to: " + hasta, { "travelMode": G_TRAVEL_MODE_DRIVING });
+            }
+        }
+
+        function onGDirectionsLoad() {
+            //resumen de tiempo y distancia
+            document.getElementById("getDistance").innerHTML = gdir.getSummaryHtml();
+        }
+
+        function mostrarError() {
+            if (gdir.getStatus().code == G_GEO_UNKNOWN_ADDRESS)
+                alert("No se ha encontrado una ubicación geográfica que se corresponda con la dirección especificada.");
+            else if (gdir.getStatus().code == G_GEO_SERVER_ERROR)
+                alert("No se ha podido procesar correctamente la solicitud de ruta o de códigos geográficos, sin saberse el motivo exacto del fallo.");
+            else if (gdir.getStatus().code == G_GEO_MISSING_QUERY)
+                alert("Falta el parámetro HTTP q o no tiene valor alguno. En las solicitudes de códigos geográficos, esto significa que se ha especificado una dirección vacía.");
+            else if (gdir.getStatus().code == G_GEO_BAD_KEY)
+                alert("La clave proporcionada no es válida o no coincide con el dominio para el cual se ha indicado.");
+            else if (gdir.getStatus().code == G_GEO_BAD_REQUEST)
+                alert("No se ha podido analizar correctamente la solicitud de ruta.");
+            else alert("Error desconocido.");
+
+        }
+    </script>
+</head>
+<body>
+    <div id="map_canvas">
+    </div>
+    <h2>
+        Rutas en Google Maps</h2>
+    <form action="#" name="form_ruta" onsubmit="obtenerRuta(this.desde.value, this.hasta.value); return false">
+    <table>
+        <tr>
+            <td align="right">
+                <strong>Desde:</strong>
+                <input type="text" size="25" id="desde" name="desde" value="-32.922357, -68.801731" />
+            </td>
+            <td align="right">
+                <strong>Hasta:</strong>
+                <input type="text" size="25" id="hasta" name="hasta" value="-32.9149025,-68.8141438" />
+            </td>
+        </tr>
+        <tr>
+            <td align="center" colspan="2">
+                <strong>Tipo trayecto: </strong>
+                <input type="radio" name="tipo" id="tipo" value="2" checked />
+                En coche
+                <input type="radio" name="tipo" id="tipo" value="1" />
+                A pie
+                <input name="ruta" type="submit" value="Obtener ruta" />
+            </td>
+        </tr>
+    </table>
+    </form>
+    <br />
+    <table>
+        <tr>
+            <td>
+                <div id="outputDiv">
+                </div>
+                <strong>Mapa</strong>
+            </td>
+        </tr>
+        <tr>
+            <td valign="top">
+                <div id="map" style="width: 560px; height: 250px">
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <strong>Direcciones de la ruta</strong>
+            </td>
+        </tr>
+        <tr>
+            <td valign="top">
+                Distancia y tiempo:
+                <div id="getDistance">
+                </div>
+                <div id="direcciones" style="width: 560px">
+                </div>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
+<script>
+    window.onload = load;
+    window.onunload = GUnload;
+</script>
