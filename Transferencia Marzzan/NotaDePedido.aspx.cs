@@ -2075,7 +2075,9 @@ public partial class NotaDePedido : BasePage
                 if (!EsTemporal)
                 {
                     string[] CodigosAromatizadores = new string[] { "1010200001   -018-50 ", "1010100001   -009-50 ", "1010300001   -142-50 ", "1010100001   -003-50 ", "1010507001   -203-50 "
-                        , "1010100001   -012-50 ", "1010300001   -244-50 ", "1010300001   -021-50 ", "1010200001   -015-50 ", "1010100001   -017-50 ", "1010100001   -011-50 "};
+                        , "1010100001   -012-50 ", "1010300001   -244-50 ", "1010300001   -021-50 ", "1010200001   -015-50 ", "1010100001   -017-50 ", "1010100001   -011-50 ","1010200001   -017-50 ","1010300001   -026-50 "};
+                            
+        
 
                     long CantidadAromatizador = Convert.ToInt64(((from N in cabecera.DetallePedidos
                                                                   where CodigosAromatizadores.Contains(N.CodigoCompleto)
