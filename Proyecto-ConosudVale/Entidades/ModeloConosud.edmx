@@ -1,0 +1,2357 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ModeloConosud.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2005" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2006/04/edm/ssdl">
+        <EntityContainer Name="ModeloConosudStoreContainer">
+          <EntitySet Name="ArchivosAdjuntos" EntityType="ModeloConosud.Store.ArchivosAdjuntos" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="ArchivosSueldos" EntityType="ModeloConosud.Store.ArchivosSueldos" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="CabeceraHojasDeRuta" EntityType="ModeloConosud.Store.CabeceraHojasDeRuta" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="CategoriasItems" EntityType="ModeloConosud.Store.CategoriasItems" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Clasificacion" EntityType="ModeloConosud.Store.Clasificacion" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="ComentariosGral" EntityType="ModeloConosud.Store.ComentariosGral" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="ContEmpLegajos" EntityType="ModeloConosud.Store.ContEmpLegajos" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Contrato" EntityType="ModeloConosud.Store.Contrato" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="ContratoEmpresas" EntityType="ModeloConosud.Store.ContratoEmpresas" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="ContratoEmpresasImp" EntityType="ModeloConosud.Store.ContratoEmpresasImp" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="ContratosImp" EntityType="ModeloConosud.Store.ContratosImp" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="DatosDeSueldos" EntityType="ModeloConosud.Store.DatosDeSueldos" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Empresa" EntityType="ModeloConosud.Store.Empresa" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="EmpresasImp" EntityType="ModeloConosud.Store.EmpresasImp" store:Type="Tables" store:Schema="dbo" store:Name="EmpresasImp">
+            <DefiningQuery>SELECT 
+      [EmpresasImp].[Id] AS [Id], 
+      [EmpresasImp].[RazonSocial] AS [RazonSocial], 
+      [EmpresasImp].[CUIT] AS [CUIT], 
+      [EmpresasImp].[Telefono] AS [Telefono], 
+      [EmpresasImp].[FechaAlta] AS [FechaAlta], 
+      [EmpresasImp].[Direccion] AS [Direccion], 
+      [EmpresasImp].[RepresentanteTecnico] AS [RepresentanteTecnico], 
+      [EmpresasImp].[Emergencias] AS [Emergencias], 
+      [EmpresasImp].[PrestacionEmergencia] AS [PrestacionEmergencia], 
+      [EmpresasImp].[CorreoElectronico] AS [CorreoElectronico], 
+      [EmpresasImp].[ART] AS [ART]
+      FROM [dbo].[EmpresasImp] AS [EmpresasImp]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="HojasDeRuta" EntityType="ModeloConosud.Store.HojasDeRuta" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Legajos" EntityType="ModeloConosud.Store.Legajos" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="LegajosContratosImp" EntityType="ModeloConosud.Store.LegajosContratosImp" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Plantilla" EntityType="ModeloConosud.Store.Plantilla" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="RolesPlanilla" EntityType="ModeloConosud.Store.RolesPlanilla" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="SegMenu" EntityType="ModeloConosud.Store.SegMenu" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="SegRol" EntityType="ModeloConosud.Store.SegRol" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="SegRolMenu" EntityType="ModeloConosud.Store.SegRolMenu" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="SegUsuario" EntityType="ModeloConosud.Store.SegUsuario" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="SegUsuarioRol" EntityType="ModeloConosud.Store.SegUsuarioRol" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_ArchivosAdjuntos_ContratoEmpresas" Association="ModeloConosud.Store.FK_ArchivosAdjuntos_ContratoEmpresas">
+            <End Role="ContratoEmpresas" EntitySet="ContratoEmpresas" />
+            <End Role="ArchivosAdjuntos" EntitySet="ArchivosAdjuntos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ArchivosSueldos_SegUsuario" Association="ModeloConosud.Store.FK_ArchivosSueldos_SegUsuario">
+            <End Role="SegUsuario" EntitySet="SegUsuario" />
+            <End Role="ArchivosSueldos" EntitySet="ArchivosSueldos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CabeceraHojasDeRuta_Clasificacion" Association="ModeloConosud.Store.FK_CabeceraHojasDeRuta_Clasificacion">
+            <End Role="Clasificacion" EntitySet="Clasificacion" />
+            <End Role="CabeceraHojasDeRuta" EntitySet="CabeceraHojasDeRuta" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CabeceraHojasDeRuta_ContratoEmpresas" Association="ModeloConosud.Store.FK_CabeceraHojasDeRuta_ContratoEmpresas">
+            <End Role="ContratoEmpresas" EntitySet="ContratoEmpresas" />
+            <End Role="CabeceraHojasDeRuta" EntitySet="CabeceraHojasDeRuta" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CabeceraHojasDeRuta_SegUsuario" Association="ModeloConosud.Store.FK_CabeceraHojasDeRuta_SegUsuario">
+            <End Role="SegUsuario" EntitySet="SegUsuario" />
+            <End Role="CabeceraHojasDeRuta" EntitySet="CabeceraHojasDeRuta" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Clasificacion_Clasificacion" Association="ModeloConosud.Store.FK_Clasificacion_Clasificacion">
+            <End Role="Clasificacion" EntitySet="Clasificacion" />
+            <End Role="Clasificacion1" EntitySet="Clasificacion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ComentariosGral_ContratoEmpresas" Association="ModeloConosud.Store.FK_ComentariosGral_ContratoEmpresas">
+            <End Role="ContratoEmpresas" EntitySet="ContratoEmpresas" />
+            <End Role="ComentariosGral" EntitySet="ComentariosGral" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ComentariosGral_Plantilla" Association="ModeloConosud.Store.FK_ComentariosGral_Plantilla">
+            <End Role="Plantilla" EntitySet="Plantilla" />
+            <End Role="ComentariosGral" EntitySet="ComentariosGral" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ContEmpLegajos_CabeceraHojasDeRuta" Association="ModeloConosud.Store.FK_ContEmpLegajos_CabeceraHojasDeRuta">
+            <End Role="CabeceraHojasDeRuta" EntitySet="CabeceraHojasDeRuta" />
+            <End Role="ContEmpLegajos" EntitySet="ContEmpLegajos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ContEmpLegajos_ContratoEmpresas" Association="ModeloConosud.Store.FK_ContEmpLegajos_ContratoEmpresas">
+            <End Role="ContratoEmpresas" EntitySet="ContratoEmpresas" />
+            <End Role="ContEmpLegajos" EntitySet="ContEmpLegajos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ContEmpLegajos_Legajos" Association="ModeloConosud.Store.FK_ContEmpLegajos_Legajos">
+            <End Role="Legajos" EntitySet="Legajos" />
+            <End Role="ContEmpLegajos" EntitySet="ContEmpLegajos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Contrato_Clasificacion" Association="ModeloConosud.Store.FK_Contrato_Clasificacion">
+            <End Role="Clasificacion" EntitySet="Clasificacion" />
+            <End Role="Contrato" EntitySet="Contrato" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Contrato_Clasificacion1" Association="ModeloConosud.Store.FK_Contrato_Clasificacion1">
+            <End Role="Clasificacion" EntitySet="Clasificacion" />
+            <End Role="Contrato" EntitySet="Contrato" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ContratoEmpresas_Contrato" Association="ModeloConosud.Store.FK_ContratoEmpresas_Contrato">
+            <End Role="Contrato" EntitySet="Contrato" />
+            <End Role="ContratoEmpresas" EntitySet="ContratoEmpresas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ContratoEmpresas_Empresa" Association="ModeloConosud.Store.FK_ContratoEmpresas_Empresa">
+            <End Role="Empresa" EntitySet="Empresa" />
+            <End Role="ContratoEmpresas" EntitySet="ContratoEmpresas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DatosDeSueldos_ArchivosSueldos" Association="ModeloConosud.Store.FK_DatosDeSueldos_ArchivosSueldos">
+            <End Role="ArchivosSueldos" EntitySet="ArchivosSueldos" />
+            <End Role="DatosDeSueldos" EntitySet="DatosDeSueldos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DatosDeSueldos_Contrato" Association="ModeloConosud.Store.FK_DatosDeSueldos_Contrato">
+            <End Role="Contrato" EntitySet="Contrato" />
+            <End Role="DatosDeSueldos" EntitySet="DatosDeSueldos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DatosDeSueldos_Empresa" Association="ModeloConosud.Store.FK_DatosDeSueldos_Empresa">
+            <End Role="Empresa" EntitySet="Empresa" />
+            <End Role="DatosDeSueldos" EntitySet="DatosDeSueldos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DatosDeSueldos_Legajos" Association="ModeloConosud.Store.FK_DatosDeSueldos_Legajos">
+            <End Role="Legajos" EntitySet="Legajos" />
+            <End Role="DatosDeSueldos" EntitySet="DatosDeSueldos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Empresa_Clasificacion" Association="ModeloConosud.Store.FK_Empresa_Clasificacion">
+            <End Role="Clasificacion" EntitySet="Clasificacion" />
+            <End Role="Empresa" EntitySet="Empresa" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HojasDeRuta_CabeceraHojasDeRuta" Association="ModeloConosud.Store.FK_HojasDeRuta_CabeceraHojasDeRuta">
+            <End Role="CabeceraHojasDeRuta" EntitySet="CabeceraHojasDeRuta" />
+            <End Role="HojasDeRuta" EntitySet="HojasDeRuta" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HojasDeRuta_Plantilla" Association="ModeloConosud.Store.FK_HojasDeRuta_Plantilla">
+            <End Role="Plantilla" EntitySet="Plantilla" />
+            <End Role="HojasDeRuta" EntitySet="HojasDeRuta" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Legajos_Clasificacion" Association="ModeloConosud.Store.FK_Legajos_Clasificacion">
+            <End Role="Clasificacion" EntitySet="Clasificacion" />
+            <End Role="Legajos" EntitySet="Legajos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Legajos_Clasificacion1" Association="ModeloConosud.Store.FK_Legajos_Clasificacion1">
+            <End Role="Clasificacion" EntitySet="Clasificacion" />
+            <End Role="Legajos" EntitySet="Legajos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Legajos_Clasificacion2" Association="ModeloConosud.Store.FK_Legajos_Clasificacion2">
+            <End Role="Clasificacion" EntitySet="Clasificacion" />
+            <End Role="Legajos" EntitySet="Legajos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Legajos_Clasificacion3" Association="ModeloConosud.Store.FK_Legajos_Clasificacion3">
+            <End Role="Clasificacion" EntitySet="Clasificacion" />
+            <End Role="Legajos" EntitySet="Legajos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Legajos_Clasificacion4" Association="ModeloConosud.Store.FK_Legajos_Clasificacion4">
+            <End Role="Clasificacion" EntitySet="Clasificacion" />
+            <End Role="Legajos" EntitySet="Legajos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Plantilla_CategoriasItems" Association="ModeloConosud.Store.FK_Plantilla_CategoriasItems">
+            <End Role="CategoriasItems" EntitySet="CategoriasItems" />
+            <End Role="Plantilla" EntitySet="Plantilla" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RolesPlanilla_SegRol" Association="ModeloConosud.Store.FK_RolesPlanilla_SegRol">
+            <End Role="SegRol" EntitySet="SegRol" />
+            <End Role="RolesPlanilla" EntitySet="RolesPlanilla" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SegMenu_SegMenu" Association="ModeloConosud.Store.FK_SegMenu_SegMenu">
+            <End Role="SegMenu" EntitySet="SegMenu" />
+            <End Role="SegMenu1" EntitySet="SegMenu" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SegRolMenu_SegMenu" Association="ModeloConosud.Store.FK_SegRolMenu_SegMenu">
+            <End Role="SegMenu" EntitySet="SegMenu" />
+            <End Role="SegRolMenu" EntitySet="SegRolMenu" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SegRolMenu_SegRol" Association="ModeloConosud.Store.FK_SegRolMenu_SegRol">
+            <End Role="SegRol" EntitySet="SegRol" />
+            <End Role="SegRolMenu" EntitySet="SegRolMenu" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SegUsuario_Empresa" Association="ModeloConosud.Store.FK_SegUsuario_Empresa">
+            <End Role="Empresa" EntitySet="Empresa" />
+            <End Role="SegUsuario" EntitySet="SegUsuario" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SegUsuarioRol_SegRol" Association="ModeloConosud.Store.FK_SegUsuarioRol_SegRol">
+            <End Role="SegRol" EntitySet="SegRol" />
+            <End Role="SegUsuarioRol" EntitySet="SegUsuarioRol" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SegUsuarioRol_SegUsuario" Association="ModeloConosud.Store.FK_SegUsuarioRol_SegUsuario">
+            <End Role="SegUsuario" EntitySet="SegUsuario" />
+            <End Role="SegUsuarioRol" EntitySet="SegUsuarioRol" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="ArchivosAdjuntos">
+          <Key>
+            <PropertyRef Name="IdArchivoAdjunto" />
+          </Key>
+          <Property Name="IdArchivoAdjunto" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="NombreArchivo" Type="varchar" Nullable="false" MaxLength="100" />
+          <Property Name="IdContratoEmpresa" Type="bigint" Nullable="false" />
+          <Property Name="FechaAdjunto" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ArchivosSueldos">
+          <Key>
+            <PropertyRef Name="IdArchivoSueldos" />
+          </Key>
+          <Property Name="IdArchivoSueldos" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="varchar" MaxLength="250" />
+          <Property Name="FechaCreacion" Type="datetime" />
+          <Property Name="Usuario" Type="bigint" />
+        </EntityType>
+        <EntityType Name="CabeceraHojasDeRuta">
+          <Key>
+            <PropertyRef Name="IdCabeceraHojasDeRuta" />
+          </Key>
+          <Property Name="IdCabeceraHojasDeRuta" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="IdEstado" Type="bigint" Nullable="false" />
+          <Property Name="FechaAprobacion" Type="datetime" />
+          <Property Name="Periodo" Type="datetime" Nullable="false" />
+          <Property Name="NroCarpeta" Type="int" Nullable="false" />
+          <Property Name="IdContratoEmpresa" Type="bigint" Nullable="false" />
+          <Property Name="Publicar" Type="bit" />
+          <Property Name="Estimacion" Type="text" />
+          <Property Name="FechaEstimacion" Type="datetime" />
+          <Property Name="FechaAprobacionSinLegajos" Type="datetime" />
+          <Property Name="PresentoSueldo" Type="bit" />
+          <Property Name="EsFueraTermino" Type="bit" />
+          <Property Name="UsuarioAprobador" Type="bigint" />
+          <Property Name="FechaUltimaPubicacion" Type="datetime" />
+        </EntityType>
+        <EntityType Name="CategoriasItems">
+          <Key>
+            <PropertyRef Name="IdCategoria" />
+          </Key>
+          <Property Name="IdCategoria" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="varchar" MaxLength="100" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="255" />
+          <Property Name="Dialimitepresentacion" Type="int" />
+        </EntityType>
+        <EntityType Name="Clasificacion">
+          <Key>
+            <PropertyRef Name="IdClasificacion" />
+          </Key>
+          <Property Name="IdClasificacion" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="50" />
+          <Property Name="IdPadre" Type="bigint" />
+          <Property Name="Codigo" Type="varchar" MaxLength="50" />
+          <Property Name="Tipo" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="ComentariosGral">
+          <Key>
+            <PropertyRef Name="IdComentarioGral" />
+          </Key>
+          <Property Name="IdComentarioGral" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Plantilla" Type="bigint" />
+          <Property Name="ContratoEmpresa" Type="bigint" />
+          <Property Name="Comentario" Type="varchar" MaxLength="7000" />
+        </EntityType>
+        <EntityType Name="ContEmpLegajos">
+          <Key>
+            <PropertyRef Name="IdContEmpLegajos" />
+          </Key>
+          <Property Name="IdContEmpLegajos" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="IdContratoEmpresas" Type="bigint" />
+          <Property Name="IdLegajos" Type="bigint" />
+          <Property Name="IdCabecerHojaRuta" Type="bigint" />
+          <Property Name="PresentoSueldo" Type="bit" />
+          <Property Name="FechaTramiteBaja" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Contrato">
+          <Key>
+            <PropertyRef Name="IdContrato" />
+          </Key>
+          <Property Name="IdContrato" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Codigo" Type="varchar" MaxLength="50" />
+          <Property Name="Servicio" Type="varchar" MaxLength="255" />
+          <Property Name="FechaInicio" Type="datetime" />
+          <Property Name="FechaVencimiento" Type="datetime" />
+          <Property Name="Prorroga" Type="datetime" />
+          <Property Name="TipoContrato" Type="bigint" />
+          <Property Name="Contratadopor" Type="bigint" />
+        </EntityType>
+        <EntityType Name="ContratoEmpresas">
+          <Key>
+            <PropertyRef Name="IdContratoEmpresas" />
+          </Key>
+          <Property Name="IdContratoEmpresas" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="IdContrato" Type="bigint" />
+          <Property Name="IdEmpresa" Type="bigint" />
+          <Property Name="EsContratista" Type="bit" />
+          <Property Name="Comentario" Type="text" />
+        </EntityType>
+        <EntityType Name="ContratoEmpresasImp">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="NroContrato" Type="nvarchar" MaxLength="255" />
+          <Property Name="Contratista" Type="nvarchar" MaxLength="255" />
+          <Property Name="SubContratista" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="ContratosImp">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Codigo" Type="nvarchar" MaxLength="255" />
+          <Property Name="Servicio" Type="nvarchar" MaxLength="855" />
+          <Property Name="FechaInicio" Type="nvarchar" MaxLength="255" />
+          <Property Name="FechaVencimiento" Type="nvarchar" MaxLength="255" />
+          <Property Name="Prorroga" Type="datetime" />
+          <Property Name="TipoContrato" Type="nvarchar" MaxLength="255" />
+          <Property Name="ContratadoPor" Type="nvarchar" MaxLength="255" />
+          <Property Name="CUIT_FK" Type="nvarchar" Nullable="false" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="DatosDeSueldos">
+          <Key>
+            <PropertyRef Name="IdDatosSueldos" />
+          </Key>
+          <Property Name="IdDatosSueldos" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="AdicionalesNORemunerativos" Type="decimal" Scale="2" />
+          <Property Name="AdicionalesRemunerativos" Type="decimal" Scale="2" />
+          <Property Name="AsignacionFamiliar" Type="decimal" Scale="2" />
+          <Property Name="Basico_ValorHora" Type="decimal" Scale="2" />
+          <Property Name="BasicoLiquidado" Type="decimal" Scale="2" />
+          <Property Name="Descuentos" Type="decimal" Scale="2" />
+          <Property Name="HorasExtras" Type="decimal" Scale="2" />
+          <Property Name="Periodo" Type="datetime" />
+          <Property Name="SAC" Type="decimal" Scale="2" />
+          <Property Name="TotalBruto" Type="decimal" Scale="2" />
+          <Property Name="TotalNeto" Type="decimal" Scale="2" />
+          <Property Name="Vacaciones" Type="decimal" Scale="2" />
+          <Property Name="ArchivoOrigen" Type="bigint" />
+          <Property Name="Legajo" Type="bigint" />
+          <Property Name="Empresa" Type="bigint" />
+          <Property Name="Contrato" Type="bigint" />
+          <Property Name="CategoriaCCT" Type="varchar" MaxLength="150" />
+          <Property Name="FuncionCCT" Type="varchar" MaxLength="150" />
+        </EntityType>
+        <EntityType Name="Empresa">
+          <Key>
+            <PropertyRef Name="IdEmpresa" />
+          </Key>
+          <Property Name="IdEmpresa" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="RazonSocial" Type="varchar" MaxLength="500" />
+          <Property Name="CUIT" Type="varchar" MaxLength="50" />
+          <Property Name="FechaAlta" Type="datetime" />
+          <Property Name="RepresentanteTecnico" Type="varchar" MaxLength="500" />
+          <Property Name="PrestacionEmergencia" Type="varchar" MaxLength="500" />
+          <Property Name="Direccion" Type="varchar" MaxLength="500" />
+          <Property Name="Telefono" Type="varchar" MaxLength="500" />
+          <Property Name="CorreoElectronico" Type="varchar" MaxLength="500" />
+          <Property Name="ART" Type="bigint" />
+          <Property Name="Emergencia" Type="varchar" MaxLength="5000" />
+        </EntityType>
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'ConosudSitio.dbo.EmpresasImp' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+        <EntityType Name="EmpresasImp">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="RazonSocial" Type="nvarchar" MaxLength="255" />
+          <Property Name="CUIT" Type="float" />
+          <Property Name="Telefono" Type="nvarchar" MaxLength="255" />
+          <Property Name="FechaAlta" Type="datetime" />
+          <Property Name="Direccion" Type="nvarchar" MaxLength="255" />
+          <Property Name="RepresentanteTecnico" Type="nvarchar" MaxLength="255" />
+          <Property Name="Emergencias" Type="nvarchar" MaxLength="255" />
+          <Property Name="PrestacionEmergencia" Type="nvarchar" MaxLength="255" />
+          <Property Name="CorreoElectronico" Type="nvarchar" MaxLength="255" />
+          <Property Name="ART" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="HojasDeRuta">
+          <Key>
+            <PropertyRef Name="IdHojaDeRuta" />
+          </Key>
+          <Property Name="IdHojaDeRuta" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="IdCabeceraHojaDeRuta" Type="bigint" Nullable="false" />
+          <Property Name="IdPlanilla" Type="bigint" Nullable="false" />
+          <Property Name="HojaComentario" Type="varchar" />
+          <Property Name="HojaFechaControlado" Type="datetime" />
+          <Property Name="HojaAprobado" Type="bit" />
+          <Property Name="HojaFechaAprobacion" Type="datetime" />
+          <Property Name="DocComentario" Type="text" />
+          <Property Name="DocFechaEntrega" Type="datetime" />
+          <Property Name="AuditadoPor" Type="nvarchar" MaxLength="256" />
+          <Property Name="AuditoriaTerminada" Type="bit" />
+        </EntityType>
+        <EntityType Name="Legajos">
+          <Key>
+            <PropertyRef Name="IdLegajos" />
+          </Key>
+          <Property Name="IdLegajos" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Apellido" Type="varchar" MaxLength="50" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" />
+          <Property Name="TipoDoc" Type="bigint" />
+          <Property Name="NroDoc" Type="varchar" MaxLength="50" />
+          <Property Name="FechaNacimiento" Type="datetime" />
+          <Property Name="Sexo" Type="bit" />
+          <Property Name="EstadoCivil" Type="bigint" />
+          <Property Name="CUIL" Type="varchar" MaxLength="50" />
+          <Property Name="Nacionalidad" Type="bigint" />
+          <Property Name="Direccion" Type="varchar" MaxLength="50" />
+          <Property Name="CodigoPostal" Type="varchar" MaxLength="50" />
+          <Property Name="Provincia" Type="bigint" />
+          <Property Name="TelefonoFijo" Type="varchar" MaxLength="50" />
+          <Property Name="CorreoElectronico" Type="varchar" MaxLength="50" />
+          <Property Name="Convenio" Type="bigint" />
+          <Property Name="FechaIngreos" Type="datetime" />
+        </EntityType>
+        <EntityType Name="LegajosContratosImp">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="NroContrato" Type="nvarchar" MaxLength="255" />
+          <Property Name="FechaIngreso" Type="datetime" />
+          <Property Name="Contratista" Type="nvarchar" MaxLength="255" />
+          <Property Name="Apellido" Type="nvarchar" MaxLength="255" />
+          <Property Name="Nombre" Type="nvarchar" MaxLength="255" />
+          <Property Name="Tipo Documento" Type="nvarchar" MaxLength="255" />
+          <Property Name="NroDoc" Type="float" />
+          <Property Name="FechaNacimiento" Type="nvarchar" MaxLength="255" />
+          <Property Name="CUIL" Type="nvarchar" MaxLength="255" />
+          <Property Name="Direccion" Type="nvarchar" MaxLength="255" />
+          <Property Name="CodigoPostal" Type="nvarchar" MaxLength="255" />
+          <Property Name="TelefonoFijo" Type="nvarchar" MaxLength="255" />
+          <Property Name="CorreoElectronico" Type="nvarchar" MaxLength="255" />
+          <Property Name="EstadoCivil" Type="nvarchar" MaxLength="255" />
+          <Property Name="Nacionalidad" Type="nvarchar" MaxLength="255" />
+          <Property Name="Provincia" Type="nvarchar" MaxLength="255" />
+          <Property Name="Convenio" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="Plantilla">
+          <Key>
+            <PropertyRef Name="IdPlantilla" />
+          </Key>
+          <Property Name="IdPlantilla" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="650" />
+          <Property Name="Codigo" Type="nchar" MaxLength="10" />
+          <Property Name="IdCategoria" Type="bigint" />
+        </EntityType>
+        <EntityType Name="RolesPlanilla">
+          <Key>
+            <PropertyRef Name="IdRolPlanilla" />
+          </Key>
+          <Property Name="IdRolPlanilla" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="IdPlanilla" Type="bigint" Nullable="false" />
+          <Property Name="IdRol" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SegMenu">
+          <Key>
+            <PropertyRef Name="IdSegMenu" />
+          </Key>
+          <Property Name="IdSegMenu" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="PadreId" Type="bigint" />
+          <Property Name="Posicion" Type="int" Nullable="false" />
+          <Property Name="Icono" Type="varchar" MaxLength="150" />
+          <Property Name="Url" Type="varchar" MaxLength="150" />
+          <Property Name="Target" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="SegRol">
+          <Key>
+            <PropertyRef Name="IdSegRol" />
+          </Key>
+          <Property Name="IdSegRol" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="SegRolMenu">
+          <Key>
+            <PropertyRef Name="IdSegRolMenu" />
+          </Key>
+          <Property Name="IdSegRolMenu" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Menu" Type="bigint" Nullable="false" />
+          <Property Name="Rol" Type="bigint" Nullable="false" />
+          <Property Name="Lectura" Type="bit" Nullable="false" />
+          <Property Name="Modificacion" Type="bit" Nullable="false" />
+          <Property Name="Creacion" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SegUsuario">
+          <Key>
+            <PropertyRef Name="IdSegUsuario" />
+          </Key>
+          <Property Name="IdSegUsuario" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Password" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="Login" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="IdEmpresa" Type="bigint" />
+        </EntityType>
+        <EntityType Name="SegUsuarioRol">
+          <Key>
+            <PropertyRef Name="IdSegUsuarioRol" />
+          </Key>
+          <Property Name="IdSegUsuarioRol" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Usuario" Type="bigint" Nullable="false" />
+          <Property Name="Rol" Type="bigint" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_ArchivosAdjuntos_ContratoEmpresas">
+          <End Role="ContratoEmpresas" Type="ModeloConosud.Store.ContratoEmpresas" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ArchivosAdjuntos" Type="ModeloConosud.Store.ArchivosAdjuntos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ContratoEmpresas">
+              <PropertyRef Name="IdContratoEmpresas" />
+            </Principal>
+            <Dependent Role="ArchivosAdjuntos">
+              <PropertyRef Name="IdContratoEmpresa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ArchivosSueldos_SegUsuario">
+          <End Role="SegUsuario" Type="ModeloConosud.Store.SegUsuario" Multiplicity="0..1" />
+          <End Role="ArchivosSueldos" Type="ModeloConosud.Store.ArchivosSueldos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SegUsuario">
+              <PropertyRef Name="IdSegUsuario" />
+            </Principal>
+            <Dependent Role="ArchivosSueldos">
+              <PropertyRef Name="Usuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CabeceraHojasDeRuta_Clasificacion">
+          <End Role="Clasificacion" Type="ModeloConosud.Store.Clasificacion" Multiplicity="1" />
+          <End Role="CabeceraHojasDeRuta" Type="ModeloConosud.Store.CabeceraHojasDeRuta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clasificacion">
+              <PropertyRef Name="IdClasificacion" />
+            </Principal>
+            <Dependent Role="CabeceraHojasDeRuta">
+              <PropertyRef Name="IdEstado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CabeceraHojasDeRuta_ContratoEmpresas">
+          <End Role="ContratoEmpresas" Type="ModeloConosud.Store.ContratoEmpresas" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="CabeceraHojasDeRuta" Type="ModeloConosud.Store.CabeceraHojasDeRuta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ContratoEmpresas">
+              <PropertyRef Name="IdContratoEmpresas" />
+            </Principal>
+            <Dependent Role="CabeceraHojasDeRuta">
+              <PropertyRef Name="IdContratoEmpresa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CabeceraHojasDeRuta_SegUsuario">
+          <End Role="SegUsuario" Type="ModeloConosud.Store.SegUsuario" Multiplicity="0..1" />
+          <End Role="CabeceraHojasDeRuta" Type="ModeloConosud.Store.CabeceraHojasDeRuta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SegUsuario">
+              <PropertyRef Name="IdSegUsuario" />
+            </Principal>
+            <Dependent Role="CabeceraHojasDeRuta">
+              <PropertyRef Name="UsuarioAprobador" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Clasificacion_Clasificacion">
+          <End Role="Clasificacion" Type="ModeloConosud.Store.Clasificacion" Multiplicity="0..1" />
+          <End Role="Clasificacion1" Type="ModeloConosud.Store.Clasificacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clasificacion">
+              <PropertyRef Name="IdClasificacion" />
+            </Principal>
+            <Dependent Role="Clasificacion1">
+              <PropertyRef Name="IdPadre" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ComentariosGral_ContratoEmpresas">
+          <End Role="ContratoEmpresas" Type="ModeloConosud.Store.ContratoEmpresas" Multiplicity="0..1" />
+          <End Role="ComentariosGral" Type="ModeloConosud.Store.ComentariosGral" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ContratoEmpresas">
+              <PropertyRef Name="IdContratoEmpresas" />
+            </Principal>
+            <Dependent Role="ComentariosGral">
+              <PropertyRef Name="ContratoEmpresa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ComentariosGral_Plantilla">
+          <End Role="Plantilla" Type="ModeloConosud.Store.Plantilla" Multiplicity="0..1" />
+          <End Role="ComentariosGral" Type="ModeloConosud.Store.ComentariosGral" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Plantilla">
+              <PropertyRef Name="IdPlantilla" />
+            </Principal>
+            <Dependent Role="ComentariosGral">
+              <PropertyRef Name="Plantilla" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ContEmpLegajos_CabeceraHojasDeRuta">
+          <End Role="CabeceraHojasDeRuta" Type="ModeloConosud.Store.CabeceraHojasDeRuta" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ContEmpLegajos" Type="ModeloConosud.Store.ContEmpLegajos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CabeceraHojasDeRuta">
+              <PropertyRef Name="IdCabeceraHojasDeRuta" />
+            </Principal>
+            <Dependent Role="ContEmpLegajos">
+              <PropertyRef Name="IdCabecerHojaRuta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ContEmpLegajos_ContratoEmpresas">
+          <End Role="ContratoEmpresas" Type="ModeloConosud.Store.ContratoEmpresas" Multiplicity="0..1" />
+          <End Role="ContEmpLegajos" Type="ModeloConosud.Store.ContEmpLegajos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ContratoEmpresas">
+              <PropertyRef Name="IdContratoEmpresas" />
+            </Principal>
+            <Dependent Role="ContEmpLegajos">
+              <PropertyRef Name="IdContratoEmpresas" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ContEmpLegajos_Legajos">
+          <End Role="Legajos" Type="ModeloConosud.Store.Legajos" Multiplicity="0..1" />
+          <End Role="ContEmpLegajos" Type="ModeloConosud.Store.ContEmpLegajos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Legajos">
+              <PropertyRef Name="IdLegajos" />
+            </Principal>
+            <Dependent Role="ContEmpLegajos">
+              <PropertyRef Name="IdLegajos" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Contrato_Clasificacion">
+          <End Role="Clasificacion" Type="ModeloConosud.Store.Clasificacion" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Contrato" Type="ModeloConosud.Store.Contrato" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clasificacion">
+              <PropertyRef Name="IdClasificacion" />
+            </Principal>
+            <Dependent Role="Contrato">
+              <PropertyRef Name="TipoContrato" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Contrato_Clasificacion1">
+          <End Role="Clasificacion" Type="ModeloConosud.Store.Clasificacion" Multiplicity="0..1" />
+          <End Role="Contrato" Type="ModeloConosud.Store.Contrato" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clasificacion">
+              <PropertyRef Name="IdClasificacion" />
+            </Principal>
+            <Dependent Role="Contrato">
+              <PropertyRef Name="Contratadopor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ContratoEmpresas_Contrato">
+          <End Role="Contrato" Type="ModeloConosud.Store.Contrato" Multiplicity="0..1" />
+          <End Role="ContratoEmpresas" Type="ModeloConosud.Store.ContratoEmpresas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contrato">
+              <PropertyRef Name="IdContrato" />
+            </Principal>
+            <Dependent Role="ContratoEmpresas">
+              <PropertyRef Name="IdContrato" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ContratoEmpresas_Empresa">
+          <End Role="Empresa" Type="ModeloConosud.Store.Empresa" Multiplicity="0..1" />
+          <End Role="ContratoEmpresas" Type="ModeloConosud.Store.ContratoEmpresas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empresa">
+              <PropertyRef Name="IdEmpresa" />
+            </Principal>
+            <Dependent Role="ContratoEmpresas">
+              <PropertyRef Name="IdEmpresa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DatosDeSueldos_ArchivosSueldos">
+          <End Role="ArchivosSueldos" Type="ModeloConosud.Store.ArchivosSueldos" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="DatosDeSueldos" Type="ModeloConosud.Store.DatosDeSueldos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ArchivosSueldos">
+              <PropertyRef Name="IdArchivoSueldos" />
+            </Principal>
+            <Dependent Role="DatosDeSueldos">
+              <PropertyRef Name="ArchivoOrigen" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DatosDeSueldos_Contrato">
+          <End Role="Contrato" Type="ModeloConosud.Store.Contrato" Multiplicity="0..1" />
+          <End Role="DatosDeSueldos" Type="ModeloConosud.Store.DatosDeSueldos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contrato">
+              <PropertyRef Name="IdContrato" />
+            </Principal>
+            <Dependent Role="DatosDeSueldos">
+              <PropertyRef Name="Contrato" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DatosDeSueldos_Empresa">
+          <End Role="Empresa" Type="ModeloConosud.Store.Empresa" Multiplicity="0..1" />
+          <End Role="DatosDeSueldos" Type="ModeloConosud.Store.DatosDeSueldos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empresa">
+              <PropertyRef Name="IdEmpresa" />
+            </Principal>
+            <Dependent Role="DatosDeSueldos">
+              <PropertyRef Name="Empresa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DatosDeSueldos_Legajos">
+          <End Role="Legajos" Type="ModeloConosud.Store.Legajos" Multiplicity="0..1" />
+          <End Role="DatosDeSueldos" Type="ModeloConosud.Store.DatosDeSueldos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Legajos">
+              <PropertyRef Name="IdLegajos" />
+            </Principal>
+            <Dependent Role="DatosDeSueldos">
+              <PropertyRef Name="Legajo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Empresa_Clasificacion">
+          <End Role="Clasificacion" Type="ModeloConosud.Store.Clasificacion" Multiplicity="0..1" />
+          <End Role="Empresa" Type="ModeloConosud.Store.Empresa" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clasificacion">
+              <PropertyRef Name="IdClasificacion" />
+            </Principal>
+            <Dependent Role="Empresa">
+              <PropertyRef Name="ART" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HojasDeRuta_CabeceraHojasDeRuta">
+          <End Role="CabeceraHojasDeRuta" Type="ModeloConosud.Store.CabeceraHojasDeRuta" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="HojasDeRuta" Type="ModeloConosud.Store.HojasDeRuta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CabeceraHojasDeRuta">
+              <PropertyRef Name="IdCabeceraHojasDeRuta" />
+            </Principal>
+            <Dependent Role="HojasDeRuta">
+              <PropertyRef Name="IdCabeceraHojaDeRuta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HojasDeRuta_Plantilla">
+          <End Role="Plantilla" Type="ModeloConosud.Store.Plantilla" Multiplicity="1" />
+          <End Role="HojasDeRuta" Type="ModeloConosud.Store.HojasDeRuta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Plantilla">
+              <PropertyRef Name="IdPlantilla" />
+            </Principal>
+            <Dependent Role="HojasDeRuta">
+              <PropertyRef Name="IdPlanilla" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Legajos_Clasificacion">
+          <End Role="Clasificacion" Type="ModeloConosud.Store.Clasificacion" Multiplicity="0..1" />
+          <End Role="Legajos" Type="ModeloConosud.Store.Legajos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clasificacion">
+              <PropertyRef Name="IdClasificacion" />
+            </Principal>
+            <Dependent Role="Legajos">
+              <PropertyRef Name="TipoDoc" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Legajos_Clasificacion1">
+          <End Role="Clasificacion" Type="ModeloConosud.Store.Clasificacion" Multiplicity="0..1" />
+          <End Role="Legajos" Type="ModeloConosud.Store.Legajos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clasificacion">
+              <PropertyRef Name="IdClasificacion" />
+            </Principal>
+            <Dependent Role="Legajos">
+              <PropertyRef Name="Nacionalidad" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Legajos_Clasificacion2">
+          <End Role="Clasificacion" Type="ModeloConosud.Store.Clasificacion" Multiplicity="0..1" />
+          <End Role="Legajos" Type="ModeloConosud.Store.Legajos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clasificacion">
+              <PropertyRef Name="IdClasificacion" />
+            </Principal>
+            <Dependent Role="Legajos">
+              <PropertyRef Name="EstadoCivil" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Legajos_Clasificacion3">
+          <End Role="Clasificacion" Type="ModeloConosud.Store.Clasificacion" Multiplicity="0..1" />
+          <End Role="Legajos" Type="ModeloConosud.Store.Legajos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clasificacion">
+              <PropertyRef Name="IdClasificacion" />
+            </Principal>
+            <Dependent Role="Legajos">
+              <PropertyRef Name="Provincia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Legajos_Clasificacion4">
+          <End Role="Clasificacion" Type="ModeloConosud.Store.Clasificacion" Multiplicity="0..1" />
+          <End Role="Legajos" Type="ModeloConosud.Store.Legajos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clasificacion">
+              <PropertyRef Name="IdClasificacion" />
+            </Principal>
+            <Dependent Role="Legajos">
+              <PropertyRef Name="Convenio" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Plantilla_CategoriasItems">
+          <End Role="CategoriasItems" Type="ModeloConosud.Store.CategoriasItems" Multiplicity="0..1" />
+          <End Role="Plantilla" Type="ModeloConosud.Store.Plantilla" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CategoriasItems">
+              <PropertyRef Name="IdCategoria" />
+            </Principal>
+            <Dependent Role="Plantilla">
+              <PropertyRef Name="IdCategoria" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RolesPlanilla_SegRol">
+          <End Role="SegRol" Type="ModeloConosud.Store.SegRol" Multiplicity="1" />
+          <End Role="RolesPlanilla" Type="ModeloConosud.Store.RolesPlanilla" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SegRol">
+              <PropertyRef Name="IdSegRol" />
+            </Principal>
+            <Dependent Role="RolesPlanilla">
+              <PropertyRef Name="IdRol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SegMenu_SegMenu">
+          <End Role="SegMenu" Type="ModeloConosud.Store.SegMenu" Multiplicity="0..1" />
+          <End Role="SegMenu1" Type="ModeloConosud.Store.SegMenu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SegMenu">
+              <PropertyRef Name="IdSegMenu" />
+            </Principal>
+            <Dependent Role="SegMenu1">
+              <PropertyRef Name="PadreId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SegRolMenu_SegMenu">
+          <End Role="SegMenu" Type="ModeloConosud.Store.SegMenu" Multiplicity="1" />
+          <End Role="SegRolMenu" Type="ModeloConosud.Store.SegRolMenu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SegMenu">
+              <PropertyRef Name="IdSegMenu" />
+            </Principal>
+            <Dependent Role="SegRolMenu">
+              <PropertyRef Name="Menu" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SegRolMenu_SegRol">
+          <End Role="SegRol" Type="ModeloConosud.Store.SegRol" Multiplicity="1" />
+          <End Role="SegRolMenu" Type="ModeloConosud.Store.SegRolMenu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SegRol">
+              <PropertyRef Name="IdSegRol" />
+            </Principal>
+            <Dependent Role="SegRolMenu">
+              <PropertyRef Name="Rol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SegUsuario_Empresa">
+          <End Role="Empresa" Type="ModeloConosud.Store.Empresa" Multiplicity="0..1" />
+          <End Role="SegUsuario" Type="ModeloConosud.Store.SegUsuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empresa">
+              <PropertyRef Name="IdEmpresa" />
+            </Principal>
+            <Dependent Role="SegUsuario">
+              <PropertyRef Name="IdEmpresa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SegUsuarioRol_SegRol">
+          <End Role="SegRol" Type="ModeloConosud.Store.SegRol" Multiplicity="1" />
+          <End Role="SegUsuarioRol" Type="ModeloConosud.Store.SegUsuarioRol" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SegRol">
+              <PropertyRef Name="IdSegRol" />
+            </Principal>
+            <Dependent Role="SegUsuarioRol">
+              <PropertyRef Name="Rol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SegUsuarioRol_SegUsuario">
+          <End Role="SegUsuario" Type="ModeloConosud.Store.SegUsuario" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="SegUsuarioRol" Type="ModeloConosud.Store.SegUsuarioRol" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SegUsuario">
+              <PropertyRef Name="IdSegUsuario" />
+            </Principal>
+            <Dependent Role="SegUsuarioRol">
+              <PropertyRef Name="Usuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ModeloConosud" Alias="Self" xmlns="http://schemas.microsoft.com/ado/2006/04/edm">
+        <EntityContainer Name="EntidadesConosud">
+          <EntitySet Name="ArchivosAdjuntos" EntityType="ModeloConosud.ArchivosAdjuntos" />
+          <EntitySet Name="CabeceraHojasDeRuta" EntityType="ModeloConosud.CabeceraHojasDeRuta" />
+          <EntitySet Name="CategoriasItems" EntityType="ModeloConosud.CategoriasItems" />
+          <EntitySet Name="Clasificacion" EntityType="ModeloConosud.Clasificacion" />
+          <EntitySet Name="ContEmpLegajos" EntityType="ModeloConosud.ContEmpLegajos" />
+          <EntitySet Name="Contrato" EntityType="ModeloConosud.Contrato" />
+          <EntitySet Name="ContratoEmpresas" EntityType="ModeloConosud.ContratoEmpresas" />
+          <EntitySet Name="Empresa" EntityType="ModeloConosud.Empresa" />
+          <EntitySet Name="HojasDeRuta" EntityType="ModeloConosud.HojasDeRuta" />
+          <EntitySet Name="Legajos" EntityType="ModeloConosud.Legajos" />
+          <EntitySet Name="Plantilla" EntityType="ModeloConosud.Plantilla" />
+          <EntitySet Name="RolesPlanilla" EntityType="ModeloConosud.RolesPlanilla" />
+          <EntitySet Name="SegMenu" EntityType="ModeloConosud.SegMenu" />
+          <EntitySet Name="SegRol" EntityType="ModeloConosud.SegRol" />
+          <EntitySet Name="SegRolMenu" EntityType="ModeloConosud.SegRolMenu" />
+          <EntitySet Name="SegUsuario" EntityType="ModeloConosud.SegUsuario" />
+          <EntitySet Name="SegUsuarioRol" EntityType="ModeloConosud.SegUsuarioRol" />
+          <AssociationSet Name="FK_ArchivosAdjuntos_ContratoEmpresas" Association="ModeloConosud.FK_ArchivosAdjuntos_ContratoEmpresas">
+            <End Role="ContratoEmpresas" EntitySet="ContratoEmpresas" />
+            <End Role="ArchivosAdjuntos" EntitySet="ArchivosAdjuntos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CabeceraHojasDeRuta_Clasificacion" Association="ModeloConosud.FK_CabeceraHojasDeRuta_Clasificacion">
+            <End Role="Clasificacion" EntitySet="Clasificacion" />
+            <End Role="CabeceraHojasDeRuta" EntitySet="CabeceraHojasDeRuta" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CabeceraHojasDeRuta_ContratoEmpresas" Association="ModeloConosud.FK_CabeceraHojasDeRuta_ContratoEmpresas">
+            <End Role="ContratoEmpresas" EntitySet="ContratoEmpresas" />
+            <End Role="CabeceraHojasDeRuta" EntitySet="CabeceraHojasDeRuta" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ContEmpLegajos_CabeceraHojasDeRuta" Association="ModeloConosud.FK_ContEmpLegajos_CabeceraHojasDeRuta">
+            <End Role="CabeceraHojasDeRuta" EntitySet="CabeceraHojasDeRuta" />
+            <End Role="ContEmpLegajos" EntitySet="ContEmpLegajos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HojasDeRuta_CabeceraHojasDeRuta" Association="ModeloConosud.FK_HojasDeRuta_CabeceraHojasDeRuta">
+            <End Role="CabeceraHojasDeRuta" EntitySet="CabeceraHojasDeRuta" />
+            <End Role="HojasDeRuta" EntitySet="HojasDeRuta" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Plantilla_CategoriasItems" Association="ModeloConosud.FK_Plantilla_CategoriasItems">
+            <End Role="CategoriasItems" EntitySet="CategoriasItems" />
+            <End Role="Plantilla" EntitySet="Plantilla" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Contrato_Clasificacion" Association="ModeloConosud.FK_Contrato_Clasificacion">
+            <End Role="Clasificacion" EntitySet="Clasificacion" />
+            <End Role="Contrato" EntitySet="Contrato" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Contrato_Clasificacion1" Association="ModeloConosud.FK_Contrato_Clasificacion1">
+            <End Role="Clasificacion" EntitySet="Clasificacion" />
+            <End Role="Contrato" EntitySet="Contrato" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Legajos_Clasificacion" Association="ModeloConosud.FK_Legajos_Clasificacion">
+            <End Role="Clasificacion" EntitySet="Clasificacion" />
+            <End Role="Legajos" EntitySet="Legajos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Legajos_Clasificacion1" Association="ModeloConosud.FK_Legajos_Clasificacion1">
+            <End Role="Clasificacion" EntitySet="Clasificacion" />
+            <End Role="Legajos" EntitySet="Legajos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Legajos_Clasificacion2" Association="ModeloConosud.FK_Legajos_Clasificacion2">
+            <End Role="Clasificacion" EntitySet="Clasificacion" />
+            <End Role="Legajos" EntitySet="Legajos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Legajos_Clasificacion3" Association="ModeloConosud.FK_Legajos_Clasificacion3">
+            <End Role="Clasificacion" EntitySet="Clasificacion" />
+            <End Role="Legajos" EntitySet="Legajos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ContEmpLegajos_Legajos" Association="ModeloConosud.FK_ContEmpLegajos_Legajos">
+            <End Role="Legajos" EntitySet="Legajos" />
+            <End Role="ContEmpLegajos" EntitySet="ContEmpLegajos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ContratoEmpresas_Contrato" Association="ModeloConosud.FK_ContratoEmpresas_Contrato">
+            <End Role="Contrato" EntitySet="Contrato" />
+            <End Role="ContratoEmpresas" EntitySet="ContratoEmpresas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ContratoEmpresas_Empresa" Association="ModeloConosud.FK_ContratoEmpresas_Empresa">
+            <End Role="Empresa" EntitySet="Empresa" />
+            <End Role="ContratoEmpresas" EntitySet="ContratoEmpresas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SegUsuario_Empresa" Association="ModeloConosud.FK_SegUsuario_Empresa">
+            <End Role="Empresa" EntitySet="Empresa" />
+            <End Role="SegUsuario" EntitySet="SegUsuario" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RolesPlanilla_Plantilla" Association="ModeloConosud.FK_RolesPlanilla_Plantilla">
+            <End Role="Plantilla" EntitySet="Plantilla" />
+            <End Role="RolesPlanilla" EntitySet="RolesPlanilla" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RolesPlanilla_SegRol" Association="ModeloConosud.FK_RolesPlanilla_SegRol">
+            <End Role="SegRol" EntitySet="SegRol" />
+            <End Role="RolesPlanilla" EntitySet="RolesPlanilla" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SegRolMenu_SegMenu" Association="ModeloConosud.FK_SegRolMenu_SegMenu">
+            <End Role="SegMenu" EntitySet="SegMenu" />
+            <End Role="SegRolMenu" EntitySet="SegRolMenu" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SegRolMenu_SegRol" Association="ModeloConosud.FK_SegRolMenu_SegRol">
+            <End Role="SegRol" EntitySet="SegRol" />
+            <End Role="SegRolMenu" EntitySet="SegRolMenu" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SegUsuarioRol_SegRol" Association="ModeloConosud.FK_SegUsuarioRol_SegRol">
+            <End Role="SegRol" EntitySet="SegRol" />
+            <End Role="SegUsuarioRol" EntitySet="SegUsuarioRol" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SegUsuarioRol_SegUsuario" Association="ModeloConosud.FK_SegUsuarioRol_SegUsuario">
+            <End Role="SegUsuario" EntitySet="SegUsuario" />
+            <End Role="SegUsuarioRol" EntitySet="SegUsuarioRol" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Clasificacion_Clasificacion" Association="ModeloConosud.FK_Clasificacion_Clasificacion">
+            <End Role="Clasificacion" EntitySet="Clasificacion" />
+            <End Role="Clasificacion1" EntitySet="Clasificacion" /></AssociationSet>
+          <AssociationSet Name="FK_HojasDeRuta_Plantilla" Association="ModeloConosud.FK_HojasDeRuta_Plantilla">
+            <End Role="Plantilla" EntitySet="Plantilla" />
+            <End Role="HojasDeRuta" EntitySet="HojasDeRuta" /></AssociationSet>
+          <AssociationSet Name="FK_Empresa_Clasificacion" Association="ModeloConosud.FK_Empresa_Clasificacion">
+            <End Role="Clasificacion" EntitySet="Clasificacion" />
+            <End Role="Empresa" EntitySet="Empresa" /></AssociationSet>
+          <AssociationSet Name="FK_Legajos_Clasificacion4" Association="ModeloConosud.FK_Legajos_Clasificacion4">
+            <End Role="Clasificacion" EntitySet="Clasificacion" />
+            <End Role="Legajos" EntitySet="Legajos" /></AssociationSet>
+          <AssociationSet Name="FK_ContEmpLegajos_ContratoEmpresas" Association="ModeloConosud.FK_ContEmpLegajos_ContratoEmpresas">
+            <End Role="ContratoEmpresas" EntitySet="ContratoEmpresas" />
+            <End Role="ContEmpLegajos" EntitySet="ContEmpLegajos" /></AssociationSet>
+          <AssociationSet Name="FK_SegMenu_SegMenu" Association="ModeloConosud.FK_SegMenu_SegMenu">
+            <End Role="SegMenu" EntitySet="SegMenu" />
+            <End Role="SegMenu1" EntitySet="SegMenu" /></AssociationSet>
+          <EntitySet Name="ContratosImp" EntityType="ModeloConosud.ContratosImp" />
+          <EntitySet Name="LegajosContratosImp" EntityType="ModeloConosud.LegajosContratosImp" />
+          <EntitySet Name="EmpresasImp" EntityType="ModeloConosud.EmpresasImp" />
+          <EntitySet Name="ComentariosGral" EntityType="ModeloConosud.ComentariosGral" />
+          <AssociationSet Name="FK_ComentariosGral_ContratoEmpresas" Association="ModeloConosud.FK_ComentariosGral_ContratoEmpresas">
+            <End Role="ContratoEmpresas" EntitySet="ContratoEmpresas" />
+            <End Role="ComentariosGral" EntitySet="ComentariosGral" /></AssociationSet>
+          <AssociationSet Name="FK_ComentariosGral_Plantilla" Association="ModeloConosud.FK_ComentariosGral_Plantilla">
+            <End Role="Plantilla" EntitySet="Plantilla" />
+            <End Role="ComentariosGral" EntitySet="ComentariosGral" /></AssociationSet>
+          <EntitySet Name="ArchivosSueldos" EntityType="ModeloConosud.ArchivosSueldos" />
+          <EntitySet Name="DatosDeSueldos" EntityType="ModeloConosud.DatosDeSueldos" />
+          <AssociationSet Name="FK_DatosDeSueldos_Legajos" Association="ModeloConosud.FK_DatosDeSueldos_Legajos">
+            <End Role="Legajos" EntitySet="Legajos" />
+            <End Role="DatosDeSueldos" EntitySet="DatosDeSueldos" /></AssociationSet>
+          <AssociationSet Name="FK_DatosDeSueldos_ArchivosSueldos" Association="ModeloConosud.FK_DatosDeSueldos_ArchivosSueldos">
+            <End Role="ArchivosSueldos" EntitySet="ArchivosSueldos" />
+            <End Role="DatosDeSueldos" EntitySet="DatosDeSueldos" /></AssociationSet>
+          <AssociationSet Name="FK_ArchivosSueldos_SegUsuario" Association="ModeloConosud.FK_ArchivosSueldos_SegUsuario">
+            <End Role="SegUsuario" EntitySet="SegUsuario" />
+            <End Role="ArchivosSueldos" EntitySet="ArchivosSueldos" /></AssociationSet>
+          <AssociationSet Name="FK_DatosDeSueldos_Contrato" Association="ModeloConosud.FK_DatosDeSueldos_Contrato">
+            <End Role="Contrato" EntitySet="Contrato" />
+            <End Role="DatosDeSueldos" EntitySet="DatosDeSueldos" /></AssociationSet>
+          <AssociationSet Name="FK_DatosDeSueldos_Empresa" Association="ModeloConosud.FK_DatosDeSueldos_Empresa">
+            <End Role="Empresa" EntitySet="Empresa" />
+            <End Role="DatosDeSueldos" EntitySet="DatosDeSueldos" /></AssociationSet>
+          <EntitySet Name="ContratoEmpresasImp" EntityType="ModeloConosud.ContratoEmpresasImp" />
+          <AssociationSet Name="FK_CabeceraHojasDeRuta_SegUsuario" Association="ModeloConosud.FK_CabeceraHojasDeRuta_SegUsuario">
+            <End Role="SegUsuario" EntitySet="SegUsuario" />
+            <End Role="CabeceraHojasDeRuta" EntitySet="CabeceraHojasDeRuta" /></AssociationSet></EntityContainer>
+        <EntityType Name="ArchivosAdjuntos">
+          <Key>
+            <PropertyRef Name="IdArchivoAdjunto" />
+          </Key>
+          <Property Name="IdArchivoAdjunto" Type="Int64" Nullable="false" />
+          <Property Name="NombreArchivo" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="FechaAdjunto" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="ContratoEmpresas" Relationship="ModeloConosud.FK_ArchivosAdjuntos_ContratoEmpresas" FromRole="ArchivosAdjuntos" ToRole="ContratoEmpresas" />
+        </EntityType>
+        <EntityType Name="CabeceraHojasDeRuta">
+          <Key>
+            <PropertyRef Name="IdCabeceraHojasDeRuta" />
+          </Key>
+          <Property Name="IdCabeceraHojasDeRuta" Type="Int64" Nullable="false" />
+          <Property Name="FechaAprobacion" Type="DateTime" />
+          <Property Name="Periodo" Type="DateTime" Nullable="false" />
+          <Property Name="NroCarpeta" Type="Int32" Nullable="false" />
+          <Property Name="Publicar" Type="Boolean" />
+          <Property Name="Estimacion" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="FechaEstimacion" Type="DateTime" />
+          <Property Name="FechaAprobacionSinLegajos" Type="DateTime" />
+          <NavigationProperty Name="Estado" Relationship="ModeloConosud.FK_CabeceraHojasDeRuta_Clasificacion" FromRole="CabeceraHojasDeRuta" ToRole="Clasificacion" />
+          <NavigationProperty Name="ContratoEmpresas" Relationship="ModeloConosud.FK_CabeceraHojasDeRuta_ContratoEmpresas" FromRole="CabeceraHojasDeRuta" ToRole="ContratoEmpresas" />
+          <NavigationProperty Name="ContEmpLegajos" Relationship="ModeloConosud.FK_ContEmpLegajos_CabeceraHojasDeRuta" FromRole="CabeceraHojasDeRuta" ToRole="ContEmpLegajos" />
+          <NavigationProperty Name="HojasDeRuta" Relationship="ModeloConosud.FK_HojasDeRuta_CabeceraHojasDeRuta" FromRole="CabeceraHojasDeRuta" ToRole="HojasDeRuta" />
+          <Property Name="PresentoSueldo" Type="Boolean" Nullable="true" />
+          <Property Name="EsFueraTermino" Type="Boolean" Nullable="true" />
+          <NavigationProperty Name="SegUsuario" Relationship="ModeloConosud.FK_CabeceraHojasDeRuta_SegUsuario" FromRole="CabeceraHojasDeRuta" ToRole="SegUsuario" />
+          <Property Name="FechaUltimaPubicacion" Type="DateTime" Nullable="true" /></EntityType>
+        <EntityType Name="CategoriasItems">
+          <Key>
+            <PropertyRef Name="IdCategoria" />
+          </Key>
+          <Property Name="IdCategoria" Type="Int64" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="Dialimitepresentacion" Type="Int32" />
+          <NavigationProperty Name="Plantilla" Relationship="ModeloConosud.FK_Plantilla_CategoriasItems" FromRole="CategoriasItems" ToRole="Plantilla" />
+        </EntityType>
+        <EntityType Name="Clasificacion">
+          <Key>
+            <PropertyRef Name="IdClasificacion" />
+          </Key>
+          <Property Name="IdClasificacion" Type="Int64" Nullable="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="Codigo" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="Tipo" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="CabeceraHojasDeRuta" Relationship="ModeloConosud.FK_CabeceraHojasDeRuta_Clasificacion" FromRole="Clasificacion" ToRole="CabeceraHojasDeRuta" />
+          <NavigationProperty Name="Contrato" Relationship="ModeloConosud.FK_Contrato_Clasificacion" FromRole="Clasificacion" ToRole="Contrato" />
+          <NavigationProperty Name="Contrato1" Relationship="ModeloConosud.FK_Contrato_Clasificacion1" FromRole="Clasificacion" ToRole="Contrato" />
+          <NavigationProperty Name="Legajos" Relationship="ModeloConosud.FK_Legajos_Clasificacion" FromRole="Clasificacion" ToRole="Legajos" />
+          <NavigationProperty Name="Legajos1" Relationship="ModeloConosud.FK_Legajos_Clasificacion1" FromRole="Clasificacion" ToRole="Legajos" />
+          <NavigationProperty Name="Legajos2" Relationship="ModeloConosud.FK_Legajos_Clasificacion2" FromRole="Clasificacion" ToRole="Legajos" />
+          <NavigationProperty Name="Legajos3" Relationship="ModeloConosud.FK_Legajos_Clasificacion3" FromRole="Clasificacion" ToRole="Legajos" />
+          <NavigationProperty Name="Hijos" Relationship="ModeloConosud.FK_Clasificacion_Clasificacion" FromRole="Clasificacion" ToRole="Clasificacion1" />
+          <NavigationProperty Name="Padre" Relationship="ModeloConosud.FK_Clasificacion_Clasificacion" FromRole="Clasificacion1" ToRole="Clasificacion" />
+          <NavigationProperty Name="Empresa" Relationship="ModeloConosud.FK_Empresa_Clasificacion" FromRole="Clasificacion" ToRole="Empresa" />
+          <NavigationProperty Name="Legajos4" Relationship="ModeloConosud.FK_Legajos_Clasificacion4" FromRole="Clasificacion" ToRole="Legajos" /></EntityType>
+        <EntityType Name="ContEmpLegajos">
+          <Key>
+            <PropertyRef Name="IdContEmpLegajos" />
+          </Key>
+          <Property Name="IdContEmpLegajos" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="CabeceraHojasDeRuta" Relationship="ModeloConosud.FK_ContEmpLegajos_CabeceraHojasDeRuta" FromRole="ContEmpLegajos" ToRole="CabeceraHojasDeRuta" />
+          <NavigationProperty Name="Legajos" Relationship="ModeloConosud.FK_ContEmpLegajos_Legajos" FromRole="ContEmpLegajos" ToRole="Legajos" />
+          <NavigationProperty Name="ContratoEmpresas" Relationship="ModeloConosud.FK_ContEmpLegajos_ContratoEmpresas" FromRole="ContEmpLegajos" ToRole="ContratoEmpresas" />
+          <Property Name="PresentoSueldo" Type="Boolean" Nullable="true" />
+          <Property Name="FechaTramiteBaja" Type="DateTime" Nullable="true" />
+          </EntityType>
+        <EntityType Name="Contrato">
+          <Key>
+            <PropertyRef Name="IdContrato" />
+          </Key>
+          <Property Name="IdContrato" Type="Int64" Nullable="false" />
+          <Property Name="Codigo" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="Servicio" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="FechaInicio" Type="DateTime" />
+          <Property Name="FechaVencimiento" Type="DateTime" />
+          <Property Name="Prorroga" Type="DateTime" />
+          <NavigationProperty Name="TipoContrato" Relationship="ModeloConosud.FK_Contrato_Clasificacion" FromRole="Contrato" ToRole="Clasificacion" />
+          <NavigationProperty Name="Contratadopor" Relationship="ModeloConosud.FK_Contrato_Clasificacion1" FromRole="Contrato" ToRole="Clasificacion" />
+          <NavigationProperty Name="ContratoEmpresas" Relationship="ModeloConosud.FK_ContratoEmpresas_Contrato" FromRole="Contrato" ToRole="ContratoEmpresas" />
+          <NavigationProperty Name="DatosDeSueldos" Relationship="ModeloConosud.FK_DatosDeSueldos_Contrato" FromRole="Contrato" ToRole="DatosDeSueldos" /></EntityType>
+        <EntityType Name="ContratoEmpresas">
+          <Key>
+            <PropertyRef Name="IdContratoEmpresas" />
+          </Key>
+          <Property Name="IdContratoEmpresas" Type="Int64" Nullable="false" />
+          <Property Name="EsContratista" Type="Boolean" />
+          <Property Name="Comentario" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="ArchivosAdjuntos" Relationship="ModeloConosud.FK_ArchivosAdjuntos_ContratoEmpresas" FromRole="ContratoEmpresas" ToRole="ArchivosAdjuntos" />
+          <NavigationProperty Name="CabeceraHojasDeRuta" Relationship="ModeloConosud.FK_CabeceraHojasDeRuta_ContratoEmpresas" FromRole="ContratoEmpresas" ToRole="CabeceraHojasDeRuta" />
+          <NavigationProperty Name="Contrato" Relationship="ModeloConosud.FK_ContratoEmpresas_Contrato" FromRole="ContratoEmpresas" ToRole="Contrato" />
+          <NavigationProperty Name="Empresa" Relationship="ModeloConosud.FK_ContratoEmpresas_Empresa" FromRole="ContratoEmpresas" ToRole="Empresa" />
+          <NavigationProperty Name="ContEmpLegajos" Relationship="ModeloConosud.FK_ContEmpLegajos_ContratoEmpresas" FromRole="ContratoEmpresas" ToRole="ContEmpLegajos" />
+          <NavigationProperty Name="ComentariosGral" Relationship="ModeloConosud.FK_ComentariosGral_ContratoEmpresas" FromRole="ContratoEmpresas" ToRole="ComentariosGral" /></EntityType>
+        <EntityType Name="Empresa">
+          <Key>
+            <PropertyRef Name="IdEmpresa" />
+          </Key>
+          <Property Name="IdEmpresa" Type="Int64" Nullable="false" />
+          <Property Name="RazonSocial" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="CUIT" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="FechaAlta" Type="DateTime" />
+          <Property Name="RepresentanteTecnico" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="PrestacionEmergencia" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="Direccion" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="Telefono" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="CorreoElectronico" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="ContratoEmpresas" Relationship="ModeloConosud.FK_ContratoEmpresas_Empresa" FromRole="Empresa" ToRole="ContratoEmpresas" />
+          <NavigationProperty Name="SegUsuario" Relationship="ModeloConosud.FK_SegUsuario_Empresa" FromRole="Empresa" ToRole="SegUsuario" />
+          <Property Name="Emergencia" Type="String" Nullable="true" />
+          <NavigationProperty Name="objART" Relationship="ModeloConosud.FK_Empresa_Clasificacion" FromRole="Empresa" ToRole="Clasificacion" />
+          <NavigationProperty Name="DatosDeSueldos" Relationship="ModeloConosud.FK_DatosDeSueldos_Empresa" FromRole="Empresa" ToRole="DatosDeSueldos" /></EntityType>
+        <EntityType Name="HojasDeRuta">
+          <Key>
+            <PropertyRef Name="IdHojaDeRuta" />
+          </Key>
+          <Property Name="IdHojaDeRuta" Type="Int64" Nullable="false" />
+          <Property Name="HojaComentario" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="HojaFechaControlado" Type="DateTime" />
+          <Property Name="HojaAprobado" Type="Boolean" />
+          <Property Name="HojaFechaAprobacion" Type="DateTime" />
+          <Property Name="DocComentario" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="DocFechaEntrega" Type="DateTime" />
+          <Property Name="AuditadoPor" Type="String" MaxLength="256" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="CabeceraHojasDeRuta" Relationship="ModeloConosud.FK_HojasDeRuta_CabeceraHojasDeRuta" FromRole="HojasDeRuta" ToRole="CabeceraHojasDeRuta" />
+          <NavigationProperty Name="Plantilla" Relationship="ModeloConosud.FK_HojasDeRuta_Plantilla" FromRole="HojasDeRuta" ToRole="Plantilla" />
+          <Property Name="AuditoriaTerminada" Type="Boolean" Nullable="true" /></EntityType>
+        <EntityType Name="Legajos">
+          <Key>
+            <PropertyRef Name="IdLegajos" />
+          </Key>
+          <Property Name="IdLegajos" Type="Int64" Nullable="false" />
+          <Property Name="Apellido" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="Nombre" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="NroDoc" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="FechaNacimiento" Type="DateTime" />
+          <Property Name="Sexo" Type="Boolean" />
+          <Property Name="CUIL" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="Direccion" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="CodigoPostal" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="TelefonoFijo" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="CorreoElectronico" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="objTipoDocumento" Relationship="ModeloConosud.FK_Legajos_Clasificacion" FromRole="Legajos" ToRole="Clasificacion" />
+          <NavigationProperty Name="objNacionalidad" Relationship="ModeloConosud.FK_Legajos_Clasificacion1" FromRole="Legajos" ToRole="Clasificacion" />
+          <NavigationProperty Name="objEstadoCivil" Relationship="ModeloConosud.FK_Legajos_Clasificacion2" FromRole="Legajos" ToRole="Clasificacion" />
+          <NavigationProperty Name="objProvincia" Relationship="ModeloConosud.FK_Legajos_Clasificacion3" FromRole="Legajos" ToRole="Clasificacion" />
+          <NavigationProperty Name="objContEmpLegajos" Relationship="ModeloConosud.FK_ContEmpLegajos_Legajos" FromRole="Legajos" ToRole="ContEmpLegajos" />
+          <NavigationProperty Name="objConvenio" Relationship="ModeloConosud.FK_Legajos_Clasificacion4" FromRole="Legajos" ToRole="Clasificacion" />
+          <Property Name="FechaIngreos" Type="DateTime" Nullable="true" />
+          <NavigationProperty Name="DatosDeSueldos" Relationship="ModeloConosud.FK_DatosDeSueldos_Legajos" FromRole="Legajos" ToRole="DatosDeSueldos" /></EntityType>
+        <EntityType Name="Plantilla">
+          <Key>
+            <PropertyRef Name="IdPlantilla" />
+          </Key>
+          <Property Name="IdPlantilla" Type="Int64" Nullable="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="250" Unicode="false" FixedLength="false" />
+          <Property Name="Codigo" Type="String" MaxLength="10" Unicode="true" FixedLength="true" />
+          <NavigationProperty Name="CategoriasItems" Relationship="ModeloConosud.FK_Plantilla_CategoriasItems" FromRole="Plantilla" ToRole="CategoriasItems" />
+          <NavigationProperty Name="RolesPlanilla" Relationship="ModeloConosud.FK_RolesPlanilla_Plantilla" FromRole="Plantilla" ToRole="RolesPlanilla" />
+          <NavigationProperty Name="HojasDeRuta" Relationship="ModeloConosud.FK_HojasDeRuta_Plantilla" FromRole="Plantilla" ToRole="HojasDeRuta" />
+          <NavigationProperty Name="ComentariosGral" Relationship="ModeloConosud.FK_ComentariosGral_Plantilla" FromRole="Plantilla" ToRole="ComentariosGral" /></EntityType>
+        <EntityType Name="RolesPlanilla">
+          <Key>
+            <PropertyRef Name="IdRolPlanilla" />
+          </Key>
+          <Property Name="IdRolPlanilla" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="Plantilla" Relationship="ModeloConosud.FK_RolesPlanilla_Plantilla" FromRole="RolesPlanilla" ToRole="Plantilla" />
+          <NavigationProperty Name="SegRol" Relationship="ModeloConosud.FK_RolesPlanilla_SegRol" FromRole="RolesPlanilla" ToRole="SegRol" />
+        </EntityType>
+        <EntityType Name="SegMenu">
+          <Key>
+            <PropertyRef Name="IdSegMenu" />
+          </Key>
+          <Property Name="IdSegMenu" Type="Int64" Nullable="false" />
+          <Property Name="Descripcion" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="Posicion" Type="Int32" Nullable="false" />
+          <Property Name="Icono" Type="String" MaxLength="150" Unicode="false" FixedLength="false" />
+          <Property Name="Url" Type="String" MaxLength="150" Unicode="false" FixedLength="false" />
+          <Property Name="Target" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="SegRolMenu" Relationship="ModeloConosud.FK_SegRolMenu_SegMenu" FromRole="SegMenu" ToRole="SegRolMenu" />
+          <NavigationProperty Name="Hijos" Relationship="ModeloConosud.FK_SegMenu_SegMenu" FromRole="SegMenu" ToRole="SegMenu1" />
+          <NavigationProperty Name="Padre" Relationship="ModeloConosud.FK_SegMenu_SegMenu" FromRole="SegMenu1" ToRole="SegMenu" /></EntityType>
+        <EntityType Name="SegRol">
+          <Key>
+            <PropertyRef Name="IdSegRol" />
+          </Key>
+          <Property Name="IdSegRol" Type="Int64" Nullable="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="RolesPlanilla" Relationship="ModeloConosud.FK_RolesPlanilla_SegRol" FromRole="SegRol" ToRole="RolesPlanilla" />
+          <NavigationProperty Name="SegRolMenu" Relationship="ModeloConosud.FK_SegRolMenu_SegRol" FromRole="SegRol" ToRole="SegRolMenu" />
+          <NavigationProperty Name="SegUsuarioRol" Relationship="ModeloConosud.FK_SegUsuarioRol_SegRol" FromRole="SegRol" ToRole="SegUsuarioRol" />
+        </EntityType>
+        <EntityType Name="SegRolMenu">
+          <Key>
+            <PropertyRef Name="IdSegRolMenu" />
+          </Key>
+          <Property Name="IdSegRolMenu" Type="Int64" Nullable="false" />
+          <Property Name="Lectura" Type="Boolean" Nullable="false" />
+          <Property Name="Modificacion" Type="Boolean" Nullable="false" />
+          <Property Name="Creacion" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="SegMenu" Relationship="ModeloConosud.FK_SegRolMenu_SegMenu" FromRole="SegRolMenu" ToRole="SegMenu" />
+          <NavigationProperty Name="SegRol" Relationship="ModeloConosud.FK_SegRolMenu_SegRol" FromRole="SegRolMenu" ToRole="SegRol" />
+        </EntityType>
+        <EntityType Name="SegUsuario">
+          <Key>
+            <PropertyRef Name="IdSegUsuario" />
+          </Key>
+          <Property Name="IdSegUsuario" Type="Int64" Nullable="false" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="Login" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="Empresa" Relationship="ModeloConosud.FK_SegUsuario_Empresa" FromRole="SegUsuario" ToRole="Empresa" />
+          <NavigationProperty Name="SegUsuarioRol" Relationship="ModeloConosud.FK_SegUsuarioRol_SegUsuario" FromRole="SegUsuario" ToRole="SegUsuarioRol" />
+          <NavigationProperty Name="ArchivosSueldos" Relationship="ModeloConosud.FK_ArchivosSueldos_SegUsuario" FromRole="SegUsuario" ToRole="ArchivosSueldos" />
+          <NavigationProperty Name="CabeceraHojasDeRuta" Relationship="ModeloConosud.FK_CabeceraHojasDeRuta_SegUsuario" FromRole="SegUsuario" ToRole="CabeceraHojasDeRuta" /></EntityType>
+        <EntityType Name="SegUsuarioRol">
+          <Key>
+            <PropertyRef Name="IdSegUsuarioRol" />
+          </Key>
+          <Property Name="IdSegUsuarioRol" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="SegRol" Relationship="ModeloConosud.FK_SegUsuarioRol_SegRol" FromRole="SegUsuarioRol" ToRole="SegRol" />
+          <NavigationProperty Name="SegUsuario" Relationship="ModeloConosud.FK_SegUsuarioRol_SegUsuario" FromRole="SegUsuarioRol" ToRole="SegUsuario" />
+        </EntityType>
+        <Association Name="FK_ArchivosAdjuntos_ContratoEmpresas">
+          <End Role="ContratoEmpresas" Type="ModeloConosud.ContratoEmpresas" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ArchivosAdjuntos" Type="ModeloConosud.ArchivosAdjuntos" Multiplicity="*" />
+        </Association>
+        <Association Name="FK_CabeceraHojasDeRuta_Clasificacion">
+          <End Role="Clasificacion" Type="ModeloConosud.Clasificacion" Multiplicity="1" />
+          <End Role="CabeceraHojasDeRuta" Type="ModeloConosud.CabeceraHojasDeRuta" Multiplicity="*" />
+        </Association>
+        <Association Name="FK_CabeceraHojasDeRuta_ContratoEmpresas">
+          <End Role="ContratoEmpresas" Type="ModeloConosud.ContratoEmpresas" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="CabeceraHojasDeRuta" Type="ModeloConosud.CabeceraHojasDeRuta" Multiplicity="*" />
+        </Association>
+        <Association Name="FK_ContEmpLegajos_CabeceraHojasDeRuta">
+          <End Role="CabeceraHojasDeRuta" Type="ModeloConosud.CabeceraHojasDeRuta" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ContEmpLegajos" Type="ModeloConosud.ContEmpLegajos" Multiplicity="*" />
+        </Association>
+        <Association Name="FK_HojasDeRuta_CabeceraHojasDeRuta">
+          <End Role="CabeceraHojasDeRuta" Type="ModeloConosud.CabeceraHojasDeRuta" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="HojasDeRuta" Type="ModeloConosud.HojasDeRuta" Multiplicity="*" />
+        </Association>
+        <Association Name="FK_Plantilla_CategoriasItems">
+          <End Role="CategoriasItems" Type="ModeloConosud.CategoriasItems" Multiplicity="0..1" />
+          <End Role="Plantilla" Type="ModeloConosud.Plantilla" Multiplicity="*" />
+        </Association>
+        <Association Name="FK_Contrato_Clasificacion">
+          <End Role="Clasificacion" Type="ModeloConosud.Clasificacion" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Contrato" Type="ModeloConosud.Contrato" Multiplicity="*" />
+        </Association>
+        <Association Name="FK_Contrato_Clasificacion1">
+          <End Role="Clasificacion" Type="ModeloConosud.Clasificacion" Multiplicity="0..1" />
+          <End Role="Contrato" Type="ModeloConosud.Contrato" Multiplicity="*" />
+        </Association>
+        <Association Name="FK_Legajos_Clasificacion">
+          <End Role="Clasificacion" Type="ModeloConosud.Clasificacion" Multiplicity="0..1" />
+          <End Role="Legajos" Type="ModeloConosud.Legajos" Multiplicity="*" />
+        </Association>
+        <Association Name="FK_Legajos_Clasificacion1">
+          <End Role="Clasificacion" Type="ModeloConosud.Clasificacion" Multiplicity="0..1" />
+          <End Role="Legajos" Type="ModeloConosud.Legajos" Multiplicity="*" />
+        </Association>
+        <Association Name="FK_Legajos_Clasificacion2">
+          <End Role="Clasificacion" Type="ModeloConosud.Clasificacion" Multiplicity="0..1" />
+          <End Role="Legajos" Type="ModeloConosud.Legajos" Multiplicity="*" />
+        </Association>
+        <Association Name="FK_Legajos_Clasificacion3">
+          <End Role="Clasificacion" Type="ModeloConosud.Clasificacion" Multiplicity="0..1" />
+          <End Role="Legajos" Type="ModeloConosud.Legajos" Multiplicity="*" />
+        </Association>
+        <Association Name="FK_ContEmpLegajos_Legajos">
+          <End Role="Legajos" Type="ModeloConosud.Legajos" Multiplicity="0..1" />
+          <End Role="ContEmpLegajos" Type="ModeloConosud.ContEmpLegajos" Multiplicity="*" />
+        </Association>
+        <Association Name="FK_ContratoEmpresas_Contrato">
+          <End Role="Contrato" Type="ModeloConosud.Contrato" Multiplicity="0..1" />
+          <End Role="ContratoEmpresas" Type="ModeloConosud.ContratoEmpresas" Multiplicity="*" />
+        </Association>
+        <Association Name="FK_ContratoEmpresas_Empresa">
+          <End Role="Empresa" Type="ModeloConosud.Empresa" Multiplicity="0..1" />
+          <End Role="ContratoEmpresas" Type="ModeloConosud.ContratoEmpresas" Multiplicity="*" />
+        </Association>
+        <Association Name="FK_SegUsuario_Empresa">
+          <End Role="Empresa" Type="ModeloConosud.Empresa" Multiplicity="0..1" />
+          <End Role="SegUsuario" Type="ModeloConosud.SegUsuario" Multiplicity="*" />
+        </Association>
+        <Association Name="FK_RolesPlanilla_Plantilla">
+          <End Role="Plantilla" Type="ModeloConosud.Plantilla" Multiplicity="1" />
+          <End Role="RolesPlanilla" Type="ModeloConosud.RolesPlanilla" Multiplicity="*" />
+        </Association>
+        <Association Name="FK_RolesPlanilla_SegRol">
+          <End Role="SegRol" Type="ModeloConosud.SegRol" Multiplicity="1" />
+          <End Role="RolesPlanilla" Type="ModeloConosud.RolesPlanilla" Multiplicity="*" />
+        </Association>
+        <Association Name="FK_SegRolMenu_SegMenu">
+          <End Role="SegMenu" Type="ModeloConosud.SegMenu" Multiplicity="1" />
+          <End Role="SegRolMenu" Type="ModeloConosud.SegRolMenu" Multiplicity="*" />
+        </Association>
+        <Association Name="FK_SegRolMenu_SegRol">
+          <End Role="SegRol" Type="ModeloConosud.SegRol" Multiplicity="1" />
+          <End Role="SegRolMenu" Type="ModeloConosud.SegRolMenu" Multiplicity="*" />
+        </Association>
+        <Association Name="FK_SegUsuarioRol_SegRol">
+          <End Role="SegRol" Type="ModeloConosud.SegRol" Multiplicity="1" />
+          <End Role="SegUsuarioRol" Type="ModeloConosud.SegUsuarioRol" Multiplicity="*" />
+        </Association>
+        <Association Name="FK_SegUsuarioRol_SegUsuario">
+          <End Role="SegUsuario" Type="ModeloConosud.SegUsuario" Multiplicity="1" />
+          <End Role="SegUsuarioRol" Type="ModeloConosud.SegUsuarioRol" Multiplicity="*" />
+        </Association>
+        <Association Name="FK_Clasificacion_Clasificacion">
+          <End Type="ModeloConosud.Clasificacion" Role="Clasificacion" Multiplicity="0..1" />
+          <End Type="ModeloConosud.Clasificacion" Role="Clasificacion1" Multiplicity="*" /></Association>
+        <Association Name="FK_HojasDeRuta_Plantilla">
+          <End Type="ModeloConosud.Plantilla" Role="Plantilla" Multiplicity="1" />
+          <End Type="ModeloConosud.HojasDeRuta" Role="HojasDeRuta" Multiplicity="*" /></Association>
+        <Association Name="FK_Empresa_Clasificacion">
+          <End Type="ModeloConosud.Clasificacion" Role="Clasificacion" Multiplicity="0..1" />
+          <End Type="ModeloConosud.Empresa" Role="Empresa" Multiplicity="*" /></Association>
+        <Association Name="FK_Legajos_Clasificacion4">
+          <End Type="ModeloConosud.Clasificacion" Role="Clasificacion" Multiplicity="0..1" />
+          <End Type="ModeloConosud.Legajos" Role="Legajos" Multiplicity="*" /></Association>
+        <Association Name="FK_ContEmpLegajos_ContratoEmpresas">
+          <End Type="ModeloConosud.ContratoEmpresas" Role="ContratoEmpresas" Multiplicity="0..1" />
+          <End Type="ModeloConosud.ContEmpLegajos" Role="ContEmpLegajos" Multiplicity="*" /></Association>
+        <Association Name="FK_SegMenu_SegMenu">
+          <End Type="ModeloConosud.SegMenu" Role="SegMenu" Multiplicity="0..1" />
+          <End Type="ModeloConosud.SegMenu" Role="SegMenu1" Multiplicity="*" /></Association>
+        <EntityType Name="ContratosImp">
+          <Key>
+            <PropertyRef Name="ID" /></Key>
+          <Property Name="Codigo" Type="String" Nullable="true" />
+          <Property Name="Servicio" Type="String" Nullable="true" />
+          <Property Name="FechaInicio" Type="String" Nullable="true" />
+          <Property Name="FechaVencimiento" Type="String" Nullable="true" />
+          <Property Name="Prorroga" Type="DateTime" Nullable="true" />
+          <Property Name="TipoContrato" Type="String" Nullable="true" />
+          <Property Name="ContratadoPor" Type="String" Nullable="true" />
+          <Property Name="CUIT_FK" Type="String" Nullable="false" />
+          <Property Name="ID" Type="Int64" Nullable="false" /></EntityType>
+        <EntityType Name="LegajosContratosImp">
+          <Key>
+            <PropertyRef Name="Id" /></Key>
+          <Property Name="Id" Type="Int64" Nullable="false" />
+          <Property Name="NroContrato" Type="String" Nullable="true" />
+          <Property Name="FechaIngreso" Type="DateTime" Nullable="true" />
+          <Property Name="Contratista" Type="String" Nullable="true" />
+          <Property Name="Apellido" Type="String" Nullable="true" />
+          <Property Name="Nombre" Type="String" Nullable="true" />
+          <Property Name="Tipo_Documento" Type="String" Nullable="true" />
+          <Property Name="NroDoc" Type="Double" Nullable="true" />
+          <Property Name="FechaNacimiento" Type="String" Nullable="true" />
+          <Property Name="CUIL" Type="String" Nullable="true" />
+          <Property Name="Direccion" Type="String" Nullable="true" />
+          <Property Name="CodigoPostal" Type="String" Nullable="true" />
+          <Property Name="TelefonoFijo" Type="String" Nullable="true" />
+          <Property Name="CorreoElectronico" Type="String" Nullable="true" />
+          <Property Name="EstadoCivil" Type="String" Nullable="true" />
+          <Property Name="Nacionalidad" Type="String" Nullable="true" />
+          <Property Name="Provincia" Type="String" Nullable="true" />
+          <Property Name="Convenio" Type="String" Nullable="true" />
+          </EntityType>
+        <EntityType Name="EmpresasImp">
+          <Key>
+            <PropertyRef Name="Id" /></Key>
+          <Property Name="Id" Type="Int64" Nullable="false" />
+          <Property Name="RazonSocial" Type="String" Nullable="true" />
+          <Property Name="CUIT" Type="Double" Nullable="true" />
+          <Property Name="Telefono" Type="String" Nullable="true" />
+          <Property Name="FechaAlta" Type="DateTime" Nullable="true" />
+          <Property Name="Direccion" Type="String" Nullable="true" />
+          <Property Name="RepresentanteTecnico" Type="String" Nullable="true" />
+          <Property Name="Emergencias" Type="String" Nullable="true" />
+          <Property Name="PrestacionEmergencia" Type="String" Nullable="true" />
+          <Property Name="CorreoElectronico" Type="String" Nullable="true" />
+          <Property Name="ART" Type="String" Nullable="true" /></EntityType>
+        <EntityType Name="ComentariosGral">
+          <Key>
+            <PropertyRef Name="IdComentarioGral" /></Key>
+          <Property Name="IdComentarioGral" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="ContratoEmpresas" Relationship="ModeloConosud.FK_ComentariosGral_ContratoEmpresas" FromRole="ComentariosGral" ToRole="ContratoEmpresas" />
+          <NavigationProperty Name="Plantilla" Relationship="ModeloConosud.FK_ComentariosGral_Plantilla" FromRole="ComentariosGral" ToRole="Plantilla" />
+          <Property Name="Comentario" Type="String" Nullable="true" /></EntityType>
+        <Association Name="FK_ComentariosGral_ContratoEmpresas">
+          <End Type="ModeloConosud.ContratoEmpresas" Role="ContratoEmpresas" Multiplicity="0..1" />
+          <End Type="ModeloConosud.ComentariosGral" Role="ComentariosGral" Multiplicity="*" /></Association>
+        <Association Name="FK_ComentariosGral_Plantilla">
+          <End Type="ModeloConosud.Plantilla" Role="Plantilla" Multiplicity="0..1" />
+          <End Type="ModeloConosud.ComentariosGral" Role="ComentariosGral" Multiplicity="*" /></Association>
+        <EntityType Name="ArchivosSueldos">
+          <Key>
+            <PropertyRef Name="IdArchivoSueldos" /></Key>
+          <Property Name="IdArchivoSueldos" Type="Int64" Nullable="false" />
+          <Property Name="Nombre" Type="String" Nullable="true" />
+          <Property Name="FechaCreacion" Type="DateTime" Nullable="true" />
+          <NavigationProperty Name="colDatosDeSueldos" Relationship="ModeloConosud.FK_DatosDeSueldos_ArchivosSueldos" FromRole="ArchivosSueldos" ToRole="DatosDeSueldos" />
+          <NavigationProperty Name="SegUsuario" Relationship="ModeloConosud.FK_ArchivosSueldos_SegUsuario" FromRole="ArchivosSueldos" ToRole="SegUsuario" />
+          </EntityType>
+        <EntityType Name="DatosDeSueldos">
+          <Key>
+            <PropertyRef Name="IdDatosSueldos" /></Key>
+          <Property Name="IdDatosSueldos" Type="Int64" Nullable="false" />
+          <Property Name="Periodo" Type="DateTime" Nullable="true" />
+          <Property Name="Basico_ValorHora" Type="Decimal" Nullable="true" />
+          <Property Name="BasicoLiquidado" Type="Decimal" Nullable="true" />
+          <Property Name="HorasExtras" Type="Decimal" Nullable="true" />
+          <Property Name="AdicionalesRemunerativos" Type="Decimal" Nullable="true" />
+          <Property Name="Vacaciones" Type="Decimal" Nullable="true" />
+          <Property Name="SAC" Type="Decimal" Nullable="true" />
+          <Property Name="TotalBruto" Type="Decimal" Nullable="true" />
+          <Property Name="AsignacionFamiliar" Type="Decimal" Nullable="true" />
+          <Property Name="AdicionalesNORemunerativos" Type="Decimal" Nullable="true" />
+          <Property Name="Descuentos" Type="Decimal" Nullable="true" />
+          <Property Name="TotalNeto" Type="Decimal" Nullable="true" />
+          <NavigationProperty Name="objLegajo" Relationship="ModeloConosud.FK_DatosDeSueldos_Legajos" FromRole="DatosDeSueldos" ToRole="Legajos" />
+          <NavigationProperty Name="objArchivoSueldo" Relationship="ModeloConosud.FK_DatosDeSueldos_ArchivosSueldos" FromRole="DatosDeSueldos" ToRole="ArchivosSueldos" />
+          <NavigationProperty Name="objContrato" Relationship="ModeloConosud.FK_DatosDeSueldos_Contrato" FromRole="DatosDeSueldos" ToRole="Contrato" />
+          <NavigationProperty Name="objEmpresa" Relationship="ModeloConosud.FK_DatosDeSueldos_Empresa" FromRole="DatosDeSueldos" ToRole="Empresa" />
+          <Property Name="CategoriaCCT" Type="String" Nullable="true" />
+          <Property Name="FuncionCCT" Type="String" Nullable="true" /></EntityType>
+        <Association Name="FK_DatosDeSueldos_Legajos">
+          <End Type="ModeloConosud.Legajos" Role="Legajos" Multiplicity="1" />
+          <End Type="ModeloConosud.DatosDeSueldos" Role="DatosDeSueldos" Multiplicity="*" /></Association>
+        <Association Name="FK_DatosDeSueldos_ArchivosSueldos">
+          <End Type="ModeloConosud.ArchivosSueldos" Role="ArchivosSueldos" Multiplicity="0..1" />
+          <End Type="ModeloConosud.DatosDeSueldos" Role="DatosDeSueldos" Multiplicity="*" /></Association>
+        <Association Name="FK_ArchivosSueldos_SegUsuario">
+          <End Type="ModeloConosud.SegUsuario" Role="SegUsuario" Multiplicity="1" />
+          <End Type="ModeloConosud.ArchivosSueldos" Role="ArchivosSueldos" Multiplicity="*" /></Association>
+        <Association Name="FK_DatosDeSueldos_Contrato">
+          <End Type="ModeloConosud.Contrato" Role="Contrato" Multiplicity="0..1" />
+          <End Type="ModeloConosud.DatosDeSueldos" Role="DatosDeSueldos" Multiplicity="*" /></Association>
+        <Association Name="FK_DatosDeSueldos_Empresa">
+          <End Type="ModeloConosud.Empresa" Role="Empresa" Multiplicity="0..1" />
+          <End Type="ModeloConosud.DatosDeSueldos" Role="DatosDeSueldos" Multiplicity="*" /></Association>
+        <EntityType Name="ContratoEmpresasImp">
+          <Key>
+            <PropertyRef Name="id" /></Key>
+          <Property Name="id" Type="Int64" Nullable="false" />
+          <Property Name="NroContrato" Type="String" Nullable="true" />
+          <Property Name="Contratista" Type="String" Nullable="true" />
+          <Property Name="SubContratista" Type="String" Nullable="true" /></EntityType>
+        <Association Name="FK_CabeceraHojasDeRuta_SegUsuario">
+          <End Type="ModeloConosud.SegUsuario" Role="SegUsuario" Multiplicity="0..1" />
+          <End Type="ModeloConosud.CabeceraHojasDeRuta" Role="CabeceraHojasDeRuta" Multiplicity="*" /></Association></Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="urn:schemas-microsoft-com:windows:storage:mapping:CS">
+        <EntityContainerMapping StorageEntityContainer="ModeloConosudStoreContainer" CdmEntityContainer="EntidadesConosud">
+          <EntitySetMapping Name="ArchivosAdjuntos">
+            <EntityTypeMapping TypeName="IsTypeOf(ModeloConosud.ArchivosAdjuntos)">
+              <MappingFragment StoreEntitySet="ArchivosAdjuntos">
+                <ScalarProperty Name="IdArchivoAdjunto" ColumnName="IdArchivoAdjunto" />
+                <ScalarProperty Name="NombreArchivo" ColumnName="NombreArchivo" />
+                <ScalarProperty Name="FechaAdjunto" ColumnName="FechaAdjunto" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CabeceraHojasDeRuta">
+            <EntityTypeMapping TypeName="IsTypeOf(ModeloConosud.CabeceraHojasDeRuta)">
+              <MappingFragment StoreEntitySet="CabeceraHojasDeRuta">
+                <ScalarProperty Name="FechaUltimaPubicacion" ColumnName="FechaUltimaPubicacion" />
+                <ScalarProperty Name="EsFueraTermino" ColumnName="EsFueraTermino" />
+                <ScalarProperty Name="PresentoSueldo" ColumnName="PresentoSueldo" />
+                <ScalarProperty Name="IdCabeceraHojasDeRuta" ColumnName="IdCabeceraHojasDeRuta" />
+                <ScalarProperty Name="FechaAprobacion" ColumnName="FechaAprobacion" />
+                <ScalarProperty Name="Periodo" ColumnName="Periodo" />
+                <ScalarProperty Name="NroCarpeta" ColumnName="NroCarpeta" />
+                <ScalarProperty Name="Publicar" ColumnName="Publicar" />
+                <ScalarProperty Name="Estimacion" ColumnName="Estimacion" />
+                <ScalarProperty Name="FechaEstimacion" ColumnName="FechaEstimacion" />
+                <ScalarProperty Name="FechaAprobacionSinLegajos" ColumnName="FechaAprobacionSinLegajos" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CategoriasItems">
+            <EntityTypeMapping TypeName="IsTypeOf(ModeloConosud.CategoriasItems)">
+              <MappingFragment StoreEntitySet="CategoriasItems">
+                <ScalarProperty Name="IdCategoria" ColumnName="IdCategoria" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Dialimitepresentacion" ColumnName="Dialimitepresentacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Clasificacion">
+            <EntityTypeMapping TypeName="IsTypeOf(ModeloConosud.Clasificacion)">
+              <MappingFragment StoreEntitySet="Clasificacion">
+                <ScalarProperty Name="IdClasificacion" ColumnName="IdClasificacion" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Tipo" ColumnName="Tipo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ContEmpLegajos">
+            <EntityTypeMapping TypeName="IsTypeOf(ModeloConosud.ContEmpLegajos)">
+              <MappingFragment StoreEntitySet="ContEmpLegajos">
+                <ScalarProperty Name="FechaTramiteBaja" ColumnName="FechaTramiteBaja" />
+                <ScalarProperty Name="PresentoSueldo" ColumnName="PresentoSueldo" />
+                <ScalarProperty Name="IdContEmpLegajos" ColumnName="IdContEmpLegajos" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Contrato">
+            <EntityTypeMapping TypeName="IsTypeOf(ModeloConosud.Contrato)">
+              <MappingFragment StoreEntitySet="Contrato">
+                <ScalarProperty Name="IdContrato" ColumnName="IdContrato" />
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Servicio" ColumnName="Servicio" />
+                <ScalarProperty Name="FechaInicio" ColumnName="FechaInicio" />
+                <ScalarProperty Name="FechaVencimiento" ColumnName="FechaVencimiento" />
+                <ScalarProperty Name="Prorroga" ColumnName="Prorroga" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ContratoEmpresas">
+            <EntityTypeMapping TypeName="IsTypeOf(ModeloConosud.ContratoEmpresas)">
+              <MappingFragment StoreEntitySet="ContratoEmpresas">
+                <ScalarProperty Name="IdContratoEmpresas" ColumnName="IdContratoEmpresas" />
+                <ScalarProperty Name="EsContratista" ColumnName="EsContratista" />
+                <ScalarProperty Name="Comentario" ColumnName="Comentario" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Empresa">
+            <EntityTypeMapping TypeName="IsTypeOf(ModeloConosud.Empresa)">
+              <MappingFragment StoreEntitySet="Empresa">
+                <ScalarProperty Name="Emergencia" ColumnName="Emergencia" />
+                <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
+                <ScalarProperty Name="RazonSocial" ColumnName="RazonSocial" />
+                <ScalarProperty Name="CUIT" ColumnName="CUIT" />
+                <ScalarProperty Name="FechaAlta" ColumnName="FechaAlta" />
+                <ScalarProperty Name="RepresentanteTecnico" ColumnName="RepresentanteTecnico" />
+                <ScalarProperty Name="PrestacionEmergencia" ColumnName="PrestacionEmergencia" />
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="CorreoElectronico" ColumnName="CorreoElectronico" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HojasDeRuta">
+            <EntityTypeMapping TypeName="IsTypeOf(ModeloConosud.HojasDeRuta)">
+              <MappingFragment StoreEntitySet="HojasDeRuta">
+                <ScalarProperty Name="AuditoriaTerminada" ColumnName="AuditoriaTerminada" />
+                <ScalarProperty Name="IdHojaDeRuta" ColumnName="IdHojaDeRuta" />
+                <ScalarProperty Name="HojaComentario" ColumnName="HojaComentario" />
+                <ScalarProperty Name="HojaFechaControlado" ColumnName="HojaFechaControlado" />
+                <ScalarProperty Name="HojaAprobado" ColumnName="HojaAprobado" />
+                <ScalarProperty Name="HojaFechaAprobacion" ColumnName="HojaFechaAprobacion" />
+                <ScalarProperty Name="DocComentario" ColumnName="DocComentario" />
+                <ScalarProperty Name="DocFechaEntrega" ColumnName="DocFechaEntrega" />
+                <ScalarProperty Name="AuditadoPor" ColumnName="AuditadoPor" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Legajos">
+            <EntityTypeMapping TypeName="IsTypeOf(ModeloConosud.Legajos)">
+              <MappingFragment StoreEntitySet="Legajos">
+                <ScalarProperty Name="FechaIngreos" ColumnName="FechaIngreos" />
+                <ScalarProperty Name="IdLegajos" ColumnName="IdLegajos" />
+                <ScalarProperty Name="Apellido" ColumnName="Apellido" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="NroDoc" ColumnName="NroDoc" />
+                <ScalarProperty Name="FechaNacimiento" ColumnName="FechaNacimiento" />
+                <ScalarProperty Name="Sexo" ColumnName="Sexo" />
+                <ScalarProperty Name="CUIL" ColumnName="CUIL" />
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+                <ScalarProperty Name="CodigoPostal" ColumnName="CodigoPostal" />
+                <ScalarProperty Name="TelefonoFijo" ColumnName="TelefonoFijo" />
+                <ScalarProperty Name="CorreoElectronico" ColumnName="CorreoElectronico" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Plantilla">
+            <EntityTypeMapping TypeName="IsTypeOf(ModeloConosud.Plantilla)">
+              <MappingFragment StoreEntitySet="Plantilla">
+                <ScalarProperty Name="IdPlantilla" ColumnName="IdPlantilla" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RolesPlanilla">
+            <EntityTypeMapping TypeName="IsTypeOf(ModeloConosud.RolesPlanilla)">
+              <MappingFragment StoreEntitySet="RolesPlanilla">
+                <ScalarProperty Name="IdRolPlanilla" ColumnName="IdRolPlanilla" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SegMenu">
+            <EntityTypeMapping TypeName="IsTypeOf(ModeloConosud.SegMenu)">
+              <MappingFragment StoreEntitySet="SegMenu">
+                <ScalarProperty Name="IdSegMenu" ColumnName="IdSegMenu" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Posicion" ColumnName="Posicion" />
+                <ScalarProperty Name="Icono" ColumnName="Icono" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="Target" ColumnName="Target" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SegRol">
+            <EntityTypeMapping TypeName="IsTypeOf(ModeloConosud.SegRol)">
+              <MappingFragment StoreEntitySet="SegRol">
+                <ScalarProperty Name="IdSegRol" ColumnName="IdSegRol" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SegRolMenu">
+            <EntityTypeMapping TypeName="IsTypeOf(ModeloConosud.SegRolMenu)">
+              <MappingFragment StoreEntitySet="SegRolMenu">
+                <ScalarProperty Name="IdSegRolMenu" ColumnName="IdSegRolMenu" />
+                <ScalarProperty Name="Lectura" ColumnName="Lectura" />
+                <ScalarProperty Name="Modificacion" ColumnName="Modificacion" />
+                <ScalarProperty Name="Creacion" ColumnName="Creacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SegUsuario">
+            <EntityTypeMapping TypeName="IsTypeOf(ModeloConosud.SegUsuario)">
+              <MappingFragment StoreEntitySet="SegUsuario">
+                <ScalarProperty Name="IdSegUsuario" ColumnName="IdSegUsuario" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Login" ColumnName="Login" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SegUsuarioRol">
+            <EntityTypeMapping TypeName="IsTypeOf(ModeloConosud.SegUsuarioRol)">
+              <MappingFragment StoreEntitySet="SegUsuarioRol">
+                <ScalarProperty Name="IdSegUsuarioRol" ColumnName="IdSegUsuarioRol" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="FK_ArchivosAdjuntos_ContratoEmpresas" TypeName="ModeloConosud.FK_ArchivosAdjuntos_ContratoEmpresas" StoreEntitySet="ArchivosAdjuntos">
+            <EndProperty Name="ContratoEmpresas">
+              <ScalarProperty Name="IdContratoEmpresas" ColumnName="IdContratoEmpresa" />
+            </EndProperty>
+            <EndProperty Name="ArchivosAdjuntos">
+              <ScalarProperty Name="IdArchivoAdjunto" ColumnName="IdArchivoAdjunto" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK_CabeceraHojasDeRuta_Clasificacion" TypeName="ModeloConosud.FK_CabeceraHojasDeRuta_Clasificacion" StoreEntitySet="CabeceraHojasDeRuta">
+            <EndProperty Name="Clasificacion">
+              <ScalarProperty Name="IdClasificacion" ColumnName="IdEstado" />
+            </EndProperty>
+            <EndProperty Name="CabeceraHojasDeRuta">
+              <ScalarProperty Name="IdCabeceraHojasDeRuta" ColumnName="IdCabeceraHojasDeRuta" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK_CabeceraHojasDeRuta_ContratoEmpresas" TypeName="ModeloConosud.FK_CabeceraHojasDeRuta_ContratoEmpresas" StoreEntitySet="CabeceraHojasDeRuta">
+            <EndProperty Name="ContratoEmpresas">
+              <ScalarProperty Name="IdContratoEmpresas" ColumnName="IdContratoEmpresa" />
+            </EndProperty>
+            <EndProperty Name="CabeceraHojasDeRuta">
+              <ScalarProperty Name="IdCabeceraHojasDeRuta" ColumnName="IdCabeceraHojasDeRuta" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK_ContEmpLegajos_CabeceraHojasDeRuta" TypeName="ModeloConosud.FK_ContEmpLegajos_CabeceraHojasDeRuta" StoreEntitySet="ContEmpLegajos">
+            <EndProperty Name="CabeceraHojasDeRuta">
+              <ScalarProperty Name="IdCabeceraHojasDeRuta" ColumnName="IdCabecerHojaRuta" />
+            </EndProperty>
+            <EndProperty Name="ContEmpLegajos">
+              <ScalarProperty Name="IdContEmpLegajos" ColumnName="IdContEmpLegajos" />
+            </EndProperty>
+            <Condition ColumnName="IdCabecerHojaRuta" IsNull="false" />
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK_HojasDeRuta_CabeceraHojasDeRuta" TypeName="ModeloConosud.FK_HojasDeRuta_CabeceraHojasDeRuta" StoreEntitySet="HojasDeRuta">
+            <EndProperty Name="CabeceraHojasDeRuta">
+              <ScalarProperty Name="IdCabeceraHojasDeRuta" ColumnName="IdCabeceraHojaDeRuta" />
+            </EndProperty>
+            <EndProperty Name="HojasDeRuta">
+              <ScalarProperty Name="IdHojaDeRuta" ColumnName="IdHojaDeRuta" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK_Plantilla_CategoriasItems" TypeName="ModeloConosud.FK_Plantilla_CategoriasItems" StoreEntitySet="Plantilla">
+            <EndProperty Name="CategoriasItems">
+              <ScalarProperty Name="IdCategoria" ColumnName="IdCategoria" />
+            </EndProperty>
+            <EndProperty Name="Plantilla">
+              <ScalarProperty Name="IdPlantilla" ColumnName="IdPlantilla" />
+            </EndProperty>
+            <Condition ColumnName="IdCategoria" IsNull="false" />
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK_Contrato_Clasificacion" TypeName="ModeloConosud.FK_Contrato_Clasificacion" StoreEntitySet="Contrato">
+            <EndProperty Name="Clasificacion">
+              <ScalarProperty Name="IdClasificacion" ColumnName="TipoContrato" />
+            </EndProperty>
+            <EndProperty Name="Contrato">
+              <ScalarProperty Name="IdContrato" ColumnName="IdContrato" />
+            </EndProperty>
+            <Condition ColumnName="TipoContrato" IsNull="false" />
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK_Contrato_Clasificacion1" TypeName="ModeloConosud.FK_Contrato_Clasificacion1" StoreEntitySet="Contrato">
+            <EndProperty Name="Clasificacion">
+              <ScalarProperty Name="IdClasificacion" ColumnName="Contratadopor" />
+            </EndProperty>
+            <EndProperty Name="Contrato">
+              <ScalarProperty Name="IdContrato" ColumnName="IdContrato" />
+            </EndProperty>
+            <Condition ColumnName="Contratadopor" IsNull="false" />
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK_Legajos_Clasificacion" TypeName="ModeloConosud.FK_Legajos_Clasificacion" StoreEntitySet="Legajos">
+            <EndProperty Name="Clasificacion">
+              <ScalarProperty Name="IdClasificacion" ColumnName="TipoDoc" />
+            </EndProperty>
+            <EndProperty Name="Legajos">
+              <ScalarProperty Name="IdLegajos" ColumnName="IdLegajos" />
+            </EndProperty>
+            <Condition ColumnName="TipoDoc" IsNull="false" />
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK_Legajos_Clasificacion1" TypeName="ModeloConosud.FK_Legajos_Clasificacion1" StoreEntitySet="Legajos">
+            <EndProperty Name="Clasificacion">
+              <ScalarProperty Name="IdClasificacion" ColumnName="Nacionalidad" />
+            </EndProperty>
+            <EndProperty Name="Legajos">
+              <ScalarProperty Name="IdLegajos" ColumnName="IdLegajos" />
+            </EndProperty>
+            <Condition ColumnName="Nacionalidad" IsNull="false" />
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK_Legajos_Clasificacion2" TypeName="ModeloConosud.FK_Legajos_Clasificacion2" StoreEntitySet="Legajos">
+            <EndProperty Name="Clasificacion">
+              <ScalarProperty Name="IdClasificacion" ColumnName="EstadoCivil" />
+            </EndProperty>
+            <EndProperty Name="Legajos">
+              <ScalarProperty Name="IdLegajos" ColumnName="IdLegajos" />
+            </EndProperty>
+            <Condition ColumnName="EstadoCivil" IsNull="false" />
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK_Legajos_Clasificacion3" TypeName="ModeloConosud.FK_Legajos_Clasificacion3" StoreEntitySet="Legajos">
+            <EndProperty Name="Clasificacion">
+              <ScalarProperty Name="IdClasificacion" ColumnName="Provincia" />
+            </EndProperty>
+            <EndProperty Name="Legajos">
+              <ScalarProperty Name="IdLegajos" ColumnName="IdLegajos" />
+            </EndProperty>
+            <Condition ColumnName="Provincia" IsNull="false" />
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK_ContEmpLegajos_Legajos" TypeName="ModeloConosud.FK_ContEmpLegajos_Legajos" StoreEntitySet="ContEmpLegajos">
+            <EndProperty Name="Legajos">
+              <ScalarProperty Name="IdLegajos" ColumnName="IdLegajos" />
+            </EndProperty>
+            <EndProperty Name="ContEmpLegajos">
+              <ScalarProperty Name="IdContEmpLegajos" ColumnName="IdContEmpLegajos" />
+            </EndProperty>
+            <Condition ColumnName="IdLegajos" IsNull="false" />
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK_ContratoEmpresas_Contrato" TypeName="ModeloConosud.FK_ContratoEmpresas_Contrato" StoreEntitySet="ContratoEmpresas">
+            <EndProperty Name="Contrato">
+              <ScalarProperty Name="IdContrato" ColumnName="IdContrato" />
+            </EndProperty>
+            <EndProperty Name="ContratoEmpresas">
+              <ScalarProperty Name="IdContratoEmpresas" ColumnName="IdContratoEmpresas" />
+            </EndProperty>
+            <Condition ColumnName="IdContrato" IsNull="false" />
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK_ContratoEmpresas_Empresa" TypeName="ModeloConosud.FK_ContratoEmpresas_Empresa" StoreEntitySet="ContratoEmpresas">
+            <EndProperty Name="Empresa">
+              <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
+            </EndProperty>
+            <EndProperty Name="ContratoEmpresas">
+              <ScalarProperty Name="IdContratoEmpresas" ColumnName="IdContratoEmpresas" />
+            </EndProperty>
+            <Condition ColumnName="IdEmpresa" IsNull="false" />
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK_SegUsuario_Empresa" TypeName="ModeloConosud.FK_SegUsuario_Empresa" StoreEntitySet="SegUsuario">
+            <EndProperty Name="Empresa">
+              <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
+            </EndProperty>
+            <EndProperty Name="SegUsuario">
+              <ScalarProperty Name="IdSegUsuario" ColumnName="IdSegUsuario" />
+            </EndProperty>
+            <Condition ColumnName="IdEmpresa" IsNull="false" />
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK_RolesPlanilla_Plantilla" TypeName="ModeloConosud.FK_RolesPlanilla_Plantilla" StoreEntitySet="RolesPlanilla">
+            <EndProperty Name="Plantilla">
+              <ScalarProperty Name="IdPlantilla" ColumnName="IdPlanilla" />
+            </EndProperty>
+            <EndProperty Name="RolesPlanilla">
+              <ScalarProperty Name="IdRolPlanilla" ColumnName="IdRolPlanilla" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK_RolesPlanilla_SegRol" TypeName="ModeloConosud.FK_RolesPlanilla_SegRol" StoreEntitySet="RolesPlanilla">
+            <EndProperty Name="SegRol">
+              <ScalarProperty Name="IdSegRol" ColumnName="IdRol" />
+            </EndProperty>
+            <EndProperty Name="RolesPlanilla">
+              <ScalarProperty Name="IdRolPlanilla" ColumnName="IdRolPlanilla" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK_SegRolMenu_SegMenu" TypeName="ModeloConosud.FK_SegRolMenu_SegMenu" StoreEntitySet="SegRolMenu">
+            <EndProperty Name="SegMenu">
+              <ScalarProperty Name="IdSegMenu" ColumnName="Menu" />
+            </EndProperty>
+            <EndProperty Name="SegRolMenu">
+              <ScalarProperty Name="IdSegRolMenu" ColumnName="IdSegRolMenu" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK_SegRolMenu_SegRol" TypeName="ModeloConosud.FK_SegRolMenu_SegRol" StoreEntitySet="SegRolMenu">
+            <EndProperty Name="SegRol">
+              <ScalarProperty Name="IdSegRol" ColumnName="Rol" />
+            </EndProperty>
+            <EndProperty Name="SegRolMenu">
+              <ScalarProperty Name="IdSegRolMenu" ColumnName="IdSegRolMenu" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK_SegUsuarioRol_SegRol" TypeName="ModeloConosud.FK_SegUsuarioRol_SegRol" StoreEntitySet="SegUsuarioRol">
+            <EndProperty Name="SegRol">
+              <ScalarProperty Name="IdSegRol" ColumnName="Rol" />
+            </EndProperty>
+            <EndProperty Name="SegUsuarioRol">
+              <ScalarProperty Name="IdSegUsuarioRol" ColumnName="IdSegUsuarioRol" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK_SegUsuarioRol_SegUsuario" TypeName="ModeloConosud.FK_SegUsuarioRol_SegUsuario" StoreEntitySet="SegUsuarioRol">
+            <EndProperty Name="SegUsuario">
+              <ScalarProperty Name="IdSegUsuario" ColumnName="Usuario" />
+            </EndProperty>
+            <EndProperty Name="SegUsuarioRol">
+              <ScalarProperty Name="IdSegUsuarioRol" ColumnName="IdSegUsuarioRol" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK_Clasificacion_Clasificacion" TypeName="ModeloConosud.FK_Clasificacion_Clasificacion" StoreEntitySet="Clasificacion">
+            <EndProperty Name="Clasificacion1">
+              <ScalarProperty Name="IdClasificacion" ColumnName="IdClasificacion" /></EndProperty>
+            <EndProperty Name="Clasificacion">
+              <ScalarProperty Name="IdClasificacion" ColumnName="IdPadre" /></EndProperty>
+            <Condition ColumnName="IdPadre" IsNull="false" /></AssociationSetMapping>
+          <AssociationSetMapping Name="FK_HojasDeRuta_Plantilla" TypeName="ModeloConosud.FK_HojasDeRuta_Plantilla" StoreEntitySet="HojasDeRuta">
+            <EndProperty Name="HojasDeRuta">
+              <ScalarProperty Name="IdHojaDeRuta" ColumnName="IdHojaDeRuta" /></EndProperty>
+            <EndProperty Name="Plantilla">
+              <ScalarProperty Name="IdPlantilla" ColumnName="IdPlanilla" /></EndProperty></AssociationSetMapping>
+          <AssociationSetMapping Name="FK_Empresa_Clasificacion" TypeName="ModeloConosud.FK_Empresa_Clasificacion" StoreEntitySet="Empresa">
+            <EndProperty Name="Empresa">
+              <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" /></EndProperty>
+            <EndProperty Name="Clasificacion">
+              <ScalarProperty Name="IdClasificacion" ColumnName="ART" /></EndProperty>
+            <Condition ColumnName="ART" IsNull="false" /></AssociationSetMapping>
+          <AssociationSetMapping Name="FK_Legajos_Clasificacion4" TypeName="ModeloConosud.FK_Legajos_Clasificacion4" StoreEntitySet="Legajos">
+            <EndProperty Name="Legajos">
+              <ScalarProperty Name="IdLegajos" ColumnName="IdLegajos" /></EndProperty>
+            <EndProperty Name="Clasificacion">
+              <ScalarProperty Name="IdClasificacion" ColumnName="Convenio" /></EndProperty>
+            <Condition ColumnName="Convenio" IsNull="false" /></AssociationSetMapping>
+          <AssociationSetMapping Name="FK_ContEmpLegajos_ContratoEmpresas" TypeName="ModeloConosud.FK_ContEmpLegajos_ContratoEmpresas" StoreEntitySet="ContEmpLegajos">
+            <EndProperty Name="ContEmpLegajos">
+              <ScalarProperty Name="IdContEmpLegajos" ColumnName="IdContEmpLegajos" /></EndProperty>
+            <EndProperty Name="ContratoEmpresas">
+              <ScalarProperty Name="IdContratoEmpresas" ColumnName="IdContratoEmpresas" /></EndProperty>
+            <Condition ColumnName="IdContratoEmpresas" IsNull="false" /></AssociationSetMapping>
+          <AssociationSetMapping Name="FK_SegMenu_SegMenu" TypeName="ModeloConosud.FK_SegMenu_SegMenu" StoreEntitySet="SegMenu">
+            <EndProperty Name="SegMenu1">
+              <ScalarProperty Name="IdSegMenu" ColumnName="IdSegMenu" /></EndProperty>
+            <EndProperty Name="SegMenu">
+              <ScalarProperty Name="IdSegMenu" ColumnName="PadreId" /></EndProperty>
+            <Condition ColumnName="PadreId" IsNull="false" /></AssociationSetMapping>
+          <EntitySetMapping Name="ContratosImp">
+            <EntityTypeMapping TypeName="IsTypeOf(ModeloConosud.ContratosImp)">
+              <MappingFragment StoreEntitySet="ContratosImp">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="CUIT_FK" ColumnName="CUIT_FK" />
+                <ScalarProperty Name="ContratadoPor" ColumnName="ContratadoPor" />
+                <ScalarProperty Name="TipoContrato" ColumnName="TipoContrato" />
+                <ScalarProperty Name="Prorroga" ColumnName="Prorroga" />
+                <ScalarProperty Name="FechaVencimiento" ColumnName="FechaVencimiento" />
+                <ScalarProperty Name="FechaInicio" ColumnName="FechaInicio" />
+                <ScalarProperty Name="Servicio" ColumnName="Servicio" />
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="LegajosContratosImp">
+            <EntityTypeMapping TypeName="IsTypeOf(ModeloConosud.LegajosContratosImp)">
+              <MappingFragment StoreEntitySet="LegajosContratosImp">
+                <ScalarProperty Name="Tipo_Documento" ColumnName="Tipo Documento" />
+                <ScalarProperty Name="Convenio" ColumnName="Convenio" />
+                <ScalarProperty Name="Provincia" ColumnName="Provincia" />
+                <ScalarProperty Name="Nacionalidad" ColumnName="Nacionalidad" />
+                <ScalarProperty Name="EstadoCivil" ColumnName="EstadoCivil" />
+                <ScalarProperty Name="CorreoElectronico" ColumnName="CorreoElectronico" />
+                <ScalarProperty Name="TelefonoFijo" ColumnName="TelefonoFijo" />
+                <ScalarProperty Name="CodigoPostal" ColumnName="CodigoPostal" />
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+                <ScalarProperty Name="CUIL" ColumnName="CUIL" />
+                <ScalarProperty Name="FechaNacimiento" ColumnName="FechaNacimiento" />
+                <ScalarProperty Name="NroDoc" ColumnName="NroDoc" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Apellido" ColumnName="Apellido" />
+                <ScalarProperty Name="Contratista" ColumnName="Contratista" />
+                <ScalarProperty Name="FechaIngreso" ColumnName="FechaIngreso" />
+                <ScalarProperty Name="NroContrato" ColumnName="NroContrato" />
+                <ScalarProperty Name="Id" ColumnName="Id" /></MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="EmpresasImp">
+            <EntityTypeMapping TypeName="IsTypeOf(ModeloConosud.EmpresasImp)">
+              <MappingFragment StoreEntitySet="EmpresasImp">
+                <ScalarProperty Name="ART" ColumnName="ART" />
+                <ScalarProperty Name="CorreoElectronico" ColumnName="CorreoElectronico" />
+                <ScalarProperty Name="PrestacionEmergencia" ColumnName="PrestacionEmergencia" />
+                <ScalarProperty Name="Emergencias" ColumnName="Emergencias" />
+                <ScalarProperty Name="RepresentanteTecnico" ColumnName="RepresentanteTecnico" />
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+                <ScalarProperty Name="FechaAlta" ColumnName="FechaAlta" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="CUIT" ColumnName="CUIT" />
+                <ScalarProperty Name="RazonSocial" ColumnName="RazonSocial" />
+                <ScalarProperty Name="Id" ColumnName="Id" /></MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="ComentariosGral">
+            <EntityTypeMapping TypeName="IsTypeOf(ModeloConosud.ComentariosGral)">
+              <MappingFragment StoreEntitySet="ComentariosGral">
+                <ScalarProperty Name="Comentario" ColumnName="Comentario" />
+                <ScalarProperty Name="IdComentarioGral" ColumnName="IdComentarioGral" /></MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <AssociationSetMapping Name="FK_ComentariosGral_ContratoEmpresas" TypeName="ModeloConosud.FK_ComentariosGral_ContratoEmpresas" StoreEntitySet="ComentariosGral">
+            <EndProperty Name="ComentariosGral">
+              <ScalarProperty Name="IdComentarioGral" ColumnName="IdComentarioGral" /></EndProperty>
+            <EndProperty Name="ContratoEmpresas">
+              <ScalarProperty Name="IdContratoEmpresas" ColumnName="ContratoEmpresa" /></EndProperty>
+            <Condition ColumnName="ContratoEmpresa" IsNull="false" /></AssociationSetMapping>
+          <AssociationSetMapping Name="FK_ComentariosGral_Plantilla" TypeName="ModeloConosud.FK_ComentariosGral_Plantilla" StoreEntitySet="ComentariosGral">
+            <EndProperty Name="ComentariosGral">
+              <ScalarProperty Name="IdComentarioGral" ColumnName="IdComentarioGral" /></EndProperty>
+            <EndProperty Name="Plantilla">
+              <ScalarProperty Name="IdPlantilla" ColumnName="Plantilla" /></EndProperty>
+            <Condition ColumnName="Plantilla" IsNull="false" /></AssociationSetMapping>
+          <EntitySetMapping Name="ArchivosSueldos">
+            <EntityTypeMapping TypeName="IsTypeOf(ModeloConosud.ArchivosSueldos)">
+              <MappingFragment StoreEntitySet="ArchivosSueldos">
+                <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="IdArchivoSueldos" ColumnName="IdArchivoSueldos" /></MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="DatosDeSueldos">
+            <EntityTypeMapping TypeName="IsTypeOf(ModeloConosud.DatosDeSueldos)">
+              <MappingFragment StoreEntitySet="DatosDeSueldos">
+                <ScalarProperty Name="FuncionCCT" ColumnName="FuncionCCT" />
+                <ScalarProperty Name="CategoriaCCT" ColumnName="CategoriaCCT" />
+                <ScalarProperty Name="TotalNeto" ColumnName="TotalNeto" />
+                <ScalarProperty Name="Descuentos" ColumnName="Descuentos" />
+                <ScalarProperty Name="AdicionalesNORemunerativos" ColumnName="AdicionalesNORemunerativos" />
+                <ScalarProperty Name="AsignacionFamiliar" ColumnName="AsignacionFamiliar" />
+                <ScalarProperty Name="TotalBruto" ColumnName="TotalBruto" />
+                <ScalarProperty Name="SAC" ColumnName="SAC" />
+                <ScalarProperty Name="Vacaciones" ColumnName="Vacaciones" />
+                <ScalarProperty Name="AdicionalesRemunerativos" ColumnName="AdicionalesRemunerativos" />
+                <ScalarProperty Name="HorasExtras" ColumnName="HorasExtras" />
+                <ScalarProperty Name="BasicoLiquidado" ColumnName="BasicoLiquidado" />
+                <ScalarProperty Name="Basico_ValorHora" ColumnName="Basico_ValorHora" />
+                <ScalarProperty Name="Periodo" ColumnName="Periodo" />
+                <ScalarProperty Name="IdDatosSueldos" ColumnName="IdDatosSueldos" /></MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <AssociationSetMapping Name="FK_DatosDeSueldos_Legajos" TypeName="ModeloConosud.FK_DatosDeSueldos_Legajos" StoreEntitySet="DatosDeSueldos">
+            <EndProperty Name="DatosDeSueldos">
+              <ScalarProperty Name="IdDatosSueldos" ColumnName="IdDatosSueldos" /></EndProperty>
+            <EndProperty Name="Legajos">
+              <ScalarProperty Name="IdLegajos" ColumnName="Legajo" /></EndProperty></AssociationSetMapping>
+          <AssociationSetMapping Name="FK_DatosDeSueldos_ArchivosSueldos" TypeName="ModeloConosud.FK_DatosDeSueldos_ArchivosSueldos" StoreEntitySet="DatosDeSueldos">
+            <EndProperty Name="DatosDeSueldos">
+              <ScalarProperty Name="IdDatosSueldos" ColumnName="IdDatosSueldos" /></EndProperty>
+            <EndProperty Name="ArchivosSueldos">
+              <ScalarProperty Name="IdArchivoSueldos" ColumnName="ArchivoOrigen" /></EndProperty>
+            <Condition ColumnName="ArchivoOrigen" IsNull="false" /></AssociationSetMapping>
+          <AssociationSetMapping Name="FK_ArchivosSueldos_SegUsuario" TypeName="ModeloConosud.FK_ArchivosSueldos_SegUsuario" StoreEntitySet="ArchivosSueldos">
+            <EndProperty Name="ArchivosSueldos">
+              <ScalarProperty Name="IdArchivoSueldos" ColumnName="IdArchivoSueldos" /></EndProperty>
+            <EndProperty Name="SegUsuario">
+              <ScalarProperty Name="IdSegUsuario" ColumnName="Usuario" /></EndProperty></AssociationSetMapping>
+          <AssociationSetMapping Name="FK_DatosDeSueldos_Contrato" TypeName="ModeloConosud.FK_DatosDeSueldos_Contrato" StoreEntitySet="DatosDeSueldos">
+            <EndProperty Name="DatosDeSueldos">
+              <ScalarProperty Name="IdDatosSueldos" ColumnName="IdDatosSueldos" /></EndProperty>
+            <EndProperty Name="Contrato">
+              <ScalarProperty Name="IdContrato" ColumnName="Contrato" /></EndProperty>
+            <Condition ColumnName="Contrato" IsNull="false" /></AssociationSetMapping>
+          <AssociationSetMapping Name="FK_DatosDeSueldos_Empresa" TypeName="ModeloConosud.FK_DatosDeSueldos_Empresa" StoreEntitySet="DatosDeSueldos">
+            <EndProperty Name="DatosDeSueldos">
+              <ScalarProperty Name="IdDatosSueldos" ColumnName="IdDatosSueldos" /></EndProperty>
+            <EndProperty Name="Empresa">
+              <ScalarProperty Name="IdEmpresa" ColumnName="Empresa" /></EndProperty>
+            <Condition ColumnName="Empresa" IsNull="false" /></AssociationSetMapping>
+          <EntitySetMapping Name="ContratoEmpresasImp">
+            <EntityTypeMapping TypeName="IsTypeOf(ModeloConosud.ContratoEmpresasImp)">
+              <MappingFragment StoreEntitySet="ContratoEmpresasImp">
+                <ScalarProperty Name="SubContratista" ColumnName="SubContratista" />
+                <ScalarProperty Name="Contratista" ColumnName="Contratista" />
+                <ScalarProperty Name="NroContrato" ColumnName="NroContrato" />
+                <ScalarProperty Name="id" ColumnName="id" /></MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <AssociationSetMapping Name="FK_CabeceraHojasDeRuta_SegUsuario" TypeName="ModeloConosud.FK_CabeceraHojasDeRuta_SegUsuario" StoreEntitySet="CabeceraHojasDeRuta">
+            <EndProperty Name="CabeceraHojasDeRuta">
+              <ScalarProperty Name="IdCabeceraHojasDeRuta" ColumnName="IdCabeceraHojasDeRuta" /></EndProperty>
+            <EndProperty Name="SegUsuario">
+              <ScalarProperty Name="IdSegUsuario" ColumnName="UsuarioAprobador" /></EndProperty>
+            <Condition ColumnName="UsuarioAprobador" IsNull="false" /></AssociationSetMapping></EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2007/06/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram Name="ModeloConosud" ZoomLevel="107">
+        <EntityTypeShape EntityType="ModeloConosud.ArchivosAdjuntos" Width="1.5" PointX="7.25" PointY="0.5" Height="1.5923063151041674" IsExpanded="true" />
+        <EntityTypeShape EntityType="ModeloConosud.CabeceraHojasDeRuta" Width="1.5" PointX="8.125" PointY="4" Height="3.9033007812499996" IsExpanded="true" />
+        <EntityTypeShape EntityType="ModeloConosud.CategoriasItems" Width="1.5" PointX="8.625" PointY="13.75" Height="1.75665364583333" IsExpanded="true" />
+        <EntityTypeShape EntityType="ModeloConosud.Clasificacion" Width="1.5" PointX="0.75" PointY="6.5" Height="3.0714322916666656" IsExpanded="true" />
+        <EntityTypeShape EntityType="ModeloConosud.ContEmpLegajos" Width="2" PointX="10.375" PointY="8" Height="2.1725878906249996" IsExpanded="true" />
+        <EntityTypeShape EntityType="ModeloConosud.Contrato" Width="1.5" PointX="2.875" PointY="3.25" Height="2.4140429687499996" IsExpanded="true" />
+        <EntityTypeShape EntityType="ModeloConosud.ContratoEmpresas" Width="1.875" PointX="5.25" PointY="5.125" Height="2.7494921874999996" IsExpanded="true" />
+        <EntityTypeShape EntityType="ModeloConosud.Empresa" Width="1.5" PointX="0.625" PointY="1.25" Height="3.0714322916666656" IsExpanded="true" />
+        <EntityTypeShape EntityType="ModeloConosud.HojasDeRuta" Width="1.5" PointX="6.125" PointY="9" Height="2.9417936197916656" IsExpanded="true" />
+        <EntityTypeShape EntityType="ModeloConosud.Legajos" Width="1.5" PointX="3.25" PointY="10" Height="4.6725065104166674" IsExpanded="true" />
+        <EntityTypeShape EntityType="ModeloConosud.Plantilla" Width="1.5" PointX="11.75" PointY="13" Height="1.7566536458333335" IsExpanded="true" />
+        <EntityTypeShape EntityType="ModeloConosud.RolesPlanilla" Width="1.5" PointX="14" PointY="4.25" Height="1.4279589843749996" IsExpanded="true" />
+        <EntityTypeShape EntityType="ModeloConosud.SegMenu" Width="1.5" PointX="14.875" PointY="12.375" Height="2.4140429687499996" IsExpanded="true" />
+        <EntityTypeShape EntityType="ModeloConosud.SegRol" Width="1.5" PointX="11.75" PointY="4" Height="1.7566536458333335" IsExpanded="true" />
+        <EntityTypeShape EntityType="ModeloConosud.SegRolMenu" Width="1.5" PointX="14" PointY="7" Height="1.9210009765624996" IsExpanded="true" />
+        <EntityTypeShape EntityType="ModeloConosud.SegUsuario" Width="1.5" PointX="11.75" PointY="1.375" Height="1.7566536458333337" IsExpanded="true" />
+        <EntityTypeShape EntityType="ModeloConosud.SegUsuarioRol" Width="1.5" PointX="14" PointY="1.25" Height="1.427958984375" IsExpanded="true" />
+        <AssociationConnector Association="ModeloConosud.FK_ArchivosAdjuntos_ContratoEmpresas" ManuallyRouted="false">
+          <ConnectorPoint PointX="6.4049084707031252" PointY="5.125" />
+          <ConnectorPoint PointX="6.4049084707031252" PointY="1.2391218782552085" />
+          <ConnectorPoint PointX="7.25" PointY="1.2391218782552085" /></AssociationConnector>
+        <AssociationConnector Association="ModeloConosud.FK_CabeceraHojasDeRuta_Clasificacion" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.25" PointY="8.1606507278645832" />
+          <ConnectorPoint PointX="2.9791666666666665" PointY="8.1606507278645832" />
+          <ConnectorPoint PointX="3.1458333333333335" PointY="8.1606507278645832" />
+          <ConnectorPoint PointX="3.6578731484095255" PointY="8.1606507278645832" />
+          <ConnectorPoint PointX="3.8245398150761925" PointY="8.1606507278645832" />
+          <ConnectorPoint PointX="5.4557279166666666" PointY="8.1606507278645832" />
+          <ConnectorPoint PointX="5.6223945833333326" PointY="8.1606507278645832" />
+          <ConnectorPoint PointX="5.8072941666666669" PointY="8.1606507278645832" />
+          <ConnectorPoint PointX="5.9739608333333329" PointY="8.1606507278645832" />
+          <ConnectorPoint PointX="8.5104141666666653" PointY="8.1606507278645832" />
+          <ConnectorPoint PointX="8.6770808333333331" PointY="8.1606507278645832" />
+          <ConnectorPoint PointX="9.125" PointY="8.1606507278645832" />
+          <ConnectorPoint PointX="9.125" PointY="7.90330078125" /></AssociationConnector>
+        <AssociationConnector Association="ModeloConosud.FK_CabeceraHojasDeRuta_ContratoEmpresas" ManuallyRouted="false">
+          <ConnectorPoint PointX="7.125" PointY="6.49974609375" />
+          <ConnectorPoint PointX="8.125" PointY="6.49974609375" />
+          </AssociationConnector>
+        <AssociationConnector Association="ModeloConosud.FK_ContEmpLegajos_CabeceraHojasDeRuta" ManuallyRouted="false">
+          <ConnectorPoint PointX="9.625" PointY="6.9730436197916656" />
+          <ConnectorPoint PointX="10.197916666666666" PointY="6.9730436197916648" />
+          <ConnectorPoint PointX="10.364583333333334" PointY="6.9730436197916656" />
+          <ConnectorPoint PointX="11.03125" PointY="6.9730436197916656" />
+          <ConnectorPoint PointX="11.03125" PointY="8" /></AssociationConnector>
+        <AssociationConnector Association="ModeloConosud.FK_HojasDeRuta_CabeceraHojasDeRuta" ManuallyRouted="false">
+          <ConnectorPoint PointX="8.5937475" PointY="7.90330078125" />
+          <ConnectorPoint PointX="8.5937475" PointY="9.848118625041792" />
+          <ConnectorPoint PointX="7.625" PointY="9.848118625041792" />
+          </AssociationConnector>
+        <AssociationConnector Association="ModeloConosud.FK_Plantilla_CategoriasItems" ManuallyRouted="false">
+          <ConnectorPoint PointX="10.125" PointY="14.557444661458334" />
+          <ConnectorPoint PointX="10.197916666666666" PointY="14.557444661458334" />
+          <ConnectorPoint PointX="10.364583333333334" PointY="14.557444661458334" />
+          <ConnectorPoint PointX="11.75" PointY="14.557444661458334" /></AssociationConnector>
+        <AssociationConnector Association="ModeloConosud.FK_Contrato_Clasificacion" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.2109375" PointY="6.5" />
+          <ConnectorPoint PointX="2.2109375" PointY="4.9890554922920067" />
+          <ConnectorPoint PointX="2.875" PointY="4.9890554922920067" /></AssociationConnector>
+        <AssociationConnector Association="ModeloConosud.FK_Contrato_Clasificacion1" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.23046875" PointY="6.5" />
+          <ConnectorPoint PointX="2.23046875" PointY="5.439975395885587" />
+          <ConnectorPoint PointX="2.875" PointY="5.439975395885587" /></AssociationConnector>
+        <AssociationConnector Association="ModeloConosud.FK_Legajos_Clasificacion" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.25" PointY="10.201650390625" />
+          <ConnectorPoint PointX="2.9791666666666665" PointY="10.201650390625" />
+          <ConnectorPoint PointX="3.1458333333333335" PointY="10.201650390625" />
+          <ConnectorPoint PointX="3.25" PointY="10.201650390625" />
+          </AssociationConnector>
+        <AssociationConnector Association="ModeloConosud.FK_Legajos_Clasificacion1" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.25" PointY="10.038325195312499" />
+          <ConnectorPoint PointX="2.9791666666666665" PointY="10.038325195312499" />
+          <ConnectorPoint PointX="3.1458333333333335" PointY="10.038325195312499" />
+          <ConnectorPoint PointX="3.25" PointY="10.038325195312499" />
+          </AssociationConnector>
+        <AssociationConnector Association="ModeloConosud.FK_Legajos_Clasificacion2" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.25" PointY="10.3649755859375" />
+          <ConnectorPoint PointX="2.9791666666666665" PointY="10.3649755859375" />
+          <ConnectorPoint PointX="3.1458333333333335" PointY="10.3649755859375" />
+          <ConnectorPoint PointX="3.25" PointY="10.3649755859375" />
+          </AssociationConnector>
+        <AssociationConnector Association="ModeloConosud.FK_Legajos_Clasificacion3" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.25" PointY="7.4787699690628218" />
+          <ConnectorPoint PointX="2.9791666666666665" PointY="7.4787699690628209" />
+          <ConnectorPoint PointX="3.1458333333333335" PointY="7.4787699690628218" />
+          <ConnectorPoint PointX="3.741206481742859" PointY="7.4787699690628218" />
+          <ConnectorPoint PointX="3.741206481742859" PointY="10" />
+          </AssociationConnector>
+        <AssociationConnector Association="ModeloConosud.FK_ContEmpLegajos_Legajos" ManuallyRouted="false">
+          <ConnectorPoint PointX="4.75" PointY="12.385569661458334" />
+          <ConnectorPoint PointX="10.197916666666666" PointY="12.385569661458334" />
+          <ConnectorPoint PointX="10.364583333333334" PointY="12.385569661458334" />
+          <ConnectorPoint PointX="11.03125" PointY="12.385569661458334" />
+          <ConnectorPoint PointX="11.03125" PointY="10.172587890625" />
+          </AssociationConnector>
+        <AssociationConnector Association="ModeloConosud.FK_ContratoEmpresas_Contrato" ManuallyRouted="false">
+          <ConnectorPoint PointX="4.375" PointY="5.6583968098958337" />
+          <ConnectorPoint PointX="5.25" PointY="5.6583968098958337" /></AssociationConnector>
+        <AssociationConnector Association="ModeloConosud.FK_ContratoEmpresas_Empresa" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.125" PointY="1.9765025680990469" />
+          <ConnectorPoint PointX="5.7962017353515627" PointY="1.9765025680990469" />
+          <ConnectorPoint PointX="5.7962017353515627" PointY="5.125" />
+          </AssociationConnector>
+        <AssociationConnector Association="ModeloConosud.FK_SegUsuario_Empresa" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.125" PointY="2.7689925130208337" />
+          <ConnectorPoint PointX="5.71286840201823" PointY="2.7689925130208333" />
+          <ConnectorPoint PointX="5.8795350686848957" PointY="2.7689925130208337" />
+          <ConnectorPoint PointX="6.3215751373697922" PointY="2.7689925130208333" />
+          <ConnectorPoint PointX="6.4882418040364582" PointY="2.7689925130208337" />
+          <ConnectorPoint PointX="10.197916666666666" PointY="2.7689925130208333" />
+          <ConnectorPoint PointX="10.364583333333334" PointY="2.7689925130208337" />
+          <ConnectorPoint PointX="11.75" PointY="2.7689925130208337" />
+          </AssociationConnector>
+        <AssociationConnector Association="ModeloConosud.FK_RolesPlanilla_Plantilla" ManuallyRouted="false">
+          <ConnectorPoint PointX="13.25" PointY="14.182444661458334" />
+          <ConnectorPoint PointX="13.625" PointY="14.182444661458334" />
+          <ConnectorPoint PointX="13.625" PointY="5.1950861699218747" />
+          <ConnectorPoint PointX="14" PointY="5.1950861699218747" />
+          </AssociationConnector>
+        <AssociationConnector Association="ModeloConosud.FK_RolesPlanilla_SegRol" ManuallyRouted="false">
+          <ConnectorPoint PointX="13.25" PointY="4.54448974609375" />
+          <ConnectorPoint PointX="14" PointY="4.54448974609375" />
+          </AssociationConnector>
+        <AssociationConnector Association="ModeloConosud.FK_SegRolMenu_SegMenu" ManuallyRouted="false">
+          <ConnectorPoint PointX="15.1875" PointY="12.375" />
+          <ConnectorPoint PointX="15.1875" PointY="9.172587890625" />
+          </AssociationConnector>
+        <AssociationConnector Association="ModeloConosud.FK_SegRolMenu_SegRol" ManuallyRouted="false">
+          <ConnectorPoint PointX="12.84375" PointY="5.9802864583333326" />
+          <ConnectorPoint PointX="12.84375" PointY="7.46875" />
+          <ConnectorPoint PointX="13.541666666666666" PointY="7.4687499999999991" />
+          <ConnectorPoint PointX="13.708333333333334" PointY="7.46875" />
+          <ConnectorPoint PointX="14" PointY="7.46875" /></AssociationConnector>
+        <AssociationConnector Association="ModeloConosud.FK_SegUsuarioRol_SegRol" ManuallyRouted="false">
+          <ConnectorPoint PointX="13.25" PointY="5.5876858141276031" />
+          <ConnectorPoint PointX="13.6875" PointY="5.5876858141276031" />
+          <ConnectorPoint PointX="13.6875" PointY="1.8167351191406247" />
+          <ConnectorPoint PointX="14" PointY="1.8167351191406247" /></AssociationConnector>
+        <AssociationConnector Association="ModeloConosud.FK_SegUsuarioRol_SegUsuario" ManuallyRouted="false">
+          <ConnectorPoint PointX="13.25" PointY="2.3937093564453122" />
+          <ConnectorPoint PointX="13.604166666666666" PointY="2.3937093564453118" />
+          <ConnectorPoint PointX="13.770833333333334" PointY="2.3937093564453122" />
+          <ConnectorPoint PointX="14" PointY="2.3937093564453122" /></AssociationConnector>
+        <AssociationConnector Association="ModeloConosud.FK_Clasificacion_Clasificacion" >
+          <ConnectorPoint PointX="1.2819230769230767" PointY="6.5" />
+          <ConnectorPoint PointX="1.2819230769230767" PointY="6.25" />
+          <ConnectorPoint PointX="1.7284615384615383" PointY="6.25" />
+          <ConnectorPoint PointX="1.7284615384615383" PointY="6.5" /></AssociationConnector>
+        <AssociationConnector Association="ModeloConosud.FK_HojasDeRuta_Plantilla" >
+          <ConnectorPoint PointX="12.84375" PointY="13" />
+          <ConnectorPoint PointX="12.84375" PointY="10.812513088562563" />
+          <ConnectorPoint PointX="11.114583333333334" PointY="10.812513088562563" />
+          <ConnectorPoint PointX="10.947916666666666" PointY="10.812513088562563" />
+          <ConnectorPoint PointX="10.364583333333334" PointY="10.812513088562563" />
+          <ConnectorPoint PointX="10.197916666666666" PointY="10.812513088562563" />
+          <ConnectorPoint PointX="7.625" PointY="10.812513088562563" />
+          </AssociationConnector>
+        <AssociationConnector Association="ModeloConosud.FK_Empresa_Clasificacion" >
+          <ConnectorPoint PointX="1.4375" PointY="6.5" />
+          <ConnectorPoint PointX="1.4375" PointY="4.650126953125" /></AssociationConnector>
+        <AssociationConnector Association="ModeloConosud.FK_Legajos_Clasificacion4" >
+          <ConnectorPoint PointX="2.25" PointY="9.1932478841145819" />
+          <ConnectorPoint PointX="2.9791666666666665" PointY="9.1932478841145819" />
+          <ConnectorPoint PointX="3.1458333333333335" PointY="9.1932478841145819" />
+          <ConnectorPoint PointX="3.6578731484095255" PointY="9.1932478841145819" />
+          <ConnectorPoint PointX="3.8245398150761925" PointY="9.1932478841145819" />
+          <ConnectorPoint PointX="4.2768557408714294" PointY="9.1932478841145819" />
+          <ConnectorPoint PointX="4.2768557408714294" PointY="10" />
+          </AssociationConnector>
+        <AssociationConnector Association="ModeloConosud.FK_ContEmpLegajos_ContratoEmpresas" >
+          <ConnectorPoint PointX="5.53906125" PointY="7.8744921875" />
+          <ConnectorPoint PointX="5.53906125" PointY="8.5490753639322925" />
+          <ConnectorPoint PointX="5.8072941666666669" PointY="8.5490753639322925" />
+          <ConnectorPoint PointX="5.9739608333333329" PointY="8.5490753639322925" />
+          <ConnectorPoint PointX="8.5104141666666653" PointY="8.5490753639322925" />
+          <ConnectorPoint PointX="8.6770808333333331" PointY="8.5490753639322925" />
+          <ConnectorPoint PointX="10.197916666666666" PointY="8.5490753639322925" />
+          <ConnectorPoint PointX="10.364583333333334" PointY="8.5490753639322925" />
+          <ConnectorPoint PointX="10.375" PointY="8.5490753639322925" /></AssociationConnector>
+        <AssociationConnector Association="ModeloConosud.FK_SegMenu_SegMenu" >
+          <ConnectorPoint PointX="15.406923076923077" PointY="14.78904296875" />
+          <ConnectorPoint PointX="15.406923076923077" PointY="15.03904296875" />
+          <ConnectorPoint PointX="15.853461538461538" PointY="15.03904296875" />
+          <ConnectorPoint PointX="15.853461538461538" PointY="14.78904296875" /></AssociationConnector>
+        <EntityTypeShape EntityType="ModeloConosud.ContratosImp" Width="1.5" PointX="1" PointY="12.125" Height="2.7494921874999996" IsExpanded="true" />
+        <EntityTypeShape EntityType="ModeloConosud.LegajosContratosImp" Width="2" PointX="0.875" PointY="15.5" Height="4.4802050781250031" IsExpanded="true" />
+        <EntityTypeShape EntityType="ModeloConosud.EmpresasImp" Width="1.5" PointX="3.375" PointY="15.5" Height="3.1340950520833353" IsExpanded="true" />
+        <EntityTypeShape EntityType="ModeloConosud.ComentariosGral" Width="1.5" PointX="16.375" PointY="10.375" Height="1.5923063151041674" />
+        <AssociationConnector Association="ModeloConosud.FK_ComentariosGral_ContratoEmpresas" >
+          <ConnectorPoint PointX="5.8906275" PointY="7.8744921875" />
+          <ConnectorPoint PointX="5.8906275" PointY="12.083639322916667" />
+          <ConnectorPoint PointX="10.197916666666666" PointY="12.083639322916667" />
+          <ConnectorPoint PointX="10.364583333333334" PointY="12.083639322916667" />
+          <ConnectorPoint PointX="10.947916666666666" PointY="12.083639322916667" />
+          <ConnectorPoint PointX="11.114583333333334" PointY="12.083639322916667" />
+          <ConnectorPoint PointX="12.182289166666665" PointY="12.083639322916667" />
+          <ConnectorPoint PointX="12.348955833333333" PointY="12.083639322916667" />
+          <ConnectorPoint PointX="12.760416666666666" PointY="12.083639322916667" />
+          <ConnectorPoint PointX="12.927083333333334" PointY="12.083639322916667" />
+          <ConnectorPoint PointX="13.541666666666666" PointY="12.083639322916667" />
+          <ConnectorPoint PointX="13.708333333333334" PointY="12.083639322916667" />
+          <ConnectorPoint PointX="15.104166666666666" PointY="12.083639322916667" />
+          <ConnectorPoint PointX="15.270833333333334" PointY="12.083639322916667" />
+          <ConnectorPoint PointX="16.375" PointY="12.083639322916667" />
+          </AssociationConnector>
+        <AssociationConnector Association="ModeloConosud.FK_ComentariosGral_Plantilla" >
+          <ConnectorPoint PointX="12.2656225" PointY="13" />
+          <ConnectorPoint PointX="12.2656225" PointY="11.389938286500126" />
+          <ConnectorPoint PointX="12.760416666666666" PointY="11.389938286500126" />
+          <ConnectorPoint PointX="12.927083333333334" PointY="11.389938286500126" />
+          <ConnectorPoint PointX="13.541666666666666" PointY="11.389938286500126" />
+          <ConnectorPoint PointX="13.708333333333334" PointY="11.389938286500126" />
+          <ConnectorPoint PointX="15.104166666666666" PointY="11.389938286500126" />
+          <ConnectorPoint PointX="15.270833333333334" PointY="11.389938286500126" />
+          <ConnectorPoint PointX="16.375" PointY="11.389938286500126" /></AssociationConnector>
+        <EntityTypeShape EntityType="ModeloConosud.ArchivosSueldos" Width="1.5" PointX="10.25" PointY="16.5" Height="1.7566536458333353" />
+        <EntityTypeShape EntityType="ModeloConosud.DatosDeSueldos" Width="1.5" PointX="7.25" PointY="16.5" Height="3.7288216145833353" />
+        <AssociationConnector Association="ModeloConosud.FK_DatosDeSueldos_Legajos" >
+          <ConnectorPoint PointX="3.28125" PointY="14.672506510416667" />
+          <ConnectorPoint PointX="3.28125" PointY="20.725632523367622" />
+          <ConnectorPoint PointX="7.25" PointY="20.725632523367622" /></AssociationConnector>
+        <AssociationConnector Association="ModeloConosud.FK_DatosDeSueldos_ArchivosSueldos" >
+          <ConnectorPoint PointX="10.25" PointY="17.378326822916669" />
+          <ConnectorPoint PointX="8.75" PointY="17.378326822916669" />
+          </AssociationConnector>
+        <AssociationConnector Association="ModeloConosud.FK_ArchivosSueldos_SegUsuario" >
+          <ConnectorPoint PointX="11.75" PointY="2.040743756510417" />
+          <ConnectorPoint PointX="10.28125" PointY="2.040743756510417" />
+          <ConnectorPoint PointX="10.28125" PointY="16.5" />
+          </AssociationConnector>
+        <AssociationConnector Association="ModeloConosud.FK_DatosDeSueldos_Contrato" >
+          <ConnectorPoint PointX="3.0625" PointY="6.1917936197916665" />
+          <ConnectorPoint PointX="3.0625" PointY="19.67986128772548" />
+          <ConnectorPoint PointX="3.1979166666666665" PointY="19.67986128772548" />
+          <ConnectorPoint PointX="3.3645833333333335" PointY="19.67986128772548" />
+          <ConnectorPoint PointX="7.25" PointY="19.67986128772548" /></AssociationConnector>
+        <AssociationConnector Association="ModeloConosud.FK_DatosDeSueldos_Empresa" >
+          <ConnectorPoint PointX="0.65625" PointY="4.9609993489583326" />
+          <ConnectorPoint PointX="0.65625" PointY="20.352916300746312" />
+          <ConnectorPoint PointX="3.1979166666666665" PointY="20.352916300746312" />
+          <ConnectorPoint PointX="3.3645833333333335" PointY="20.352916300746312" />
+          <ConnectorPoint PointX="7.25" PointY="20.352916300746312" /></AssociationConnector>
+        <EntityTypeShape EntityType="ModeloConosud.ContratoEmpresasImp" Width="1.5" PointX="5.375" PointY="12.75" Height="1.7879850260416674" />
+        <AssociationConnector Association="ModeloConosud.FK_CabeceraHojasDeRuta_SegUsuario" >
+          <ConnectorPoint PointX="11.75" PointY="3.2856934179687505" />
+          <ConnectorPoint PointX="10.364583333333334" PointY="3.28569341796875" />
+          <ConnectorPoint PointX="10.197916666666666" PointY="3.2856934179687505" />
+          <ConnectorPoint PointX="9.21875" PointY="3.2856934179687505" />
+          <ConnectorPoint PointX="9.21875" PointY="4" /></AssociationConnector></Diagram></edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,50 @@
+﻿table
+{
+    text-align: center;
+    margin: 0 auto;
+}
+
+.autocomplete-w1
+{
+    background: url('../images/shadow.png') no-repeat right bottom;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    margin: 8px 0 0 6px; /* IE6 fix: */
+    _background: none;
+    _margin: 0;
+    font-size: 12px;
+}
+.autocomplete
+{
+    border: 1px solid #999;
+    background: #FFF;
+    cursor: default;
+    text-align: left;
+    max-height: 350px;
+    overflow: auto;
+    margin: -6px 6px 6px -6px; /* IE6 specific: */
+    _height: 350px;
+    _margin: 0;
+    _overflow-x: hidden;
+    font-family: "Segoe UI" ,tahoma,verdana,sans-serif;
+    font-size: 11px;
+}
+.autocomplete .selected
+{
+    background: #F0F0F0;
+}
+.autocomplete div
+{
+    padding: 2px 5px;
+    white-space: nowrap;
+}
+.autocomplete strong
+{
+    font-weight: bold;
+    color: #CC0000;
+    font-size: 12px;
+}
+
+
+

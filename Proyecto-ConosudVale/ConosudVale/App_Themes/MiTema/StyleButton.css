@@ -1,0 +1,86 @@
+﻿/* 
+  -- Even more rounded corners with CSS: Base stylesheet --
+*/
+
+.otroC, .otroL, .otroR, .otroLOver ,.otroCOver,.otroROver,.otroLClick ,.otroCClick,.otroRClick
+{
+	font: 13px/26px Tahoma "Segoe UI" , Arial, sans-serif;
+	font-weight: bold;
+	color: White;
+}
+
+.otroC, .otroCOver,.otroCClick
+{
+	background-color: Transparent;
+	display: inline;
+	position: relative;
+	z-index: 500;
+	cursor: hand;
+	top: 2px;
+	color: White;
+	background: url(../../images/btnConosud.gif) center top no-repeat;
+}
+
+.otroCOver
+{
+	background: url(../../images/btnConosudOver.gif) center top no-repeat;
+}
+
+.otroCClick
+{
+	background: url(../../images/btnConosudClick.gif) center top no-repeat;
+}
+
+.otroL, .otroLOver,.otroLClick
+{
+	background-color: Transparent;
+	display: inline;
+	position: relative;
+	z-index: 500;
+	width: 5px;
+	cursor: hand;
+	color: White;
+	font-size: 25px;
+	background: url(../../images/btnConosud.gif) left top no-repeat;
+}
+
+.otroLOver
+{
+	background: url(../../images/btnConosudOver.gif) left top no-repeat;
+}
+
+.otroLClick
+{
+	background: url(../../images/btnConosudClick.gif) left top no-repeat;
+}
+
+.otroR, .otroROver,.otroRClick
+{
+	background-color: Transparent;
+	display: inline;
+	position: relative;
+	z-index: 500;
+	width: 5px;
+	font-size: 25px;
+	cursor: hand;
+	color: White;
+	background: url(../../images/btnConosud.gif) right top no-repeat;
+}
+
+.otroROver
+{
+	background: url(../../images/btnConosudOver.gif) right top no-repeat;
+}
+
+.otroRClick
+{
+	background: url(../../images/btnConosudClick.gif) right top no-repeat;
+}
+
+.dialog
+{
+	cursor: pointer;
+	position:relative;
+	
+}
+

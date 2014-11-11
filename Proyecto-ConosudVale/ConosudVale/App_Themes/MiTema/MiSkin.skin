@@ -1,0 +1,129 @@
+<%--
+Default skin template. The following skins are provided as examples only.
+
+1. Named control skin. The SkinId should be uniquely defined because
+   duplicate SkinId's per control type are not allowed in the same theme.
+
+<asp:GridView runat="server" SkinId="gridviewSkin" BackColor="White" >
+   <AlternatingRowStyle BackColor="Blue" />
+
+2. Default skin. The SkinId is not defined. Only one default 
+   control skin per control type is allowed in the same theme.
+
+<asp:Image runat="server" ImageUrl="~/images/image1.jpg"  Font-Bold="True"/>
+
+--%>
+
+<asp:label  skinid="lblConosudTitulo" runat="server" 
+    Font-Names="Tahoma" Font-Bold="true" 
+    Font-Size="14px" ForeColor="black" />
+
+<asp:label  skinid="lblConosud" runat="server" 
+    Font-Names="Tahoma" Font-Bold="true"
+    Font-Size="12px" ForeColor="black" />
+
+<asp:CheckBox skinid="chkConosud" runat="server"  
+    Font-Names="Tahoma" Font-Bold="true"
+    Font-Size="12px" ForeColor="black"/>
+
+<asp:label  skinid="lblConosudNormal" runat="server" 
+    Font-Names="Tahoma" Font-Size="12px" ForeColor="black" />    
+    
+<asp:Button skinid="btnConosudDiv" runat="server" 
+    ForeColor="White" BorderStyle="None" BackColor="Transparent" 
+    Height="30px" style="font-weight:bold;font-family:Tahoma;cursor:pointer"
+/>
+    
+    
+<asp:Button skinid="btnConosud" runat="server" 
+    BorderColor="red" BorderStyle="Solid" BorderWidth="1px" Font-Names="Tahoma"
+    Font-Size="12px" ForeColor="white" Height="28px" Font-Bold="True" 
+    style="background: url('images/sprite.gif') 0 0px repeat-x;cursor:hand" />
+    
+
+<asp:Button skinid="btnConosudBasic" runat="server" 
+    Font-Names="Tahoma"  BorderStyle="none"  CssClass="btnNormalStyle"
+    Font-Size="12px" ForeColor="white" Height="30px" Font-Bold="True" width="120px" 
+    onmouseout="this.className = 'btnNormalStyle';"
+    onmouseover="this.className = 'btnOverStyle';"
+    onmousedown="this.className = 'btnDownStyle';"
+    onmouseup="this.className = 'btnOverStyle';" />
+    
+    
+<asp:Button skinid="btnConosudAplicar" runat="server" 
+    Font-Names="Tahoma"  BorderStyle="none"  CssClass="btnNormalStyleAplicar"
+    Font-Size="12px" ForeColor="white" Height="28px" Font-Bold="True" width="55px" 
+    onmouseout="this.className = 'btnNormalStyleAplicar';"
+    onmouseover="this.className = 'btnOverStyleAplicar';"
+    onmousedown="this.className = 'btnDownStyleAplicar';"
+    onmouseup="this.className = 'btnOverStyleAplicar';" />
+    
+        
+<asp:GridView runat="server" Font-Names="Arial" Font-Size="0.7em" BackColor="#F1DCDC " BorderColor="#B5494A" BorderWidth="1px" cellpadding="2" cellspacing="0" style="text-transform: lowercase; "  >
+            <FooterStyle BackColor="#B5494A" ForeColor="#F1DCDC" />
+            <RowStyle ForeColor="#B5494A" />
+            <SelectedRowStyle BackColor="#B5494A" ForeColor="#F1DCDC" />
+            <PagerStyle BackColor="#F1DCDC" ForeColor="#B5494A" HorizontalAlign="Left" />
+            <HeaderStyle BackColor="#A5595A" Font-Bold="True" ForeColor="#F1DCDC" />
+            <PagerStyle ForeColor="White" HorizontalAlign="Right" />
+            <emptydatarowstyle backcolor="#A5595A" forecolor="#F1DCDC"/>
+            <PagerTemplate >
+                <TABLE width="100%" >
+                    <TBODY>
+                        <TR>
+                            <TD align=left>
+                                <asp:ImageButton id="igbExcel" runat="server" __designer:wfdid="w11" ImageUrl="~/ImagASP/Excel.GIF"></asp:ImageButton>
+                            </TD>
+                            <TD align=right>
+                                <asp:ImageButton 
+                                   id="btnFirst" 
+                                   commandname="Page"
+                                   commandargument="First"
+                                   runat="server" 
+                                   ImageUrl="~/Images/First.gif" name="btnFirst"/>
+                                <asp:ImageButton 
+                                   id="btnNext" 
+                                   commandname="Page"
+                                   commandargument="Next"
+                                   runat="server" 
+                                   ImageUrl="~/Images/Next.gif" name="btnNext"/>
+                                 <asp:ImageButton 
+                                   id="btnPrev" 
+                                   commandname="Page"
+                                   commandargument="Prev"
+                                   runat="server" 
+                                   ImageUrl="~/Images/Prev.gif" name="btnPrev"/>
+                                <asp:ImageButton 
+                                   id="btnLast" 
+                                   commandname="Page"
+                                   commandargument="Last"
+                                   runat="server" 
+                                   ImageUrl="~/Images/Last.gif" name="btnLast"/>                                
+                            </TD>
+                        </TR>
+                    </TBODY>
+                </TABLE> 
+            </PagerTemplate>
+</asp:GridView>
+
+<asp:DetailsView runat="server" Font-Names="Arial" Font-Size="0.7em" BackColor="#F1DCDC" BorderColor="#B5494A" BorderWidth="1px" CellPadding="3" style="text-transform: capitalize; ">
+    <FooterStyle BackColor="#B5494A" ForeColor="#F1DCDC" />
+    <EditRowStyle BackColor="#F1DCDC"/>
+    <RowStyle ForeColor="#843431" />
+    <PagerStyle BackColor="#F1DCDC" ForeColor="#B5494A" HorizontalAlign="Left" />
+    <HeaderStyle BackColor="#A5595A" Font-Bold="True" ForeColor="White" />
+    <emptydatarowstyle backcolor="#A5595A" forecolor="#F1DCDC"/>
+    <emptydatatemplate>
+
+    </emptydatatemplate>
+    
+    <HeaderTemplate>
+            <TABLE width="100%"><TBODY><TR><TD align=left>
+                <asp:Label id="lblDetalleDetailView" runat="server" ForeColor="White" __designer:wfdid="w48" Visible="False" Font-Bold="True"></asp:Label>
+            </TD></TR></TBODY></TABLE> 
+    </HeaderTemplate>
+</asp:DetailsView>
+
+
+
+

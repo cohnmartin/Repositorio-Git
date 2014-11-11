@@ -1,0 +1,66 @@
+<%@ Master Language="C#" AutoEventWireup="true" CodeFile="DefaultMasterPage.master.cs"
+    Inherits="DefaultMasterPage" %>
+
+<%@ Register Assembly="ControlsAjaxNotti" Namespace="ControlsAjaxNotti" TagPrefix="cc1" %>
+<%@ Register Assembly="Telerik.Web.UI" Namespace="Telerik.Web.UI" TagPrefix="telerik" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="MasterHead" runat="server">
+    <title>Gestion Conosud</title>
+    <link href="App_Themes/MiTema/StyleSheet.css" rel="stylesheet" type="text/css" />
+    <link href="Styles/styles.css" rel="stylesheet" type="text/css" />
+    <script src="Scripts/jquery-1.4.1.js" type="text/javascript"></script>
+</head>
+<body style="background-color: #E4E4E4; text-align: center; margin-top: 1px">
+    <form id="Form1" method="post" runat="server" defaultbutton="btnOculto">
+    <telerik:RadScriptManager ID="RadScriptManager1" runat="server" AsyncPostBackTimeout="360000"
+        EnablePageMethods="true" EnablePartialRendering="true">
+        <Scripts>
+            
+            <asp:ScriptReference Path="~/FuncionesComunes.js" />
+            <asp:ScriptReference Path="~/Scripts/jquery.autocomplete.js" />
+            <asp:ScriptReference Path="~/Scripts/jquery.tablegroup.js" />
+        </Scripts>
+    </telerik:RadScriptManager>
+    <asp:Button ID="btnOculto" runat="server" OnClientClick="return false;" Style="display: none" />
+    <table cellpadding="0" cellspacing="0" border="0" width="980px">
+        <tr id="trImagenEnc" runat="server">
+            <td style="background: transparent url('images/rotulo_new.jpg') no-repeat; height: 109px;"
+                valign="bottom">
+                <table width="100%" style="height: 20%" cellpadding="0" cellspacing="0" border="0">
+                    <tr>
+                        <td align="right" style="padding-right: 5px">
+                            <span style="color: #999999; font-size: small; font-weight: bold">Usuario:</span>
+                            <asp:Label ID="lblNombreUsu" ForeColor="Black" Font-Bold="True" runat="server" Font-Size="small"></asp:Label>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr id="trMenuEnc" runat="server">
+            <td align="left">
+                <telerik:RadMenu ID="RadMenu1" runat="server" Skin="Default" Style="left: 0px; width: 100%;"
+                    OnItemDataBound="RadMenu1_ItemDataBound">
+                    <CollapseAnimation Type="OutQuint" Duration="200"></CollapseAnimation>
+                </telerik:RadMenu>
+            </td>
+        </tr>
+        <tr>
+            <td align="center" valign="top">
+                <div id="master_contentplaceholder">
+                    <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                    </asp:ContentPlaceHolder>
+                    <br />
+                </div>
+                <div id="master_contentfooter">
+                    Copyright &#169; 2005-2012 Infolegacy. All Rights Reserved.</div>
+            </td>
+        </tr>
+    </table>
+    <asp:SiteMapDataSource ID="SiteMapDataSource1" runat="server" ShowStartingNode="False"
+        SiteMapProvider="MenuSiteMap2" />
+    <div style="position: absolute; top: 115px; left: 15px; width: 100%;">
+    </div>
+    </form>
+</body>
+</html>

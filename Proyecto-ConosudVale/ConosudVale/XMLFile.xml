@@ -1,0 +1,106 @@
+﻿<?xml version="1.0"?>
+<TempCabecera xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<IdCaebcera>57649</IdCaebcera>
+	<Codigo>4600001602</Codigo>
+	<Servicio>Servicio de mantenimiento general en las instalaciones de campamento</Servicio>
+	<Periodo>2012-05-01T00:00:00</Periodo>
+	<FechaInicio>2010-06-01T00:00:00</FechaInicio>
+	<FechaVencimiento>2012-05-31T00:00:00</FechaVencimiento>
+	<Prorroga xsi:nil="true" />
+	<EsContratista>true</EsContratista>
+	<UltimoPeriodo>0001-01-01T00:00:00</UltimoPeriodo>
+	<Estimacion />
+	<ContratoEmpresas>
+		<EntityKey>
+			<EntitySetName>ContratoEmpresas</EntitySetName>
+			<EntityContainerName>EntidadesConosud</EntityContainerName>
+			<EntityKeyValues>
+				<EntityKeyMember>
+					<Key>IdContratoEmpresas</Key>
+					<Value xsi:type="xsd:long">2184</Value>
+				</EntityKeyMember>
+			</EntityKeyValues>
+		</EntityKey>
+		<IdContratoEmpresas>2184</IdContratoEmpresas>
+		<IdContrato>1828</IdContrato>
+		<IdEmpresa>363</IdEmpresa>
+		<EsContratista>true</EsContratista>
+		<ContratoReference>
+			<EntityKey>
+				<EntitySetName>Contrato</EntitySetName>
+				<EntityContainerName>EntidadesConosud</EntityContainerName>
+				<EntityKeyValues>
+					<EntityKeyMember>
+						<Key>IdContrato</Key>
+						<Value xsi:type="xsd:long">1828</Value>
+					</EntityKeyMember>
+				</EntityKeyValues>
+			</EntityKey>
+		</ContratoReference>
+		<EmpresaReference>
+			<EntityKey>
+				<EntitySetName>Empresa</EntitySetName>
+				<EntityContainerName>EntidadesConosud</EntityContainerName>
+				<EntityKeyValues>
+					<EntityKeyMember>
+						<Key>IdEmpresa</Key>
+						<Value xsi:type="xsd:long">363</Value>
+					</EntityKeyMember>
+				</EntityKeyValues>
+			</EntityKey>
+		</EmpresaReference>
+	</ContratoEmpresas>
+	<objCabecera>
+		<EntityKey>
+			<EntitySetName>CabeceraHojasDeRuta</EntitySetName>
+			<EntityContainerName>EntidadesConosud</EntityContainerName>
+			<EntityKeyValues>
+				<EntityKeyMember>
+					<Key>IdCabeceraHojasDeRuta</Key>
+					<Value xsi:type="xsd:long">57649</Value>
+				</EntityKeyMember>
+			</EntityKeyValues>
+		</EntityKey>
+		<IdCabeceraHojasDeRuta>57649</IdCabeceraHojasDeRuta>
+		<IdEstado>15</IdEstado>
+		<FechaAprobacion xsi:nil="true" />
+		<Periodo>2012-05-01T00:00:00</Periodo>
+		<NroCarpeta>99</NroCarpeta>
+		<IdContratoEmpresa>2184</IdContratoEmpresa>
+		<Publicar>true</Publicar>
+		<Estimacion />
+		<FechaEstimacion xsi:nil="true" />
+		<FechaAprobacionSinLegajos xsi:nil="true" />
+		<PresentoSueldo xsi:nil="true" />
+		<EsFueraTermino>false</EsFueraTermino>
+		<UsuarioAprobador xsi:nil="true" />
+		<FechaUltimaPubicacion>2013-04-22T15:32:08.547</FechaUltimaPubicacion>
+		<AprobacionEpecial>false</AprobacionEpecial>
+		<EstadoReference>
+			<EntityKey>
+				<EntitySetName>Clasificacion</EntitySetName>
+				<EntityContainerName>EntidadesConosud</EntityContainerName>
+				<EntityKeyValues>
+					<EntityKeyMember>
+						<Key>IdClasificacion</Key>
+						<Value xsi:type="xsd:long">15</Value>
+					</EntityKeyMember>
+				</EntityKeyValues>
+			</EntityKey>
+		</EstadoReference>
+		<ContratoEmpresasReference>
+			<EntityKey>
+				<EntitySetName>ContratoEmpresas</EntitySetName>
+				<EntityContainerName>EntidadesConosud</EntityContainerName>
+				<EntityKeyValues>
+					<EntityKeyMember>
+						<Key>IdContratoEmpresas</Key>
+						<Value xsi:type="xsd:long">2184</Value>
+					</EntityKeyMember>
+				</EntityKeyValues>
+			</EntityKey>
+		</ContratoEmpresasReference>
+		<SegUsuarioReference />
+	</objCabecera>
+	<Categoria>Auditable</Categoria>
+</TempCabecera>

@@ -1,0 +1,74 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "ConosudVale", "ConosudVale\", "{086A755D-C506-402A-8F08-4EAA52E74F70}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		ProjectReferences = "{E21D6130-C633-4E4A-900C-575966DF1241}|Entidades.dll;{DDACB432-E830-4B38-AE60-E9489340C3BB}|ControlsAjaxNotti.dll;"
+		Debug.AspNetCompiler.VirtualPath = "/ConosudVale"
+		Debug.AspNetCompiler.PhysicalPath = "ConosudVale\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\ConosudVale\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/ConosudVale"
+		Release.AspNetCompiler.PhysicalPath = "ConosudVale\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\ConosudVale\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "5097"
+		VWDDynamicPort = "false"
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entidades", "Entidades\Entidades.csproj", "{E21D6130-C633-4E4A-900C-575966DF1241}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControlsAjaxNotti", "..\ControlesAjax\ControlsAjaxNotti.csproj", "{DDACB432-E830-4B38-AE60-E9489340C3BB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|Mixed Platforms = Debug|Mixed Platforms
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|Mixed Platforms = Release|Mixed Platforms
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{086A755D-C506-402A-8F08-4EAA52E74F70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{086A755D-C506-402A-8F08-4EAA52E74F70}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{086A755D-C506-402A-8F08-4EAA52E74F70}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{086A755D-C506-402A-8F08-4EAA52E74F70}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{086A755D-C506-402A-8F08-4EAA52E74F70}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{086A755D-C506-402A-8F08-4EAA52E74F70}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{086A755D-C506-402A-8F08-4EAA52E74F70}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{086A755D-C506-402A-8F08-4EAA52E74F70}.Release|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{086A755D-C506-402A-8F08-4EAA52E74F70}.Release|Mixed Platforms.Build.0 = Debug|Any CPU
+		{086A755D-C506-402A-8F08-4EAA52E74F70}.Release|x86.ActiveCfg = Debug|Any CPU
+		{E21D6130-C633-4E4A-900C-575966DF1241}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E21D6130-C633-4E4A-900C-575966DF1241}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E21D6130-C633-4E4A-900C-575966DF1241}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{E21D6130-C633-4E4A-900C-575966DF1241}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{E21D6130-C633-4E4A-900C-575966DF1241}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E21D6130-C633-4E4A-900C-575966DF1241}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E21D6130-C633-4E4A-900C-575966DF1241}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E21D6130-C633-4E4A-900C-575966DF1241}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{E21D6130-C633-4E4A-900C-575966DF1241}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{E21D6130-C633-4E4A-900C-575966DF1241}.Release|x86.ActiveCfg = Release|Any CPU
+		{DDACB432-E830-4B38-AE60-E9489340C3BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDACB432-E830-4B38-AE60-E9489340C3BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDACB432-E830-4B38-AE60-E9489340C3BB}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{DDACB432-E830-4B38-AE60-E9489340C3BB}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{DDACB432-E830-4B38-AE60-E9489340C3BB}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{DDACB432-E830-4B38-AE60-E9489340C3BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDACB432-E830-4B38-AE60-E9489340C3BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DDACB432-E830-4B38-AE60-E9489340C3BB}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{DDACB432-E830-4B38-AE60-E9489340C3BB}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{DDACB432-E830-4B38-AE60-E9489340C3BB}.Release|x86.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
