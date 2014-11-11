@@ -13,14 +13,30 @@
             // new up complex objects before passing them around
             directionsDisplay = new window.google.maps.DirectionsRenderer({ suppressMarkers: true });
 
-
+            var flightPlanCoordinates = [];
             init();
 
             google.maps.event.addListener(map, 'click', function (event) {
 
                 $("#newPoints").val($("#newPoints").val() + '{ "Geometry" :{"Latitude":' + event.latLng.k + ', "Longitude":' + event.latLng.B + '}},');
 
-                createMarker(map, event.latLng, "marker", "some text for marker ", "change", 1120);
+
+
+                flightPlanCoordinates.push(event.latLng);
+
+
+                var flightPath = new google.maps.Polyline({
+                    path: flightPlanCoordinates,
+                    geodesic: true,
+                    strokeColor: '#FF0000',
+                    strokeOpacity: 1.0,
+                    strokeWeight: 2
+                });
+
+                flightPath.setMap(map);
+
+
+                //createMarker(map, event.latLng, "marker", "some text for marker ", "change", 1120);
 
             });
 
