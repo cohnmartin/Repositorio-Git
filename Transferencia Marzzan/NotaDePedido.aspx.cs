@@ -1178,8 +1178,8 @@ public partial class NotaDePedido : BasePage
                                                 select P).FirstOrDefault<Presentacion>();
 
                 Presentacion AmbientadorAutomaticoAnalogico = (from P in Contexto.Presentacions
-                                                             where P.IdPresentacion == 6707
-                                                             select P).FirstOrDefault<Presentacion>();
+                                                               where P.IdPresentacion == 6707
+                                                               select P).FirstOrDefault<Presentacion>();
 
 
                 DetallePedido newDetalleST = new DetallePedido();
@@ -1216,8 +1216,8 @@ public partial class NotaDePedido : BasePage
                                                   select P).FirstOrDefault<Presentacion>();
 
                 Presentacion AmbientadorAutomaticoAnalogico = (from P in Contexto.Presentacions
-                                                             where P.IdPresentacion == 6707
-                                                             select P).FirstOrDefault<Presentacion>();
+                                                               where P.IdPresentacion == 6707
+                                                               select P).FirstOrDefault<Presentacion>();
 
 
                 DetallePedido newDetalleSI = new DetallePedido();
@@ -1274,7 +1274,8 @@ public partial class NotaDePedido : BasePage
         }
 
     }
-    private decimal TotalCompradoParaPromociones()
+
+    private static decimal TotalCompradoParaPromociones()
     {
         /// Para el calculo del total solo se tiene en cuenta Productos Comisionables
         /// Y se dejan fuera del monto: Descuentos promociones, Descuentos por Provincia, Flete.
@@ -1282,9 +1283,9 @@ public partial class NotaDePedido : BasePage
         decimal TotalParaPromociones = 0;
 
         /// Calculo de los productos en las promociones Directas
-        if (Session["PromosGeneradas"] != null)
+        if (HttpContext.Current.Session["PromosGeneradas"] != null)
         {
-            List<DetallePedido> promosTemp = (Session["PromosGeneradas"] as List<DetallePedido>).Where(w => w.IdRelacionDetallePromo != 0).ToList();
+            List<DetallePedido> promosTemp = (HttpContext.Current.Session["PromosGeneradas"] as List<DetallePedido>).Where(w => w.IdRelacionDetallePromo != 0).ToList();
             foreach (DetallePedido promo in promosTemp)
             {
                 TotalParaPromociones += promo.colProductosRequeridos.Where(w => w.CodigoCompleto.Substring(0, 1) != "2").Sum(w => w.ValorUnitario * w.Cantidad).Value;
@@ -1293,15 +1294,15 @@ public partial class NotaDePedido : BasePage
 
         /// Si hay promociones directas dentro del pedido y aun no se han cargado los elementos 
         /// requeridos entoces uso el valor de la promoción del detalle.
-        if (TotalParaPromociones == 0 && (Session["detPedido"] as List<DetallePedido>).Any(w => w.Tipo == "P"))
+        if (TotalParaPromociones == 0 && (HttpContext.Current.Session["detPedido"] as List<DetallePedido>).Any(w => w.Tipo == "P"))
         {
-            TotalParaPromociones += (from P in (Session["detPedido"] as List<DetallePedido>)
+            TotalParaPromociones += (from P in (HttpContext.Current.Session["detPedido"] as List<DetallePedido>)
                                      where (P.Tipo == "P")
                                      select P.ValorTotal.Value).Sum();
         }
 
         /// Calculo de los productos solicitados
-        TotalParaPromociones += (from P in (Session["detPedido"] as List<DetallePedido>)
+        TotalParaPromociones += (from P in (HttpContext.Current.Session["detPedido"] as List<DetallePedido>)
                                  where (P.CodigoCompleto.Substring(0, 1) != "2" && P.Tipo == "A")
                                  select P.ValorTotal.Value).Sum();
 
@@ -1329,15 +1330,15 @@ public partial class NotaDePedido : BasePage
             try
             {
                 #region Calculo el Total Comprado
-                /// Solo tiene en cuenta los productos comisionables para el calculo, es decir
-                /// aquello donde el código comienza con un 1.
-                decimal TotalComprado = (from P in (Session["detPedido"] as List<DetallePedido>)
-                                         where (P.CodigoCompleto.Substring(0, 1) == "1" && P.Tipo == "A") || (P.Tipo == "P") || (P.Tipo == "D")
-                                         select P.ValorTotal.Value).Sum();
+                ///// Solo tiene en cuenta los productos comisionables para el calculo, es decir
+                ///// aquello donde el código comienza con un 1.
+                //decimal TotalComprado = (from P in (Session["detPedido"] as List<DetallePedido>)
+                //                         where (P.CodigoCompleto.Substring(0, 1) == "1" && P.Tipo == "A") || (P.Tipo == "P") || (P.Tipo == "D")
+                //                         select P.ValorTotal.Value).Sum();
 
 
-                // Sumo el costo del transporte
-                //TotalComprado += decimal.Parse(lblCostoFlete.Text.Replace("$", ""));
+                //// Sumo el costo del transporte
+                ////TotalComprado += decimal.Parse(lblCostoFlete.Text.Replace("$", ""));
 
 
 
@@ -1347,33 +1348,32 @@ public partial class NotaDePedido : BasePage
 
                 #region Calculo el Total Comprado para control PROMOCIONES
 
-                if (!EsTemporal)
-                {
-                    decimal TotalParaPromociones = TotalCompradoParaPromociones();
+
+                //decimal TotalParaPromociones = TotalCompradoParaPromociones();
 
 
-                    /// Recupero los montos minimos de las promociones segun su configuracion.
-                    List<long> idsPromosTemp = (Session["PromosGeneradas"] as List<DetallePedido>).Select(w => w.Producto.Value).ToList();
-                    var PromocionesInvalidas = (from p in Contexto.ConfPromociones
-                                                where idsPromosTemp.Contains(p.IdProductoPromo) && p.MontoMinimo > TotalParaPromociones
-                                                select new
-                                                {
-                                                    Descripcion = p.objProductoPromo.Descripcion,
-                                                    Monto = p.MontoMinimo
-                                                }).ToList();
+                ///// Recupero los montos minimos de las promociones segun su configuracion.
+                //List<long> idsPromosTemp = (Session["PromosGeneradas"] as List<DetallePedido>).Select(w => w.Producto.Value).ToList();
+                //var PromocionesInvalidas = (from p in Contexto.ConfPromociones
+                //                            where idsPromosTemp.Contains(p.IdProductoPromo) && p.MontoMinimo > TotalParaPromociones
+                //                            select new
+                //                            {
+                //                                Descripcion = p.objProductoPromo.Descripcion,
+                //                                Monto = p.MontoMinimo
+                //                            }).ToList();
 
-                    if (PromocionesInvalidas.Count > 0)
-                    {
-                        string mensajePromos = "Las siguientes promociones no pueden ser solicitadas, ya que las mismas poseen un monto mínimo establecido, el cual es mayor al monto del pedido.</br>Promociones:</br>";
-                        foreach (var item in PromocionesInvalidas)
-                        {
-                            mensajePromos += "&nbsp;&nbsp;&nbsp;" + item.Descripcion + " <b>Monto Mínimo: " + string.Format("${0:###.0#}", item.Monto.Value) + "</b>";
-                        }
+                //if (PromocionesInvalidas.Count > 0)
+                //{
+                //    string mensajePromos = "Las siguientes promociones no pueden ser solicitadas, ya que las mismas poseen un monto mínimo establecido, el cual es mayor al monto del pedido.</br>Promociones:</br>";
+                //    foreach (var item in PromocionesInvalidas)
+                //    {
+                //        mensajePromos += "&nbsp;&nbsp;&nbsp;" + item.Descripcion + " <b>Monto Mínimo: " + string.Format("${0:###.0#}", item.Monto.Value) + "</b>";
+                //    }
 
-                        ScriptManager.RegisterStartupScript(upSolicitudPedido, typeof(UpdatePanel), "MinimoReqCredito", "AlertaMinimoPromociones('" + mensajePromos + "');", true);
-                        return;
-                    }
-                }
+                //    ScriptManager.RegisterStartupScript(upSolicitudPedido, typeof(UpdatePanel), "MinimoReqCredito", "AlertaMinimoPromociones('" + mensajePromos + "');", true);
+                //    return;
+                //}
+
                 #endregion
 
                 #region Verifico que la dirección seleccionada pertenezca al cliente seleccionado
@@ -1404,89 +1404,89 @@ public partial class NotaDePedido : BasePage
                 #endregion
 
                 #region Busco el limite de compra por provincia
-                decimal LimitePorProvincia = 0;
+                //decimal LimitePorProvincia = 0;
 
 
 
 
-                var LimiteCompraProvincia = (from P in Contexto.LimitesDeCompras
-                                             where P.Provincia == dirEntrega.Provincia && P.Localidad == dirEntrega.Localidad
-                                             select P.Limite).FirstOrDefault();
+                //var LimiteCompraProvincia = (from P in Contexto.LimitesDeCompras
+                //                             where P.Provincia == dirEntrega.Provincia && P.Localidad == dirEntrega.Localidad
+                //                             select P.Limite).FirstOrDefault();
 
-                /// si es null significa que no hay una definicion especifica
-                /// para localidad y provincia entonces busco solo para la provincia.
-                if (LimiteCompraProvincia == null)
-                {
-                    LimiteCompraProvincia = (from P in Contexto.LimitesDeCompras
-                                             where P.Provincia == dirEntrega.Provincia
-                                             select P.Limite).FirstOrDefault();
+                ///// si es null significa que no hay una definicion especifica
+                ///// para localidad y provincia entonces busco solo para la provincia.
+                //if (LimiteCompraProvincia == null)
+                //{
+                //    LimiteCompraProvincia = (from P in Contexto.LimitesDeCompras
+                //                             where P.Provincia == dirEntrega.Provincia
+                //                             select P.Limite).FirstOrDefault();
 
-                    if (LimiteCompraProvincia != null)
-                        LimitePorProvincia = LimiteCompraProvincia.Value;
-                }
-                else
-                {
-                    LimitePorProvincia = LimiteCompraProvincia.Value;
-                }
+                //    if (LimiteCompraProvincia != null)
+                //        LimitePorProvincia = LimiteCompraProvincia.Value;
+                //}
+                //else
+                //{
+                //    LimitePorProvincia = LimiteCompraProvincia.Value;
+                //}
 
                 #endregion
 
                 #region Busco el limite de compra general
-                string LimiteCompraGeneral = (from P in Session["ParametrosSistema"] as List<Parametro>
-                                              where P.IdParametro == (int)TiposDeParametros.LimiteCompra
-                                              select P.Valor).Single();
+                //string LimiteCompraGeneral = (from P in Session["ParametrosSistema"] as List<Parametro>
+                //                              where P.IdParametro == (int)TiposDeParametros.LimiteCompra
+                //                              select P.Valor).Single();
 
                 #endregion
 
                 #region Busco el limite de compra en Contra Reembolso
-                string LimiteContraReembolso = (from P in Session["ParametrosSistema"] as List<Parametro>
-                                                where P.IdParametro == (int)TiposDeParametros.LimiteContraReembolso
-                                                select P.Valor).Single();
+                //string LimiteContraReembolso = (from P in Session["ParametrosSistema"] as List<Parametro>
+                //                                where P.IdParametro == (int)TiposDeParametros.LimiteContraReembolso
+                //                                select P.Valor).Single();
 
                 #endregion
 
                 #region Control LIMITE GENERAL
-                if ((!EsTemporal && !EsClienteEspecial))
-                {
+                //if ((!EsTemporal && !EsClienteEspecial))
+                //{
 
-                    if (TipoCliente.ToString() != Convert.ToString((int)TipoClientes.PotencialBolso))
-                    {
-                        /// ESTE CONTROL NO SE REALIZA MAS SOBRE LOS PEDIDOS COMISIONABLES
-                        /// SINO QUE SE DEBE HACER SOBRE EL TOTAL DEL PEDIDO. MAIL: 30/10/2014
-                        ///// Control LIMITE POR PROVINCIA
-                        //if (TotalComprado < LimitePorProvincia)
-                        //{
-                        //    ScriptManager.RegisterStartupScript(upSolicitudPedido, typeof(UpdatePanel), "MinimoReq", "AlertaMinimoRequeridoProvincia(" + LimitePorProvincia + ");", true);
-                        //    return;
-                        //}
+                //    if (TipoCliente.ToString() != Convert.ToString((int)TipoClientes.PotencialBolso))
+                //    {
+                //        /// ESTE CONTROL NO SE REALIZA MAS SOBRE LOS PEDIDOS COMISIONABLES
+                //        /// SINO QUE SE DEBE HACER SOBRE EL TOTAL DEL PEDIDO. MAIL: 30/10/2014
+                //        ///// Control LIMITE POR PROVINCIA
+                //        //if (TotalComprado < LimitePorProvincia)
+                //        //{
+                //        //    ScriptManager.RegisterStartupScript(upSolicitudPedido, typeof(UpdatePanel), "MinimoReq", "AlertaMinimoRequeridoProvincia(" + LimitePorProvincia + ");", true);
+                //        //    return;
+                //        //}
 
 
-                        /// Control LIMITE GENERAL
-                        if (!cboConsultores.Text.Contains("bolsos"))
-                        {
-                            if (TotalComprado < int.Parse(LimiteCompraGeneral))
-                            {
-                                ScriptManager.RegisterStartupScript(upSolicitudPedido, typeof(UpdatePanel), "MinimoReq", "AlertaMinimoRequerido(" + LimiteCompraGeneral + ");", true);
-                                return;
-                            }
-                        }
-                    }
-                }
+                //        /// Control LIMITE GENERAL
+                //        if (!cboConsultores.Text.Contains("bolsos"))
+                //        {
+                //            if (TotalComprado < int.Parse(LimiteCompraGeneral))
+                //            {
+                //                ScriptManager.RegisterStartupScript(upSolicitudPedido, typeof(UpdatePanel), "MinimoReq", "AlertaMinimoRequerido(" + LimiteCompraGeneral + ");", true);
+                //                return;
+                //            }
+                //        }
+                //    }
+                //}
                 #endregion
 
                 #region Control LIMITE EN CREDITO
-                if ((!EsTemporal && !EsClienteEspecial))
-                {
-                    if (cboFormaPago.SelectedItem.Text == "Crédito")
-                    {
-                        decimal MontoDisponibleCredito = decimal.Parse(Session["MontoDisponibleCredito"].ToString());
-                        if (TotalComprado > MontoDisponibleCredito)
-                        {
-                            ScriptManager.RegisterStartupScript(upSolicitudPedido, typeof(UpdatePanel), "MinimoReqCredito", "AlertaMinimoRequeridoCredito(" + string.Format("{0:0.00}", MontoDisponibleCredito) + ");", true);
-                            return;
-                        }
-                    }
-                }
+                //if ((!EsTemporal && !EsClienteEspecial))
+                //{
+                //    if (cboFormaPago.SelectedItem.Text == "Crédito")
+                //    {
+                //        decimal MontoDisponibleCredito = decimal.Parse(Session["MontoDisponibleCredito"].ToString());
+                //        if (TotalComprado > MontoDisponibleCredito)
+                //        {
+                //            ScriptManager.RegisterStartupScript(upSolicitudPedido, typeof(UpdatePanel), "MinimoReqCredito", "AlertaMinimoRequeridoCredito(" + string.Format("{0:0.00}", MontoDisponibleCredito) + ");", true);
+                //            return;
+                //        }
+                //    }
+                //}
                 #endregion
 
                 #region Generacion de la Cabecera del Pedido
@@ -2077,8 +2077,8 @@ public partial class NotaDePedido : BasePage
                     string[] CodigosAromatizadores = new string[] { "1010200001   -018-50 ", "1010100001   -009-50 ", "1010300001   -142-50 ", "1010100001   -003-50 ", "1010507001   -203-50 "
                         , "1010100001   -012-50 ", "1010300001   -244-50 ", "1010300001   -021-50 ", "1010200001   -015-50 ", "1010100001   -017-50 ", "1010100001   -011-50 ","1010200001   -017-50 ","1010300001   -026-50 "
                         ,"1010100001   -001-50 ","1010100001   -005-50 ","1010100001   -008-50 ","1010100001   -131-50 ","101100001   -013-50 ","1010300001   -025-50 ","1010300001   -024-50 ","1010300001   -027-50 ","1010300001   -028-50 ","1010300001   -180-50 ","1010300001   -152-50 ","1010300001   -022-50 ","1010300001   -023-50 ","1010504001   -115-50 "};
-                            
-        
+
+
 
                     long CantidadAromatizador = Convert.ToInt64(((from N in cabecera.DetallePedidos
                                                                   where CodigosAromatizadores.Contains(N.CodigoCompleto)
@@ -2126,15 +2126,15 @@ public partial class NotaDePedido : BasePage
 
                     long CantidadHornillos = Convert.ToInt64(((from N in cabecera.DetallePedidos
                                                                where CodigosHornillos.Contains(N.CodigoCompleto)
-                                                                  select N.Cantidad.Value).Sum() * 1));
+                                                               select N.Cantidad.Value).Sum() * 1));
 
 
                     if (CantidadHornillos > 0)
                     {
 
                         Presentacion preVela = (from P in Contexto.Presentacions
-                                                               where P.Codigo == "2500000110001"
-                                                               select P).SingleOrDefault();
+                                                where P.Codigo == "2500000110001"
+                                                select P).SingleOrDefault();
 
 
                         newDetalle = new DetallePedido();
@@ -2601,83 +2601,83 @@ public partial class NotaDePedido : BasePage
                 cabecera.DetalleImpuestos = DetalleImpuestosCalculados;
 
                 #region Control LIMITE POR PROVINCIA -Sin tener en cuenta los impuestos
-                if ((!EsTemporal && !EsClienteEspecial))
-                {
+                //if ((!EsTemporal && !EsClienteEspecial))
+                //{
 
-                    if (TipoCliente.ToString() != Convert.ToString((int)TipoClientes.PotencialBolso))
-                    {
-                        /// Control LIMITE POR PROVINCIA
-                        if (Total < LimitePorProvincia)
-                        {
-                            ScriptManager.RegisterStartupScript(upSolicitudPedido, typeof(UpdatePanel), "MinimoReq", "AlertaMinimoRequeridoProvincia(" + LimitePorProvincia + ");", true);
-                            return;
-                        }
-                    }
-                }
-                 #endregion
+                //    if (TipoCliente.ToString() != Convert.ToString((int)TipoClientes.PotencialBolso))
+                //    {
+                //        /// Control LIMITE POR PROVINCIA
+                //        if (Total < LimitePorProvincia)
+                //        {
+                //            ScriptManager.RegisterStartupScript(upSolicitudPedido, typeof(UpdatePanel), "MinimoReq", "AlertaMinimoRequeridoProvincia(" + LimitePorProvincia + ");", true);
+                //            return;
+                //        }
+                //    }
+                //}
+                #endregion
 
                 #region Control de limites de compra por la forma de pago
-                if ((!FaltaSaldo && !EsTemporal))
-                {
-                    /// Este control se hace para todos lo clientes salvo los clientes del grupo DIRECTORIO
-                    if (!EsClienteEspecial)
-                    {
-                        decimal SaldoActual = -1 * SaldoPagoAnticipado;
-                        switch (cboFormaPago.Text)
-                        {
-                            case "Pago Fácil":
-                                {
-                                    if (Total > SaldoActual)
-                                    {
-                                        decimal TotalSinTransporte = Total - valorTansporte;
-                                        ScriptManager.RegisterStartupScript(upSolicitudPedido, typeof(UpdatePanel), "SaldoReq", "AlertaSaldoInsuficiente('El monto del pedido (Productos: $" + TotalSinTransporte.ToString() + " + Transporte: $" + valorTansporte.ToString() + ") supera el saldo disponible que posee ($" + SaldoActual.ToString() + "), el mismo no puede ser realizado hasta que tenga saldo suficiente. Si lo desea puede guardar el pedido temporalmente para realizarlo en otro momento.');", true);
-                                        return;
-                                    }
-                                    else
-                                        break;
+                //if ((!FaltaSaldo && !EsTemporal))
+                //{
+                //    /// Este control se hace para todos lo clientes salvo los clientes del grupo DIRECTORIO
+                //    if (!EsClienteEspecial)
+                //    {
+                //        decimal SaldoActual = -1 * SaldoPagoAnticipado;
+                //        switch (cboFormaPago.Text)
+                //        {
+                //            case "Pago Fácil":
+                //                {
+                //                    if (Total > SaldoActual)
+                //                    {
+                //                        decimal TotalSinTransporte = Total - valorTansporte;
+                //                        ScriptManager.RegisterStartupScript(upSolicitudPedido, typeof(UpdatePanel), "SaldoReq", "AlertaSaldoInsuficiente('El monto del pedido (Productos: $" + TotalSinTransporte.ToString() + " + Transporte: $" + valorTansporte.ToString() + ") supera el saldo disponible que posee ($" + SaldoActual.ToString() + "), el mismo no puede ser realizado hasta que tenga saldo suficiente. Si lo desea puede guardar el pedido temporalmente para realizarlo en otro momento.');", true);
+                //                        return;
+                //                    }
+                //                    else
+                //                        break;
 
 
-                                }
-                            case "Pago Mis Cuentas":
-                                {
-                                    if (Total > SaldoActual)
-                                    {
-                                        decimal TotalSinTransporte = Total - valorTansporte;
-                                        ScriptManager.RegisterStartupScript(upSolicitudPedido, typeof(UpdatePanel), "SaldoReq", "AlertaSaldoInsuficiente('El monto del pedido (Productos: $" + TotalSinTransporte.ToString() + " + Transporte: $" + valorTansporte.ToString() + ") supera el saldo disponible que posee ($" + SaldoActual.ToString() + "), el mismo no puede ser realizado hasta que tenga saldo suficiente. Si lo desea puede guardar el pedido temporalmente para realizarlo en otro momento.');", true);
-                                        return;
-                                    }
-                                    else
-                                        break;
+                //                }
+                //            case "Pago Mis Cuentas":
+                //                {
+                //                    if (Total > SaldoActual)
+                //                    {
+                //                        decimal TotalSinTransporte = Total - valorTansporte;
+                //                        ScriptManager.RegisterStartupScript(upSolicitudPedido, typeof(UpdatePanel), "SaldoReq", "AlertaSaldoInsuficiente('El monto del pedido (Productos: $" + TotalSinTransporte.ToString() + " + Transporte: $" + valorTansporte.ToString() + ") supera el saldo disponible que posee ($" + SaldoActual.ToString() + "), el mismo no puede ser realizado hasta que tenga saldo suficiente. Si lo desea puede guardar el pedido temporalmente para realizarlo en otro momento.');", true);
+                //                        return;
+                //                    }
+                //                    else
+                //                        break;
 
 
-                                }
-                            case "Contra Reembolso":
-                                {
-                                    if ((Total - SaldoActual) > decimal.Parse(LimiteContraReembolso))
-                                    {
-                                        ScriptManager.RegisterStartupScript(upSolicitudPedido, typeof(UpdatePanel), "SaldoReq", "AlertaSaldoInsuficiente('El monto del pedido supera el límite en contra reemboldo ($ " + LimiteContraReembolso + "), el mismo no puede ser realizado. Si lo desea puede guardar el pedido temporalmente para realizarlo en otro momento.');", true);
-                                        return;
-                                    }
-                                    else
-                                        break;
+                //                }
+                //            case "Contra Reembolso":
+                //                {
+                //                    if ((Total - SaldoActual) > decimal.Parse(LimiteContraReembolso))
+                //                    {
+                //                        ScriptManager.RegisterStartupScript(upSolicitudPedido, typeof(UpdatePanel), "SaldoReq", "AlertaSaldoInsuficiente('El monto del pedido supera el límite en contra reemboldo ($ " + LimiteContraReembolso + "), el mismo no puede ser realizado. Si lo desea puede guardar el pedido temporalmente para realizarlo en otro momento.');", true);
+                //                        return;
+                //                    }
+                //                    else
+                //                        break;
 
-                                }
-                            case "Rapi Pago":
-                                {
-                                    if (Total > SaldoActual)
-                                    {
-                                        decimal TotalSinTransporte = Total - valorTansporte;
-                                        ScriptManager.RegisterStartupScript(upSolicitudPedido, typeof(UpdatePanel), "SaldoReq", "AlertaSaldoInsuficiente('El monto del pedido (Productos: $" + TotalSinTransporte.ToString() + " + Transporte: $" + valorTansporte.ToString() + ") supera el saldo disponible que posee ($" + SaldoActual.ToString() + "), el mismo no puede ser realizado hasta que tenga saldo suficiente. Si lo desea puede guardar el pedido temporalmente para realizarlo en otro momento.');", true);
-                                        return;
-                                    }
-                                    else
-                                        break;
+                //                }
+                //            case "Rapi Pago":
+                //                {
+                //                    if (Total > SaldoActual)
+                //                    {
+                //                        decimal TotalSinTransporte = Total - valorTansporte;
+                //                        ScriptManager.RegisterStartupScript(upSolicitudPedido, typeof(UpdatePanel), "SaldoReq", "AlertaSaldoInsuficiente('El monto del pedido (Productos: $" + TotalSinTransporte.ToString() + " + Transporte: $" + valorTansporte.ToString() + ") supera el saldo disponible que posee ($" + SaldoActual.ToString() + "), el mismo no puede ser realizado hasta que tenga saldo suficiente. Si lo desea puede guardar el pedido temporalmente para realizarlo en otro momento.');", true);
+                //                        return;
+                //                    }
+                //                    else
+                //                        break;
 
 
-                                }
-                        }
-                    }
-                }
+                //                }
+                //        }
+                //    }
+                //}
 
 
                 #endregion
@@ -4521,7 +4521,7 @@ public partial class NotaDePedido : BasePage
                                         det.CodigoCompleto = item.componentes.FirstOrDefault().objPresentacion.Codigo;
                                         det.DescripcionProducto = "<b><span style='color:Blue' >" + item.componentes.FirstOrDefault().Cantidad + "</span></b> " + item.componentes.FirstOrDefault().objProductoHijo.Descripcion + " x " + item.componentes.FirstOrDefault().objPresentacion.Descripcion;
                                         promoGeneradaxSolicitud.colProductosRequeridos.Add(det);
-                                        valorPromocionSegunComponentes += item.componentes.FirstOrDefault().objPresentacion.Precio.Value* int.Parse(item.componentes.FirstOrDefault().Cantidad);
+                                        valorPromocionSegunComponentes += item.componentes.FirstOrDefault().objPresentacion.Precio.Value * int.Parse(item.componentes.FirstOrDefault().Cantidad);
                                     }
                                     else
                                     {
@@ -4535,7 +4535,7 @@ public partial class NotaDePedido : BasePage
                                         det.CodigoCompleto = detExistente.CodigoCompleto;
                                         det.DescripcionProducto = detExistente.DescripcionProducto;
                                         promoGeneradaxSolicitud.colProductosRequeridos.Add(det);
-                                        valorPromocionSegunComponentes += detExistente.ValorUnitario.Value*int.Parse(item.componentes.FirstOrDefault().Cantidad);
+                                        valorPromocionSegunComponentes += detExistente.ValorUnitario.Value * int.Parse(item.componentes.FirstOrDefault().Cantidad);
 
                                     }
                                 }
@@ -5307,6 +5307,240 @@ public partial class NotaDePedido : BasePage
         {
             return "";
         }
+    }
+
+
+    [WebMethod(EnableSession = true)]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    public static string ControlesDeGrabacion(decimal subTotal, decimal saldoPagoAnticipado, decimal valorTransporte, string formaDePago, string provincia ,string localidad)
+    {
+        string alertaControles = "";
+        bool esClienteEspecial = (HttpContext.Current.Session["ClienteLogeado"] as Cliente).Clasif1.Contains("DIRECTORIO") ? true : false;
+
+        using (Marzzan_InfolegacyDataContext dc = new Marzzan_InfolegacyDataContext())
+        {
+            #region Calculo el Total Comprado
+            /// Solo tiene en cuenta los productos comisionables para el calculo, es decir
+            /// aquello donde el código comienza con un 1.
+            decimal TotalComprado = (from P in (HttpContext.Current.Session["detPedido"] as List<DetallePedido>)
+                                     where (P.CodigoCompleto.Substring(0, 1) == "1" && P.Tipo == "A") || (P.Tipo == "P") || (P.Tipo == "D")
+                                     select P.ValorTotal.Value).Sum();
+
+
+            #endregion
+
+            #region Calculo el Total Comprado para control PROMOCIONES
+
+
+            decimal TotalParaPromociones = TotalCompradoParaPromociones();
+
+
+            /// Recupero los montos minimos de las promociones segun su configuracion.
+            List<long> idsPromosTemp = (HttpContext.Current.Session["PromosGeneradas"] as List<DetallePedido>).Select(w => w.Producto.Value).ToList();
+            var PromocionesInvalidas = (from p in dc.ConfPromociones
+                                        where idsPromosTemp.Contains(p.IdProductoPromo) && p.MontoMinimo > TotalParaPromociones
+                                        select new
+                                        {
+                                            Descripcion = p.objProductoPromo.Descripcion,
+                                            Monto = p.MontoMinimo
+                                        }).ToList();
+
+            if (PromocionesInvalidas.Count > 0)
+            {
+                string mensajePromos = "Las siguientes promociones no pueden ser solicitadas, ya que las mismas poseen un monto mínimo establecido, el cual es mayor al monto del pedido.</br>Promociones:</br>";
+                foreach (var item in PromocionesInvalidas)
+                {
+                    mensajePromos += "&nbsp;&nbsp;&nbsp;" + item.Descripcion + " <b>Monto Mínimo: " + string.Format("${0:###.0#}", item.Monto.Value) + "</b>";
+                }
+
+                alertaControles = "AlertaMinimoPromociones('" + mensajePromos + "');";
+                return alertaControles;
+
+                //ScriptManager.RegisterStartupScript(upSolicitudPedido, typeof(UpdatePanel), "MinimoReqCredito", "AlertaMinimoPromociones('" + mensajePromos + "');", true);
+                //return alertaControles;
+            }
+
+            #endregion
+
+            #region Busco el limite de compra por provincia
+            decimal LimitePorProvincia = 0;
+            var limetesDeCompra = (from P in dc.LimitesDeCompras
+                                   select P).ToList();
+
+            var LimiteCompraProvincia = (from P in limetesDeCompra
+                                         where P.Provincia.Trim().ToUpper() == provincia.Trim().ToUpper() && P.Localidad.Trim().ToUpper() == localidad.Trim().ToUpper()
+                                         select P.Limite).FirstOrDefault();
+
+            /// si es null significa que no hay una definicion especifica
+            /// para localidad y provincia entonces busco solo para la provincia.
+            if (LimiteCompraProvincia == null)
+            {
+                LimiteCompraProvincia = (from P in limetesDeCompra
+                                         where P.Provincia.Trim().ToUpper() == provincia.Trim().ToUpper()
+                                         select P.Limite).FirstOrDefault();
+
+                if (LimiteCompraProvincia != null)
+                    LimitePorProvincia = LimiteCompraProvincia.Value;
+            }
+            else
+            {
+                LimitePorProvincia = LimiteCompraProvincia.Value;
+            }
+
+            #endregion
+
+            #region Busco el limite de compra general
+            string LimiteCompraGeneral = (from P in HttpContext.Current.Session["ParametrosSistema"] as List<Parametro>
+                                          where P.IdParametro == (int)TiposDeParametros.LimiteCompra
+                                          select P.Valor).Single();
+
+            #endregion
+
+            #region Busco el limite de compra en Contra Reembolso
+            string LimiteContraReembolso = (from P in HttpContext.Current.Session["ParametrosSistema"] as List<Parametro>
+                                            where P.IdParametro == (int)TiposDeParametros.LimiteContraReembolso
+                                            select P.Valor).Single();
+
+            #endregion
+
+            #region Control LIMITE GENERAL
+            /// ESTE CONTROL NO SE REALIZA MAS SOBRE LOS PEDIDOS COMISIONABLES
+            /// SINO QUE SE DEBE HACER SOBRE EL TOTAL DEL PEDIDO. MAIL: 30/10/2014
+            ///// Control LIMITE POR PROVINCIA
+            //if (TotalComprado < LimitePorProvincia)
+            //{
+            //    ScriptManager.RegisterStartupScript(upSolicitudPedido, typeof(UpdatePanel), "MinimoReq", "AlertaMinimoRequeridoProvincia(" + LimitePorProvincia + ");", true);
+            //    return;
+            //}
+
+            if (TotalComprado < int.Parse(LimiteCompraGeneral))
+            {
+
+                alertaControles = "AlertaMinimoRequerido(" + LimiteCompraGeneral + ");";
+                return alertaControles;
+
+                //ScriptManager.RegisterStartupScript(upSolicitudPedido, typeof(UpdatePanel), "MinimoReq", "AlertaMinimoRequerido(" + LimiteCompraGeneral + ");", true);
+                //return;
+            }
+
+            #endregion
+
+            #region Control LIMITE EN CREDITO
+
+            if (formaDePago == "Crédito")
+            {
+                decimal MontoDisponibleCredito = decimal.Parse(HttpContext.Current.Session["MontoDisponibleCredito"].ToString());
+                if (TotalComprado > MontoDisponibleCredito)
+                {
+                    alertaControles = "AlertaMinimoRequeridoCredito(" + string.Format("{0:0.00}", MontoDisponibleCredito) + ");";
+                    return alertaControles;
+
+                    //ScriptManager.RegisterStartupScript(upSolicitudPedido, typeof(UpdatePanel), "MinimoReqCredito", "AlertaMinimoRequeridoCredito(" + string.Format("{0:0.00}", MontoDisponibleCredito) + ");", true);
+                    //return;
+                }
+            }
+
+            #endregion
+
+            #region Control LIMITE POR PROVINCIA -Sin tener en cuenta los impuestos
+
+            /// Control LIMITE POR PROVINCIA
+            if (subTotal < LimitePorProvincia)
+            {
+                alertaControles = "AlertaMinimoRequeridoProvincia(" + LimitePorProvincia + ");";
+                return alertaControles;
+
+                //ScriptManager.RegisterStartupScript(upSolicitudPedido, typeof(UpdatePanel), "MinimoReq", "AlertaMinimoRequeridoProvincia(" + LimitePorProvincia + ");", true);
+                //return;
+            }
+
+            #endregion
+
+            #region Control de limites de compra por la forma de pago
+    
+                /// Este control se hace para todos lo clientes salvo los clientes del grupo DIRECTORIO
+            if (!esClienteEspecial)
+                {
+                    decimal SaldoActual = -1 * saldoPagoAnticipado;
+                    switch (formaDePago)
+                    {
+                        case "Pago Fácil":
+                            {
+                                if (subTotal > SaldoActual)
+                                {
+                                    decimal TotalSinTransporte = subTotal - valorTransporte;
+                                    alertaControles = "AlertaSaldoInsuficiente('El monto del pedido (Productos: $" + TotalSinTransporte.ToString() + " + Transporte: $" + valorTransporte.ToString() + ") supera el saldo disponible que posee ($" + SaldoActual.ToString() + "), el mismo no puede ser realizado hasta que tenga saldo suficiente. Si lo desea puede guardar el pedido temporalmente para realizarlo en otro momento.');";
+                                    return alertaControles;
+
+                                    
+                                    //ScriptManager.RegisterStartupScript(upSolicitudPedido, typeof(UpdatePanel), "SaldoReq", "AlertaSaldoInsuficiente('El monto del pedido (Productos: $" + TotalSinTransporte.ToString() + " + Transporte: $" + valorTransporte.ToString() + ") supera el saldo disponible que posee ($" + SaldoActual.ToString() + "), el mismo no puede ser realizado hasta que tenga saldo suficiente. Si lo desea puede guardar el pedido temporalmente para realizarlo en otro momento.');", true);
+                                    //return;
+                                }
+                                else
+                                    break;
+
+
+                            }
+                        case "Pago Mis Cuentas":
+                            {
+                                if (subTotal > SaldoActual)
+                                {
+                                    decimal TotalSinTransporte = subTotal - valorTransporte;
+
+                                    alertaControles = "AlertaSaldoInsuficiente('El monto del pedido (Productos: $" + TotalSinTransporte.ToString() + " + Transporte: $" + valorTransporte.ToString() + ") supera el saldo disponible que posee ($" + SaldoActual.ToString() + "), el mismo no puede ser realizado hasta que tenga saldo suficiente. Si lo desea puede guardar el pedido temporalmente para realizarlo en otro momento.');";
+                                    return alertaControles;
+
+
+                                    //ScriptManager.RegisterStartupScript(upSolicitudPedido, typeof(UpdatePanel), "SaldoReq", "AlertaSaldoInsuficiente('El monto del pedido (Productos: $" + TotalSinTransporte.ToString() + " + Transporte: $" + valorTransporte.ToString() + ") supera el saldo disponible que posee ($" + SaldoActual.ToString() + "), el mismo no puede ser realizado hasta que tenga saldo suficiente. Si lo desea puede guardar el pedido temporalmente para realizarlo en otro momento.');", true);
+                                    //return;
+                                }
+                                else
+                                    break;
+
+
+                            }
+                        case "Contra Reembolso":
+                            {
+                                if ((subTotal - SaldoActual) > decimal.Parse(LimiteContraReembolso))
+                                {
+                                    alertaControles = "AlertaSaldoInsuficiente('El monto del pedido supera el límite en contra reemboldo ($ " + LimiteContraReembolso + "), el mismo no puede ser realizado. Si lo desea puede guardar el pedido temporalmente para realizarlo en otro momento.');";
+                                    return alertaControles;
+
+                                    //ScriptManager.RegisterStartupScript(upSolicitudPedido, typeof(UpdatePanel), "SaldoReq", "AlertaSaldoInsuficiente('El monto del pedido supera el límite en contra reemboldo ($ " + LimiteContraReembolso + "), el mismo no puede ser realizado. Si lo desea puede guardar el pedido temporalmente para realizarlo en otro momento.');", true);
+                                    //return;
+                                }
+                                else
+                                    break;
+
+                            }
+                        case "Rapi Pago":
+                            {
+                                if (subTotal > SaldoActual)
+                                {
+                                    decimal TotalSinTransporte = subTotal - valorTransporte;
+
+                                    alertaControles = "AlertaSaldoInsuficiente('El monto del pedido (Productos: $" + TotalSinTransporte.ToString() + " + Transporte: $" + valorTransporte.ToString() + ") supera el saldo disponible que posee ($" + SaldoActual.ToString() + "), el mismo no puede ser realizado hasta que tenga saldo suficiente. Si lo desea puede guardar el pedido temporalmente para realizarlo en otro momento.');";
+                                    return alertaControles;
+
+
+                                    //ScriptManager.RegisterStartupScript(upSolicitudPedido, typeof(UpdatePanel), "SaldoReq", "AlertaSaldoInsuficiente('El monto del pedido (Productos: $" + TotalSinTransporte.ToString() + " + Transporte: $" + valorTransporte.ToString() + ") supera el saldo disponible que posee ($" + SaldoActual.ToString() + "), el mismo no puede ser realizado hasta que tenga saldo suficiente. Si lo desea puede guardar el pedido temporalmente para realizarlo en otro momento.');", true);
+                                    //return;
+                                }
+                                else
+                                    break;
+
+
+                            }
+                    }
+                }
+        
+
+
+            #endregion
+
+        }
+
+        return alertaControles;
     }
 
     #endregion
