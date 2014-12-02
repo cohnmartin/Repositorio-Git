@@ -2076,7 +2076,8 @@ public partial class NotaDePedido : BasePage
                 {
                     string[] CodigosAromatizadores = new string[] { "1010200001   -018-50 ", "1010100001   -009-50 ", "1010300001   -142-50 ", "1010100001   -003-50 ", "1010507001   -203-50 "
                         , "1010100001   -012-50 ", "1010300001   -244-50 ", "1010300001   -021-50 ", "1010200001   -015-50 ", "1010100001   -017-50 ", "1010100001   -011-50 ","1010200001   -017-50 ","1010300001   -026-50 "
-                        ,"1010100001   -001-50 ","1010100001   -005-50 ","1010100001   -008-50 ","1010100001   -131-50 ","101100001   -013-50 ","1010300001   -025-50 ","1010300001   -024-50 ","1010300001   -027-50 ","1010300001   -028-50 ","1010300001   -180-50 ","1010300001   -152-50 ","1010300001   -022-50 ","1010300001   -023-50 ","1010504001   -115-50 "};
+                        ,"1010100001   -001-50 ","1010100001   -005-50 ","1010100001   -008-50 ","1010100001   -131-50 ","101100001   -013-50 ","1010300001   -025-50 ","1010300001   -024-50 ","1010300001   -027-50 ","1010300001   -028-50 ","1010300001   -180-50 ","1010300001   -152-50 ","1010300001   -022-50 ","1010300001   -023-50 ","1010504001   -115-50 "
+                        ,"1010100001   -013-50 ","1010100001   -130-50 ","1010200001   -014-50 ","1010200001   -016-50 ","1010100001   -007-50 ","1010100001   -002-50 ","1010100001   -109-50 ","1010300001   -133-50 ","1010501001   -116-50 "};
 
 
 
@@ -4272,7 +4273,7 @@ public partial class NotaDePedido : BasePage
                                                   where P.objConfPromocion != null
                                                   && (DateTime.Now.Date >= P.objConfPromocion.FechaInicio.Date && DateTime.Now.Date <= P.objConfPromocion.FechaFinal.Date)
                                                       /// Para la promociones de tipo VIP o VIP SENIOR
-                                                  && (P.objConfPromocion.TipoPromo == CurrentClient.TipoConsultor && P.objConfPromocion.TipoPromo != "INICIAL")
+                                                  && (P.objConfPromocion.TipoPromo == CurrentClient.TipoConsultor.Trim() && P.objConfPromocion.TipoPromo != "INICIAL")
                                                   && (P.ColComposiciones.Where(p => p.TipoComposicion == "O").Count() > 0)
                                                   && (P.objConfPromocion.UnaPorPedido.Value == false)
                                                   && (P.objConfPromocion.MontoMinimo.Value == 0 || MontoActual >= P.objConfPromocion.MontoMinimo.Value)
@@ -4292,7 +4293,7 @@ public partial class NotaDePedido : BasePage
                                                && (DateTime.Now.Date >= P.objConfPromocion.FechaInicio.Date && DateTime.Now.Date <= P.objConfPromocion.FechaFinal.Date)
                                                && (idProductosSolicitados.Contains(C.objProductoHijo.IdProducto) || C.objProductoHijo.Tipo == 'P')
                                                    /// Para los tres tipos de promociones
-                                               && (P.objConfPromocion.TipoPromo == "INICIAL" || P.objConfPromocion.TipoPromo == CurrentClient.TipoConsultor)
+                                               && (P.objConfPromocion.TipoPromo == "INICIAL" || P.objConfPromocion.TipoPromo == CurrentClient.TipoConsultor.Trim())
                                                && (P.ColComposiciones.Where(w => w.TipoComposicion == "O").Count() == 0)
                                                && (P.objConfPromocion.UnaPorPedido.Value == false)
                                                && (P.objConfPromocion.MontoMinimo.Value == 0 || MontoActual >= P.objConfPromocion.MontoMinimo.Value)
@@ -4307,7 +4308,7 @@ public partial class NotaDePedido : BasePage
                                                  where P.objConfPromocion != null
                                                  && (DateTime.Now.Date >= P.objConfPromocion.FechaInicio.Date && DateTime.Now.Date <= P.objConfPromocion.FechaFinal.Date)
                                                  && (idProductosSolicitados.Contains(C.objProductoHijo.IdProducto))
-                                                 && (P.objConfPromocion.TipoPromo == "INICIAL" || P.objConfPromocion.TipoPromo == CurrentClient.TipoConsultor)
+                                                 && (P.objConfPromocion.TipoPromo == "INICIAL" || P.objConfPromocion.TipoPromo == CurrentClient.TipoConsultor.Trim())
                                                  && P.objConfPromocion.UnaPorPedido.Value
                                                  && (P.objConfPromocion.MontoMinimo.Value == 0 || MontoActual >= P.objConfPromocion.MontoMinimo.Value)
                                                  && (P.objConfPromocion.ColTransportistas.Count == 0 || P.objConfPromocion.ColTransportistas.Where(t => t.Transporte.ToUpper() == lblTransporteHidden.Value.ToString().ToUpper()).Count() > 0)
