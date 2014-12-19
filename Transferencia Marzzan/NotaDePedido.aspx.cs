@@ -1153,9 +1153,9 @@ public partial class NotaDePedido : BasePage
             }
 
 
-            /// Elimino el producto Catálogo x 10 unidades  (1041600116   -000-00)
+            /// Elimino el producto Catálogo x 10 unidades  (2506600030077)
             List<DetallePedido> detallesCatalogox10 = (from d in cabecera.DetallePedidos
-                                                        where d.CodigoCompleto == "1041600116   -000-00"
+                                                       where d.CodigoCompleto == "2506600030077"
                                                         select d).ToList();
 
             if (detallesCatalogox10.Count > 0)
@@ -1262,7 +1262,7 @@ public partial class NotaDePedido : BasePage
 
 
             }
-            else if (det.CodigoCompleto.Trim() == "1041600116   -000-00")
+            else if (det.CodigoCompleto.Trim() == "2506600030077")
             {
                 // 1041600116   -000-00: Catálogo x 10 unidades 
                 /// Si esta este producto y se esta realizando el pedido, no se debe
