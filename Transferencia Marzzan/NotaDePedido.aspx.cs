@@ -1155,7 +1155,7 @@ public partial class NotaDePedido : BasePage
 
             /// Elimino el producto Catálogo x 10 unidades  (2506600030077)
             List<DetallePedido> detallesCatalogox10 = (from d in cabecera.DetallePedidos
-                                                       where d.CodigoCompleto == "2506600030077"
+                                                       where d.Presentacion == 6865
                                                         select d).ToList();
 
             if (detallesCatalogox10.Count > 0)
