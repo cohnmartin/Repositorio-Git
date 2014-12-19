@@ -878,6 +878,8 @@ public partial class NotaDePedido : BasePage
 
                 ActualizarTotalesGenerales();
 
+                /// Recalculo las promociones luego de actualizar los totales
+                CalcularPromociones();
             }
         }
     }
@@ -1150,6 +1152,26 @@ public partial class NotaDePedido : BasePage
                 }
             }
 
+
+            /// Elimino el producto Catálogo x 10 unidades  (1041600116   -000-00)
+            List<DetallePedido> detallesCatalogox10 = (from d in cabecera.DetallePedidos
+                                                        where d.CodigoCompleto == "1041600116   -000-00"
+                                                        select d).ToList();
+
+            if (detallesCatalogox10.Count > 0)
+            {
+                foreach (var item in detallesCatalogox10)
+                {
+                    if (item.IdDetallePedido != 0)
+                    {
+                        Contexto.DetallePedidos.DeleteOnSubmit(item);
+                    }
+                    DetallesEliminar.Add(item);
+                }
+            }
+
+
+
             foreach (DetallePedido item in DetallesEliminar)
             {
                 cabecera.DetallePedidos.Remove(item);
@@ -1240,6 +1262,43 @@ public partial class NotaDePedido : BasePage
 
 
             }
+            else if (det.CodigoCompleto.Trim() == "1041600116   -000-00")
+            {
+                // 1041600116   -000-00: Catálogo x 10 unidades 
+                /// Si esta este producto y se esta realizando el pedido, no se debe
+                /// agregar este producto sino que se tiene que reemplazar por:
+                //  2.50.6600.030.076        Catálogo SM x 5 u 2015 01        (2 artículos de este que sumen las 10 unidades) 
+                //  2.15.0000.021.006        Descuento Catálogo x 10 u. 2015 01        (sólo 1 artículo de este) 
+
+                Presentacion preCatalogoSM = (from P in Contexto.Presentacions
+                                              where P.Codigo == "2506600030076"
+                                                  select P).FirstOrDefault<Presentacion>();
+
+                Presentacion preDescuentoCatalogo = (from P in Contexto.Presentacions
+                                                     where P.Codigo == "2150000021006"
+                                                           select P).FirstOrDefault<Presentacion>();
+
+
+                DetallePedido newDetalleSI = new DetallePedido();
+                newDetalleSI.Cantidad = det.Cantidad * 2;
+                newDetalleSI.CodigoCompleto = preCatalogoSM.Codigo;
+                newDetalleSI.Presentacion = preCatalogoSM.IdPresentacion;
+                newDetalleSI.Producto = preCatalogoSM.objProducto.IdProducto;
+                newDetalleSI.ValorUnitario = preCatalogoSM.Precio;
+                newDetalleSI.ValorTotal = det.Cantidad * preCatalogoSM.Precio;
+                nuevosDetalles.Add(newDetalleSI);
+
+                DetallePedido newDetallePlacerAD = new DetallePedido();
+                newDetallePlacerAD.Cantidad = det.Cantidad;
+                newDetallePlacerAD.CodigoCompleto = preDescuentoCatalogo.Codigo;
+                newDetallePlacerAD.Presentacion = preDescuentoCatalogo.IdPresentacion;
+                newDetallePlacerAD.Producto = preDescuentoCatalogo.objProducto.IdProducto;
+                newDetallePlacerAD.ValorUnitario = preDescuentoCatalogo.Precio;
+                newDetallePlacerAD.ValorTotal = det.Cantidad * preDescuentoCatalogo.Precio;
+                nuevosDetalles.Add(newDetallePlacerAD);
+
+
+            }
         }
 
         cabecera.DetallePedidos.AddRange(nuevosDetalles);
@@ -1277,11 +1336,9 @@ public partial class NotaDePedido : BasePage
 
     private static decimal TotalCompradoParaPromociones()
     {
+        decimal TotalParaPromociones = 0;
         /// Para el calculo del total solo se tiene en cuenta Productos Comisionables
         /// Y se dejan fuera del monto: Descuentos promociones, Descuentos por Provincia, Flete.
-
-        decimal TotalParaPromociones = 0;
-
         /// Calculo de los productos en las promociones Directas
         if (HttpContext.Current.Session["PromosGeneradas"] != null)
         {
@@ -1307,6 +1364,21 @@ public partial class NotaDePedido : BasePage
                                  select P.ValorTotal.Value).Sum();
 
         return TotalParaPromociones;
+
+    }
+
+    private decimal TotalParaPromocionesPagoAnticipado()
+    {
+        /// a partir del 01/01/2015 se utila esta forma de calculo para determiar
+        /// si las promociones fijas de pago anticipado son válidas .
+
+        decimal costoFlete = decimal.Parse(lblCostoFlete.Text.Replace("$", ""));
+        decimal totalGeneral = decimal.Parse(txtMontoGeneral.Text.Replace("$", ""));
+        //decimal subTotal = decimal.Parse(lblSubTotal.Text.Replace("$", "")); // esta valor no incluye los impuestos.
+
+        return totalGeneral - costoFlete;
+        //return subTotal - costoFlete;
+
     }
 
     private void GuardarPedido(string idPedido, bool FaltaSaldo, bool EsTemporal, bool EsPagoConTarjeta)
@@ -2525,6 +2597,157 @@ public partial class NotaDePedido : BasePage
                 //        }
                 //    }
                 //}
+
+                #endregion
+
+                /// Cambios para ENERO del 2015
+
+                #region  Detalle Bolsa Institucional : 01/01/2015
+                if (!EsTemporal)
+                {
+                    string[] CodigosEauPerfume= new string[] { "1080000002   -126-15", "1080000002   -125-10","1086100002   -134-11","1086200002   -233-11","1080000002   -128-21","1086100002   -204-23","1086100002   -166-10","1080000002   -123-15","1080000002   -132-23","1080000002   -122-10","1080000002   -124-10","1086100002   -317-15","1086200002   -316-10","1086200002   -312-15","1086100002   -311-15","1080000002   -127-15","1086200002   -318-11"};
+
+                    long CantidadCodigosEauPerfume = Convert.ToInt64(((from N in cabecera.DetallePedidos
+                                                               where CodigosEauPerfume.Contains(N.CodigoCompleto.Trim())
+                                                               select N.Cantidad.Value).Sum()));
+
+
+                    if (CantidadCodigosEauPerfume > 0)
+                    {
+
+                        Presentacion preBolsaInstitucional = (from P in Contexto.Presentacions
+                                                where P.Codigo == "2500000018001"
+                                                select P).SingleOrDefault();
+
+
+                        newDetalle = new DetallePedido();
+                        newDetalle.Cantidad = CantidadCodigosEauPerfume;
+                        newDetalle.CodigoCompleto = preBolsaInstitucional.Codigo;
+                        newDetalle.Presentacion = preBolsaInstitucional.IdPresentacion;
+                        newDetalle.Producto = preBolsaInstitucional.objProducto.IdProducto;
+                        newDetalle.ValorUnitario = preBolsaInstitucional.Precio;
+                        newDetalle.ValorTotal = newDetalle.ValorUnitario * newDetalle.Cantidad;
+
+                        cabecera.DetallePedidos.Add(newDetalle);
+                    }
+                }
+
+                #endregion
+
+                #region  Detalle Hornillo Tao 01/01/2015
+                if (!EsTemporal)
+                {
+
+                    string CodigoHornilloTao = "1018500170006-000-0";
+                    string CodigoVelaRegalo = "2500000110001";
+
+                    /// si en el detalle esta el producto buscado: CodigoHornilloTao entonces AGREGO 
+                    /// el producto elejido: CodigoVelaRegalo
+                    long CantidadHornilloTao = Convert.ToInt64(((from N in cabecera.DetallePedidos
+                                                                 where N.CodigoCompleto.Trim() == CodigoHornilloTao.Trim()
+                                                                 select N.Cantidad.Value).Sum()));
+
+
+                    if (CantidadHornilloTao > 0)
+                    {
+
+                        Presentacion preVelaRegalo = (from P in Contexto.Presentacions
+                                                      where P.Codigo.Trim() == CodigoVelaRegalo
+                                                      select P).FirstOrDefault();
+
+
+                        if (preVelaRegalo != null)
+                        {
+                            newDetalle = new DetallePedido();
+                            newDetalle.Cantidad = CantidadHornilloTao;
+                            newDetalle.CodigoCompleto = preVelaRegalo.Codigo;
+                            newDetalle.Presentacion = preVelaRegalo.IdPresentacion;
+                            newDetalle.Producto = preVelaRegalo.objProducto.IdProducto;
+                            newDetalle.ValorUnitario = preVelaRegalo.Precio;
+                            newDetalle.ValorTotal = newDetalle.ValorUnitario * newDetalle.Cantidad;
+
+                            cabecera.DetallePedidos.Add(newDetalle);
+                        }
+                    }
+                }
+
+                #endregion
+
+                #region  Detalle  Aromatizador Valentina 500 ml 01/01/2015
+                if (!EsTemporal)
+                {
+
+                    string CodigoAromatizadorValentina = "1010300001   -182-50";
+                    string CodigoGatilloAromatizador = "2500000032001";
+
+                    /// si en el detalle esta el producto buscado: CodigoHornilloTao entonces AGREGO 
+                    /// el producto elejido: CodigoVelaRegalo
+                    long CantidadCodigoAromatizadorValentina = Convert.ToInt64(((from N in cabecera.DetallePedidos
+                                                                 where N.CodigoCompleto.Trim() == CodigoAromatizadorValentina.Trim()
+                                                                 select N.Cantidad.Value).Sum()));
+
+
+                    if (CantidadCodigoAromatizadorValentina > 0)
+                    {
+
+                        Presentacion preGatilloAromatizador = (from P in Contexto.Presentacions
+                                                      where P.Codigo.Trim() == CodigoGatilloAromatizador
+                                                      select P).FirstOrDefault();
+
+
+                        if (preGatilloAromatizador != null)
+                        {
+                            newDetalle = new DetallePedido();
+                            newDetalle.Cantidad = CantidadCodigoAromatizadorValentina;
+                            newDetalle.CodigoCompleto = preGatilloAromatizador.Codigo;
+                            newDetalle.Presentacion = preGatilloAromatizador.IdPresentacion;
+                            newDetalle.Producto = preGatilloAromatizador.objProducto.IdProducto;
+                            newDetalle.ValorUnitario = preGatilloAromatizador.Precio;
+                            newDetalle.ValorTotal = newDetalle.ValorUnitario * newDetalle.Cantidad;
+
+                            cabecera.DetallePedidos.Add(newDetalle);
+                        }
+                    }
+                }
+
+                #endregion
+
+                #region  Detalle Colección Vintage Romance 01/01/2015
+                if (!EsTemporal)
+                {
+
+                    string CodigoColeccionVintageRomance = "1097200008001-000-00";
+                    string CodigoCajaVintageRomance = "2500000008001";
+
+                    /// si en el detalle esta el producto buscado: CodigoHornilloTao entonces AGREGO 
+                    /// el producto elejido: CodigoVelaRegalo
+                    long CantidadColeccionVintageRomance = Convert.ToInt64(((from N in cabecera.DetallePedidos
+                                                                             where N.CodigoCompleto.Trim() == CodigoColeccionVintageRomance.Trim()
+                                                                                 select N.Cantidad.Value).Sum()));
+
+
+                    if (CantidadColeccionVintageRomance > 0)
+                    {
+
+                        Presentacion preCajaVintageRomance = (from P in Contexto.Presentacions
+                                                              where P.Codigo.Trim() == CodigoCajaVintageRomance
+                                                               select P).FirstOrDefault();
+
+
+                        if (preCajaVintageRomance != null)
+                        {
+                            newDetalle = new DetallePedido();
+                            newDetalle.Cantidad = CantidadColeccionVintageRomance;
+                            newDetalle.CodigoCompleto = preCajaVintageRomance.Codigo;
+                            newDetalle.Presentacion = preCajaVintageRomance.IdPresentacion;
+                            newDetalle.Producto = preCajaVintageRomance.objProducto.IdProducto;
+                            newDetalle.ValorUnitario = preCajaVintageRomance.Precio;
+                            newDetalle.ValorTotal = newDetalle.ValorUnitario * newDetalle.Cantidad;
+
+                            cabecera.DetallePedidos.Add(newDetalle);
+                        }
+                    }
+                }
 
                 #endregion
 
@@ -4750,355 +4973,442 @@ public partial class NotaDePedido : BasePage
 
                 #endregion
 
-                #region Promociones por Forma de Pago
-                /// 02/05/2013: Si ya posee una promoción de pago anticipado durente el mes actual
-                /// entonces no se debe entregar mas promociones de este tipo.
-                if (!PoseePromoPedidoPagoAnticipado((Session["Cliente"] as Cliente).IdCliente))
+                #region Promociones por Forma de Pago hasta el 31/12/2014
+
+                if (DateTime.Now.Date < DateTime.Parse("17/12/2014"))
                 {
-
-                    if (cboFormaPago.Text.Contains("Pago Fácil") || cboFormaPago.Text.Contains("Pago Mis Cuentas") || cboFormaPago.Text.Contains("Rapi Pago"))
+                    /// 02/05/2013: Si ya posee una promoción de pago anticipado durente el mes actual
+                    /// entonces no se debe entregar mas promociones de este tipo.
+                    if (!PoseePromoPedidoPagoAnticipado((Session["Cliente"] as Cliente).IdCliente))
                     {
-                        string codigoPromoPagoAdelantado = "1150000021052";
-                        if (decimal.Parse(txtMontoGeneral.Text.Replace("$", "")) > Convert.ToDecimal("1814,99"))
+
+                        if (cboFormaPago.Text.Contains("Pago Fácil") || cboFormaPago.Text.Contains("Pago Mis Cuentas") || cboFormaPago.Text.Contains("Rapi Pago"))
                         {
-                            codigoPromoPagoAdelantado = "1150000021073";
-                        }
-
-                        Producto promoPagoAdelantado = (from P in Contexto.Presentacions
-                                                        where P.Codigo.Trim() == codigoPromoPagoAdelantado
-                                                        select P.objProducto).First<Producto>();
-
-
-
-                        if (promoPagoAdelantado.objConfPromocion != null && promoPagoAdelantado.objConfPromocion.FechaInicio <= DateTime.Now && promoPagoAdelantado.objConfPromocion.FechaFinal > DateTime.Now
-                           && TotalCompradoParaPromociones() >= promoPagoAdelantado.objConfPromocion.MontoMinimo.Value
-                           && (promoPagoAdelantado.objConfPromocion.ColTransportistas.Count == 0 || promoPagoAdelantado.objConfPromocion.ColTransportistas.Any(w => w.Transporte.ToUpper() == lblTransporte.Text.ToUpper())))
-                        {
-                            List<string> descripcionPromo = new List<string>();
-                            string descripcionPromoPagoAdelantado = cboFormaPago.Text.Contains("Pago Fácil") ? "Pago|Fácil" : cboFormaPago.Text.Contains("Pago Mis Cuentas") ? "Pago| Mis Cuentas" : "Rapi|Pago";
-                            descripcionPromo.Add(descripcionPromoPagoAdelantado);
-
-                            DetallePedido detallePagoAdelantado = new DetallePedido();
-
-
-                            var composicionRegalo = from R in promoPagoAdelantado.ColComposiciones
-                                                    where R.TipoComposicion == "O"
-                                                    group R by R.Grupo into c
-                                                    select new { Grupo = c.Key, componentes = c };
-
-                            if (composicionRegalo.Count() > 0)
+                            string codigoPromoPagoAdelantado = "1150000021052";
+                            if (decimal.Parse(txtMontoGeneral.Text.Replace("$", "")) > Convert.ToDecimal("1814,99"))
                             {
-                                foreach (var itemComponente in composicionRegalo)
+                                codigoPromoPagoAdelantado = "1150000021073";
+                            }
+
+                            Producto promoPagoAdelantado = (from P in Contexto.Presentacions
+                                                            where P.Codigo.Trim() == codigoPromoPagoAdelantado
+                                                            select P.objProducto).First<Producto>();
+
+
+
+                            if (promoPagoAdelantado.objConfPromocion != null && promoPagoAdelantado.objConfPromocion.FechaInicio <= DateTime.Now && promoPagoAdelantado.objConfPromocion.FechaFinal > DateTime.Now
+                               && TotalCompradoParaPromociones() >= promoPagoAdelantado.objConfPromocion.MontoMinimo.Value
+                               && (promoPagoAdelantado.objConfPromocion.ColTransportistas.Count == 0 || promoPagoAdelantado.objConfPromocion.ColTransportistas.Any(w => w.Transporte.ToUpper() == lblTransporte.Text.ToUpper())))
+                            {
+                                List<string> descripcionPromo = new List<string>();
+                                string descripcionPromoPagoAdelantado = cboFormaPago.Text.Contains("Pago Fácil") ? "Pago|Fácil" : cboFormaPago.Text.Contains("Pago Mis Cuentas") ? "Pago| Mis Cuentas" : "Rapi|Pago";
+                                descripcionPromo.Add(descripcionPromoPagoAdelantado);
+
+                                DetallePedido detallePagoAdelantado = new DetallePedido();
+
+
+                                var composicionRegalo = from R in promoPagoAdelantado.ColComposiciones
+                                                        where R.TipoComposicion == "O"
+                                                        group R by R.Grupo into c
+                                                        select new { Grupo = c.Key, componentes = c };
+
+                                if (composicionRegalo.Count() > 0)
                                 {
-                                    List<Producto> productos = (from P in itemComponente.componentes
-                                                                select P.objProductoHijo).ToList<Producto>();
+                                    foreach (var itemComponente in composicionRegalo)
+                                    {
+                                        List<Producto> productos = (from P in itemComponente.componentes
+                                                                    select P.objProductoHijo).ToList<Producto>();
 
-                                    DetalleRegalos newRegalo = new DetalleRegalos();
-                                    newRegalo.DescripcionRegalo = Helper.ObtenerDescripcionCompletaProductoEnComun(productos) + " x " + itemComponente.componentes.First().objPresentacion.Descripcion;
-                                    newRegalo.IdPresentacionRegaloSeleccionado = 0;
-                                    newRegalo.TipoRegalo = "Producto";
-                                    newRegalo.objDetallePedido = detallePagoAdelantado;
-                                    newRegalo.Grupo = itemComponente.componentes.First().Grupo.Value;
-                                    detallePagoAdelantado.ColRegalos.Add(newRegalo);
+                                        DetalleRegalos newRegalo = new DetalleRegalos();
+                                        newRegalo.DescripcionRegalo = Helper.ObtenerDescripcionCompletaProductoEnComun(productos) + " x " + itemComponente.componentes.First().objPresentacion.Descripcion;
+                                        newRegalo.IdPresentacionRegaloSeleccionado = 0;
+                                        newRegalo.TipoRegalo = "Producto";
+                                        newRegalo.objDetallePedido = detallePagoAdelantado;
+                                        newRegalo.Grupo = itemComponente.componentes.First().Grupo.Value;
+                                        detallePagoAdelantado.ColRegalos.Add(newRegalo);
+                                    }
+
+                                    detallePagoAdelantado.Cantidad = 1;
+                                    detallePagoAdelantado.Producto = promoPagoAdelantado.IdProducto;
+                                    detallePagoAdelantado.Presentacion = promoPagoAdelantado.ColPresentaciones[0].IdPresentacion;
+                                    detallePagoAdelantado.ProductoDesc = promoPagoAdelantado.Descripcion;
+                                    detallePagoAdelantado.PresentacionDesc = promoPagoAdelantado.ColPresentaciones[0].Descripcion;
+                                    detallePagoAdelantado.DescripcionCompleta = detallePagoAdelantado.ProductoDesc;
+                                    detallePagoAdelantado.DescProductosUtilizados = descripcionPromo;
+                                    detallePagoAdelantado.CodigoCompleto = promoPagoAdelantado.ColPresentaciones[0].Codigo;
+                                    detallePagoAdelantado.Tipo = "E";
+
+                                    AllPromosGeneradas.Add(detallePagoAdelantado);
                                 }
-
-                                detallePagoAdelantado.Cantidad = 1;
-                                detallePagoAdelantado.Producto = promoPagoAdelantado.IdProducto;
-                                detallePagoAdelantado.Presentacion = promoPagoAdelantado.ColPresentaciones[0].IdPresentacion;
-                                detallePagoAdelantado.ProductoDesc = promoPagoAdelantado.Descripcion;
-                                detallePagoAdelantado.PresentacionDesc = promoPagoAdelantado.ColPresentaciones[0].Descripcion;
-                                detallePagoAdelantado.DescripcionCompleta = detallePagoAdelantado.ProductoDesc;
-                                detallePagoAdelantado.DescProductosUtilizados = descripcionPromo;
-                                detallePagoAdelantado.CodigoCompleto = promoPagoAdelantado.ColPresentaciones[0].Codigo;
-                                detallePagoAdelantado.Tipo = "E";
-
-                                AllPromosGeneradas.Add(detallePagoAdelantado);
                             }
                         }
-                    }
 
 
 
-                    if (cboFormaPago.Text.Contains("Pago Fácil"))
-                    {
-                        //string codigoPromoPagoFacil = "1150000021052";
-                        //if (decimal.Parse(txtMontoGeneral.Text.Replace("$", "")) > Convert.ToDecimal("1814,99"))
-                        //{
-                        //    codigoPromoPagoFacil = "1150000021506";
-                        //}
-
-                        //Producto promoPagoFacil = (from P in Contexto.Presentacions
-                        //                           where P.Codigo.Trim() == codigoPromoPagoFacil
-                        //                           select P.objProducto).First<Producto>();
-
-
-
-                        //if (promoPagoFacil.objConfPromocion != null && promoPagoFacil.objConfPromocion.FechaInicio <= DateTime.Now && promoPagoFacil.objConfPromocion.FechaFinal > DateTime.Now
-                        //   && TotalCompradoParaPromociones() >= promoPagoFacil.objConfPromocion.MontoMinimo.Value
-                        //   && (promoPagoFacil.objConfPromocion.ColTransportistas.Count == 0 || promoPagoFacil.objConfPromocion.ColTransportistas.Any(w => w.Transporte.ToUpper() == lblTransporte.Text.ToUpper())))
-                        //{
-                        //    List<string> descripcionPromo = new List<string>();
-                        //    descripcionPromo.Add("Pago|Fácil");
-
-                        //    DetallePedido pedidoPagoFacil = new DetallePedido();
-
-
-                        //    var composicionRegalo = from R in promoPagoFacil.ColComposiciones
-                        //                            where R.TipoComposicion == "O"
-                        //                            group R by R.Grupo into c
-                        //                            select new { Grupo = c.Key, componentes = c };
-
-                        //    if (composicionRegalo.Count() > 0)
-                        //    {
-
-                        //        // ESTE CODIGO ES EL QUE SE DEBE PONER
-                        //        // PARA SOPORTAR MAS DE UN GRUPO EN LAS PROMOCION DE 
-                        //        // 'PAGO FACIL', HACER LO MISMO PARA 'PAGO MIS CUENTAS'
-                        //        foreach (var itemComponente in composicionRegalo)
-                        //        {
-                        //            List<Producto> productos = (from P in itemComponente.componentes
-                        //                                        select P.objProductoHijo).ToList<Producto>();
-
-                        //            DetalleRegalos newRegalo = new DetalleRegalos();
-                        //            newRegalo.DescripcionRegalo = Helper.ObtenerDescripcionCompletaProductoEnComun(productos) + " x " + itemComponente.componentes.First().objPresentacion.Descripcion;
-                        //            newRegalo.IdPresentacionRegaloSeleccionado = 0;
-                        //            newRegalo.TipoRegalo = "Producto";
-                        //            newRegalo.objDetallePedido = pedidoPagoFacil;
-                        //            newRegalo.Grupo = itemComponente.componentes.First().Grupo.Value;
-                        //            pedidoPagoFacil.ColRegalos.Add(newRegalo);
-                        //        }
-
-                        //        pedidoPagoFacil.Cantidad = 1;
-                        //        pedidoPagoFacil.Producto = promoPagoFacil.IdProducto;
-                        //        pedidoPagoFacil.Presentacion = promoPagoFacil.ColPresentaciones[0].IdPresentacion;
-                        //        pedidoPagoFacil.ProductoDesc = promoPagoFacil.Descripcion;
-                        //        pedidoPagoFacil.PresentacionDesc = promoPagoFacil.ColPresentaciones[0].Descripcion;
-                        //        pedidoPagoFacil.DescripcionCompleta = pedidoPagoFacil.ProductoDesc;
-                        //        pedidoPagoFacil.DescProductosUtilizados = descripcionPromo;
-                        //        pedidoPagoFacil.CodigoCompleto = promoPagoFacil.ColPresentaciones[0].Codigo;
-                        //        pedidoPagoFacil.Tipo = "E";
-
-                        //        AllPromosGeneradas.Add(pedidoPagoFacil);
-                        //    }
-                        //}
-                    }
-                    else if (cboFormaPago.Text.Contains("Pago Mis Cuentas"))
-                    {
-                        //string codigoPromoPagoMisCuenas = "1150000021207";
-                        //if (decimal.Parse(txtMontoGeneral.Text.Replace("$", "")) > Convert.ToDecimal("1814,99"))
-                        //{
-                        //    codigoPromoPagoMisCuenas = "1150000021208";
-                        //}
-
-                        //Producto promoPagoMisCuentas = (from P in Contexto.Presentacions
-                        //                                where P.Codigo.Trim() == codigoPromoPagoMisCuenas
-                        //                                select P.objProducto).First<Producto>();
-
-
-
-                        //if (promoPagoMisCuentas.objConfPromocion != null && promoPagoMisCuentas.objConfPromocion.FechaInicio <= DateTime.Now && promoPagoMisCuentas.objConfPromocion.FechaFinal > DateTime.Now
-                        //   && TotalCompradoParaPromociones() >= promoPagoMisCuentas.objConfPromocion.MontoMinimo.Value
-                        //   && (promoPagoMisCuentas.objConfPromocion.ColTransportistas.Count == 0 || promoPagoMisCuentas.objConfPromocion.ColTransportistas.Any(w => w.Transporte.ToUpper() == lblTransporte.Text.ToUpper())))
-                        //{
-                        //    List<string> descripcionPromo = new List<string>();
-                        //    descripcionPromo.Add("Pago|Mis Cuentas");
-
-                        //    DetallePedido pedidoPagoFacil = new DetallePedido();
-
-
-                        //    var composicionRegalo = from R in promoPagoMisCuentas.ColComposiciones
-                        //                            where R.TipoComposicion == "O"
-                        //                            group R by R.Grupo into c
-                        //                            select new { Grupo = c.Key, componentes = c };
-
-                        //    if (composicionRegalo.Count() > 0)
-                        //    {
-
-                        //        foreach (var itemComponente in composicionRegalo)
-                        //        {
-                        //            List<Producto> productos = (from P in itemComponente.componentes
-                        //                                        select P.objProductoHijo).ToList<Producto>();
-
-                        //            DetalleRegalos newRegalo = new DetalleRegalos();
-                        //            newRegalo.DescripcionRegalo = Helper.ObtenerDescripcionCompletaProductoEnComun(productos) + " x " + itemComponente.componentes.First().objPresentacion.Descripcion;
-                        //            newRegalo.IdPresentacionRegaloSeleccionado = 0;
-                        //            newRegalo.TipoRegalo = "Producto";
-                        //            newRegalo.objDetallePedido = pedidoPagoFacil;
-                        //            newRegalo.Grupo = itemComponente.componentes.First().Grupo.Value;
-                        //            pedidoPagoFacil.ColRegalos.Add(newRegalo);
-                        //        }
-
-
-
-
-                        //        pedidoPagoFacil.Cantidad = 1;
-                        //        pedidoPagoFacil.Producto = promoPagoMisCuentas.IdProducto;
-                        //        pedidoPagoFacil.Presentacion = promoPagoMisCuentas.ColPresentaciones[0].IdPresentacion;
-                        //        pedidoPagoFacil.ProductoDesc = promoPagoMisCuentas.Descripcion;
-                        //        pedidoPagoFacil.PresentacionDesc = promoPagoMisCuentas.ColPresentaciones[0].Descripcion;
-                        //        pedidoPagoFacil.DescripcionCompleta = pedidoPagoFacil.ProductoDesc;
-                        //        pedidoPagoFacil.DescProductosUtilizados = descripcionPromo;
-                        //        pedidoPagoFacil.CodigoCompleto = promoPagoMisCuentas.ColPresentaciones[0].Codigo;
-                        //        pedidoPagoFacil.Tipo = "E";
-
-                        //        AllPromosGeneradas.Add(pedidoPagoFacil);
-                        //    }
-                        //}
-                    }
-                    else if (cboFormaPago.Text.Contains("Rapi Pago"))
-                    {
-                        //string codigoPromoRapiPago = "1150000021516";
-
-                        //if (decimal.Parse(txtMontoGeneral.Text.Replace("$", "")) > Convert.ToDecimal("1814,99"))
-                        //{
-                        //    codigoPromoRapiPago = "1150000021518";
-                        //}
-
-                        //Producto promoRapiPago = (from P in Contexto.Presentacions
-                        //                          where P.Codigo.Trim() == codigoPromoRapiPago
-                        //                          select P.objProducto).First<Producto>();
-
-
-
-                        //if (promoRapiPago.objConfPromocion != null && promoRapiPago.objConfPromocion.FechaInicio <= DateTime.Now && promoRapiPago.objConfPromocion.FechaFinal > DateTime.Now
-                        //   && TotalCompradoParaPromociones() >= promoRapiPago.objConfPromocion.MontoMinimo.Value
-                        //   && (promoRapiPago.objConfPromocion.ColTransportistas.Count == 0 || promoRapiPago.objConfPromocion.ColTransportistas.Any(w => w.Transporte.ToUpper() == lblTransporte.Text.ToUpper())))
-                        //{
-                        //    List<string> descripcionPromo = new List<string>();
-                        //    descripcionPromo.Add("Rapi|Pago");
-
-                        //    DetallePedido pedidoRapiPago = new DetallePedido();
-
-
-                        //    var composicionRegalo = from R in promoRapiPago.ColComposiciones
-                        //                            where R.TipoComposicion == "O"
-                        //                            group R by R.Grupo into c
-                        //                            select new { Grupo = c.Key, componentes = c };
-
-                        //    if (composicionRegalo.Count() > 0)
-                        //    {
-                        //        foreach (var itemComponente in composicionRegalo)
-                        //        {
-                        //            List<Producto> productos = (from P in itemComponente.componentes
-                        //                                        select P.objProductoHijo).ToList<Producto>();
-
-                        //            DetalleRegalos newRegalo = new DetalleRegalos();
-                        //            newRegalo.DescripcionRegalo = Helper.ObtenerDescripcionCompletaProductoEnComun(productos) + " x " + itemComponente.componentes.First().objPresentacion.Descripcion;
-                        //            newRegalo.IdPresentacionRegaloSeleccionado = 0;
-                        //            newRegalo.TipoRegalo = "Producto";
-                        //            newRegalo.objDetallePedido = pedidoRapiPago;
-                        //            newRegalo.Grupo = itemComponente.componentes.First().Grupo.Value;
-                        //            pedidoRapiPago.ColRegalos.Add(newRegalo);
-                        //        }
-
-
-
-
-                        //        pedidoRapiPago.Cantidad = 1;
-                        //        pedidoRapiPago.Producto = promoRapiPago.IdProducto;
-                        //        pedidoRapiPago.Presentacion = promoRapiPago.ColPresentaciones[0].IdPresentacion;
-                        //        pedidoRapiPago.ProductoDesc = promoRapiPago.Descripcion;
-                        //        pedidoRapiPago.PresentacionDesc = promoRapiPago.ColPresentaciones[0].Descripcion;
-                        //        pedidoRapiPago.DescripcionCompleta = pedidoRapiPago.ProductoDesc;
-                        //        pedidoRapiPago.DescProductosUtilizados = descripcionPromo;
-                        //        pedidoRapiPago.CodigoCompleto = promoRapiPago.ColPresentaciones[0].Codigo;
-                        //        pedidoRapiPago.Tipo = "E";
-
-                        //        AllPromosGeneradas.Add(pedidoRapiPago);
-                        //    }
-                        //}
-                    }
-                    else if (cboFormaPago.Text.Contains("Contra Reembolso"))
-                    {
-                        /// Limite de compra con la forma de pago contra reembolso.
-                        decimal LimiteContraReembolso = decimal.Parse((from P in Session["ParametrosSistema"] as List<Parametro>
-                                                                       where P.IdParametro == (int)TiposDeParametros.LimiteContraReembolso
-                                                                       select P.Valor).Single());
-
-                        string codigoPromoContraReembolso = "";
-
-                        /// Monto total del pedido
-                        decimal MontoPedidoActual = decimal.Parse(txtMontoGeneral.Text.Replace("$", ""));
-                        /// Diferencia a pagar con el saldo de la cta cte.
-                        decimal DiferenciaCtaCte = MontoPedidoActual - LimiteContraReembolso;
-
-
-                        // 1. Determinimo que promoción es la que se debe dar.
-                        if (DiferenciaCtaCte >= 1815)
-                            codigoPromoContraReembolso = "1150000021593";
-                        else
-                            codigoPromoContraReembolso = "1150000021244";
-
-                        /// 2. Si el monto del pedido es mayor al limite en contra reembolso y la diferencia se puede pagar
-                        /// con el saldo de la cta cte continuo.
-                        if (MontoPedidoActual > LimiteContraReembolso && Math.Abs(SaldoPagoAnticipado) >= DiferenciaCtaCte)
+                        if (cboFormaPago.Text.Contains("Pago Fácil"))
                         {
+                            //string codigoPromoPagoFacil = "1150000021052";
+                            //if (decimal.Parse(txtMontoGeneral.Text.Replace("$", "")) > Convert.ToDecimal("1814,99"))
+                            //{
+                            //    codigoPromoPagoFacil = "1150000021506";
+                            //}
 
-                            Producto promoContraReembolso = (from P in Contexto.Presentacions
-                                                             where P.Codigo.Trim() == codigoPromoContraReembolso
-                                                             select P.objProducto).FirstOrDefault<Producto>();
+                            //Producto promoPagoFacil = (from P in Contexto.Presentacions
+                            //                           where P.Codigo.Trim() == codigoPromoPagoFacil
+                            //                           select P.objProducto).First<Producto>();
 
-                            /// Controlo que exista la promocion y que el transporte este habilitado para dicha promoción
-                            if (promoContraReembolso != null && (promoContraReembolso.objConfPromocion.ColTransportistas.Count == 0 || promoContraReembolso.objConfPromocion.ColTransportistas.Any(w => w.Transporte.ToUpper() == lblTransporte.Text.ToUpper())))
+
+
+                            //if (promoPagoFacil.objConfPromocion != null && promoPagoFacil.objConfPromocion.FechaInicio <= DateTime.Now && promoPagoFacil.objConfPromocion.FechaFinal > DateTime.Now
+                            //   && TotalCompradoParaPromociones() >= promoPagoFacil.objConfPromocion.MontoMinimo.Value
+                            //   && (promoPagoFacil.objConfPromocion.ColTransportistas.Count == 0 || promoPagoFacil.objConfPromocion.ColTransportistas.Any(w => w.Transporte.ToUpper() == lblTransporte.Text.ToUpper())))
+                            //{
+                            //    List<string> descripcionPromo = new List<string>();
+                            //    descripcionPromo.Add("Pago|Fácil");
+
+                            //    DetallePedido pedidoPagoFacil = new DetallePedido();
+
+
+                            //    var composicionRegalo = from R in promoPagoFacil.ColComposiciones
+                            //                            where R.TipoComposicion == "O"
+                            //                            group R by R.Grupo into c
+                            //                            select new { Grupo = c.Key, componentes = c };
+
+                            //    if (composicionRegalo.Count() > 0)
+                            //    {
+
+                            //        // ESTE CODIGO ES EL QUE SE DEBE PONER
+                            //        // PARA SOPORTAR MAS DE UN GRUPO EN LAS PROMOCION DE 
+                            //        // 'PAGO FACIL', HACER LO MISMO PARA 'PAGO MIS CUENTAS'
+                            //        foreach (var itemComponente in composicionRegalo)
+                            //        {
+                            //            List<Producto> productos = (from P in itemComponente.componentes
+                            //                                        select P.objProductoHijo).ToList<Producto>();
+
+                            //            DetalleRegalos newRegalo = new DetalleRegalos();
+                            //            newRegalo.DescripcionRegalo = Helper.ObtenerDescripcionCompletaProductoEnComun(productos) + " x " + itemComponente.componentes.First().objPresentacion.Descripcion;
+                            //            newRegalo.IdPresentacionRegaloSeleccionado = 0;
+                            //            newRegalo.TipoRegalo = "Producto";
+                            //            newRegalo.objDetallePedido = pedidoPagoFacil;
+                            //            newRegalo.Grupo = itemComponente.componentes.First().Grupo.Value;
+                            //            pedidoPagoFacil.ColRegalos.Add(newRegalo);
+                            //        }
+
+                            //        pedidoPagoFacil.Cantidad = 1;
+                            //        pedidoPagoFacil.Producto = promoPagoFacil.IdProducto;
+                            //        pedidoPagoFacil.Presentacion = promoPagoFacil.ColPresentaciones[0].IdPresentacion;
+                            //        pedidoPagoFacil.ProductoDesc = promoPagoFacil.Descripcion;
+                            //        pedidoPagoFacil.PresentacionDesc = promoPagoFacil.ColPresentaciones[0].Descripcion;
+                            //        pedidoPagoFacil.DescripcionCompleta = pedidoPagoFacil.ProductoDesc;
+                            //        pedidoPagoFacil.DescProductosUtilizados = descripcionPromo;
+                            //        pedidoPagoFacil.CodigoCompleto = promoPagoFacil.ColPresentaciones[0].Codigo;
+                            //        pedidoPagoFacil.Tipo = "E";
+
+                            //        AllPromosGeneradas.Add(pedidoPagoFacil);
+                            //    }
+                            //}
+                        }
+                        else if (cboFormaPago.Text.Contains("Pago Mis Cuentas"))
+                        {
+                            //string codigoPromoPagoMisCuenas = "1150000021207";
+                            //if (decimal.Parse(txtMontoGeneral.Text.Replace("$", "")) > Convert.ToDecimal("1814,99"))
+                            //{
+                            //    codigoPromoPagoMisCuenas = "1150000021208";
+                            //}
+
+                            //Producto promoPagoMisCuentas = (from P in Contexto.Presentacions
+                            //                                where P.Codigo.Trim() == codigoPromoPagoMisCuenas
+                            //                                select P.objProducto).First<Producto>();
+
+
+
+                            //if (promoPagoMisCuentas.objConfPromocion != null && promoPagoMisCuentas.objConfPromocion.FechaInicio <= DateTime.Now && promoPagoMisCuentas.objConfPromocion.FechaFinal > DateTime.Now
+                            //   && TotalCompradoParaPromociones() >= promoPagoMisCuentas.objConfPromocion.MontoMinimo.Value
+                            //   && (promoPagoMisCuentas.objConfPromocion.ColTransportistas.Count == 0 || promoPagoMisCuentas.objConfPromocion.ColTransportistas.Any(w => w.Transporte.ToUpper() == lblTransporte.Text.ToUpper())))
+                            //{
+                            //    List<string> descripcionPromo = new List<string>();
+                            //    descripcionPromo.Add("Pago|Mis Cuentas");
+
+                            //    DetallePedido pedidoPagoFacil = new DetallePedido();
+
+
+                            //    var composicionRegalo = from R in promoPagoMisCuentas.ColComposiciones
+                            //                            where R.TipoComposicion == "O"
+                            //                            group R by R.Grupo into c
+                            //                            select new { Grupo = c.Key, componentes = c };
+
+                            //    if (composicionRegalo.Count() > 0)
+                            //    {
+
+                            //        foreach (var itemComponente in composicionRegalo)
+                            //        {
+                            //            List<Producto> productos = (from P in itemComponente.componentes
+                            //                                        select P.objProductoHijo).ToList<Producto>();
+
+                            //            DetalleRegalos newRegalo = new DetalleRegalos();
+                            //            newRegalo.DescripcionRegalo = Helper.ObtenerDescripcionCompletaProductoEnComun(productos) + " x " + itemComponente.componentes.First().objPresentacion.Descripcion;
+                            //            newRegalo.IdPresentacionRegaloSeleccionado = 0;
+                            //            newRegalo.TipoRegalo = "Producto";
+                            //            newRegalo.objDetallePedido = pedidoPagoFacil;
+                            //            newRegalo.Grupo = itemComponente.componentes.First().Grupo.Value;
+                            //            pedidoPagoFacil.ColRegalos.Add(newRegalo);
+                            //        }
+
+
+
+
+                            //        pedidoPagoFacil.Cantidad = 1;
+                            //        pedidoPagoFacil.Producto = promoPagoMisCuentas.IdProducto;
+                            //        pedidoPagoFacil.Presentacion = promoPagoMisCuentas.ColPresentaciones[0].IdPresentacion;
+                            //        pedidoPagoFacil.ProductoDesc = promoPagoMisCuentas.Descripcion;
+                            //        pedidoPagoFacil.PresentacionDesc = promoPagoMisCuentas.ColPresentaciones[0].Descripcion;
+                            //        pedidoPagoFacil.DescripcionCompleta = pedidoPagoFacil.ProductoDesc;
+                            //        pedidoPagoFacil.DescProductosUtilizados = descripcionPromo;
+                            //        pedidoPagoFacil.CodigoCompleto = promoPagoMisCuentas.ColPresentaciones[0].Codigo;
+                            //        pedidoPagoFacil.Tipo = "E";
+
+                            //        AllPromosGeneradas.Add(pedidoPagoFacil);
+                            //    }
+                            //}
+                        }
+                        else if (cboFormaPago.Text.Contains("Rapi Pago"))
+                        {
+                            //string codigoPromoRapiPago = "1150000021516";
+
+                            //if (decimal.Parse(txtMontoGeneral.Text.Replace("$", "")) > Convert.ToDecimal("1814,99"))
+                            //{
+                            //    codigoPromoRapiPago = "1150000021518";
+                            //}
+
+                            //Producto promoRapiPago = (from P in Contexto.Presentacions
+                            //                          where P.Codigo.Trim() == codigoPromoRapiPago
+                            //                          select P.objProducto).First<Producto>();
+
+
+
+                            //if (promoRapiPago.objConfPromocion != null && promoRapiPago.objConfPromocion.FechaInicio <= DateTime.Now && promoRapiPago.objConfPromocion.FechaFinal > DateTime.Now
+                            //   && TotalCompradoParaPromociones() >= promoRapiPago.objConfPromocion.MontoMinimo.Value
+                            //   && (promoRapiPago.objConfPromocion.ColTransportistas.Count == 0 || promoRapiPago.objConfPromocion.ColTransportistas.Any(w => w.Transporte.ToUpper() == lblTransporte.Text.ToUpper())))
+                            //{
+                            //    List<string> descripcionPromo = new List<string>();
+                            //    descripcionPromo.Add("Rapi|Pago");
+
+                            //    DetallePedido pedidoRapiPago = new DetallePedido();
+
+
+                            //    var composicionRegalo = from R in promoRapiPago.ColComposiciones
+                            //                            where R.TipoComposicion == "O"
+                            //                            group R by R.Grupo into c
+                            //                            select new { Grupo = c.Key, componentes = c };
+
+                            //    if (composicionRegalo.Count() > 0)
+                            //    {
+                            //        foreach (var itemComponente in composicionRegalo)
+                            //        {
+                            //            List<Producto> productos = (from P in itemComponente.componentes
+                            //                                        select P.objProductoHijo).ToList<Producto>();
+
+                            //            DetalleRegalos newRegalo = new DetalleRegalos();
+                            //            newRegalo.DescripcionRegalo = Helper.ObtenerDescripcionCompletaProductoEnComun(productos) + " x " + itemComponente.componentes.First().objPresentacion.Descripcion;
+                            //            newRegalo.IdPresentacionRegaloSeleccionado = 0;
+                            //            newRegalo.TipoRegalo = "Producto";
+                            //            newRegalo.objDetallePedido = pedidoRapiPago;
+                            //            newRegalo.Grupo = itemComponente.componentes.First().Grupo.Value;
+                            //            pedidoRapiPago.ColRegalos.Add(newRegalo);
+                            //        }
+
+
+
+
+                            //        pedidoRapiPago.Cantidad = 1;
+                            //        pedidoRapiPago.Producto = promoRapiPago.IdProducto;
+                            //        pedidoRapiPago.Presentacion = promoRapiPago.ColPresentaciones[0].IdPresentacion;
+                            //        pedidoRapiPago.ProductoDesc = promoRapiPago.Descripcion;
+                            //        pedidoRapiPago.PresentacionDesc = promoRapiPago.ColPresentaciones[0].Descripcion;
+                            //        pedidoRapiPago.DescripcionCompleta = pedidoRapiPago.ProductoDesc;
+                            //        pedidoRapiPago.DescProductosUtilizados = descripcionPromo;
+                            //        pedidoRapiPago.CodigoCompleto = promoRapiPago.ColPresentaciones[0].Codigo;
+                            //        pedidoRapiPago.Tipo = "E";
+
+                            //        AllPromosGeneradas.Add(pedidoRapiPago);
+                            //    }
+                            //}
+                        }
+                        else if (cboFormaPago.Text.Contains("Contra Reembolso"))
+                        {
+                            /// Limite de compra con la forma de pago contra reembolso.
+                            decimal LimiteContraReembolso = decimal.Parse((from P in Session["ParametrosSistema"] as List<Parametro>
+                                                                           where P.IdParametro == (int)TiposDeParametros.LimiteContraReembolso
+                                                                           select P.Valor).Single());
+
+                            string codigoPromoContraReembolso = "";
+
+                            /// Monto total del pedido
+                            decimal MontoPedidoActual = decimal.Parse(txtMontoGeneral.Text.Replace("$", ""));
+                            /// Diferencia a pagar con el saldo de la cta cte.
+                            decimal DiferenciaCtaCte = MontoPedidoActual - LimiteContraReembolso;
+
+
+                            // 1. Determinimo que promoción es la que se debe dar.
+                            if (DiferenciaCtaCte >= 1815)
+                                codigoPromoContraReembolso = "1150000021593";
+                            else
+                                codigoPromoContraReembolso = "1150000021244";
+
+                            /// 2. Si el monto del pedido es mayor al limite en contra reembolso y la diferencia se puede pagar
+                            /// con el saldo de la cta cte continuo.
+                            if (MontoPedidoActual > LimiteContraReembolso && Math.Abs(SaldoPagoAnticipado) >= DiferenciaCtaCte)
                             {
-                                decimal MontoMinimoPromocion = promoContraReembolso.objConfPromocion.MontoMinimo.Value;
 
+                                Producto promoContraReembolso = (from P in Contexto.Presentacions
+                                                                 where P.Codigo.Trim() == codigoPromoContraReembolso
+                                                                 select P.objProducto).FirstOrDefault<Producto>();
 
-                                /// 3. Detalle Total: Si el pedido es realizado con la forma de pago contra reembolso, 
-                                /// el monto del pedido es mayor o igual al parámetro: limite de compra en contra reembolso y 
-                                /// el cliente de la nota de pedido posee en ese momento un valor en la cuenta corriente a favor (en negativo)
-                                /// y superior al MontoMinimo, entonces se generará para dicho pedido la promoción en cuestión
-                                if (promoContraReembolso != null && promoContraReembolso.objConfPromocion != null && promoContraReembolso.objConfPromocion.FechaInicio <= DateTime.Now && promoContraReembolso.objConfPromocion.FechaFinal > DateTime.Now
-                                   && Math.Abs(SaldoPagoAnticipado) >= MontoMinimoPromocion)
+                                /// Controlo que exista la promocion y que el transporte este habilitado para dicha promoción
+                                if (promoContraReembolso != null && (promoContraReembolso.objConfPromocion.ColTransportistas.Count == 0 || promoContraReembolso.objConfPromocion.ColTransportistas.Any(w => w.Transporte.ToUpper() == lblTransporte.Text.ToUpper())))
                                 {
-                                    List<string> descripcionPromo = new List<string>();
-                                    descripcionPromo.Add("Contra|Reembolso y Poseer un Saldo Mayor a $" + (MontoMinimoPromocion - decimal.Parse("0,01")) + " en Cta. Cte.");
-
-                                    DetallePedido pedidoPagoFacil = new DetallePedido();
+                                    decimal MontoMinimoPromocion = promoContraReembolso.objConfPromocion.MontoMinimo.Value;
 
 
-                                    var composicionRegalo = from R in promoContraReembolso.ColComposiciones
-                                                            where R.TipoComposicion == "O"
-                                                            group R by R.Grupo into c
-                                                            select new { Grupo = c.Key, componentes = c };
-
-                                    if (composicionRegalo.Count() > 0)
+                                    /// 3. Detalle Total: Si el pedido es realizado con la forma de pago contra reembolso, 
+                                    /// el monto del pedido es mayor o igual al parámetro: limite de compra en contra reembolso y 
+                                    /// el cliente de la nota de pedido posee en ese momento un valor en la cuenta corriente a favor (en negativo)
+                                    /// y superior al MontoMinimo, entonces se generará para dicho pedido la promoción en cuestión
+                                    if (promoContraReembolso != null && promoContraReembolso.objConfPromocion != null && promoContraReembolso.objConfPromocion.FechaInicio <= DateTime.Now && promoContraReembolso.objConfPromocion.FechaFinal > DateTime.Now
+                                       && Math.Abs(SaldoPagoAnticipado) >= MontoMinimoPromocion)
                                     {
-                                        foreach (var itemComponente in composicionRegalo)
+                                        List<string> descripcionPromo = new List<string>();
+                                        descripcionPromo.Add("Contra|Reembolso y Poseer un Saldo Mayor a $" + (MontoMinimoPromocion - decimal.Parse("0,01")) + " en Cta. Cte.");
+
+                                        DetallePedido pedidoPagoFacil = new DetallePedido();
+
+
+                                        var composicionRegalo = from R in promoContraReembolso.ColComposiciones
+                                                                where R.TipoComposicion == "O"
+                                                                group R by R.Grupo into c
+                                                                select new { Grupo = c.Key, componentes = c };
+
+                                        if (composicionRegalo.Count() > 0)
                                         {
-                                            List<Producto> productos = (from P in itemComponente.componentes
-                                                                        select P.objProductoHijo).ToList<Producto>();
+                                            foreach (var itemComponente in composicionRegalo)
+                                            {
+                                                List<Producto> productos = (from P in itemComponente.componentes
+                                                                            select P.objProductoHijo).ToList<Producto>();
 
-                                            DetalleRegalos newRegalo = new DetalleRegalos();
-                                            newRegalo.DescripcionRegalo = Helper.ObtenerDescripcionCompletaProductoEnComun(productos) + " x " + itemComponente.componentes.First().objPresentacion.Descripcion;
-                                            newRegalo.IdPresentacionRegaloSeleccionado = 0;
-                                            newRegalo.TipoRegalo = "Producto";
-                                            newRegalo.objDetallePedido = pedidoPagoFacil;
-                                            newRegalo.Grupo = itemComponente.componentes.First().Grupo.Value;
-                                            pedidoPagoFacil.ColRegalos.Add(newRegalo);
+                                                DetalleRegalos newRegalo = new DetalleRegalos();
+                                                newRegalo.DescripcionRegalo = Helper.ObtenerDescripcionCompletaProductoEnComun(productos) + " x " + itemComponente.componentes.First().objPresentacion.Descripcion;
+                                                newRegalo.IdPresentacionRegaloSeleccionado = 0;
+                                                newRegalo.TipoRegalo = "Producto";
+                                                newRegalo.objDetallePedido = pedidoPagoFacil;
+                                                newRegalo.Grupo = itemComponente.componentes.First().Grupo.Value;
+                                                pedidoPagoFacil.ColRegalos.Add(newRegalo);
+                                            }
+
+
+
+
+                                            pedidoPagoFacil.Cantidad = 1;
+                                            pedidoPagoFacil.Producto = promoContraReembolso.IdProducto;
+                                            pedidoPagoFacil.Presentacion = promoContraReembolso.ColPresentaciones[0].IdPresentacion;
+                                            pedidoPagoFacil.ProductoDesc = promoContraReembolso.Descripcion;
+                                            pedidoPagoFacil.PresentacionDesc = promoContraReembolso.ColPresentaciones[0].Descripcion;
+                                            pedidoPagoFacil.DescripcionCompleta = pedidoPagoFacil.ProductoDesc;
+                                            pedidoPagoFacil.DescProductosUtilizados = descripcionPromo;
+                                            pedidoPagoFacil.CodigoCompleto = promoContraReembolso.ColPresentaciones[0].Codigo;
+                                            pedidoPagoFacil.Tipo = "E";
+
+                                            AllPromosGeneradas.Add(pedidoPagoFacil);
                                         }
-
-
-
-
-                                        pedidoPagoFacil.Cantidad = 1;
-                                        pedidoPagoFacil.Producto = promoContraReembolso.IdProducto;
-                                        pedidoPagoFacil.Presentacion = promoContraReembolso.ColPresentaciones[0].IdPresentacion;
-                                        pedidoPagoFacil.ProductoDesc = promoContraReembolso.Descripcion;
-                                        pedidoPagoFacil.PresentacionDesc = promoContraReembolso.ColPresentaciones[0].Descripcion;
-                                        pedidoPagoFacil.DescripcionCompleta = pedidoPagoFacil.ProductoDesc;
-                                        pedidoPagoFacil.DescProductosUtilizados = descripcionPromo;
-                                        pedidoPagoFacil.CodigoCompleto = promoContraReembolso.ColPresentaciones[0].Codigo;
-                                        pedidoPagoFacil.Tipo = "E";
-
-                                        AllPromosGeneradas.Add(pedidoPagoFacil);
                                     }
                                 }
                             }
                         }
                     }
                 }
+                #endregion
 
+
+                #region Promociones por Forma de Pago a partir del 01/01/2015
+
+                if (DateTime.Now.Date >= DateTime.Parse("17/12/2014"))
+                {
+                   
+                        if (cboFormaPago.Text.Contains("Pago Fácil") || cboFormaPago.Text.Contains("Pago Mis Cuentas") || cboFormaPago.Text.Contains("Rapi Pago"))
+                        {
+                            decimal montoTotalPedido = decimal.Parse(txtMontoGeneral.Text.Replace("$", ""));
+                            string codigoPromoPagoAdelantado = "";
+
+                            if (montoTotalPedido >= Convert.ToDecimal("850") && montoTotalPedido <= Convert.ToDecimal("1000"))
+                            {
+                                codigoPromoPagoAdelantado = "1150000021133";
+                            }
+                            else if (montoTotalPedido >= Convert.ToDecimal("1001") && montoTotalPedido <= Convert.ToDecimal("2000"))
+                            {
+                                codigoPromoPagoAdelantado = "1150000021134";
+                            }
+                            else if (montoTotalPedido > Convert.ToDecimal("2000"))
+                            {
+                                codigoPromoPagoAdelantado = "1150000021135";
+                            }
+
+                            if (codigoPromoPagoAdelantado != "")
+                            {
+                                Producto promoPagoAdelantado = (from P in Contexto.Presentacions
+                                                                where P.Codigo.Trim() == codigoPromoPagoAdelantado
+                                                                select P.objProducto).FirstOrDefault<Producto>();
+
+                                if (promoPagoAdelantado != null)
+                                {
+
+                                    if (promoPagoAdelantado.objConfPromocion != null && promoPagoAdelantado.objConfPromocion.FechaInicio <= DateTime.Now && promoPagoAdelantado.objConfPromocion.FechaFinal > DateTime.Now
+                                        && (promoPagoAdelantado.objConfPromocion.ColTransportistas.Count == 0 || promoPagoAdelantado.objConfPromocion.ColTransportistas.Any(w => w.Transporte.ToUpper() == lblTransporte.Text.ToUpper())))
+                                    {
+                                        List<string> descripcionPromo = new List<string>();
+                                        string descripcionPromoPagoAdelantado = cboFormaPago.Text.Contains("Pago Fácil") ? "Pago|Fácil" : cboFormaPago.Text.Contains("Pago Mis Cuentas") ? "Pago| Mis Cuentas" : "Rapi|Pago";
+                                        descripcionPromo.Add(descripcionPromoPagoAdelantado);
+
+                                        DetallePedido detallePagoAdelantado = new DetallePedido();
+
+
+                                        var composicionRegalo = from R in promoPagoAdelantado.ColComposiciones
+                                                                where R.TipoComposicion == "O"
+                                                                group R by R.Grupo into c
+                                                                select new { Grupo = c.Key, componentes = c };
+
+                                        if (composicionRegalo.Count() > 0)
+                                        {
+                                            foreach (var itemComponente in composicionRegalo)
+                                            {
+                                                List<Producto> productos = (from P in itemComponente.componentes
+                                                                            select P.objProductoHijo).ToList<Producto>();
+
+                                                DetalleRegalos newRegalo = new DetalleRegalos();
+                                                newRegalo.DescripcionRegalo = Helper.ObtenerDescripcionCompletaProductoEnComun(productos) + " x " + itemComponente.componentes.First().objPresentacion.Descripcion;
+                                                newRegalo.IdPresentacionRegaloSeleccionado = 0;
+                                                newRegalo.TipoRegalo = "Producto";
+                                                newRegalo.objDetallePedido = detallePagoAdelantado;
+                                                newRegalo.Grupo = itemComponente.componentes.First().Grupo.Value;
+                                                detallePagoAdelantado.ColRegalos.Add(newRegalo);
+                                            }
+
+                                            detallePagoAdelantado.Cantidad = 1;
+                                            detallePagoAdelantado.Producto = promoPagoAdelantado.IdProducto;
+                                            detallePagoAdelantado.Presentacion = promoPagoAdelantado.ColPresentaciones[0].IdPresentacion;
+                                            detallePagoAdelantado.ProductoDesc = promoPagoAdelantado.Descripcion;
+                                            detallePagoAdelantado.PresentacionDesc = promoPagoAdelantado.ColPresentaciones[0].Descripcion;
+                                            detallePagoAdelantado.DescripcionCompleta = detallePagoAdelantado.ProductoDesc;
+                                            detallePagoAdelantado.DescProductosUtilizados = descripcionPromo;
+                                            detallePagoAdelantado.CodigoCompleto = promoPagoAdelantado.ColPresentaciones[0].Codigo;
+                                            detallePagoAdelantado.Tipo = "E";
+
+                                            AllPromosGeneradas.Add(detallePagoAdelantado);
+                                        }
+                                    }
+                                }
+                            }
+                       
+                    }
+                }
                 #endregion
 
                 #endregion
@@ -5313,7 +5623,7 @@ public partial class NotaDePedido : BasePage
 
     [WebMethod(EnableSession = true)]
     [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-    public static string ControlesDeGrabacion(decimal subTotal, decimal saldoPagoAnticipado, decimal valorTransporte, string formaDePago, string provincia ,string localidad)
+    public static string ControlesDeGrabacion(decimal subTotal, decimal saldoPagoAnticipado, decimal valorTransporte, string formaDePago, string provincia, string localidad)
     {
         string alertaControles = "";
         bool esClienteEspecial = (HttpContext.Current.Session["ClienteLogeado"] as Cliente).Clasif1.Contains("DIRECTORIO") ? true : false;
@@ -5458,83 +5768,83 @@ public partial class NotaDePedido : BasePage
             #endregion
 
             #region Control de limites de compra por la forma de pago
-    
-                /// Este control se hace para todos lo clientes salvo los clientes del grupo DIRECTORIO
+
+            /// Este control se hace para todos lo clientes salvo los clientes del grupo DIRECTORIO
             if (!esClienteEspecial)
+            {
+                decimal SaldoActual = -1 * saldoPagoAnticipado;
+                switch (formaDePago)
                 {
-                    decimal SaldoActual = -1 * saldoPagoAnticipado;
-                    switch (formaDePago)
-                    {
-                        case "Pago Fácil":
+                    case "Pago Fácil":
+                        {
+                            if (subTotal > SaldoActual)
                             {
-                                if (subTotal > SaldoActual)
-                                {
-                                    decimal TotalSinTransporte = subTotal - valorTransporte;
-                                    alertaControles = "AlertaSaldoInsuficiente('El monto del pedido (Productos: $" + TotalSinTransporte.ToString() + " + Transporte: $" + valorTransporte.ToString() + ") supera el saldo disponible que posee ($" + SaldoActual.ToString() + "), el mismo no puede ser realizado hasta que tenga saldo suficiente. Si lo desea puede guardar el pedido temporalmente para realizarlo en otro momento.');";
-                                    return alertaControles;
-
-                                    
-                                    //ScriptManager.RegisterStartupScript(upSolicitudPedido, typeof(UpdatePanel), "SaldoReq", "AlertaSaldoInsuficiente('El monto del pedido (Productos: $" + TotalSinTransporte.ToString() + " + Transporte: $" + valorTransporte.ToString() + ") supera el saldo disponible que posee ($" + SaldoActual.ToString() + "), el mismo no puede ser realizado hasta que tenga saldo suficiente. Si lo desea puede guardar el pedido temporalmente para realizarlo en otro momento.');", true);
-                                    //return;
-                                }
-                                else
-                                    break;
+                                decimal TotalSinTransporte = subTotal - valorTransporte;
+                                alertaControles = "AlertaSaldoInsuficiente('El monto del pedido (Productos: $" + TotalSinTransporte.ToString() + " + Transporte: $" + valorTransporte.ToString() + ") supera el saldo disponible que posee ($" + SaldoActual.ToString() + "), el mismo no puede ser realizado hasta que tenga saldo suficiente. Si lo desea puede guardar el pedido temporalmente para realizarlo en otro momento.');";
+                                return alertaControles;
 
 
+                                //ScriptManager.RegisterStartupScript(upSolicitudPedido, typeof(UpdatePanel), "SaldoReq", "AlertaSaldoInsuficiente('El monto del pedido (Productos: $" + TotalSinTransporte.ToString() + " + Transporte: $" + valorTransporte.ToString() + ") supera el saldo disponible que posee ($" + SaldoActual.ToString() + "), el mismo no puede ser realizado hasta que tenga saldo suficiente. Si lo desea puede guardar el pedido temporalmente para realizarlo en otro momento.');", true);
+                                //return;
                             }
-                        case "Pago Mis Cuentas":
+                            else
+                                break;
+
+
+                        }
+                    case "Pago Mis Cuentas":
+                        {
+                            if (subTotal > SaldoActual)
                             {
-                                if (subTotal > SaldoActual)
-                                {
-                                    decimal TotalSinTransporte = subTotal - valorTransporte;
+                                decimal TotalSinTransporte = subTotal - valorTransporte;
 
-                                    alertaControles = "AlertaSaldoInsuficiente('El monto del pedido (Productos: $" + TotalSinTransporte.ToString() + " + Transporte: $" + valorTransporte.ToString() + ") supera el saldo disponible que posee ($" + SaldoActual.ToString() + "), el mismo no puede ser realizado hasta que tenga saldo suficiente. Si lo desea puede guardar el pedido temporalmente para realizarlo en otro momento.');";
-                                    return alertaControles;
+                                alertaControles = "AlertaSaldoInsuficiente('El monto del pedido (Productos: $" + TotalSinTransporte.ToString() + " + Transporte: $" + valorTransporte.ToString() + ") supera el saldo disponible que posee ($" + SaldoActual.ToString() + "), el mismo no puede ser realizado hasta que tenga saldo suficiente. Si lo desea puede guardar el pedido temporalmente para realizarlo en otro momento.');";
+                                return alertaControles;
 
 
-                                    //ScriptManager.RegisterStartupScript(upSolicitudPedido, typeof(UpdatePanel), "SaldoReq", "AlertaSaldoInsuficiente('El monto del pedido (Productos: $" + TotalSinTransporte.ToString() + " + Transporte: $" + valorTransporte.ToString() + ") supera el saldo disponible que posee ($" + SaldoActual.ToString() + "), el mismo no puede ser realizado hasta que tenga saldo suficiente. Si lo desea puede guardar el pedido temporalmente para realizarlo en otro momento.');", true);
-                                    //return;
-                                }
-                                else
-                                    break;
-
-
+                                //ScriptManager.RegisterStartupScript(upSolicitudPedido, typeof(UpdatePanel), "SaldoReq", "AlertaSaldoInsuficiente('El monto del pedido (Productos: $" + TotalSinTransporte.ToString() + " + Transporte: $" + valorTransporte.ToString() + ") supera el saldo disponible que posee ($" + SaldoActual.ToString() + "), el mismo no puede ser realizado hasta que tenga saldo suficiente. Si lo desea puede guardar el pedido temporalmente para realizarlo en otro momento.');", true);
+                                //return;
                             }
-                        case "Contra Reembolso":
+                            else
+                                break;
+
+
+                        }
+                    case "Contra Reembolso":
+                        {
+                            if ((subTotal - SaldoActual) > decimal.Parse(LimiteContraReembolso))
                             {
-                                if ((subTotal - SaldoActual) > decimal.Parse(LimiteContraReembolso))
-                                {
-                                    alertaControles = "AlertaSaldoInsuficiente('El monto del pedido supera el límite en contra reemboldo ($ " + LimiteContraReembolso + "), el mismo no puede ser realizado. Si lo desea puede guardar el pedido temporalmente para realizarlo en otro momento.');";
-                                    return alertaControles;
+                                alertaControles = "AlertaSaldoInsuficiente('El monto del pedido supera el límite en contra reemboldo ($ " + LimiteContraReembolso + "), el mismo no puede ser realizado. Si lo desea puede guardar el pedido temporalmente para realizarlo en otro momento.');";
+                                return alertaControles;
 
-                                    //ScriptManager.RegisterStartupScript(upSolicitudPedido, typeof(UpdatePanel), "SaldoReq", "AlertaSaldoInsuficiente('El monto del pedido supera el límite en contra reemboldo ($ " + LimiteContraReembolso + "), el mismo no puede ser realizado. Si lo desea puede guardar el pedido temporalmente para realizarlo en otro momento.');", true);
-                                    //return;
-                                }
-                                else
-                                    break;
-
+                                //ScriptManager.RegisterStartupScript(upSolicitudPedido, typeof(UpdatePanel), "SaldoReq", "AlertaSaldoInsuficiente('El monto del pedido supera el límite en contra reemboldo ($ " + LimiteContraReembolso + "), el mismo no puede ser realizado. Si lo desea puede guardar el pedido temporalmente para realizarlo en otro momento.');", true);
+                                //return;
                             }
-                        case "Rapi Pago":
+                            else
+                                break;
+
+                        }
+                    case "Rapi Pago":
+                        {
+                            if (subTotal > SaldoActual)
                             {
-                                if (subTotal > SaldoActual)
-                                {
-                                    decimal TotalSinTransporte = subTotal - valorTransporte;
+                                decimal TotalSinTransporte = subTotal - valorTransporte;
 
-                                    alertaControles = "AlertaSaldoInsuficiente('El monto del pedido (Productos: $" + TotalSinTransporte.ToString() + " + Transporte: $" + valorTransporte.ToString() + ") supera el saldo disponible que posee ($" + SaldoActual.ToString() + "), el mismo no puede ser realizado hasta que tenga saldo suficiente. Si lo desea puede guardar el pedido temporalmente para realizarlo en otro momento.');";
-                                    return alertaControles;
+                                alertaControles = "AlertaSaldoInsuficiente('El monto del pedido (Productos: $" + TotalSinTransporte.ToString() + " + Transporte: $" + valorTransporte.ToString() + ") supera el saldo disponible que posee ($" + SaldoActual.ToString() + "), el mismo no puede ser realizado hasta que tenga saldo suficiente. Si lo desea puede guardar el pedido temporalmente para realizarlo en otro momento.');";
+                                return alertaControles;
 
 
-                                    //ScriptManager.RegisterStartupScript(upSolicitudPedido, typeof(UpdatePanel), "SaldoReq", "AlertaSaldoInsuficiente('El monto del pedido (Productos: $" + TotalSinTransporte.ToString() + " + Transporte: $" + valorTransporte.ToString() + ") supera el saldo disponible que posee ($" + SaldoActual.ToString() + "), el mismo no puede ser realizado hasta que tenga saldo suficiente. Si lo desea puede guardar el pedido temporalmente para realizarlo en otro momento.');", true);
-                                    //return;
-                                }
-                                else
-                                    break;
-
-
+                                //ScriptManager.RegisterStartupScript(upSolicitudPedido, typeof(UpdatePanel), "SaldoReq", "AlertaSaldoInsuficiente('El monto del pedido (Productos: $" + TotalSinTransporte.ToString() + " + Transporte: $" + valorTransporte.ToString() + ") supera el saldo disponible que posee ($" + SaldoActual.ToString() + "), el mismo no puede ser realizado hasta que tenga saldo suficiente. Si lo desea puede guardar el pedido temporalmente para realizarlo en otro momento.');", true);
+                                //return;
                             }
-                    }
+                            else
+                                break;
+
+
+                        }
                 }
-        
+            }
+
 
 
             #endregion
