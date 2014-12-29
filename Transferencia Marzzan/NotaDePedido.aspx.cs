@@ -24,14 +24,26 @@ public partial class NotaDePedido : BasePage
     public List<Producto> _productos = null;
     public long _idDireccionGrabada = 0;
     public string idProductoIncorporacion_0 = "4693";
+    public string idProductoIncorporacion_0_2014 = "6823";
+
+
     public List<string> idsProductosIncorporaciones_1_4 = new List<string>() { "5714", "5715", "5718", "5719" };
     public List<long> idsPresentacionIncorporaciones_1_4 = new List<long>() { 5796, 5797, 5798, 5799 };
+
+    public List<string> idsProductosIncorporaciones_1_2_2014 = new List<string>() { "6822", "6824" };
+    public List<long> idsPresentacionIncorporaciones_1_2_2014 = new List<long>() { 6877, 6879 };
 
     // Presentaciones de las incorporaciones de la 1  al a 4
     //5796	2516700021001   	Unidad	5714	30.00	1	00025167001
     //5797	2516700021002   	Unidad	5715	175.00	1	00025167002
     //5798	2516700021003   	Unidad	5718	315.00	1	00025167003
     //5799	2516700021004   	Unidad	5719	500.00	1	00025167004
+
+    // Presentaciones de la 1 a 2 para el año 2014
+    // 2516700019020        Incorporación Nº 0 Catálogo SM  -->  2516700021005        Incorporación Costo 0 - Catálogo + Revista + Carpe 
+    // 2516700021001        Incorporación_N°1  -->  2516700021007        Incorporación Bolso SM     (idPre: 6877) - (IdProd: 6822)
+    // 2516700021002        Incorporación_N°2  -->  2516700021006        Incorporación Valija SM  - (idPre: 6879) - (IdProd: 6824)
+
 
     private Marzzan_InfolegacyDataContext Contexto
     {
@@ -1156,7 +1168,7 @@ public partial class NotaDePedido : BasePage
             /// Elimino el producto Catálogo x 10 unidades  (2506600030077)
             List<DetallePedido> detallesCatalogox10 = (from d in cabecera.DetallePedidos
                                                        where d.Presentacion == 6865
-                                                        select d).ToList();
+                                                       select d).ToList();
 
             if (detallesCatalogox10.Count > 0)
             {
@@ -1272,11 +1284,11 @@ public partial class NotaDePedido : BasePage
 
                 Presentacion preCatalogoSM = (from P in Contexto.Presentacions
                                               where P.Codigo == "2506600030076"
-                                                  select P).FirstOrDefault<Presentacion>();
+                                              select P).FirstOrDefault<Presentacion>();
 
                 Presentacion preDescuentoCatalogo = (from P in Contexto.Presentacions
                                                      where P.Codigo == "2150000021006"
-                                                           select P).FirstOrDefault<Presentacion>();
+                                                     select P).FirstOrDefault<Presentacion>();
 
 
                 DetallePedido newDetalleSI = new DetallePedido();
@@ -2605,19 +2617,19 @@ public partial class NotaDePedido : BasePage
                 #region  Detalle Bolsa Institucional : 01/01/2015
                 if (!EsTemporal)
                 {
-                    string[] CodigosEauPerfume= new string[] { "1080000002   -126-15", "1080000002   -125-10","1086100002   -134-11","1086200002   -233-11","1080000002   -128-21","1086100002   -204-23","1086100002   -166-10","1080000002   -123-15","1080000002   -132-23","1080000002   -122-10","1080000002   -124-10","1086100002   -317-15","1086200002   -316-10","1086200002   -312-15","1086100002   -311-15","1080000002   -127-15","1086200002   -318-11"};
+                    string[] CodigosEauPerfume = new string[] { "1080000002   -126-15", "1080000002   -125-10", "1086100002   -134-11", "1086200002   -233-11", "1080000002   -128-21", "1086100002   -204-23", "1086100002   -166-10", "1080000002   -123-15", "1080000002   -132-23", "1080000002   -122-10", "1080000002   -124-10", "1086100002   -317-15", "1086200002   -316-10", "1086200002   -312-15", "1086100002   -311-15", "1080000002   -127-15", "1086200002   -318-11" };
 
                     long CantidadCodigosEauPerfume = Convert.ToInt64(((from N in cabecera.DetallePedidos
-                                                               where CodigosEauPerfume.Contains(N.CodigoCompleto.Trim())
-                                                               select N.Cantidad.Value).Sum()));
+                                                                       where CodigosEauPerfume.Contains(N.CodigoCompleto.Trim())
+                                                                       select N.Cantidad.Value).Sum()));
 
 
                     if (CantidadCodigosEauPerfume > 0)
                     {
 
                         Presentacion preBolsaInstitucional = (from P in Contexto.Presentacions
-                                                where P.Codigo == "2500000018001"
-                                                select P).SingleOrDefault();
+                                                              where P.Codigo == "2500000018001"
+                                                              select P).SingleOrDefault();
 
 
                         newDetalle = new DetallePedido();
@@ -2683,16 +2695,16 @@ public partial class NotaDePedido : BasePage
                     /// si en el detalle esta el producto buscado: CodigoHornilloTao entonces AGREGO 
                     /// el producto elejido: CodigoVelaRegalo
                     long CantidadCodigoAromatizadorValentina = Convert.ToInt64(((from N in cabecera.DetallePedidos
-                                                                 where N.CodigoCompleto.Trim() == CodigoAromatizadorValentina.Trim()
-                                                                 select N.Cantidad.Value).Sum()));
+                                                                                 where N.CodigoCompleto.Trim() == CodigoAromatizadorValentina.Trim()
+                                                                                 select N.Cantidad.Value).Sum()));
 
 
                     if (CantidadCodigoAromatizadorValentina > 0)
                     {
 
                         Presentacion preGatilloAromatizador = (from P in Contexto.Presentacions
-                                                      where P.Codigo.Trim() == CodigoGatilloAromatizador
-                                                      select P).FirstOrDefault();
+                                                               where P.Codigo.Trim() == CodigoGatilloAromatizador
+                                                               select P).FirstOrDefault();
 
 
                         if (preGatilloAromatizador != null)
@@ -2723,7 +2735,7 @@ public partial class NotaDePedido : BasePage
                     /// el producto elejido: CodigoVelaRegalo
                     long CantidadColeccionVintageRomance = Convert.ToInt64(((from N in cabecera.DetallePedidos
                                                                              where N.CodigoCompleto.Trim() == CodigoColeccionVintageRomance.Trim()
-                                                                                 select N.Cantidad.Value).Sum()));
+                                                                             select N.Cantidad.Value).Sum()));
 
 
                     if (CantidadColeccionVintageRomance > 0)
@@ -2731,7 +2743,7 @@ public partial class NotaDePedido : BasePage
 
                         Presentacion preCajaVintageRomance = (from P in Contexto.Presentacions
                                                               where P.Codigo.Trim() == CodigoCajaVintageRomance
-                                                               select P).FirstOrDefault();
+                                                              select P).FirstOrDefault();
 
 
                         if (preCajaVintageRomance != null)
@@ -3072,6 +3084,10 @@ public partial class NotaDePedido : BasePage
             List<DetallePedido> ProductoStockLimitadoAgrupado = (from P in (Session["detPedido"] as List<DetallePedido>)
                                                                  where idsPresentacionIncorporaciones_1_4.Contains(P.Presentacion.Value)
                                                                  select P).ToList();
+
+            ProductoStockLimitadoAgrupado.AddRange((from P in (Session["detPedido"] as List<DetallePedido>)
+                                                    where idsPresentacionIncorporaciones_1_2_2014.Contains(P.Presentacion.Value)
+                                                    select P).ToList());
 
 
             //long? CantidadSolicitada = ProductoStockLimitado.Sum(w => w.Cantidad);
@@ -3445,7 +3461,38 @@ public partial class NotaDePedido : BasePage
         }
 
 
+        foreach (var item in idsProductosIncorporaciones_1_2_2014)
+        {
+            detEspecial = DetallePedidos.Where(w => w.objProducto.IdProducto == long.Parse(item)).FirstOrDefault();
+            if (detEspecial != null)
+            {
+                SolicitudProductosEspeciale solProd = new SolicitudProductosEspeciale();
+                solProd.Producto = detEspecial.objProducto.IdProducto;
+                solProd.Presentacion = detEspecial.objPresentacion.IdPresentacion;
+                solProd.Cliente = detEspecial.objCabecera.Cliente;
+                solProd.DetallePedido = detEspecial.IdDetallePedido;
+                solProd.Cantidad = Convert.ToInt32(detEspecial.Cantidad);
+
+                Contexto.SolicitudProductosEspeciales.InsertOnSubmit(solProd);
+            }
+        }
+
+
         detEspecial = DetallePedidos.Where(w => w.objProducto.IdProducto == long.Parse(idProductoIncorporacion_0)).FirstOrDefault();
+        if (detEspecial != null)
+        {
+            SolicitudProductosEspeciale solProd = new SolicitudProductosEspeciale();
+            solProd.Producto = detEspecial.objProducto.IdProducto;
+            solProd.Presentacion = detEspecial.objPresentacion.IdPresentacion;
+            solProd.Cliente = detEspecial.objCabecera.Cliente;
+            solProd.DetallePedido = detEspecial.IdDetallePedido;
+            solProd.Cantidad = Convert.ToInt32(detEspecial.Cantidad);
+
+            Contexto.SolicitudProductosEspeciales.InsertOnSubmit(solProd);
+        }
+
+
+        detEspecial = DetallePedidos.Where(w => w.objProducto.IdProducto == long.Parse(idProductoIncorporacion_0_2014)).FirstOrDefault();
         if (detEspecial != null)
         {
             SolicitudProductosEspeciale solProd = new SolicitudProductosEspeciale();
@@ -4095,34 +4142,39 @@ public partial class NotaDePedido : BasePage
 
 
 
-        if (CurrentCliente.TipoCliente.ToUpper() == TipoClientes.Consultor.ToString().ToUpper() &&
-            (DateTime.Now.Month == 1 && DateTime.Now.Year == 2013))
-        {
-            long idCliente = CurrentCliente.IdCliente;
-            var CantidadPedidos = (from c in Contexto.CabeceraPedidos
-                                   where c.Cliente == idCliente
-                                   select c).Count();
+        //if (CurrentCliente.TipoCliente.ToUpper() == TipoClientes.Consultor.ToString().ToUpper() &&
+        //    (DateTime.Now.Month == 1 && DateTime.Now.Year == 2013))
+        //{
+        //    long idCliente = CurrentCliente.IdCliente;
+        //    var CantidadPedidos = (from c in Contexto.CabeceraPedidos
+        //                           where c.Cliente == idCliente
+        //                           select c).Count();
 
 
 
-            /// al cumplirce la regla (Si tiene mas de un pedido)
-            /// oculto el nodo de incorporaciones y salgo directamente sin realizar el control 
-            /// de mas abajo (2 Regla).
-            if (CantidadPedidos >= 2 || (CantidadPedidos == 1 && solicitudesIncorporaciones.Count == 0))
-            {
-                RadTreeNode NodoInc = RadTreeProductos.FindNodeByAttribute("NodoIncorporaciones", "true");
-                NodoInc.Visible = false;
-                upTreeProductos.Update();
-                return;
-            }
-        }
+        //    /// al cumplirce la regla (Si tiene mas de un pedido)
+        //    /// oculto el nodo de incorporaciones y salgo directamente sin realizar el control 
+        //    /// de mas abajo (2 Regla).
+        //    if (CantidadPedidos >= 2 || (CantidadPedidos == 1 && solicitudesIncorporaciones.Count == 0))
+        //    {
+        //        RadTreeNode NodoInc = RadTreeProductos.FindNodeByAttribute("NodoIncorporaciones", "true");
+        //        NodoInc.Visible = false;
+        //        upTreeProductos.Update();
+        //        return;
+        //    }
+        //}
 
 
 
         ///1. Busco primero si ya solicito la incorporacion 0, si es asi la
         /// excluyo de la lista de productos posibles de solicitar.
-        if (solicitudesIncorporaciones.Any(w => w.Producto == long.Parse(idProductoIncorporacion_0)))
+        if (solicitudesIncorporaciones.Any(w => w.Producto == long.Parse(idProductoIncorporacion_0) || w.Producto == long.Parse(idProductoIncorporacion_0_2014)))
+        {
             HiddenProductosOcultos.Value += idProductoIncorporacion_0.ToString();
+            HiddenProductosOcultos.Value += "|" + idProductoIncorporacion_0_2014.ToString();
+        }
+
+
 
 
         ///2. Busco si ya a solicitado alguna de las incorporaciones de la 1 a la 4 si es asi las
@@ -4141,6 +4193,17 @@ public partial class NotaDePedido : BasePage
                 NodoInc.Visible = false;
                 upTreeProductos.Update();
 
+                break;
+            }
+        }
+
+        foreach (var item in idsProductosIncorporaciones_1_2_2014)
+        {
+            if (solicitudesIncorporaciones.Any(w => w.Producto == long.Parse(item)))
+            {
+                RadTreeNode NodoInc = RadTreeProductos.FindNodeByAttribute("NodoIncorporaciones", "true");
+                NodoInc.Visible = false;
+                upTreeProductos.Update();
                 break;
             }
         }
@@ -5332,81 +5395,81 @@ public partial class NotaDePedido : BasePage
 
                 if (DateTime.Now.Date >= DateTime.Parse("17/12/2014"))
                 {
-                   
-                        if (cboFormaPago.Text.Contains("Pago Fácil") || cboFormaPago.Text.Contains("Pago Mis Cuentas") || cboFormaPago.Text.Contains("Rapi Pago"))
+
+                    if (cboFormaPago.Text.Contains("Pago Fácil") || cboFormaPago.Text.Contains("Pago Mis Cuentas") || cboFormaPago.Text.Contains("Rapi Pago"))
+                    {
+                        decimal montoTotalPedido = decimal.Parse(txtMontoGeneral.Text.Replace("$", ""));
+                        string codigoPromoPagoAdelantado = "";
+
+                        if (montoTotalPedido >= Convert.ToDecimal("850") && montoTotalPedido <= Convert.ToDecimal("1000"))
                         {
-                            decimal montoTotalPedido = decimal.Parse(txtMontoGeneral.Text.Replace("$", ""));
-                            string codigoPromoPagoAdelantado = "";
+                            codigoPromoPagoAdelantado = "1150000021133";
+                        }
+                        else if (montoTotalPedido >= Convert.ToDecimal("1001") && montoTotalPedido <= Convert.ToDecimal("2000"))
+                        {
+                            codigoPromoPagoAdelantado = "1150000021134";
+                        }
+                        else if (montoTotalPedido > Convert.ToDecimal("2000"))
+                        {
+                            codigoPromoPagoAdelantado = "1150000021135";
+                        }
 
-                            if (montoTotalPedido >= Convert.ToDecimal("850") && montoTotalPedido <= Convert.ToDecimal("1000"))
-                            {
-                                codigoPromoPagoAdelantado = "1150000021133";
-                            }
-                            else if (montoTotalPedido >= Convert.ToDecimal("1001") && montoTotalPedido <= Convert.ToDecimal("2000"))
-                            {
-                                codigoPromoPagoAdelantado = "1150000021134";
-                            }
-                            else if (montoTotalPedido > Convert.ToDecimal("2000"))
-                            {
-                                codigoPromoPagoAdelantado = "1150000021135";
-                            }
+                        if (codigoPromoPagoAdelantado != "")
+                        {
+                            Producto promoPagoAdelantado = (from P in Contexto.Presentacions
+                                                            where P.Codigo.Trim() == codigoPromoPagoAdelantado
+                                                            select P.objProducto).FirstOrDefault<Producto>();
 
-                            if (codigoPromoPagoAdelantado != "")
+                            if (promoPagoAdelantado != null)
                             {
-                                Producto promoPagoAdelantado = (from P in Contexto.Presentacions
-                                                                where P.Codigo.Trim() == codigoPromoPagoAdelantado
-                                                                select P.objProducto).FirstOrDefault<Producto>();
 
-                                if (promoPagoAdelantado != null)
+                                if (promoPagoAdelantado.objConfPromocion != null && promoPagoAdelantado.objConfPromocion.FechaInicio <= DateTime.Now && promoPagoAdelantado.objConfPromocion.FechaFinal > DateTime.Now
+                                    && (promoPagoAdelantado.objConfPromocion.ColTransportistas.Count == 0 || promoPagoAdelantado.objConfPromocion.ColTransportistas.Any(w => w.Transporte.ToUpper() == lblTransporte.Text.ToUpper())))
                                 {
+                                    List<string> descripcionPromo = new List<string>();
+                                    string descripcionPromoPagoAdelantado = cboFormaPago.Text.Contains("Pago Fácil") ? "Pago|Fácil" : cboFormaPago.Text.Contains("Pago Mis Cuentas") ? "Pago| Mis Cuentas" : "Rapi|Pago";
+                                    descripcionPromo.Add(descripcionPromoPagoAdelantado);
 
-                                    if (promoPagoAdelantado.objConfPromocion != null && promoPagoAdelantado.objConfPromocion.FechaInicio <= DateTime.Now && promoPagoAdelantado.objConfPromocion.FechaFinal > DateTime.Now
-                                        && (promoPagoAdelantado.objConfPromocion.ColTransportistas.Count == 0 || promoPagoAdelantado.objConfPromocion.ColTransportistas.Any(w => w.Transporte.ToUpper() == lblTransporte.Text.ToUpper())))
+                                    DetallePedido detallePagoAdelantado = new DetallePedido();
+
+
+                                    var composicionRegalo = from R in promoPagoAdelantado.ColComposiciones
+                                                            where R.TipoComposicion == "O"
+                                                            group R by R.Grupo into c
+                                                            select new { Grupo = c.Key, componentes = c };
+
+                                    if (composicionRegalo.Count() > 0)
                                     {
-                                        List<string> descripcionPromo = new List<string>();
-                                        string descripcionPromoPagoAdelantado = cboFormaPago.Text.Contains("Pago Fácil") ? "Pago|Fácil" : cboFormaPago.Text.Contains("Pago Mis Cuentas") ? "Pago| Mis Cuentas" : "Rapi|Pago";
-                                        descripcionPromo.Add(descripcionPromoPagoAdelantado);
-
-                                        DetallePedido detallePagoAdelantado = new DetallePedido();
-
-
-                                        var composicionRegalo = from R in promoPagoAdelantado.ColComposiciones
-                                                                where R.TipoComposicion == "O"
-                                                                group R by R.Grupo into c
-                                                                select new { Grupo = c.Key, componentes = c };
-
-                                        if (composicionRegalo.Count() > 0)
+                                        foreach (var itemComponente in composicionRegalo)
                                         {
-                                            foreach (var itemComponente in composicionRegalo)
-                                            {
-                                                List<Producto> productos = (from P in itemComponente.componentes
-                                                                            select P.objProductoHijo).ToList<Producto>();
+                                            List<Producto> productos = (from P in itemComponente.componentes
+                                                                        select P.objProductoHijo).ToList<Producto>();
 
-                                                DetalleRegalos newRegalo = new DetalleRegalos();
-                                                newRegalo.DescripcionRegalo = Helper.ObtenerDescripcionCompletaProductoEnComun(productos) + " x " + itemComponente.componentes.First().objPresentacion.Descripcion;
-                                                newRegalo.IdPresentacionRegaloSeleccionado = 0;
-                                                newRegalo.TipoRegalo = "Producto";
-                                                newRegalo.objDetallePedido = detallePagoAdelantado;
-                                                newRegalo.Grupo = itemComponente.componentes.First().Grupo.Value;
-                                                detallePagoAdelantado.ColRegalos.Add(newRegalo);
-                                            }
-
-                                            detallePagoAdelantado.Cantidad = 1;
-                                            detallePagoAdelantado.Producto = promoPagoAdelantado.IdProducto;
-                                            detallePagoAdelantado.Presentacion = promoPagoAdelantado.ColPresentaciones[0].IdPresentacion;
-                                            detallePagoAdelantado.ProductoDesc = promoPagoAdelantado.Descripcion;
-                                            detallePagoAdelantado.PresentacionDesc = promoPagoAdelantado.ColPresentaciones[0].Descripcion;
-                                            detallePagoAdelantado.DescripcionCompleta = detallePagoAdelantado.ProductoDesc;
-                                            detallePagoAdelantado.DescProductosUtilizados = descripcionPromo;
-                                            detallePagoAdelantado.CodigoCompleto = promoPagoAdelantado.ColPresentaciones[0].Codigo;
-                                            detallePagoAdelantado.Tipo = "E";
-
-                                            AllPromosGeneradas.Add(detallePagoAdelantado);
+                                            DetalleRegalos newRegalo = new DetalleRegalos();
+                                            newRegalo.DescripcionRegalo = Helper.ObtenerDescripcionCompletaProductoEnComun(productos) + " x " + itemComponente.componentes.First().objPresentacion.Descripcion;
+                                            newRegalo.IdPresentacionRegaloSeleccionado = 0;
+                                            newRegalo.TipoRegalo = "Producto";
+                                            newRegalo.objDetallePedido = detallePagoAdelantado;
+                                            newRegalo.Grupo = itemComponente.componentes.First().Grupo.Value;
+                                            detallePagoAdelantado.ColRegalos.Add(newRegalo);
                                         }
+
+                                        detallePagoAdelantado.Cantidad = 1;
+                                        detallePagoAdelantado.Producto = promoPagoAdelantado.IdProducto;
+                                        detallePagoAdelantado.Presentacion = promoPagoAdelantado.ColPresentaciones[0].IdPresentacion;
+                                        detallePagoAdelantado.ProductoDesc = promoPagoAdelantado.Descripcion;
+                                        detallePagoAdelantado.PresentacionDesc = promoPagoAdelantado.ColPresentaciones[0].Descripcion;
+                                        detallePagoAdelantado.DescripcionCompleta = detallePagoAdelantado.ProductoDesc;
+                                        detallePagoAdelantado.DescProductosUtilizados = descripcionPromo;
+                                        detallePagoAdelantado.CodigoCompleto = promoPagoAdelantado.ColPresentaciones[0].Codigo;
+                                        detallePagoAdelantado.Tipo = "E";
+
+                                        AllPromosGeneradas.Add(detallePagoAdelantado);
                                     }
                                 }
                             }
-                       
+                        }
+
                     }
                 }
                 #endregion
