@@ -2632,15 +2632,15 @@ public partial class NotaDePedido : BasePage
                                                               select P).SingleOrDefault();
 
 
-                        newDetalle = new DetallePedido();
-                        newDetalle.Cantidad = CantidadCodigosEauPerfume;
-                        newDetalle.CodigoCompleto = preBolsaInstitucional.Codigo;
-                        newDetalle.Presentacion = preBolsaInstitucional.IdPresentacion;
-                        newDetalle.Producto = preBolsaInstitucional.objProducto.IdProducto;
-                        newDetalle.ValorUnitario = preBolsaInstitucional.Precio;
-                        newDetalle.ValorTotal = newDetalle.ValorUnitario * newDetalle.Cantidad;
+                        //newDetalle = new DetallePedido();
+                        //newDetalle.Cantidad = CantidadCodigosEauPerfume;
+                        //newDetalle.CodigoCompleto = preBolsaInstitucional.Codigo;
+                        //newDetalle.Presentacion = preBolsaInstitucional.IdPresentacion;
+                        //newDetalle.Producto = preBolsaInstitucional.objProducto.IdProducto;
+                        //newDetalle.ValorUnitario = preBolsaInstitucional.Precio;
+                        //newDetalle.ValorTotal = newDetalle.ValorUnitario * newDetalle.Cantidad;
 
-                        cabecera.DetallePedidos.Add(newDetalle);
+                        //cabecera.DetallePedidos.Add(newDetalle);
                     }
                 }
 
@@ -4974,10 +4974,10 @@ public partial class NotaDePedido : BasePage
 
                     }
                 }
-                else if (decimal.Parse(txtMontoGeneral.Text.Replace("$", "")) > 350)
+                else if (decimal.Parse(txtMontoGeneral.Text.Replace("$", "")) > 900)
                 {
-                    // Promo Pedido Hasta $350
-                    string codigoPromoPedidoMayor = "1150000021428";
+                    // Promo Pedido Hasta $900
+                    string codigoPromoPedidoMayor = "1150000122007"; // Premio incentivo enero 2015
 
                     Producto promoPedidoMayor = (from P in Contexto.Presentacions
                                                  where P.Codigo.Trim() == codigoPromoPedidoMayor
@@ -4987,7 +4987,7 @@ public partial class NotaDePedido : BasePage
                     {
 
                         List<string> descripcionPromo = new List<string>();
-                        descripcionPromo.Add("Mas de|$350");
+                        descripcionPromo.Add("Mas de|$900");
 
                         DetallePedido pedidoPedidoMayor = new DetallePedido();
 
@@ -4999,10 +4999,6 @@ public partial class NotaDePedido : BasePage
 
                         if (composicionRegalo.Count() > 0)
                         {
-
-                            // ESTE CODIGO ES EL QUE SE DEBE PONER
-                            // PARA SOPORTAR MAS DE UN GRUPO EN LAS PROMOCION DE 
-                            // 'PAGO FACIL', HACER LO MISMO PARA 'PAGO MIS CUENTAS'
                             foreach (var itemComponente in composicionRegalo)
                             {
                                 List<Producto> productos = (from P in itemComponente.componentes
