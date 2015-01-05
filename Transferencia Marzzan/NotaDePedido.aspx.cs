@@ -2632,15 +2632,15 @@ public partial class NotaDePedido : BasePage
                                                               select P).SingleOrDefault();
 
 
-                        //newDetalle = new DetallePedido();
-                        //newDetalle.Cantidad = CantidadCodigosEauPerfume;
-                        //newDetalle.CodigoCompleto = preBolsaInstitucional.Codigo;
-                        //newDetalle.Presentacion = preBolsaInstitucional.IdPresentacion;
-                        //newDetalle.Producto = preBolsaInstitucional.objProducto.IdProducto;
-                        //newDetalle.ValorUnitario = preBolsaInstitucional.Precio;
-                        //newDetalle.ValorTotal = newDetalle.ValorUnitario * newDetalle.Cantidad;
+                        newDetalle = new DetallePedido();
+                        newDetalle.Cantidad = CantidadCodigosEauPerfume;
+                        newDetalle.CodigoCompleto = preBolsaInstitucional.Codigo;
+                        newDetalle.Presentacion = preBolsaInstitucional.IdPresentacion;
+                        newDetalle.Producto = preBolsaInstitucional.objProducto.IdProducto;
+                        newDetalle.ValorUnitario = preBolsaInstitucional.Precio;
+                        newDetalle.ValorTotal = newDetalle.ValorUnitario * newDetalle.Cantidad;
 
-                        //cabecera.DetallePedidos.Add(newDetalle);
+                        cabecera.DetallePedidos.Add(newDetalle);
                     }
                 }
 
@@ -2707,18 +2707,18 @@ public partial class NotaDePedido : BasePage
                                                                select P).FirstOrDefault();
 
 
-                        if (preGatilloAromatizador != null)
-                        {
-                            newDetalle = new DetallePedido();
-                            newDetalle.Cantidad = CantidadCodigoAromatizadorValentina;
-                            newDetalle.CodigoCompleto = preGatilloAromatizador.Codigo;
-                            newDetalle.Presentacion = preGatilloAromatizador.IdPresentacion;
-                            newDetalle.Producto = preGatilloAromatizador.objProducto.IdProducto;
-                            newDetalle.ValorUnitario = preGatilloAromatizador.Precio;
-                            newDetalle.ValorTotal = newDetalle.ValorUnitario * newDetalle.Cantidad;
+                        //if (preGatilloAromatizador != null)
+                        //{
+                        //    newDetalle = new DetallePedido();
+                        //    newDetalle.Cantidad = CantidadCodigoAromatizadorValentina;
+                        //    newDetalle.CodigoCompleto = preGatilloAromatizador.Codigo;
+                        //    newDetalle.Presentacion = preGatilloAromatizador.IdPresentacion;
+                        //    newDetalle.Producto = preGatilloAromatizador.objProducto.IdProducto;
+                        //    newDetalle.ValorUnitario = preGatilloAromatizador.Precio;
+                        //    newDetalle.ValorTotal = newDetalle.ValorUnitario * newDetalle.Cantidad;
 
-                            cabecera.DetallePedidos.Add(newDetalle);
-                        }
+                        //    cabecera.DetallePedidos.Add(newDetalle);
+                        //}
                     }
                 }
 
