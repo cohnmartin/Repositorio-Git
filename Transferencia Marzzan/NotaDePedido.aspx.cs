@@ -328,7 +328,7 @@ public partial class NotaDePedido : BasePage
                     txtObservacion.Text = CurrentCabecera.Retira;
 
 
-                    //ControlarCambiosPrecios(CurrentCabecera);
+                    ControlarCambiosPrecios(CurrentCabecera);
                     ActualizarTotalesGenerales();
 
                 }
@@ -2628,7 +2628,7 @@ public partial class NotaDePedido : BasePage
                     {
 
                         Presentacion preBolsaInstitucional = (from P in Contexto.Presentacions
-                                                              where P.Codigo == "2500000018001"
+                                                              where P.Codigo == "2506900018008" // BOLSA REGALO INSTITUCIONAL SM
                                                               select P).SingleOrDefault();
 
 
@@ -2639,6 +2639,22 @@ public partial class NotaDePedido : BasePage
                         newDetalle.Producto = preBolsaInstitucional.objProducto.IdProducto;
                         newDetalle.ValorUnitario = preBolsaInstitucional.Precio;
                         newDetalle.ValorTotal = newDetalle.ValorUnitario * newDetalle.Cantidad;
+
+                        cabecera.DetallePedidos.Add(newDetalle);
+
+
+                        Presentacion preDescuentoBolsaInstitucional = (from P in Contexto.Presentacions
+                                                              where P.Codigo == "2150000021013" // DESCUENTO BOLSA DE REGALO EXCLUSIVA EN-MAR 2015 
+                                                              select P).SingleOrDefault();
+
+
+                        newDetalle = new DetallePedido();
+                        newDetalle.Cantidad = CantidadCodigosEauPerfume;
+                        newDetalle.CodigoCompleto = preDescuentoBolsaInstitucional.Codigo;
+                        newDetalle.Presentacion = preDescuentoBolsaInstitucional.IdPresentacion;
+                        newDetalle.Producto = preDescuentoBolsaInstitucional.objProducto.IdProducto;
+                        newDetalle.ValorUnitario = preDescuentoBolsaInstitucional.Precio * -1;
+                        newDetalle.ValorTotal = newDetalle.ValorUnitario * newDetalle.Cantidad ;
 
                         cabecera.DetallePedidos.Add(newDetalle);
                     }
@@ -3025,10 +3041,18 @@ public partial class NotaDePedido : BasePage
 
         /// 1.Unidad de negocio - 2.linea - 3.fragancias - presentaciones (Tabla Presentaciones)
         /// Solo cargo en el arbol aquellos lineas donde las fregancias posea
-        /// almenos un presentación.
+        /// almenos una presentación y las unidades de negocio que poseen al menos una linea.
+        
+        //Busco todas las lineas que tienen al menos una presentacion.
+        var idsProductosUltimoNivel = (from prod in _productos
+                        where (prod.Nivel > 1 && idProductosExistente.Contains(prod.IdProducto))
+                        select prod.IdProducto).ToList();
+        
+        // Busco los productos del primer nivel que esten en la lista de productos de tipo linea que poseen hijos 
+        // y las lineas que tiene al menos una fragancia activa.
         var productos = from prod in _productos
-                        where (prod.Nivel < 2 && prod.ColHijos.Count > 0 && prod.Tipo == 'A')
-                        || (prod.Nivel > 1 && idProductosExistente.Contains(prod.IdProducto))
+                        where (prod.Nivel < 2 && prod.Tipo == 'A' && prod.ColHijos.Any(w=>idsProductosUltimoNivel.Contains(w.IdProducto)))
+                        || (prod.Nivel > 1  && idProductosExistente.Contains(prod.IdProducto))
                         select prod;
 
 
@@ -5005,8 +5029,8 @@ public partial class NotaDePedido : BasePage
                                                             select P.objProductoHijo).ToList<Producto>();
 
                                 DetalleRegalos newRegalo = new DetalleRegalos();
-                                newRegalo.DescripcionRegalo = Helper.ObtenerDescripcionCompletaProductoEnComun(productos) + " x " + itemComponente.componentes.First().objPresentacion.Descripcion;
-                                newRegalo.IdPresentacionRegaloSeleccionado = 0;
+                                newRegalo.DescripcionRegalo = productos.First().Descripcion + " x " + itemComponente.componentes.First().objPresentacion.Descripcion;
+                                newRegalo.IdPresentacionRegaloSeleccionado = itemComponente.componentes.First().objPresentacion.IdPresentacion;
                                 newRegalo.TipoRegalo = "Producto";
                                 newRegalo.objDetallePedido = pedidoPedidoMayor;
                                 newRegalo.Grupo = itemComponente.componentes.First().Grupo.Value;
