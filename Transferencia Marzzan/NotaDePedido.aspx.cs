@@ -3754,95 +3754,103 @@ public partial class NotaDePedido : BasePage
         }
         else if (ProvinciaDireccionSeleccionada != "" && ProvinciaDireccionSeleccionada == "JUJUY")
         {
+            ///Cambio solicitado el 05/01/2015 donde la regla de negocio dice que si es de Jujuy
+            ///ya no se tiene que calcular ningun tipo de impuesto.
 
-            switch (codSituacionImpositiva)
-            {
-                case "7": //Sujeto no Categorizado
-                    if (MontoTotal >= montoSujetoNoCategorizado)
-                    {
+            ImpuestoCalculado = 0;
+            DetalleImpuestosCalculados = "";
+            lblImpuestos.Text = string.Format("$ {0:0.00}", 0);
+            lblNeto.Text = string.Format("$ {0:0.00}", 0);
+            lblIVA.Text = string.Format("$ {0:0.00}", (0));
+            lblRG30.Text = string.Format("$ {0:0.00}", 0);
+            lblRG212.Text = string.Format("$ {0:0.00}", 0);
 
-                        // Caclulo del Neto del pedido
-                        neto = MontoTotal * Convert.ToDecimal("0,904975");
+            //switch (codSituacionImpositiva)
+            //{
+            //    case "7": //Sujeto no Categorizado
+            //        if (MontoTotal >= montoSujetoNoCategorizado)
+            //        {
 
-                        // Calculo del RG212
-                        imp212 = Math.Round((neto) * (GR212 / 100), 2);
+            //            // Caclulo del Neto del pedido
+            //            neto = MontoTotal * Convert.ToDecimal("0,904975");
 
-                        // Calculo del RG30
-                        imp30 = Math.Round(((neto) / Convert.ToDecimal("1,21")) * (GR30JUJUY / 100), 2);
+            //            // Calculo del RG212
+            //            imp212 = Math.Round((neto) * (GR212 / 100), 2);
 
-                        MontoTotal = neto + imp30 + imp212;
-                        lblImpuestos.Text = string.Format("$ {0:0.00}", (imp30 + imp212));
-                        lblNeto.Text = string.Format("$ {0:0.00}", (neto));
-                        lblIVA.Text = string.Format("$ {0:0.00}", (0));
-                        lblRG30.Text = string.Format("$ {0:0.00}", (imp30));
-                        lblRG212.Text = string.Format("$ {0:0.00}", (imp212));
+            //            // Calculo del RG30
+            //            imp30 = Math.Round(((neto) / Convert.ToDecimal("1,21")) * (GR30JUJUY / 100), 2);
 
-                        /// Finalmente actualizo el total final dentro del detalle.
-                        lblTotalDetalle.Text = string.Format("$ {0:0.00}", (MontoTotal));
+            //            MontoTotal = neto + imp30 + imp212;
+            //            lblImpuestos.Text = string.Format("$ {0:0.00}", (imp30 + imp212));
+            //            lblNeto.Text = string.Format("$ {0:0.00}", (neto));
+            //            lblIVA.Text = string.Format("$ {0:0.00}", (0));
+            //            lblRG30.Text = string.Format("$ {0:0.00}", (imp30));
+            //            lblRG212.Text = string.Format("$ {0:0.00}", (imp212));
 
-                        ImpuestoCalculado = imp30 + imp212;
-                        DetalleImpuestosCalculados = lblNeto.Text + "@" + lblIVA.Text + "@" + lblRG30.Text + "@" + lblRG212.Text + "@" + lblTotalDetalle.Text;
+            //            /// Finalmente actualizo el total final dentro del detalle.
+            //            lblTotalDetalle.Text = string.Format("$ {0:0.00}", (MontoTotal));
 
-                    }
-                    else
-                    {
-                        ImpuestoCalculado = 0;
-                        DetalleImpuestosCalculados = "";
-                        lblImpuestos.Text = string.Format("$ {0:0.00}", 0);
-                        lblNeto.Text = string.Format("$ {0:0.00}", 0);
-                        lblIVA.Text = string.Format("$ {0:0.00}", (0));
-                        lblRG30.Text = string.Format("$ {0:0.00}", 0);
-                        lblRG212.Text = string.Format("$ {0:0.00}", 0);
-                    }
-                    break;
-                case "1": //Inscripto
-                    neto = MontoTotal / Convert.ToDecimal("1,21");
-                    imp30 = Math.Round(neto * (GR30JUJUY / 100), 2);
+            //            ImpuestoCalculado = imp30 + imp212;
+            //            DetalleImpuestosCalculados = lblNeto.Text + "@" + lblIVA.Text + "@" + lblRG30.Text + "@" + lblRG212.Text + "@" + lblTotalDetalle.Text;
 
-
-                    lblImpuestos.Text = string.Format("$ {0:0.00}", (imp30));
-                    lblNeto.Text = string.Format("$ {0:0.00}", (neto));
-                    lblIVA.Text = string.Format("$ {0:0.00}", (MontoTotal - neto));
-                    lblRG30.Text = string.Format("$ {0:0.00}", (imp30));
-                    lblRG212.Text = string.Format("$ {0:0.00}", (0));
-
-                    MontoTotal += imp30;
-
-                    /// Finalmente actualizo el total final dentro del detalle.
-                    lblTotalDetalle.Text = string.Format("$ {0:0.00}", (MontoTotal));
-
-                    ImpuestoCalculado = imp30;
-                    DetalleImpuestosCalculados = lblNeto.Text + "@" + lblIVA.Text + "@" + lblRG30.Text + "@" + lblRG212.Text + "@" + lblTotalDetalle.Text;
+            //        }
+            //        else
+            //        {
+            //            ImpuestoCalculado = 0;
+            //            DetalleImpuestosCalculados = "";
+            //            lblImpuestos.Text = string.Format("$ {0:0.00}", 0);
+            //            lblNeto.Text = string.Format("$ {0:0.00}", 0);
+            //            lblIVA.Text = string.Format("$ {0:0.00}", (0));
+            //            lblRG30.Text = string.Format("$ {0:0.00}", 0);
+            //            lblRG212.Text = string.Format("$ {0:0.00}", 0);
+            //        }
+            //        break;
+            //    case "1": //Inscripto
+            //        neto = MontoTotal / Convert.ToDecimal("1,21");
+            //        imp30 = Math.Round(neto * (GR30JUJUY / 100), 2);
 
 
-                    break;
-                case "6": //Responsable Monotributo
-                    imp30 = Math.Round(MontoTotal * (GR30JUJUY / 100), 2);
+            //        lblImpuestos.Text = string.Format("$ {0:0.00}", (imp30));
+            //        lblNeto.Text = string.Format("$ {0:0.00}", (neto));
+            //        lblIVA.Text = string.Format("$ {0:0.00}", (MontoTotal - neto));
+            //        lblRG30.Text = string.Format("$ {0:0.00}", (imp30));
+            //        lblRG212.Text = string.Format("$ {0:0.00}", (0));
 
-                    lblNeto.Text = string.Format("$ {0:0.00}", (MontoTotal));
-                    lblIVA.Text = string.Format("$ {0:0.00}", 0);
-                    lblRG30.Text = string.Format("$ {0:0.00}", imp30);
-                    lblImpuestos.Text = string.Format("$ {0:0.00}", (imp30));
-                    lblRG212.Text = string.Format("$ {0:0.00}", (0));
+            //        MontoTotal += imp30;
 
-                    MontoTotal += imp30;
+            //        /// Finalmente actualizo el total final dentro del detalle.
+            //        lblTotalDetalle.Text = string.Format("$ {0:0.00}", (MontoTotal));
 
-                    /// Finalmente actualizo el total final dentro del detalle.
-                    lblTotalDetalle.Text = string.Format("$ {0:0.00}", (MontoTotal));
-
-                    ImpuestoCalculado = imp30;
-                    DetalleImpuestosCalculados = lblNeto.Text + "@" + lblIVA.Text + "@" + lblRG30.Text + "@" + lblRG212.Text + "@" + lblTotalDetalle.Text;
+            //        ImpuestoCalculado = imp30;
+            //        DetalleImpuestosCalculados = lblNeto.Text + "@" + lblIVA.Text + "@" + lblRG30.Text + "@" + lblRG212.Text + "@" + lblTotalDetalle.Text;
 
 
-                    break;
-                default:
-                    lblImpuestos.Text = string.Format("$ {0:0.00}", 0);
-                    ImpuestoCalculado = 0;
-                    DetalleImpuestosCalculados = "";
-                    break;
-            }
+            //        break;
+            //    case "6": //Responsable Monotributo
+            //        imp30 = Math.Round(MontoTotal * (GR30JUJUY / 100), 2);
+
+            //        lblNeto.Text = string.Format("$ {0:0.00}", (MontoTotal));
+            //        lblIVA.Text = string.Format("$ {0:0.00}", 0);
+            //        lblRG30.Text = string.Format("$ {0:0.00}", imp30);
+            //        lblImpuestos.Text = string.Format("$ {0:0.00}", (imp30));
+            //        lblRG212.Text = string.Format("$ {0:0.00}", (0));
+
+            //        MontoTotal += imp30;
+
+            //        /// Finalmente actualizo el total final dentro del detalle.
+            //        lblTotalDetalle.Text = string.Format("$ {0:0.00}", (MontoTotal));
+
+            //        ImpuestoCalculado = imp30;
+            //        DetalleImpuestosCalculados = lblNeto.Text + "@" + lblIVA.Text + "@" + lblRG30.Text + "@" + lblRG212.Text + "@" + lblTotalDetalle.Text;
 
 
+            //        break;
+            //    default:
+            //        lblImpuestos.Text = string.Format("$ {0:0.00}", 0);
+            //        ImpuestoCalculado = 0;
+            //        DetalleImpuestosCalculados = "";
+            //        break;
+            //}
         }
         else
         {
