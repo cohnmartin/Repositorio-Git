@@ -1306,7 +1306,7 @@ public partial class NotaDePedido : BasePage
                 newDetallePlacerAD.Presentacion = preDescuentoCatalogo.IdPresentacion;
                 newDetallePlacerAD.Producto = preDescuentoCatalogo.objProducto.IdProducto;
                 newDetallePlacerAD.ValorUnitario = preDescuentoCatalogo.Precio * -1;
-                newDetallePlacerAD.ValorTotal = det.Cantidad * preDescuentoCatalogo.Precio ;
+                newDetallePlacerAD.ValorTotal = det.Cantidad * preDescuentoCatalogo.Precio * -1 ;
                 nuevosDetalles.Add(newDetallePlacerAD);
 
 
