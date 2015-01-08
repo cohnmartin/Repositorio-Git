@@ -864,16 +864,18 @@
                                                 </td>
                                             </tr>
                                             <tr>
+                                                
                                                 <td class="style2">
-                                                    <asp:Label ID="label29" runat="server" Style="width: 100px; color: #0066CC; font-family: Sans-Serif;
-                                                        font-size: 11px">Premio por Presentaci&oacute;n:</asp:Label>
+                                                    <asp:Label ID="label3544" runat="server" Style="width: 100px; color: #0066CC; font-family: Sans-Serif;
+                                                        font-size: 11px">Grupo Alta:</asp:Label>
                                                 </td>
-                                                <td align="left">
-                                                    <telerik:RadTextBox ID="txtPremioPorPresentacion" runat="server" EmptyMessage="Ingrese tipo de premio "
-                                                        InvalidStyleDuration="100" MaxLength="100" Skin="WebBlue" Width="256px">
-                                                    </telerik:RadTextBox>
-                                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator14" runat="server" ControlToValidate="txtPremioPorPresentacion"
-                                                        Text="*" ErrorMessage="Debe Ingresar el premio por presentaci&oacute;n"></asp:RequiredFieldValidator>
+                                                <td align="left" >
+                                                    <telerik:RadComboBox ID="cboGrupos" runat="server" EmptyMessage="Seleccione el grupo para el alta de la solicitud"
+                                                        Skin="WebBlue" Width="356px">
+                                                        <CollapseAnimation Duration="200" Type="OutQuint" />
+                                                    </telerik:RadComboBox>
+                                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator19" runat="server" ControlToValidate="cboGrupos"
+                                                        Text="*" ErrorMessage="Debe Ingresar el grupo para el alta"></asp:RequiredFieldValidator>
                                                 </td>
                                                 <td align="left">
                                                     <asp:Label ID="lblTipoReferente" runat="server" Style="width: 100px; color: #0066CC;
@@ -894,20 +896,7 @@
                                                     </div>
                                                 </td>
                                             </tr>
-                                            <tr>
-                                                <td class="style2">
-                                                    <asp:Label ID="label35" runat="server" Style="width: 100px; color: #0066CC; font-family: Sans-Serif;
-                                                        font-size: 11px">Grupo Alta:</asp:Label>
-                                                </td>
-                                                <td align="left" colspan="3">
-                                                    <telerik:RadComboBox ID="cboGrupos" runat="server" EmptyMessage="Seleccione el grupo para el alta de la solicitud"
-                                                        Skin="WebBlue" Width="356px">
-                                                        <CollapseAnimation Duration="200" Type="OutQuint" />
-                                                    </telerik:RadComboBox>
-                                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator19" runat="server" ControlToValidate="cboGrupos"
-                                                        Text="*" ErrorMessage="Debe Ingresar el grupo para el alta"></asp:RequiredFieldValidator>
-                                                </td>
-                                            </tr>
+
                                             <tr>
                                                 <td class="style2">
                                                     <asp:Label ID="label12" runat="server" Style="width: 100px; color: #0066CC; font-family: Sans-Serif;
