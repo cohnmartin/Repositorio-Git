@@ -1306,7 +1306,7 @@ public partial class NotaDePedido : BasePage
                 newDetallePlacerAD.Presentacion = preDescuentoCatalogo.IdPresentacion;
                 newDetallePlacerAD.Producto = preDescuentoCatalogo.objProducto.IdProducto;
                 newDetallePlacerAD.ValorUnitario = preDescuentoCatalogo.Precio * -1;
-                newDetallePlacerAD.ValorTotal = det.Cantidad * preDescuentoCatalogo.Precio * -1 ;
+                newDetallePlacerAD.ValorTotal = det.Cantidad * preDescuentoCatalogo.Precio * -1;
                 nuevosDetalles.Add(newDetallePlacerAD);
 
 
@@ -2644,8 +2644,8 @@ public partial class NotaDePedido : BasePage
 
 
                         Presentacion preDescuentoBolsaInstitucional = (from P in Contexto.Presentacions
-                                                              where P.Codigo == "2150000021013" // DESCUENTO BOLSA DE REGALO EXCLUSIVA EN-MAR 2015 
-                                                              select P).SingleOrDefault();
+                                                                       where P.Codigo == "2150000021013" // DESCUENTO BOLSA DE REGALO EXCLUSIVA EN-MAR 2015 
+                                                                       select P).SingleOrDefault();
 
 
                         newDetalle = new DetallePedido();
@@ -2654,7 +2654,7 @@ public partial class NotaDePedido : BasePage
                         newDetalle.Presentacion = preDescuentoBolsaInstitucional.IdPresentacion;
                         newDetalle.Producto = preDescuentoBolsaInstitucional.objProducto.IdProducto;
                         newDetalle.ValorUnitario = preDescuentoBolsaInstitucional.Precio * -1;
-                        newDetalle.ValorTotal = newDetalle.ValorUnitario * newDetalle.Cantidad ;
+                        newDetalle.ValorTotal = newDetalle.ValorUnitario * newDetalle.Cantidad;
 
                         cabecera.DetallePedidos.Add(newDetalle);
                     }
@@ -3042,17 +3042,17 @@ public partial class NotaDePedido : BasePage
         /// 1.Unidad de negocio - 2.linea - 3.fragancias - presentaciones (Tabla Presentaciones)
         /// Solo cargo en el arbol aquellos lineas donde las fregancias posea
         /// almenos una presentación y las unidades de negocio que poseen al menos una linea.
-        
+
         //Busco todas las lineas que tienen al menos una presentacion.
         var idsProductosUltimoNivel = (from prod in _productos
-                        where (prod.Nivel > 1 && idProductosExistente.Contains(prod.IdProducto))
-                        select prod.IdProducto).ToList();
-        
+                                       where (prod.Nivel > 1 && idProductosExistente.Contains(prod.IdProducto))
+                                       select prod.IdProducto).ToList();
+
         // Busco los productos del primer nivel que esten en la lista de productos de tipo linea que poseen hijos 
         // y las lineas que tiene al menos una fragancia activa.
         var productos = from prod in _productos
-                        where (prod.Nivel < 2 && prod.Tipo == 'A' && prod.ColHijos.Any(w=>idsProductosUltimoNivel.Contains(w.IdProducto)))
-                        || (prod.Nivel > 1  && idProductosExistente.Contains(prod.IdProducto))
+                        where (prod.Nivel < 2 && prod.Tipo == 'A' && prod.ColHijos.Any(w => idsProductosUltimoNivel.Contains(w.IdProducto)))
+                        || (prod.Nivel > 1 && idProductosExistente.Contains(prod.IdProducto))
                         select prod;
 
 
@@ -3754,8 +3754,7 @@ public partial class NotaDePedido : BasePage
         }
         else if (ProvinciaDireccionSeleccionada != "" && ProvinciaDireccionSeleccionada == "JUJUY")
         {
-            ///Cambio solicitado el 05/01/2015 donde la regla de negocio dice que si es de Jujuy
-            ///ya no se tiene que calcular ningun tipo de impuesto.
+            
 
             ImpuestoCalculado = 0;
             DetalleImpuestosCalculados = "";
@@ -3765,92 +3764,95 @@ public partial class NotaDePedido : BasePage
             lblRG30.Text = string.Format("$ {0:0.00}", 0);
             lblRG212.Text = string.Format("$ {0:0.00}", 0);
 
-            //switch (codSituacionImpositiva)
-            //{
-            //    case "7": //Sujeto no Categorizado
-            //        if (MontoTotal >= montoSujetoNoCategorizado)
-            //        {
+            switch (codSituacionImpositiva)
+            {
+                case "7": //Sujeto no Categorizado
+                    if (MontoTotal >= montoSujetoNoCategorizado)
+                    {
 
-            //            // Caclulo del Neto del pedido
-            //            neto = MontoTotal * Convert.ToDecimal("0,904975");
+                        // Caclulo del Neto del pedido
+                        neto = MontoTotal * Convert.ToDecimal("0,904975");
 
-            //            // Calculo del RG212
-            //            imp212 = Math.Round((neto) * (GR212 / 100), 2);
+                        // Calculo del RG212
+                        imp212 = Math.Round((neto) * (GR212 / 100), 2);
 
-            //            // Calculo del RG30
-            //            imp30 = Math.Round(((neto) / Convert.ToDecimal("1,21")) * (GR30JUJUY / 100), 2);
+                        ///Cambio solicitado el 09/01/2015 donde la regla de negocio dice que si es de Jujuy
+                        ///ya no se tiene que calcular el impuesto RG30.
+                        
+                        // Calculo del RG30
+                        //imp30 = Math.Round(((neto) / Convert.ToDecimal("1,21")) * (GR30JUJUY / 100), 2);
 
-            //            MontoTotal = neto + imp30 + imp212;
-            //            lblImpuestos.Text = string.Format("$ {0:0.00}", (imp30 + imp212));
-            //            lblNeto.Text = string.Format("$ {0:0.00}", (neto));
-            //            lblIVA.Text = string.Format("$ {0:0.00}", (0));
-            //            lblRG30.Text = string.Format("$ {0:0.00}", (imp30));
-            //            lblRG212.Text = string.Format("$ {0:0.00}", (imp212));
+                        MontoTotal = neto + imp30 + imp212;
+                        lblImpuestos.Text = string.Format("$ {0:0.00}", (imp30 + imp212));
+                        lblNeto.Text = string.Format("$ {0:0.00}", (neto));
+                        lblIVA.Text = string.Format("$ {0:0.00}", (0));
+                        lblRG30.Text = string.Format("$ {0:0.00}", (imp30));
+                        lblRG212.Text = string.Format("$ {0:0.00}", (imp212));
 
-            //            /// Finalmente actualizo el total final dentro del detalle.
-            //            lblTotalDetalle.Text = string.Format("$ {0:0.00}", (MontoTotal));
+                        /// Finalmente actualizo el total final dentro del detalle.
+                        lblTotalDetalle.Text = string.Format("$ {0:0.00}", (MontoTotal));
 
-            //            ImpuestoCalculado = imp30 + imp212;
-            //            DetalleImpuestosCalculados = lblNeto.Text + "@" + lblIVA.Text + "@" + lblRG30.Text + "@" + lblRG212.Text + "@" + lblTotalDetalle.Text;
+                        ImpuestoCalculado = imp30 + imp212;
+                        DetalleImpuestosCalculados = lblNeto.Text + "@" + lblIVA.Text + "@" + lblRG30.Text + "@" + lblRG212.Text + "@" + lblTotalDetalle.Text;
 
-            //        }
-            //        else
-            //        {
-            //            ImpuestoCalculado = 0;
-            //            DetalleImpuestosCalculados = "";
-            //            lblImpuestos.Text = string.Format("$ {0:0.00}", 0);
-            //            lblNeto.Text = string.Format("$ {0:0.00}", 0);
-            //            lblIVA.Text = string.Format("$ {0:0.00}", (0));
-            //            lblRG30.Text = string.Format("$ {0:0.00}", 0);
-            //            lblRG212.Text = string.Format("$ {0:0.00}", 0);
-            //        }
-            //        break;
-            //    case "1": //Inscripto
-            //        neto = MontoTotal / Convert.ToDecimal("1,21");
-            //        imp30 = Math.Round(neto * (GR30JUJUY / 100), 2);
-
-
-            //        lblImpuestos.Text = string.Format("$ {0:0.00}", (imp30));
-            //        lblNeto.Text = string.Format("$ {0:0.00}", (neto));
-            //        lblIVA.Text = string.Format("$ {0:0.00}", (MontoTotal - neto));
-            //        lblRG30.Text = string.Format("$ {0:0.00}", (imp30));
-            //        lblRG212.Text = string.Format("$ {0:0.00}", (0));
-
-            //        MontoTotal += imp30;
-
-            //        /// Finalmente actualizo el total final dentro del detalle.
-            //        lblTotalDetalle.Text = string.Format("$ {0:0.00}", (MontoTotal));
-
-            //        ImpuestoCalculado = imp30;
-            //        DetalleImpuestosCalculados = lblNeto.Text + "@" + lblIVA.Text + "@" + lblRG30.Text + "@" + lblRG212.Text + "@" + lblTotalDetalle.Text;
+                    }
+                    else
+                    {
+                        ImpuestoCalculado = 0;
+                        DetalleImpuestosCalculados = "";
+                        lblImpuestos.Text = string.Format("$ {0:0.00}", 0);
+                        lblNeto.Text = string.Format("$ {0:0.00}", 0);
+                        lblIVA.Text = string.Format("$ {0:0.00}", (0));
+                        lblRG30.Text = string.Format("$ {0:0.00}", 0);
+                        lblRG212.Text = string.Format("$ {0:0.00}", 0);
+                    }
+                    break;
+                case "1": //Inscripto
+                    neto = MontoTotal / Convert.ToDecimal("1,21");
+                    imp30 = Math.Round(neto * (GR30JUJUY / 100), 2);
 
 
-            //        break;
-            //    case "6": //Responsable Monotributo
-            //        imp30 = Math.Round(MontoTotal * (GR30JUJUY / 100), 2);
+                    lblImpuestos.Text = string.Format("$ {0:0.00}", (imp30));
+                    lblNeto.Text = string.Format("$ {0:0.00}", (neto));
+                    lblIVA.Text = string.Format("$ {0:0.00}", (MontoTotal - neto));
+                    lblRG30.Text = string.Format("$ {0:0.00}", (imp30));
+                    lblRG212.Text = string.Format("$ {0:0.00}", (0));
 
-            //        lblNeto.Text = string.Format("$ {0:0.00}", (MontoTotal));
-            //        lblIVA.Text = string.Format("$ {0:0.00}", 0);
-            //        lblRG30.Text = string.Format("$ {0:0.00}", imp30);
-            //        lblImpuestos.Text = string.Format("$ {0:0.00}", (imp30));
-            //        lblRG212.Text = string.Format("$ {0:0.00}", (0));
+                    MontoTotal += imp30;
 
-            //        MontoTotal += imp30;
+                    /// Finalmente actualizo el total final dentro del detalle.
+                    lblTotalDetalle.Text = string.Format("$ {0:0.00}", (MontoTotal));
 
-            //        /// Finalmente actualizo el total final dentro del detalle.
-            //        lblTotalDetalle.Text = string.Format("$ {0:0.00}", (MontoTotal));
-
-            //        ImpuestoCalculado = imp30;
-            //        DetalleImpuestosCalculados = lblNeto.Text + "@" + lblIVA.Text + "@" + lblRG30.Text + "@" + lblRG212.Text + "@" + lblTotalDetalle.Text;
+                    ImpuestoCalculado = imp30;
+                    DetalleImpuestosCalculados = lblNeto.Text + "@" + lblIVA.Text + "@" + lblRG30.Text + "@" + lblRG212.Text + "@" + lblTotalDetalle.Text;
 
 
-            //        break;
-            //    default:
-            //        lblImpuestos.Text = string.Format("$ {0:0.00}", 0);
-            //        ImpuestoCalculado = 0;
-            //        DetalleImpuestosCalculados = "";
-            //        break;
-            //}
+                    break;
+                case "6": //Responsable Monotributo
+                    imp30 = Math.Round(MontoTotal * (GR30JUJUY / 100), 2);
+
+                    lblNeto.Text = string.Format("$ {0:0.00}", (MontoTotal));
+                    lblIVA.Text = string.Format("$ {0:0.00}", 0);
+                    lblRG30.Text = string.Format("$ {0:0.00}", imp30);
+                    lblImpuestos.Text = string.Format("$ {0:0.00}", (imp30));
+                    lblRG212.Text = string.Format("$ {0:0.00}", (0));
+
+                    MontoTotal += imp30;
+
+                    /// Finalmente actualizo el total final dentro del detalle.
+                    lblTotalDetalle.Text = string.Format("$ {0:0.00}", (MontoTotal));
+
+                    ImpuestoCalculado = imp30;
+                    DetalleImpuestosCalculados = lblNeto.Text + "@" + lblIVA.Text + "@" + lblRG30.Text + "@" + lblRG212.Text + "@" + lblTotalDetalle.Text;
+
+
+                    break;
+                default:
+                    lblImpuestos.Text = string.Format("$ {0:0.00}", 0);
+                    ImpuestoCalculado = 0;
+                    DetalleImpuestosCalculados = "";
+                    break;
+            }
         }
         else
         {
@@ -5423,76 +5425,79 @@ public partial class NotaDePedido : BasePage
 
                 if (DateTime.Now.Date >= DateTime.Parse("12/01/2015"))
                 {
-
                     if (cboFormaPago.Text.Contains("Pago Fácil") || cboFormaPago.Text.Contains("Pago Mis Cuentas") || cboFormaPago.Text.Contains("Rapi Pago"))
                     {
                         decimal montoTotalPedido = decimal.Parse(txtMontoGeneral.Text.Replace("$", ""));
                         string codigoPromoPagoAdelantado = "";
 
-                        if (montoTotalPedido >= Convert.ToDecimal("850") && montoTotalPedido <= Convert.ToDecimal("1000"))
+                        if (Math.Abs(SaldoPagoAnticipado) >= montoTotalPedido)
                         {
-                            codigoPromoPagoAdelantado = "1150000021133";
-                        }
-                        else if (montoTotalPedido >= Convert.ToDecimal("1001") && montoTotalPedido <= Convert.ToDecimal("2000"))
-                        {
-                            codigoPromoPagoAdelantado = "1150000021134";
-                        }
-                        else if (montoTotalPedido > Convert.ToDecimal("2000"))
-                        {
-                            codigoPromoPagoAdelantado = "1150000021135";
-                        }
 
-                        if (codigoPromoPagoAdelantado != "")
-                        {
-                            Producto promoPagoAdelantado = (from P in Contexto.Presentacions
-                                                            where P.Codigo.Trim() == codigoPromoPagoAdelantado
-                                                            select P.objProducto).FirstOrDefault<Producto>();
-
-                            if (promoPagoAdelantado != null)
+                            if (montoTotalPedido >= Convert.ToDecimal("850") && montoTotalPedido <= Convert.ToDecimal("1000"))
                             {
+                                codigoPromoPagoAdelantado = "1150000021133";
+                            }
+                            else if (montoTotalPedido >= Convert.ToDecimal("1001") && montoTotalPedido <= Convert.ToDecimal("2000"))
+                            {
+                                codigoPromoPagoAdelantado = "1150000021134";
+                            }
+                            else if (montoTotalPedido > Convert.ToDecimal("2000"))
+                            {
+                                codigoPromoPagoAdelantado = "1150000021135";
+                            }
 
-                                if (promoPagoAdelantado.objConfPromocion != null && promoPagoAdelantado.objConfPromocion.FechaInicio <= DateTime.Now && promoPagoAdelantado.objConfPromocion.FechaFinal > DateTime.Now
-                                    && (promoPagoAdelantado.objConfPromocion.ColTransportistas.Count == 0 || promoPagoAdelantado.objConfPromocion.ColTransportistas.Any(w => w.Transporte.ToUpper() == lblTransporte.Text.ToUpper())))
+                            if (codigoPromoPagoAdelantado != "")
+                            {
+                                Producto promoPagoAdelantado = (from P in Contexto.Presentacions
+                                                                where P.Codigo.Trim() == codigoPromoPagoAdelantado
+                                                                select P.objProducto).FirstOrDefault<Producto>();
+
+                                if (promoPagoAdelantado != null)
                                 {
-                                    List<string> descripcionPromo = new List<string>();
-                                    string descripcionPromoPagoAdelantado = cboFormaPago.Text.Contains("Pago Fácil") ? "Pago|Fácil" : cboFormaPago.Text.Contains("Pago Mis Cuentas") ? "Pago| Mis Cuentas" : "Rapi|Pago";
-                                    descripcionPromo.Add(descripcionPromoPagoAdelantado);
 
-                                    DetallePedido detallePagoAdelantado = new DetallePedido();
-
-
-                                    var composicionRegalo = from R in promoPagoAdelantado.ColComposiciones
-                                                            where R.TipoComposicion == "O"
-                                                            group R by R.Grupo into c
-                                                            select new { Grupo = c.Key, componentes = c };
-
-                                    if (composicionRegalo.Count() > 0)
+                                    if (promoPagoAdelantado.objConfPromocion != null && promoPagoAdelantado.objConfPromocion.FechaInicio <= DateTime.Now && promoPagoAdelantado.objConfPromocion.FechaFinal > DateTime.Now
+                                        && (promoPagoAdelantado.objConfPromocion.ColTransportistas.Count == 0 || promoPagoAdelantado.objConfPromocion.ColTransportistas.Any(w => w.Transporte.ToUpper() == lblTransporte.Text.ToUpper())))
                                     {
-                                        foreach (var itemComponente in composicionRegalo)
+                                        List<string> descripcionPromo = new List<string>();
+                                        string descripcionPromoPagoAdelantado = cboFormaPago.Text.Contains("Pago Fácil") ? "Pago|Fácil" : cboFormaPago.Text.Contains("Pago Mis Cuentas") ? "Pago| Mis Cuentas" : "Rapi|Pago";
+                                        descripcionPromo.Add(descripcionPromoPagoAdelantado);
+
+                                        DetallePedido detallePagoAdelantado = new DetallePedido();
+
+
+                                        var composicionRegalo = from R in promoPagoAdelantado.ColComposiciones
+                                                                where R.TipoComposicion == "O"
+                                                                group R by R.Grupo into c
+                                                                select new { Grupo = c.Key, componentes = c };
+
+                                        if (composicionRegalo.Count() > 0)
                                         {
-                                            List<Producto> productos = (from P in itemComponente.componentes
-                                                                        select P.objProductoHijo).ToList<Producto>();
+                                            foreach (var itemComponente in composicionRegalo)
+                                            {
+                                                List<Producto> productos = (from P in itemComponente.componentes
+                                                                            select P.objProductoHijo).ToList<Producto>();
 
-                                            DetalleRegalos newRegalo = new DetalleRegalos();
-                                            newRegalo.DescripcionRegalo = Helper.ObtenerDescripcionCompletaProductoEnComun(productos) + " x " + itemComponente.componentes.First().objPresentacion.Descripcion;
-                                            newRegalo.IdPresentacionRegaloSeleccionado = 0;
-                                            newRegalo.TipoRegalo = "Producto";
-                                            newRegalo.objDetallePedido = detallePagoAdelantado;
-                                            newRegalo.Grupo = itemComponente.componentes.First().Grupo.Value;
-                                            detallePagoAdelantado.ColRegalos.Add(newRegalo);
+                                                DetalleRegalos newRegalo = new DetalleRegalos();
+                                                newRegalo.DescripcionRegalo = Helper.ObtenerDescripcionCompletaProductoEnComun(productos) + " x " + itemComponente.componentes.First().objPresentacion.Descripcion;
+                                                newRegalo.IdPresentacionRegaloSeleccionado = 0;
+                                                newRegalo.TipoRegalo = "Producto";
+                                                newRegalo.objDetallePedido = detallePagoAdelantado;
+                                                newRegalo.Grupo = itemComponente.componentes.First().Grupo.Value;
+                                                detallePagoAdelantado.ColRegalos.Add(newRegalo);
+                                            }
+
+                                            detallePagoAdelantado.Cantidad = 1;
+                                            detallePagoAdelantado.Producto = promoPagoAdelantado.IdProducto;
+                                            detallePagoAdelantado.Presentacion = promoPagoAdelantado.ColPresentaciones[0].IdPresentacion;
+                                            detallePagoAdelantado.ProductoDesc = promoPagoAdelantado.Descripcion;
+                                            detallePagoAdelantado.PresentacionDesc = promoPagoAdelantado.ColPresentaciones[0].Descripcion;
+                                            detallePagoAdelantado.DescripcionCompleta = detallePagoAdelantado.ProductoDesc;
+                                            detallePagoAdelantado.DescProductosUtilizados = descripcionPromo;
+                                            detallePagoAdelantado.CodigoCompleto = promoPagoAdelantado.ColPresentaciones[0].Codigo;
+                                            detallePagoAdelantado.Tipo = "E";
+
+                                            AllPromosGeneradas.Add(detallePagoAdelantado);
                                         }
-
-                                        detallePagoAdelantado.Cantidad = 1;
-                                        detallePagoAdelantado.Producto = promoPagoAdelantado.IdProducto;
-                                        detallePagoAdelantado.Presentacion = promoPagoAdelantado.ColPresentaciones[0].IdPresentacion;
-                                        detallePagoAdelantado.ProductoDesc = promoPagoAdelantado.Descripcion;
-                                        detallePagoAdelantado.PresentacionDesc = promoPagoAdelantado.ColPresentaciones[0].Descripcion;
-                                        detallePagoAdelantado.DescripcionCompleta = detallePagoAdelantado.ProductoDesc;
-                                        detallePagoAdelantado.DescProductosUtilizados = descripcionPromo;
-                                        detallePagoAdelantado.CodigoCompleto = promoPagoAdelantado.ColPresentaciones[0].Codigo;
-                                        detallePagoAdelantado.Tipo = "E";
-
-                                        AllPromosGeneradas.Add(detallePagoAdelantado);
                                     }
                                 }
                             }
