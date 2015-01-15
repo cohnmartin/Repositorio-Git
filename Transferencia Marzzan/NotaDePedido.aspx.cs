@@ -5068,7 +5068,7 @@ public partial class NotaDePedido : BasePage
 
                 #region Promociones por Forma de Pago hasta el 12/01/2015
 
-                if (DateTime.Now.Date < DateTime.Parse("12/01/2015"))
+                if (DateTime.Now.Date < DateTime.Parse("12/01/2016"))
                 {
                     /// 02/05/2013: Si ya posee una promoción de pago anticipado durente el mes actual
                     /// entonces no se debe entregar mas promociones de este tipo.
@@ -5423,7 +5423,7 @@ public partial class NotaDePedido : BasePage
 
                 #region Promociones por Forma de Pago a partir del 12/01/2015
 
-                if (DateTime.Now.Date >= DateTime.Parse("12/01/2015"))
+                if (DateTime.Now.Date >= DateTime.Parse("12/01/2016"))
                 {
                     if (cboFormaPago.Text.Contains("Pago Fácil") || cboFormaPago.Text.Contains("Pago Mis Cuentas") || cboFormaPago.Text.Contains("Rapi Pago"))
                     {
