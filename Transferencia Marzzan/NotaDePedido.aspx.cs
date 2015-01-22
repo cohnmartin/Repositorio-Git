@@ -2158,15 +2158,28 @@ public partial class NotaDePedido : BasePage
 
                 if (!EsTemporal)
                 {
-                    string[] CodigosAromatizadores = new string[] { "1010200001   -018-50 ", "1010100001   -009-50 ", "1010300001   -142-50 ", "1010100001   -003-50 ", "1010507001   -203-50 "
-                        , "1010100001   -012-50 ", "1010300001   -244-50 ", "1010300001   -021-50 ", "1010200001   -015-50 ", "1010100001   -017-50 ", "1010100001   -011-50 ","1010200001   -017-50 ","1010300001   -026-50 "
-                        ,"1010100001   -001-50 ","1010100001   -005-50 ","1010100001   -008-50 ","1010100001   -131-50 ","101100001   -013-50 ","1010300001   -025-50 ","1010300001   -024-50 ","1010300001   -027-50 ","1010300001   -028-50 ","1010300001   -180-50 ","1010300001   -152-50 ","1010300001   -022-50 ","1010300001   -023-50 ","1010504001   -115-50 "
-                        ,"1010100001   -013-50 ","1010100001   -130-50 ","1010200001   -014-50 ","1010200001   -016-50 ","1010100001   -007-50 ","1010100001   -002-50 ","1010100001   -109-50 ","1010501001   -116-50 "};
+                    //string[] CodigosAromatizadores = new string[] { "1010200001   -018-50 ", "1010100001   -009-50 ", "1010300001   -142-50 ", "1010100001   -003-50 ", "1010507001   -203-50 "
+                    //    , "1010100001   -012-50 ", "1010300001   -244-50 ", "1010300001   -021-50 ", "1010200001   -015-50 ", "1010100001   -017-50 ", "1010100001   -011-50 ","1010200001   -017-50 ","1010300001   -026-50 "
+                    //    ,"1010100001   -001-50 ","1010100001   -005-50 ","1010100001   -008-50 ","1010100001   -131-50 ","101100001   -013-50 ","1010300001   -025-50 ","1010300001   -024-50 ","1010300001   -027-50 ","1010300001   -028-50 ","1010300001   -180-50 ","1010300001   -152-50 ","1010300001   -022-50 ","1010300001   -023-50 ","1010504001   -115-50 "
+                    //    ,"1010100001   -013-50 ","1010100001   -130-50 ","1010200001   -014-50 ","1010200001   -016-50 ","1010100001   -007-50 ","1010100001   -002-50 ","1010100001   -109-50 ","1010501001   -116-50 "};
 
+                    // 1493	01	Fresh
+                    // 1507	02	Aromaterapia
+                    // 1513	03	Selectivo
+                    // 1522	04	Aromas de la Casa
+
+                    var IdLineasIncluidas = (from p in Contexto.Productos
+                                                      where p.Padre == 1493 || p.Padre == 1507 || p.Padre == 1513 || p.Padre == 1525
+                                                      select p.IdProducto).ToList();
+
+
+                    string[] CodigosAromatizadores = (from p in Contexto.Presentacions
+                                                      where IdLineasIncluidas.Contains(p.Padre.Value) && p.Descripcion == "500 ml" && p.Codigo != "1010300001   -133-50 "
+                                                      select p.Codigo.Trim()).ToArray();
 
 
                     long CantidadAromatizador = Convert.ToInt64(((from N in cabecera.DetallePedidos
-                                                                  where CodigosAromatizadores.Contains(N.CodigoCompleto)
+                                                                  where CodigosAromatizadores.Contains(N.CodigoCompleto.Trim())
                                                                   select N.Cantidad.Value).Sum() * 1));
 
 
@@ -3758,7 +3771,7 @@ public partial class NotaDePedido : BasePage
         }
         else if (ProvinciaDireccionSeleccionada != "" && ProvinciaDireccionSeleccionada == "JUJUY")
         {
-            
+
 
             ImpuestoCalculado = 0;
             DetalleImpuestosCalculados = "";
@@ -3782,7 +3795,7 @@ public partial class NotaDePedido : BasePage
 
                         ///Cambio solicitado el 09/01/2015 donde la regla de negocio dice que si es de Jujuy
                         ///ya no se tiene que calcular el impuesto RG30.
-                        
+
                         // Calculo del RG30
                         //imp30 = Math.Round(((neto) / Convert.ToDecimal("1,21")) * (GR30JUJUY / 100), 2);
 
@@ -4674,8 +4687,8 @@ public partial class NotaDePedido : BasePage
                     // Se controla la regla de negocio de una por pedido teniendo en cuenta las promociones directas solicitadas,
                     // es decir las promos directas cuentan al momento de controal si se ha pedido o no un promocion que es de 
                     // una por pedido.
-                    List<long> idsPromosSolicitadasDirectas = (Session["detPedido"] as List<DetallePedido>).Where(w => w.Tipo == "P" || w.Tipo == "D").Select(w=>w.Producto.Value).ToList();
-                    promosUnaPorPedido = promosUnaPorPedido.Where(w => !idsPromosSolicitadasDirectas.Contains(w.IdProducto)).ToList(); 
+                    List<long> idsPromosSolicitadasDirectas = (Session["detPedido"] as List<DetallePedido>).Where(w => w.Tipo == "P" || w.Tipo == "D").Select(w => w.Producto.Value).ToList();
+                    promosUnaPorPedido = promosUnaPorPedido.Where(w => !idsPromosSolicitadasDirectas.Contains(w.IdProducto)).ToList();
 
                     // Realizo la generación de promociones una por pedido
                     promosGeneradasUnaxPedido = helper.GenerarPromocionesUnaxPedido(PedidoTemp, promosUnaPorPedido, promosExcluyentes).ToList<DetallePedido>();
