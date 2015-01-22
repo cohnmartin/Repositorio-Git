@@ -2161,7 +2161,7 @@ public partial class NotaDePedido : BasePage
                     string[] CodigosAromatizadores = new string[] { "1010200001   -018-50 ", "1010100001   -009-50 ", "1010300001   -142-50 ", "1010100001   -003-50 ", "1010507001   -203-50 "
                         , "1010100001   -012-50 ", "1010300001   -244-50 ", "1010300001   -021-50 ", "1010200001   -015-50 ", "1010100001   -017-50 ", "1010100001   -011-50 ","1010200001   -017-50 ","1010300001   -026-50 "
                         ,"1010100001   -001-50 ","1010100001   -005-50 ","1010100001   -008-50 ","1010100001   -131-50 ","101100001   -013-50 ","1010300001   -025-50 ","1010300001   -024-50 ","1010300001   -027-50 ","1010300001   -028-50 ","1010300001   -180-50 ","1010300001   -152-50 ","1010300001   -022-50 ","1010300001   -023-50 ","1010504001   -115-50 "
-                        ,"1010100001   -013-50 ","1010100001   -130-50 ","1010200001   -014-50 ","1010200001   -016-50 ","1010100001   -007-50 ","1010100001   -002-50 ","1010100001   -109-50 ","1010300001   -133-50 ","1010501001   -116-50 "};
+                        ,"1010100001   -013-50 ","1010100001   -130-50 ","1010200001   -014-50 ","1010200001   -016-50 ","1010100001   -007-50 ","1010100001   -002-50 ","1010100001   -109-50 ","1010501001   -116-50 "};
 
 
 
@@ -2643,8 +2643,12 @@ public partial class NotaDePedido : BasePage
                         cabecera.DetallePedidos.Add(newDetalle);
 
 
+                        /// Micaela: Cambio solicitado el 22/01/2015 se debe utilizar este producto 
+                        /// 1150000021092        DESCUENTO BOLSA DE REGALO EXCLUSIVA EN-MAR 2015
+                        /// en lugar 
+                        /// 2150000021013    DESCUENTO BOLSA DE REGALO EXCLUSIVA EN-MAR 2015 
                         Presentacion preDescuentoBolsaInstitucional = (from P in Contexto.Presentacions
-                                                                       where P.Codigo == "2150000021013" // DESCUENTO BOLSA DE REGALO EXCLUSIVA EN-MAR 2015 
+                                                                       where P.Codigo == "1150000021092" //  DESCUENTO BOLSA DE REGALO EXCLUSIVA EN-MAR 2015
                                                                        select P).SingleOrDefault();
 
 
@@ -4666,6 +4670,14 @@ public partial class NotaDePedido : BasePage
                     promosExcluyentes.AddRange(promosSinRegalos);
 
                     // Generacion de Promociones de tipo una por PEDIDO
+                    // Pedido Micaela: 22/01/2015
+                    // Se controla la regla de negocio de una por pedido teniendo en cuenta las promociones directas solicitadas,
+                    // es decir las promos directas cuentan al momento de controal si se ha pedido o no un promocion que es de 
+                    // una por pedido.
+                    List<long> idsPromosSolicitadasDirectas = (Session["detPedido"] as List<DetallePedido>).Where(w => w.Tipo == "P" || w.Tipo == "D").Select(w=>w.Producto.Value).ToList();
+                    promosUnaPorPedido = promosUnaPorPedido.Where(w => !idsPromosSolicitadasDirectas.Contains(w.IdProducto)).ToList(); 
+
+                    // Realizo la generación de promociones una por pedido
                     promosGeneradasUnaxPedido = helper.GenerarPromocionesUnaxPedido(PedidoTemp, promosUnaPorPedido, promosExcluyentes).ToList<DetallePedido>();
 
                 }
