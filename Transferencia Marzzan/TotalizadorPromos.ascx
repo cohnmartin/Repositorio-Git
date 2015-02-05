@@ -4,7 +4,6 @@
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 <%@ Register Src="ProductoRegalo.ascx" TagName="ProductoRegalo" TagPrefix="uc1" %>
 <%@ Register Assembly="ControlsAjaxNotti" Namespace="ControlsAjaxNotti" TagPrefix="cc6" %>
-
 <script type="text/javascript">
     function Cerrar() {
         var animBehavior = $find("SeleccionProducto");
@@ -13,7 +12,7 @@
 
     }
     function CloseActiveToolTip() {
-        setTimeout(function() {
+        setTimeout(function () {
             var controller = Telerik.Web.UI.RadToolTipController.getInstance();
             var tooltip = controller.get_activeToolTip();
             if (tooltip) tooltip.hide();
@@ -31,7 +30,11 @@
 
                 for (var i = 0; i < itemsGrilla.length; i++) {
                     var TotalRequeridos = itemsGrilla[i].get_element().getAttribute("TotalProductosRequeridos");
+                    
+                    //alert($('#' + itemsGrilla[i].get_element().id + ' .classRequeridos'));
                     var TotalRequeridosIngresados = $('#' + itemsGrilla[i].get_element().id + ' .classRequeridos').attr("TotalRequeridosIngresados");
+                    //alert("Este Cartel: " + TotalRequeridos);
+                    //alert("Este Cartel: " + TotalRequeridosIngresados);
 
                     if (TotalRequeridos != undefined &&
                         TotalRequeridos != null &&
@@ -44,12 +47,12 @@
 
         return false;
     }
-    
+
 
     var dataListName = "";
     var idDetallePedidoPromo = "";
     function MostrarComponentesPromocion(sender, DataListName, IdDetallePedidoPromo) {
-       
+
         dataListName = DataListName;
         idDetallePedidoPromo = IdDetallePedidoPromo;
         WebServiceHelper.WebServiceHelper_GenerarTablaProductosRequeridos(idDetallePedidoPromo, UpdateDataList);
@@ -90,7 +93,7 @@
     function FinalizarSeleccion() {
 
         var seleccionTotal = "";
-        $("#divPrincipalSeleccion input").each(function() {
+        $("#divPrincipalSeleccion input").each(function () {
 
             if (this.value > 0) {
                 var idProducto = this.getAttribute("idProducto");
@@ -130,7 +133,6 @@
         $find("<%=ServerControlSeleccionProducto.ClientID %>").CloseWindows();
     }
 </script>
-
 <style type="text/css">
     .wrapper_ul
     {
