@@ -482,19 +482,21 @@ public partial class NotaDePedido : BasePage
 
             if (productosConDiferencia.Count > 0)
             {
-                foreach (var item in productosConDiferencia)
-                {
-                    DetallePedido detalle = CurrentCabecera.DetallePedidos.Where(w => w.IdDetallePedido == item.IdDetallePedido).FirstOrDefault();
-                    if (detalle != null)
-                    {
+                //foreach (var item in productosConDiferencia)
+                //{
+                //    DetallePedido detalle = CurrentCabecera.DetallePedidos.Where(w => w.IdDetallePedido == item.IdDetallePedido).FirstOrDefault();
+                //    if (detalle != null)
+                //    {
 
-                        detalle.ValorUnitario = item.Precio;
-                        detalle.ValorTotal = detalle.Cantidad * detalle.ValorUnitario;
-                        huboCambios = true;
+                //        detalle.ValorUnitario = item.Precio;
+                //        detalle.ValorTotal = detalle.Cantidad * detalle.ValorUnitario;
+                //        huboCambios = true;
 
-                    }
-                }
+                //    }
+                //}
 
+                // Cambio febrero 2015
+                huboCambios = true;
             }
 
             ///2. buso si hay diferencia en las promociones directas segun los componentes requeridos
@@ -523,21 +525,25 @@ public partial class NotaDePedido : BasePage
                         var itemNuevoPrecio = listaPrecios.Where(w => w.idPresentacion == itemRequerido.IdPresentacion).FirstOrDefault();
                         if (itemNuevoPrecio != null)
                         {
-                            itemRequerido.ValorUnitario = valorUnitario;
+                            itemRequerido.ValorUnitario = itemNuevoPrecio.Precio;
                         }
                     }
 
 
                 }
 
+                //if (valorPromoDirecta != item.ValorTotal)
+                //{
+                //    item.ValorTotal = valorPromoDirecta;
+                //    item.ValorUnitario = valorPromoDirecta;
+                //    huboCambios = true;
+                //}
+
+                // Cambio febrero 2015
                 if (valorPromoDirecta != item.ValorTotal)
                 {
-                    item.ValorTotal = valorPromoDirecta;
-                    item.ValorUnitario = valorPromoDirecta;
                     huboCambios = true;
                 }
-
-
 
             }
 
@@ -561,19 +567,21 @@ public partial class NotaDePedido : BasePage
                 if (detEliminar.IdDetallePedido > 0)
                 {
 
-                    using (Marzzan_InfolegacyDataContext dcEliminar = new Marzzan_InfolegacyDataContext())
-                    {
-                        dcEliminar.CommandTimeout = 300;
+                    //using (Marzzan_InfolegacyDataContext dcEliminar = new Marzzan_InfolegacyDataContext())
+                    //{
+                    //    dcEliminar.CommandTimeout = 300;
 
-                        DetallePedido Detalle = (from D in dcEliminar.DetallePedidos
-                                                 where D.IdDetallePedido == detEliminar.IdDetallePedido
-                                                 select D).SingleOrDefault();
+                    //    DetallePedido Detalle = (from D in dcEliminar.DetallePedidos
+                    //                             where D.IdDetallePedido == detEliminar.IdDetallePedido
+                    //                             select D).SingleOrDefault();
 
-                        dcEliminar.DetallePedidos.DeleteOnSubmit(Detalle);
-                        dcEliminar.SubmitChanges();
-                        huboCambios = true;
-                    }
+                    //    dcEliminar.DetallePedidos.DeleteOnSubmit(Detalle);
+                    //    dcEliminar.SubmitChanges();
+                    //    huboCambios = true;
+                    //}
 
+                    // Cambio febrero 2015
+                    huboCambios = true;
                 }
             }
 
@@ -627,47 +635,48 @@ public partial class NotaDePedido : BasePage
 
                 if (eliminarPromo)
                 {
-                    using (Marzzan_InfolegacyDataContext dcEliminar = new Marzzan_InfolegacyDataContext())
-                    {
-                        dcEliminar.CommandTimeout = 300;
+                    //using (Marzzan_InfolegacyDataContext dcEliminar = new Marzzan_InfolegacyDataContext())
+                    //{
+                    //    dcEliminar.CommandTimeout = 300;
 
-                        /// entonces debo eliminar:
-                        ///     a. el detalle en cuestion
-                        ///     b. los productos requeridos que fueron seleccionados 
-                        ///     c. los regalos seleccionados si existe.
+                    //    /// entonces debo eliminar:
+                    //    ///     a. el detalle en cuestion
+                    //    ///     b. los productos requeridos que fueron seleccionados 
+                    //    ///     c. los regalos seleccionados si existe.
 
-                        (Session["detPedido"] as List<DetallePedido>).Remove(item.detalle);
-                        (Session["PromosGuardadas"] as List<DetallePedido>).Remove(item.detalle);
+                    //    (Session["detPedido"] as List<DetallePedido>).Remove(item.detalle);
+                    //    (Session["PromosGuardadas"] as List<DetallePedido>).Remove(item.detalle);
 
-                        /////////////// a. ///////////////
-                        DetallePedido Detalle = (from D in dcEliminar.DetallePedidos
-                                                 where D.IdDetallePedido == item.detalle.IdDetallePedido
-                                                 select D).SingleOrDefault();
+                    //    /////////////// a. ///////////////
+                    //    DetallePedido Detalle = (from D in dcEliminar.DetallePedidos
+                    //                             where D.IdDetallePedido == item.detalle.IdDetallePedido
+                    //                             select D).SingleOrDefault();
 
-                        dcEliminar.DetallePedidos.DeleteOnSubmit(Detalle);
-
-
-                        /////////////// b. ///////////////
-                        List<DetalleProductosRequeridos> Detalles = (from D in dcEliminar.DetalleProductosRequeridos
-                                                                     where D.IdDetalleProductosRequeridos == item.detalle.IdDetallePedido
-                                                                     select D).ToList();
-
-                        dcEliminar.DetalleProductosRequeridos.DeleteAllOnSubmit(Detalles);
-
-                        /////////////// c. ///////////////
-                        List<DetallePedido> DetalleRelacionados = (from D in dcEliminar.DetallePedidos
-                                                                   where D.CabeceraPedido == item.detalle.CabeceraPedido && D.PromocionOrigen == item.detalle.IdDetallePedido
-                                                                   select D).ToList();
-
-                        dcEliminar.DetallePedidos.DeleteAllOnSubmit(DetalleRelacionados);
-
-                        /// Persisto los cambios
-                        dcEliminar.SubmitChanges();
-
-                        huboCambios = true;
-                    }
+                    //    dcEliminar.DetallePedidos.DeleteOnSubmit(Detalle);
 
 
+                    //    /////////////// b. ///////////////
+                    //    List<DetalleProductosRequeridos> Detalles = (from D in dcEliminar.DetalleProductosRequeridos
+                    //                                                 where D.IdDetalleProductosRequeridos == item.detalle.IdDetallePedido
+                    //                                                 select D).ToList();
+
+                    //    dcEliminar.DetalleProductosRequeridos.DeleteAllOnSubmit(Detalles);
+
+                    //    /////////////// c. ///////////////
+                    //    List<DetallePedido> DetalleRelacionados = (from D in dcEliminar.DetallePedidos
+                    //                                               where D.CabeceraPedido == item.detalle.CabeceraPedido && D.PromocionOrigen == item.detalle.IdDetallePedido
+                    //                                               select D).ToList();
+
+                    //    dcEliminar.DetallePedidos.DeleteAllOnSubmit(DetalleRelacionados);
+
+                    //    /// Persisto los cambios
+                    //    dcEliminar.SubmitChanges();
+
+                    //    huboCambios = true;
+                    //}
+
+                    // Cambio febrero 2015
+                    huboCambios = true;
                 }
             }
 
@@ -684,14 +693,25 @@ public partial class NotaDePedido : BasePage
 
 
 
+            if (huboCambios)
+            {
+                //ScriptManager.RegisterStartupScript(Page, typeof(Page), "EdicionActualizada", "AlertaEdicionActualizada();", true);
+
+                ScriptManager.RegisterStartupScript(Page, typeof(Page), "EdicionActualizada", "AlertaEdicionAnulada();", true);
+
+                CabeceraPedido cabeliminar = (from c in dc.CabeceraPedidos
+                                              where c.IdCabeceraPedido == CurrentCabecera.IdCabeceraPedido
+                                              select c).FirstOrDefault();
+
+                dc.CommandTimeout = 300;
+                dc.PedidosConCreditos.DeleteAllOnSubmit(cabeliminar.PedidosConCreditos);
+                dc.RemitosAfectados.DeleteAllOnSubmit(cabeliminar.colRemitosAfectados);
+                dc.DetallePedidos.DeleteAllOnSubmit(cabeliminar.DetallePedidos.ToList());
+                dc.CabeceraPedidos.DeleteOnSubmit(cabeliminar);
+                dc.SubmitChanges();
+            }
 
         }
-
-        if (huboCambios)
-        {
-            ScriptManager.RegisterStartupScript(Page, typeof(Page), "EdicionActualizada", "AlertaEdicionActualizada();", true);
-        }
-
 
     }
 
@@ -2196,7 +2216,7 @@ public partial class NotaDePedido : BasePage
                         newDetalle.CodigoCompleto = preGatilloAromatizador.Codigo;
                         newDetalle.Presentacion = preGatilloAromatizador.IdPresentacion;
                         newDetalle.Producto = preGatilloAromatizador.objProducto.IdProducto;
-                        newDetalle.ValorUnitario = preGatilloAromatizador.Precio;
+                        newDetalle.ValorUnitario = 0; // preGatilloAromatizador.Precio; Solicitado 04/02/2015
                         newDetalle.ValorTotal = newDetalle.ValorUnitario * newDetalle.Cantidad;
 
                         cabecera.DetallePedidos.Add(newDetalle);

@@ -289,6 +289,19 @@
         }, 200);
     }
 
+    function AlertaEdicionAnulada() {
+        window.setTimeout(function () {
+            radalert('El pedido ha sufrido cambios de precio y el mismo no se podrá utilizar. Por favor vuelva a generar el pedido.', 300, 100, "Pedido Eliminado");
+            window.setTimeout(function () {
+                window.close();
+            }, 5800);
+        }, 400);
+    }
+
+
+
+
+
     function AlertaDireccion() {
         radalert('Por favor ratifique la dirección de entrega para el pedido.', 300, 100, "Dirección de Entrega");
     }
