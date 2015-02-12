@@ -278,7 +278,7 @@
     }
     function AlertaEdicionInvalida() {
 
-        alert('La operacion que intenta realizar no esta permitida, la solicitud del pedido ya fue enviada.');
+        alert('La operacion que intenta realizar no esta permitida, el pedido ya fue procesado o eliminado.');
         window.close();
 
     }
@@ -294,7 +294,7 @@
             radalert('El pedido ha sufrido cambios de precio y el mismo no se podrá utilizar. Por favor vuelva a generar el pedido.', 300, 100, "Pedido Eliminado");
             window.setTimeout(function () {
                 window.close();
-            }, 5800);
+            }, 7800);
         }, 400);
     }
 
