@@ -271,7 +271,7 @@ public partial class NotaDePedido : BasePage
                                                   where C.IdCabeceraPedido == long.Parse(Request.QueryString["IdPedido"].ToString())
                                                   select C).SingleOrDefault();
 
-                if (CurrentCabecera.EsTemporal.HasValue && CurrentCabecera.EsTemporal.Value)
+                if (CurrentCabecera != null && CurrentCabecera.EsTemporal.HasValue && CurrentCabecera.EsTemporal.Value)
                 {
                     cliente = CurrentCabecera.objCliente;
                     Session["Cliente"] = CurrentCabecera.objCliente;
