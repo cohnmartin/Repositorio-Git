@@ -24,7 +24,11 @@ public partial class NotaDePedido : BasePage
     public List<Producto> _productos = null;
     public long _idDireccionGrabada = 0;
     public string idProductoIncorporacion_0 = "4693";
+    
+    // Incorporacion 0 para el 2014 y 2015 (_0_2014)
     public string idProductoIncorporacion_0_2014 = "6823";
+    public long idPresentacionIncorporacion_0_2014 = 6878;
+
 
 
     public List<string> idsProductosIncorporaciones_1_4 = new List<string>() { "5714", "5715", "5718", "5719" };
@@ -33,6 +37,9 @@ public partial class NotaDePedido : BasePage
     public List<string> idsProductosIncorporaciones_1_2_2014 = new List<string>() { "6822", "6824" };
     public List<long> idsPresentacionIncorporaciones_1_2_2014 = new List<long>() { 6877, 6879 };
 
+    public List<string> idsProductosIncorporaciones_1_2015 = new List<string>() { "6935" };
+    public List<long> idsPresentacionIncorporaciones_1_2015 = new List<long>() { 6947};
+    
     // Presentaciones de las incorporaciones de la 1  al a 4
     //5796	2516700021001   	Unidad	5714	30.00	1	00025167001
     //5797	2516700021002   	Unidad	5715	175.00	1	00025167002
@@ -43,6 +50,9 @@ public partial class NotaDePedido : BasePage
     // 2516700019020        Incorporación Nº 0 Catálogo SM  -->  2516700021005        Incorporación Costo 0 - Catálogo + Revista + Carpe 
     // 2516700021001        Incorporación_N°1  -->  2516700021007        Incorporación Bolso SM     (idPre: 6877) - (IdProd: 6822)
     // 2516700021002        Incorporación_N°2  -->  2516700021006        Incorporación Valija SM  - (idPre: 6879) - (IdProd: 6824)
+    
+    // Presentaciones 2015
+    //                                         -->  2516700021008        Incorporación Económica SM  - (idPre: 6947) - (IdProd: 6935)
 
 
     private Marzzan_InfolegacyDataContext Contexto
@@ -435,8 +445,275 @@ public partial class NotaDePedido : BasePage
     /// </summary>
     private void ControlarCambiosPrecios(CabeceraPedido CurrentCabecera)
     {
-
         bool huboCambios = false;
+
+        #region Codigo Actualizacion del Pedido en caso de cambios
+
+        //bool huboCambios = false;
+        using (Marzzan_InfolegacyDataContext dc = new Marzzan_InfolegacyDataContext())
+        {
+
+            /// Recuperar los valores actuales de todos los elementos del detalle para ver si hay alguna diferencia.
+            /// sin tener en cuentas los detalles que hacen referencia a promociones directas. Es decir detalles del tipo P o D con valor
+            /// positivo, estas se controlan en un paso posterior.
+            List<long> ids = CurrentCabecera.DetallePedidos.Where(d => (d.objProducto.Tipo == 'A' || d.objProducto.Tipo == 'G') || ((d.objProducto.Tipo == 'P' || d.objProducto.Tipo == 'D') && d.ValorTotal < 0)).Select(w => w.Presentacion.Value).ToList();
+            List<long> idsPrePedido = CurrentCabecera.DetallePedidos.Select(w => w.IdDetallePedido).ToList();
+            List<long> idsRequeridos = (from d in dc.DetalleProductosRequeridos
+                                        where idsPrePedido.Contains(d.DetallePedidoPromoDirecta.Value)
+                                        select d.IdPresentacion.Value
+                                        ).ToList();
+
+
+            ids.AddRange(idsRequeridos);
+
+
+            var listaPrecios = (from p in dc.Presentacions
+                                where ids.Contains(p.IdPresentacion)
+                                select new
+                                {
+                                    idPresentacion = p.IdPresentacion,
+                                    Precio = p.objProducto.Tipo == 'A' || p.objProducto.Tipo == 'G' ? p.Precio : p.objProducto.Precio * -1,
+                                    activo = !p.Activo.HasValue ? true : p.Activo.Value
+
+
+                                }).ToList();
+
+
+            /// 1 y 3 Calculo las diferencias en el detalle para los productos, gasto de envio y promociones inferidas y directas
+            var productosConDiferencia = (from d in CurrentCabecera.DetallePedidos
+                                          join p in listaPrecios on d.Presentacion.Value equals p.idPresentacion
+                                          where p.Precio != d.ValorUnitario &&
+                                          ((d.objProducto.Tipo == 'A' || d.objProducto.Tipo == 'G') || ((d.objProducto.Tipo == 'P' || d.objProducto.Tipo == 'D') && d.ValorTotal < 0))
+                                          select new
+                                          {
+                                              d.objProducto.Descripcion,
+                                              d.ValorUnitario,
+                                              p.Precio,
+                                              d.IdDetallePedido
+                                          }).ToList();
+
+
+            if (productosConDiferencia.Count > 0)
+            {
+                foreach (var item in productosConDiferencia)
+                {
+                    DetallePedido detalle = CurrentCabecera.DetallePedidos.Where(w => w.IdDetallePedido == item.IdDetallePedido).FirstOrDefault();
+                    if (detalle != null)
+                    {
+
+                        detalle.ValorUnitario = item.Precio;
+                        detalle.ValorTotal = detalle.Cantidad * detalle.ValorUnitario;
+                        huboCambios = true;
+
+                    }
+                }
+
+            }
+
+            ///2. buso si hay diferencia en las promociones directas segun los componentes requeridos
+            /// es decir debo controlar que la suma de los productos requeridos siga siendo igual al valor indicado
+            /// para el detalle de tipo promocion directa. ( Tipo P o D con valor Positivo).
+            List<DetallePedido> promosDirectas = CurrentCabecera.DetallePedidos.Where(d => ((d.objProducto.Tipo == 'P' || d.objProducto.Tipo == 'D') && d.ValorTotal > 0)).ToList();
+            foreach (var item in promosDirectas)
+            {
+
+                /// Recupero la composición de los elementos requeridos del producto tipo PROMOCION
+                var composicionRequeridos = from R in dc.Composicions
+                                            where R.TipoComposicion == "C" && R.objProducto.IdProducto == item.Producto.Value
+                                            group R by R.Grupo into c
+                                            select new { Grupo = c.Key, componentes = c };
+
+                decimal valorPromoDirecta = 0;
+                foreach (var grupo in composicionRequeridos)
+                {
+                    decimal valorUnitario = grupo.componentes.FirstOrDefault().objPresentacion.Precio.Value;
+                    var cantidadRequerida = Convert.ToInt16(grupo.componentes.FirstOrDefault().Cantidad);
+                    valorPromoDirecta += valorUnitario * cantidadRequerida;
+
+
+                    foreach (var itemRequerido in item.colProductosRequeridos)
+                    {
+                        var itemNuevoPrecio = listaPrecios.Where(w => w.idPresentacion == itemRequerido.IdPresentacion).FirstOrDefault();
+                        if (itemNuevoPrecio != null)
+                        {
+                            itemRequerido.ValorUnitario = itemNuevoPrecio.Precio;
+                        }
+                    }
+
+
+                }
+
+                if (valorPromoDirecta != item.ValorTotal)
+                {
+                    item.ValorTotal = valorPromoDirecta;
+                    item.ValorUnitario = valorPromoDirecta;
+                    huboCambios = true;
+                }
+
+
+
+            }
+
+            /// 4. Determino si hay algun producto del tipo A que ya no este mas activo, de ser así
+            /// entonces lo debo eliminar del pedido (las promociones se controlar por separado).
+            var productosDesactivados = (from d in CurrentCabecera.DetallePedidos
+                                         join p in listaPrecios on d.Presentacion.Value equals p.idPresentacion
+                                         where p.activo == false && d.objProducto.Tipo == 'A'
+                                         select new
+                                         {
+                                             d.objProducto.Descripcion,
+                                             d.IdDetallePedido
+                                         }).ToList();
+
+            foreach (var item in productosDesactivados)
+            {
+                DetallePedido detEliminar = CurrentCabecera.DetallePedidos.Where(w => w.IdDetallePedido == item.IdDetallePedido).FirstOrDefault();
+
+                (Session["detPedido"] as List<DetallePedido>).Remove(detEliminar);
+
+                if (detEliminar.IdDetallePedido > 0)
+                {
+
+                    using (Marzzan_InfolegacyDataContext dcEliminar = new Marzzan_InfolegacyDataContext())
+                    {
+                        dcEliminar.CommandTimeout = 300;
+
+                        DetallePedido Detalle = (from D in dcEliminar.DetallePedidos
+                                                 where D.IdDetallePedido == detEliminar.IdDetallePedido
+                                                 select D).SingleOrDefault();
+
+                        dcEliminar.DetallePedidos.DeleteOnSubmit(Detalle);
+                        dcEliminar.SubmitChanges();
+                        huboCambios = true;
+                    }
+
+                }
+            }
+
+
+            /// 5. Busco para las promociones en el pedido si las mismas siguen en vigencia
+            /// según la feha inicial, final y el transporte.
+            var promosDelPedido = (from d in CurrentCabecera.DetallePedidos
+                                   where d.objProducto.Tipo == 'P' || d.objProducto.Tipo == 'D'
+                                   select new
+                                   {
+                                       d.objProducto.Descripcion,
+                                       d.objProducto.objConfPromocion.FechaInicio,
+                                       d.objProducto.objConfPromocion.FechaFinal,
+                                       d.objProducto.objConfPromocion.ColTransportistas,
+                                       d.objProducto.objConfPromocion.MontoMinimo,
+                                       d.objProducto.objConfPromocion.TipoPromo,
+                                       d.IdDetallePedido,
+                                       d.ValorTotal,
+                                       detalle = d
+
+                                   }).ToList();
+
+            foreach (var item in promosDelPedido)
+            {
+                decimal MontoActual = (from P in (Session["detPedido"] as List<DetallePedido>) select P.ValorTotal.Value).Sum();
+                bool eliminarPromo = false;
+                /// Si tiene establecido transportes y el transporte del pedido NO esta dentro de la lista entonces hay que sacar la promo.
+                if ((item.ColTransportistas.Count > 0 && !item.ColTransportistas.Any(w => w.Transporte.ToLower() == lblTransporte.Text.ToLower())))
+                {
+                    eliminarPromo = true;
+                }
+                /// si la promocion no esta mas vigente por el rango de fechas  entonces hay que sacar la promo.
+                else if (DateTime.Now.Date < item.FechaInicio.Date || DateTime.Now.Date > item.FechaFinal.Date)
+                {
+                    eliminarPromo = true;
+                }
+                /// si la promocion no esta mas vigente por el monto minimo entonces hay que sacar la promo.
+                /// Solo debo realizar el control si la promocion es inferida. Las promos directas tiene el valor del detalle
+                /// en positivo.
+                else if (MontoActual < item.MontoMinimo && item.ValorTotal < 0)
+                {
+                    eliminarPromo = true;
+                }
+                /// si la promocion no esta mas vigente por el TIPO DE CLIENTE entonces hay que sacar la promo.
+                else if (
+                        (CurrentCabecera.objCliente.TipoConsultor != "INICIAL" && item.TipoPromo != "INICIAL" && item.TipoPromo != CurrentCabecera.objCliente.TipoConsultor.Trim())
+                        ||
+                        (CurrentCabecera.objCliente.TipoConsultor == "INICIAL" && CurrentCabecera.objCliente.TipoConsultor != item.TipoPromo)
+                    )
+                {
+                    eliminarPromo = true;
+                }
+
+
+
+                if (eliminarPromo)
+                {
+                    using (Marzzan_InfolegacyDataContext dcEliminar = new Marzzan_InfolegacyDataContext())
+                    {
+                        dcEliminar.CommandTimeout = 300;
+
+                        /// entonces debo eliminar:
+                        ///     a. el detalle en cuestion
+                        ///     b. los productos requeridos que fueron seleccionados 
+                        ///     c. los regalos seleccionados si existe.
+
+                        (Session["detPedido"] as List<DetallePedido>).Remove(item.detalle);
+                        (Session["PromosGuardadas"] as List<DetallePedido>).Remove(item.detalle);
+
+                        /////////////// a. ///////////////
+                        DetallePedido Detalle = (from D in dcEliminar.DetallePedidos
+                                                 where D.IdDetallePedido == item.detalle.IdDetallePedido
+                                                 select D).SingleOrDefault();
+
+                        dcEliminar.DetallePedidos.DeleteOnSubmit(Detalle);
+
+
+                        /////////////// b. ///////////////
+                        List<DetalleProductosRequeridos> Detalles = (from D in dcEliminar.DetalleProductosRequeridos
+                                                                     where D.IdDetalleProductosRequeridos == item.detalle.IdDetallePedido
+                                                                     select D).ToList();
+
+                        dcEliminar.DetalleProductosRequeridos.DeleteAllOnSubmit(Detalles);
+
+                        /////////////// c. ///////////////
+                        List<DetallePedido> DetalleRelacionados = (from D in dcEliminar.DetallePedidos
+                                                                   where D.CabeceraPedido == item.detalle.CabeceraPedido && D.PromocionOrigen == item.detalle.IdDetallePedido
+                                                                   select D).ToList();
+
+                        dcEliminar.DetallePedidos.DeleteAllOnSubmit(DetalleRelacionados);
+
+                        /// Persisto los cambios
+                        dcEliminar.SubmitChanges();
+
+                        huboCambios = true;
+                    }
+
+
+                }
+            }
+
+            /// 6. ACTUALIZACION DE REMITOS
+            /// LOS REMITOS NO SE GRABAN CUANDO SE GUARDA EN FORMA TEMPORAL, POR LO QUE NO HAY QUE HACER NADA CUANDO SE EDITA.
+
+            /// 7. CONTROLAR CAMBIOS EN LOS PORCENTAJES POR PROVINCIA
+            /// EL PORCENTAJE SE CALCULA EN EL METODO "CalcularTotalPedido" Y ESTE SE EJECUTA CUANDO SE INICIA LA EDICION POR LO QUE LOS
+            /// MONTOS SON RE CALCULADOS.
+
+            /// 8. CONTROLAR CAMBIOS EN LOS PORCENTAJES DE DESCUENTO EN LOS PRODUCTOS
+            /// CUANDO LOS PORCENTAJES SON ACTUALIZADOS SE PRODUCE LA MISMA SITUACIÓN QUE LOS PORCENTAJES DE LAS PROVINCIAS, POR LO
+            /// QUE SE ACTUALIZA AUTOMATICAMENTE CDO SE EDITA LA OPERACION.
+
+
+
+
+        }
+
+        if (huboCambios)
+        {
+            ScriptManager.RegisterStartupScript(Page, typeof(Page), "EdicionActualizada", "AlertaEdicionActualizada();", true);
+        }
+
+        #endregion
+
+        return;
+
+        #region Codigo Eliminacion del pedido en caso de cambios
         using (Marzzan_InfolegacyDataContext dc = new Marzzan_InfolegacyDataContext())
         {
 
@@ -604,6 +881,7 @@ public partial class NotaDePedido : BasePage
 
                                    }).ToList();
 
+            string mensajeDiv = "";
             foreach (var item in promosDelPedido)
             {
                 decimal MontoActual = (from P in (Session["detPedido"] as List<DetallePedido>) select P.ValorTotal.Value).Sum();
@@ -612,11 +890,13 @@ public partial class NotaDePedido : BasePage
                 if ((item.ColTransportistas.Count > 0 && !item.ColTransportistas.Any(w => w.Transporte.ToLower() == lblTransporte.Text.ToLower())))
                 {
                     eliminarPromo = true;
+                    mensajeDiv = "Transporte";
                 }
                 /// si la promocion no esta mas vigente por el rango de fechas  entonces hay que sacar la promo.
                 else if (DateTime.Now.Date < item.FechaInicio.Date || DateTime.Now.Date > item.FechaFinal.Date)
                 {
                     eliminarPromo = true;
+                    mensajeDiv += "Fechas";
                 }
                 /// si la promocion no esta mas vigente por el monto minimo entonces hay que sacar la promo.
                 /// Solo debo realizar el control si la promocion es inferida. Las promos directas tiene el valor del detalle
@@ -624,13 +904,26 @@ public partial class NotaDePedido : BasePage
                 else if (MontoActual < item.MontoMinimo && item.ValorTotal < 0)
                 {
                     eliminarPromo = true;
+                    mensajeDiv += "Monto";
                 }
                 /// si la promocion no esta mas vigente por el TIPO DE CLIENTE entonces hay que sacar la promo.
-                else if (CurrentCabecera.objCliente.TipoConsultor != item.TipoPromo)
+                else if (
+                        (CurrentCabecera.objCliente.TipoConsultor != "INICIAL" && item.TipoPromo != "INICIAL" && item.TipoPromo != CurrentCabecera.objCliente.TipoConsultor.Trim())
+                        ||
+                        (CurrentCabecera.objCliente.TipoConsultor == "INICIAL" && CurrentCabecera.objCliente.TipoConsultor != item.TipoPromo)
+                    )
                 {
+
+                    // TC: vip
+                    // TP: Inicial
+
+
+
                     eliminarPromo = true;
+                    mensajeDiv += "Tipo Promo";
                 }
 
+                //DivHelp.InnerHtml = mensajeDiv;
 
 
                 if (eliminarPromo)
@@ -712,7 +1005,7 @@ public partial class NotaDePedido : BasePage
             }
 
         }
-
+        #endregion 
     }
 
     #region Eventos
@@ -1294,13 +1587,23 @@ public partial class NotaDePedido : BasePage
 
 
             }
-            else if (det.CodigoCompleto.Trim() == "2506600030077")
+            else if (det.CodigoCompleto.Trim() == "2506600030082")
             {
+
+                /// /// /// ///  Codigo Anterior /// /// /// ///  
                 // 1041600116   -000-00: Catálogo x 10 unidades 
                 /// Si esta este producto y se esta realizando el pedido, no se debe
                 /// agregar este producto sino que se tiene que reemplazar por:
                 //  2.50.6600.030.076        Catálogo SM x 5 u 2015 01        (2 artículos de este que sumen las 10 unidades) 
                 //  2.15.0000.021.006        Descuento Catálogo x 10 u. 2015 01        (sólo 1 artículo de este) 
+
+
+                /// /// /// ///  Cambio 31/03/2015 /// /// /// ///  
+                /// Nuevo Producto Inicial: 2506600030082 Catálogo SM x 10 2015 02 
+                /// Si esta este producto y se esta realizando el pedido, no se debe
+                /// agregar este producto sino que se tiene que reemplazar por:
+                /// 2.50.6600.030.079       Catálogo SM x 5 u 2015 01        (2 artículos de este que sumen las 10 unidades) 
+                /// 2.15.0000.021.006       Descuento Catálogo x 10 u. 2015 01        (sólo 1 artículo de este) 
 
                 Presentacion preCatalogoSM = (from P in Contexto.Presentacions
                                               where P.Codigo == "2506600030076"
@@ -2189,8 +2492,8 @@ public partial class NotaDePedido : BasePage
                     // 1522	04	Aromas de la Casa
 
                     var IdLineasIncluidas = (from p in Contexto.Productos
-                                                      where p.Padre == 1493 || p.Padre == 1507 || p.Padre == 1513 || p.Padre == 1525
-                                                      select p.IdProducto).ToList();
+                                             where p.Padre == 1493 || p.Padre == 1507 || p.Padre == 1513 || p.Padre == 1525
+                                             select p.IdProducto).ToList();
 
 
                     string[] CodigosAromatizadores = (from p in Contexto.Presentacions
@@ -2648,54 +2951,55 @@ public partial class NotaDePedido : BasePage
                 /// Cambios para ENERO del 2015
 
                 #region  Detalle Bolsa Institucional : 01/01/2015
-                if (!EsTemporal)
-                {
-                    string[] CodigosEauPerfume = new string[] { "1080000002   -126-15", "1080000002   -125-10", "1086100002   -134-11", "1086200002   -233-11", "1080000002   -128-21", "1086100002   -204-23", "1086100002   -166-10", "1080000002   -123-15", "1080000002   -132-23", "1080000002   -122-10", "1080000002   -124-10", "1086100002   -317-15", "1086200002   -316-10", "1086200002   -312-15", "1086100002   -311-15", "1080000002   -127-15", "1086200002   -318-11" };
+                /// Lógica anulada a partir del 01/04/2015 (Fecha de mail: 31/03/2015)
+                //if (!EsTemporal)
+                //{
+                //    string[] CodigosEauPerfume = new string[] { "1080000002   -125-10", "1086100002   -134-11", "1086200002   -233-11", "1080000002   -128-21", "1086100002   -204-23", "1086100002   -166-10", "1080000002   -123-15", "1080000002   -132-23", "1080000002   -122-10", "1080000002   -124-10", "1086100002   -317-15", "1086200002   -316-10", "1086200002   -312-15", "1086100002   -311-15", "1080000002   -127-15", "1086200002   -318-11" };
 
-                    long CantidadCodigosEauPerfume = Convert.ToInt64(((from N in cabecera.DetallePedidos
-                                                                       where CodigosEauPerfume.Contains(N.CodigoCompleto.Trim())
-                                                                       select N.Cantidad.Value).Sum()));
-
-
-                    if (CantidadCodigosEauPerfume > 0)
-                    {
-
-                        Presentacion preBolsaInstitucional = (from P in Contexto.Presentacions
-                                                              where P.Codigo == "2506900018008" // BOLSA REGALO INSTITUCIONAL SM
-                                                              select P).SingleOrDefault();
+                //    long CantidadCodigosEauPerfume = Convert.ToInt64(((from N in cabecera.DetallePedidos
+                //                                                       where CodigosEauPerfume.Contains(N.CodigoCompleto.Trim())
+                //                                                       select N.Cantidad.Value).Sum()));
 
 
-                        newDetalle = new DetallePedido();
-                        newDetalle.Cantidad = CantidadCodigosEauPerfume;
-                        newDetalle.CodigoCompleto = preBolsaInstitucional.Codigo;
-                        newDetalle.Presentacion = preBolsaInstitucional.IdPresentacion;
-                        newDetalle.Producto = preBolsaInstitucional.objProducto.IdProducto;
-                        newDetalle.ValorUnitario = preBolsaInstitucional.Precio;
-                        newDetalle.ValorTotal = newDetalle.ValorUnitario * newDetalle.Cantidad;
+                //    if (CantidadCodigosEauPerfume > 0)
+                //    {
 
-                        cabecera.DetallePedidos.Add(newDetalle);
+                //        Presentacion preBolsaInstitucional = (from P in Contexto.Presentacions
+                //                                              where P.Codigo == "2506900018008" // BOLSA REGALO INSTITUCIONAL SM
+                //                                              select P).SingleOrDefault();
 
 
-                        /// Micaela: Cambio solicitado el 22/01/2015 se debe utilizar este producto 
-                        /// 1150000021092        DESCUENTO BOLSA DE REGALO EXCLUSIVA EN-MAR 2015
-                        /// en lugar 
-                        /// 2150000021013    DESCUENTO BOLSA DE REGALO EXCLUSIVA EN-MAR 2015 
-                        Presentacion preDescuentoBolsaInstitucional = (from P in Contexto.Presentacions
-                                                                       where P.Codigo == "1150000021092" //  DESCUENTO BOLSA DE REGALO EXCLUSIVA EN-MAR 2015
-                                                                       select P).SingleOrDefault();
+                //        newDetalle = new DetallePedido();
+                //        newDetalle.Cantidad = CantidadCodigosEauPerfume;
+                //        newDetalle.CodigoCompleto = preBolsaInstitucional.Codigo;
+                //        newDetalle.Presentacion = preBolsaInstitucional.IdPresentacion;
+                //        newDetalle.Producto = preBolsaInstitucional.objProducto.IdProducto;
+                //        newDetalle.ValorUnitario = preBolsaInstitucional.Precio;
+                //        newDetalle.ValorTotal = newDetalle.ValorUnitario * newDetalle.Cantidad;
+
+                //        cabecera.DetallePedidos.Add(newDetalle);
 
 
-                        newDetalle = new DetallePedido();
-                        newDetalle.Cantidad = CantidadCodigosEauPerfume;
-                        newDetalle.CodigoCompleto = preDescuentoBolsaInstitucional.Codigo;
-                        newDetalle.Presentacion = preDescuentoBolsaInstitucional.IdPresentacion;
-                        newDetalle.Producto = preDescuentoBolsaInstitucional.objProducto.IdProducto;
-                        newDetalle.ValorUnitario = preDescuentoBolsaInstitucional.Precio * -1;
-                        newDetalle.ValorTotal = newDetalle.ValorUnitario * newDetalle.Cantidad;
+                //        /// Micaela: Cambio solicitado el 22/01/2015 se debe utilizar este producto 
+                //        /// 1150000021092        DESCUENTO BOLSA DE REGALO EXCLUSIVA EN-MAR 2015
+                //        /// en lugar 
+                //        /// 2150000021013    DESCUENTO BOLSA DE REGALO EXCLUSIVA EN-MAR 2015 
+                //        Presentacion preDescuentoBolsaInstitucional = (from P in Contexto.Presentacions
+                //                                                       where P.Codigo == "1150000021092" //  DESCUENTO BOLSA DE REGALO EXCLUSIVA EN-MAR 2015
+                //                                                       select P).SingleOrDefault();
 
-                        cabecera.DetallePedidos.Add(newDetalle);
-                    }
-                }
+
+                //        newDetalle = new DetallePedido();
+                //        newDetalle.Cantidad = CantidadCodigosEauPerfume;
+                //        newDetalle.CodigoCompleto = preDescuentoBolsaInstitucional.Codigo;
+                //        newDetalle.Presentacion = preDescuentoBolsaInstitucional.IdPresentacion;
+                //        newDetalle.Producto = preDescuentoBolsaInstitucional.objProducto.IdProducto;
+                //        newDetalle.ValorUnitario = preDescuentoBolsaInstitucional.Precio * -1;
+                //        newDetalle.ValorTotal = newDetalle.ValorUnitario * newDetalle.Cantidad;
+
+                //        cabecera.DetallePedidos.Add(newDetalle);
+                //    }
+                //}
 
                 #endregion
 
@@ -3135,20 +3439,22 @@ public partial class NotaDePedido : BasePage
         if (!EsTemporal)
         {
             List<long> productoControl = new List<long>() { 4707, 6687 };
+            productoControl.Add(idPresentacionIncorporacion_0_2014);
+
 
             List<DetallePedido> ProductoStockLimitado = (from P in (Session["detPedido"] as List<DetallePedido>)
                                                          where productoControl.Contains(P.Presentacion.Value)
                                                          select P).ToList();
 
 
+            /// Control Comentado a partir de 01/04/2015
+            //List<DetallePedido> ProductoStockLimitadoAgrupado = (from P in (Session["detPedido"] as List<DetallePedido>)
+            //                                                     where idsPresentacionIncorporaciones_1_4.Contains(P.Presentacion.Value)
+            //                                                     select P).ToList();
 
-            List<DetallePedido> ProductoStockLimitadoAgrupado = (from P in (Session["detPedido"] as List<DetallePedido>)
-                                                                 where idsPresentacionIncorporaciones_1_4.Contains(P.Presentacion.Value)
-                                                                 select P).ToList();
-
-            ProductoStockLimitadoAgrupado.AddRange((from P in (Session["detPedido"] as List<DetallePedido>)
-                                                    where idsPresentacionIncorporaciones_1_2_2014.Contains(P.Presentacion.Value)
-                                                    select P).ToList());
+            //ProductoStockLimitadoAgrupado.AddRange((from P in (Session["detPedido"] as List<DetallePedido>)
+            //                                        where idsPresentacionIncorporaciones_1_2_2014.Contains(P.Presentacion.Value)
+            //                                        select P).ToList());
 
 
             //long? CantidadSolicitada = ProductoStockLimitado.Sum(w => w.Cantidad);
@@ -3164,19 +3470,19 @@ public partial class NotaDePedido : BasePage
                 //mensajeStock += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Total Solicitado: " + CantidadSolicitada.ToString() + "</b>";
                 return false;
             }
-            else if (ProductoStockLimitadoAgrupado.Sum(w => w.Cantidad) > 1)
-            {
+            //else if (ProductoStockLimitadoAgrupado.Sum(w => w.Cantidad) > 1)
+            //{
 
-                mensajeStock = "<b>Por el momento solo se permite adquirir uno solo de los siguientes productos:</b></br></br>";
+            //    mensajeStock = "<b>Por el momento solo se permite adquirir uno solo de los siguientes productos:</b></br></br>";
 
-                foreach (DetallePedido item in ProductoStockLimitadoAgrupado)
-                {
-                    mensajeStock += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>" + item.ProductoDesc + " " + item.PresentacionDesc + "</b> " + "</br>";
-                }
+            //    foreach (DetallePedido item in ProductoStockLimitadoAgrupado)
+            //    {
+            //        mensajeStock += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>" + item.ProductoDesc + " " + item.PresentacionDesc + "</b> " + "</br>";
+            //    }
 
-                return false;
+            //    return false;
 
-            }
+            //}
             else
             {
                 mensajeStock = "";
@@ -3538,6 +3844,22 @@ public partial class NotaDePedido : BasePage
             }
         }
 
+        foreach (var item in idsProductosIncorporaciones_1_2015)
+        {
+            detEspecial = DetallePedidos.Where(w => w.objProducto.IdProducto == long.Parse(item)).FirstOrDefault();
+            if (detEspecial != null)
+            {
+                SolicitudProductosEspeciale solProd = new SolicitudProductosEspeciale();
+                solProd.Producto = detEspecial.objProducto.IdProducto;
+                solProd.Presentacion = detEspecial.objPresentacion.IdPresentacion;
+                solProd.Cliente = detEspecial.objCabecera.Cliente;
+                solProd.DetallePedido = detEspecial.IdDetallePedido;
+                solProd.Cantidad = Convert.ToInt32(detEspecial.Cantidad);
+
+                Contexto.SolicitudProductosEspeciales.InsertOnSubmit(solProd);
+            }
+        }
+
 
         detEspecial = DetallePedidos.Where(w => w.objProducto.IdProducto == long.Parse(idProductoIncorporacion_0)).FirstOrDefault();
         if (detEspecial != null)
@@ -3565,7 +3887,6 @@ public partial class NotaDePedido : BasePage
 
             Contexto.SolicitudProductosEspeciales.InsertOnSubmit(solProd);
         }
-
 
 
         Contexto.SubmitChanges();
@@ -4211,73 +4532,47 @@ public partial class NotaDePedido : BasePage
                                                                         where I.Cliente == CurrentCliente.IdCliente
                                                                         select I).ToList();
 
-
-
-        //if (CurrentCliente.TipoCliente.ToUpper() == TipoClientes.Consultor.ToString().ToUpper() &&
-        //    (DateTime.Now.Month == 1 && DateTime.Now.Year == 2013))
-        //{
-        //    long idCliente = CurrentCliente.IdCliente;
-        //    var CantidadPedidos = (from c in Contexto.CabeceraPedidos
-        //                           where c.Cliente == idCliente
-        //                           select c).Count();
-
-
-
-        //    /// al cumplirce la regla (Si tiene mas de un pedido)
-        //    /// oculto el nodo de incorporaciones y salgo directamente sin realizar el control 
-        //    /// de mas abajo (2 Regla).
-        //    if (CantidadPedidos >= 2 || (CantidadPedidos == 1 && solicitudesIncorporaciones.Count == 0))
-        //    {
-        //        RadTreeNode NodoInc = RadTreeProductos.FindNodeByAttribute("NodoIncorporaciones", "true");
-        //        NodoInc.Visible = false;
-        //        upTreeProductos.Update();
-        //        return;
-        //    }
-        //}
-
-
-
         ///1. Busco primero si ya solicito la incorporacion 0, si es asi la
         /// excluyo de la lista de productos posibles de solicitar.
         if (solicitudesIncorporaciones.Any(w => w.Producto == long.Parse(idProductoIncorporacion_0) || w.Producto == long.Parse(idProductoIncorporacion_0_2014)))
         {
-            HiddenProductosOcultos.Value += idProductoIncorporacion_0.ToString();
-            HiddenProductosOcultos.Value += "|" + idProductoIncorporacion_0_2014.ToString();
-        }
-
-
-
-
-        ///2. Busco si ya a solicitado alguna de las incorporaciones de la 1 a la 4 si es asi las
-        /// excluyo de la lista de productos posibles de solicitar y tb excluyo la incorporacion 0, ya que al pedir 
-        /// una de estas automaticamente queda imposibilitado de pedir la 0.
-        foreach (var item in idsProductosIncorporaciones_1_4)
-        {
-            if (solicitudesIncorporaciones.Any(w => w.Producto == long.Parse(item)))
+            /// Actualización Regla 01/04/2015: si durante el mes en cuestion no ha solicitado la incorportacion 0 entonces lo dejo solicitar.
+            /// es decir una sola incorportacion por pedido y por mes.
+            if (solicitudesIncorporaciones.Any(w => w.objDetallePedido.objCabecera.FechaPedido.Month == DateTime.Now.Month && w.objDetallePedido.objCabecera.FechaPedido.Year == DateTime.Now.Year))
             {
-                ///Esto es lo mismo que lo que esta abajo, con la diferencia que en el otro
-                ///se oculta el nodo principal y queda mejor para el entiendimiento.
-                //HiddenProductosOcultos.Value += string.Join("|", idsProductosIncorporaciones_1_4.ToArray());
-                //HiddenProductosOcultos.Value += "|" + idProductoIncorporacion_0.ToString();
-
-                RadTreeNode NodoInc = RadTreeProductos.FindNodeByAttribute("NodoIncorporaciones", "true");
-                NodoInc.Visible = false;
-                upTreeProductos.Update();
-
-                break;
+                HiddenProductosOcultos.Value += idProductoIncorporacion_0.ToString();
+                HiddenProductosOcultos.Value += "|" + idProductoIncorporacion_0_2014.ToString();
             }
         }
 
-        foreach (var item in idsProductosIncorporaciones_1_2_2014)
-        {
-            if (solicitudesIncorporaciones.Any(w => w.Producto == long.Parse(item)))
-            {
-                RadTreeNode NodoInc = RadTreeProductos.FindNodeByAttribute("NodoIncorporaciones", "true");
-                NodoInc.Visible = false;
-                upTreeProductos.Update();
-                break;
-            }
-        }
+        /// Estas reglas se comentaron a partir del 01/04/2015
+
+        /////2. Busco si ya a solicitado alguna de las incorporaciones de la 1 a la 4 si es asi las
+        ///// excluyo de la lista de productos posibles de solicitar y tb excluyo la incorporacion 0, ya que al pedir 
+        ///// una de estas automaticamente queda imposibilitado de pedir la 0.
+        //foreach (var item in idsProductosIncorporaciones_1_4)
+        //{
+        //    if (solicitudesIncorporaciones.Any(w => w.Producto == long.Parse(item)))
+        //    {
+
+        //        RadTreeNode NodoInc = RadTreeProductos.FindNodeByAttribute("NodoIncorporaciones", "true");
+        //        NodoInc.Visible = false;
+        //        upTreeProductos.Update();
+
+        //        break;
+        //    }
+        //}
+
+        //foreach (var item in idsProductosIncorporaciones_1_2_2014)
+        //{
+        //    if (solicitudesIncorporaciones.Any(w => w.Producto == long.Parse(item)))
+        //    {
+        //        RadTreeNode NodoInc = RadTreeProductos.FindNodeByAttribute("NodoIncorporaciones", "true");
+        //        NodoInc.Visible = false;
+        //        upTreeProductos.Update();
+        //        break;
+        //    }
+        //}
 
         upHiddenProductos.Update();
 
@@ -5060,9 +5355,9 @@ public partial class NotaDePedido : BasePage
 
                     Producto promoPedidoMayor = (from P in Contexto.Presentacions
                                                  where P.Codigo.Trim() == codigoPromoPedidoMayor
-                                                 select P.objProducto).First<Producto>();
+                                                 select P.objProducto).FirstOrDefault<Producto>();
 
-                    if (promoPedidoMayor.objConfPromocion != null && promoPedidoMayor.objConfPromocion.FechaInicio <= DateTime.Now && promoPedidoMayor.objConfPromocion.FechaFinal > DateTime.Now)
+                    if (promoPedidoMayor!= null && promoPedidoMayor.objConfPromocion != null && promoPedidoMayor.objConfPromocion.FechaInicio <= DateTime.Now && promoPedidoMayor.objConfPromocion.FechaFinal > DateTime.Now)
                     {
 
                         List<string> descripcionPromo = new List<string>();
