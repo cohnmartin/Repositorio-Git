@@ -1477,10 +1477,9 @@ public partial class NotaDePedido : BasePage
                 }
             }
 
-
-            /// Elimino el producto Catálogo x 10 unidades  (2506600030077)
+            /// Elimino el producto Catálogo x 10 unidades  (2506600030082)
             List<DetallePedido> detallesCatalogox10 = (from d in cabecera.DetallePedidos
-                                                       where d.Presentacion == 6865
+                                                       where d.Presentacion == 6979
                                                        select d).ToList();
 
             if (detallesCatalogox10.Count > 0)
@@ -1495,8 +1494,7 @@ public partial class NotaDePedido : BasePage
                 }
             }
 
-
-
+ 
             foreach (DetallePedido item in DetallesEliminar)
             {
                 cabecera.DetallePedidos.Remove(item);
@@ -3120,6 +3118,66 @@ public partial class NotaDePedido : BasePage
 
                 #endregion
 
+
+
+                #region  Repuesto Difusor Pet Flores Cítricas 100ml : 17/04/2015
+                if (!EsTemporal)
+                {
+
+                    string CodigoDifusorPet = "1010700126   -193-23";
+                    string CodigoVarrila = "2500000110106"; //Paquete Varillas de Bambú x 16 u (sólo 1) 
+                    string CodigoRepuestoDif = "2506900125001"; //Embudo Repuesto Difusor (sólo 1) 
+
+
+                    /// si en el detalle esta el producto buscado: CodigoDifusorPet entonces AGREGO 
+                    /// el producto elejido: CodigoVarrila y CodigoRepuestoDif
+                    long CantidadDifusorPet = Convert.ToInt64(((from N in cabecera.DetallePedidos
+                                                                 where N.CodigoCompleto.Trim() == CodigoDifusorPet.Trim()
+                                                                 select N.Cantidad.Value).Sum()));
+
+                    if (CantidadDifusorPet > 0)
+                    {
+
+                        Presentacion preVarille = (from P in Contexto.Presentacions
+                                                      where P.Codigo.Trim() == CodigoVarrila
+                                                      select P).FirstOrDefault();
+
+
+                        if (preVarille != null)
+                        {
+                            newDetalle = new DetallePedido();
+                            newDetalle.Cantidad = CantidadDifusorPet;
+                            newDetalle.CodigoCompleto = preVarille.Codigo;
+                            newDetalle.Presentacion = preVarille.IdPresentacion;
+                            newDetalle.Producto = preVarille.objProducto.IdProducto;
+                            newDetalle.ValorUnitario = preVarille.Precio;
+                            newDetalle.ValorTotal = newDetalle.ValorUnitario * newDetalle.Cantidad;
+
+                            cabecera.DetallePedidos.Add(newDetalle);
+                        }
+
+
+                        Presentacion preRepuestoDifusor = (from P in Contexto.Presentacions
+                                                           where P.Codigo.Trim() == CodigoRepuestoDif
+                                                   select P).FirstOrDefault();
+
+
+                        if (preRepuestoDifusor != null)
+                        {
+                            newDetalle = new DetallePedido();
+                            newDetalle.Cantidad = CantidadDifusorPet;
+                            newDetalle.CodigoCompleto = preRepuestoDifusor.Codigo;
+                            newDetalle.Presentacion = preRepuestoDifusor.IdPresentacion;
+                            newDetalle.Producto = preRepuestoDifusor.objProducto.IdProducto;
+                            newDetalle.ValorUnitario = preRepuestoDifusor.Precio;
+                            newDetalle.ValorTotal = newDetalle.ValorUnitario * newDetalle.Cantidad;
+
+                            cabecera.DetallePedidos.Add(newDetalle);
+                        }
+                    }
+                }
+
+                #endregion
                 #endregion
 
                 #region Generacion del Gasto de Envio del Pedido
