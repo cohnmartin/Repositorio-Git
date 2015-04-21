@@ -3127,7 +3127,7 @@ public partial class NotaDePedido : BasePage
                     string CodigoDifusorPet = "1010700126   -193-23";
                     string CodigoVarrila = "2500000110106"; //Paquete Varillas de Bambú x 16 u (sólo 1) 
                     string CodigoRepuestoDif = "2506900125001"; //Embudo Repuesto Difusor (sólo 1) 
-                    string CodigoDescuentoRepDif = "2150000021025   "; // Descuento Embudo Repuesto Difusor (sólo 1) 
+                    string CodigoDescuentoRepDif = "2150000021025"; // Descuento Embudo Repuesto Difusor (sólo 1) 
                     
 
 
