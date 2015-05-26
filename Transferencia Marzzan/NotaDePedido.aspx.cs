@@ -2347,7 +2347,7 @@ public partial class NotaDePedido : BasePage
                     newDetalle.CodigoCompleto = pre.Codigo;
                     newDetalle.Presentacion = pre.IdPresentacion;
                     newDetalle.Producto = pre.objProducto.IdProducto;
-                    newDetalle.ValorUnitario = pre.Precio;
+                    newDetalle.ValorUnitario = 0; //Se pidio que el valor sea 0: 26/05/2015 pre.Precio;
                     newDetalle.ValorTotal = newDetalle.ValorUnitario * newDetalle.Cantidad;
 
                     cabecera.DetallePedidos.Add(newDetalle);
