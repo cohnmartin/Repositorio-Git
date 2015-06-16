@@ -1631,7 +1631,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <asp:Label ID="Label19" runat="server" Text="Descuentos por Remitos:"></asp:Label>
+                            <asp:Label ID="Label19" runat="server" Text="Remitos Pendientes:"></asp:Label>
                         </td>
                         <td>
                             <asp:Label ID="lblDescuentoRemitos" runat="server" Text="$ 0"></asp:Label>
