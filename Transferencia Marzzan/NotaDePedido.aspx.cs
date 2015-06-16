@@ -4106,7 +4106,12 @@ public partial class NotaDePedido : BasePage
             lblCostoFlete.Text = string.Format("$ {0:0.00}", (ValorFlete));
             lblDescuentos.Text = string.Format("$ {0:0.00}", (DescuentosPromociones));
             lblDescuentoProvincia.Text = string.Format("$ {0:0.00}", (DescuentoProvincia));
-            lblDescuentoRemitos.Text = string.Format("$ {0:0.00}", (Math.Abs(DescuentosRemitos)));
+
+            /// Cambio solicitado el 15/06/2015: Dejar de utilizar el valor absoluto para mostrar el descuento del remito.
+            /// ademas de cambio de la etiqueta.
+            //lblDescuentoRemitos.Text = string.Format("$ {0:0.00}", (Math.Abs(DescuentosRemitos)));
+            lblDescuentoRemitos.Text = string.Format("$ {0:0.00}", DescuentosRemitos);
+
             lblDescuentosGenerales.Text = string.Format("$ {0:0.00}", (Math.Abs(DescuentosGenerales)));
 
             MontoTotal += ValorFlete - DescuentosPromociones - DescuentoProvincia + DescuentosRemitos + DescuentosGenerales;
@@ -4208,8 +4213,9 @@ public partial class NotaDePedido : BasePage
                     if (MontoTotal >= montoSujetoNoCategorizado)
                     {
 
-                        // Caclulo del Neto del pedido
-                        neto = MontoTotal * Convert.ToDecimal("0,904975");
+                        // Cambio solicitado el 15/06/2015
+                        //neto = MontoTotal * Convert.ToDecimal("0,904975");
+                        neto = MontoTotal;
 
                         // Calculo del RG212
                         imp212 = Math.Round((neto) * (GR212 / 100), 2);
@@ -4305,7 +4311,9 @@ public partial class NotaDePedido : BasePage
                         {
 
                             // Caclulo del Neto del pedido
-                            neto = MontoTotal * Convert.ToDecimal("0,904975");
+                            // Cambio solicitado el 15/06/2015
+                            //neto = MontoTotal * Convert.ToDecimal("0,904975");
+                            neto = MontoTotal;
 
                             // Calculo del RG212
                             imp212 = Math.Round((neto) * (GR212 / 100), 2);
@@ -4396,8 +4404,9 @@ public partial class NotaDePedido : BasePage
                         if (MontoTotal >= montoSujetoNoCategorizado)
                         {
                             // Caclulo del Neto del pedido
-                            // Porcentaje de Descuento: 0,904975"
-                            neto = MontoTotal * Convert.ToDecimal("0,904975");
+                            // Cambio solicitado el 15/06/2015
+                            //neto = MontoTotal * Convert.ToDecimal("0,904975");
+                            neto = MontoTotal;
 
 
                             // Calculo del RG212
