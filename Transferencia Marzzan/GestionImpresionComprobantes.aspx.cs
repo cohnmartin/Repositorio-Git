@@ -1651,10 +1651,10 @@ public partial class GestionImpresionComprobantes : BasePage
         ptable.WidthPercentage = 95;
 
 
-        ptable.AddCell(new iTextSharp.text.Phrase("NETO", font10BBlack));
+        ptable.AddCell(new iTextSharp.text.Phrase("SUBTOTAL", font10BBlack));
         ptable.AddCell(new iTextSharp.text.Phrase("IVA", font10BBlack));
-        ptable.AddCell(new iTextSharp.text.Phrase("RG30", font10BBlack));
-        ptable.AddCell(new iTextSharp.text.Phrase("RG212", font10BBlack));
+        ptable.AddCell(new iTextSharp.text.Phrase("RG30/99", font10BBlack));
+        ptable.AddCell(new iTextSharp.text.Phrase("RG2126/06", font10BBlack));
         ptable.AddCell(new iTextSharp.text.Phrase("TOTAL", font10BBlack));
 
         ptable.Rows[0].GetCells()[0].BackgroundColor = new BaseColor(System.Drawing.Color.SkyBlue);
