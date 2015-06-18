@@ -1477,9 +1477,9 @@ public partial class NotaDePedido : BasePage
                 }
             }
 
-            /// Elimino el producto Catálogo x 10 unidades  (2506600030082)
+            /// Elimino el producto Catálogo x 10 unidades  (2506600030085)
             List<DetallePedido> detallesCatalogox10 = (from d in cabecera.DetallePedidos
-                                                       where d.Presentacion == 6979
+                                                       where d.Presentacion == 7098
                                                        select d).ToList();
 
             if (detallesCatalogox10.Count > 0)
@@ -1495,6 +1495,30 @@ public partial class NotaDePedido : BasePage
             }
 
  
+            foreach (DetallePedido item in DetallesEliminar)
+            {
+                cabecera.DetallePedidos.Remove(item);
+            }
+
+
+            /// Elimino el producto Catálogo x 50 unidades  (2506600030089)
+            List<DetallePedido> detallesCatalogox50 = (from d in cabecera.DetallePedidos
+                                                       where d.Presentacion == 7102
+                                                       select d).ToList();
+
+            if (detallesCatalogox50.Count > 0)
+            {
+                foreach (var item in detallesCatalogox50)
+                {
+                    if (item.IdDetallePedido != 0)
+                    {
+                        Contexto.DetallePedidos.DeleteOnSubmit(item);
+                    }
+                    DetallesEliminar.Add(item);
+                }
+            }
+
+
             foreach (DetallePedido item in DetallesEliminar)
             {
                 cabecera.DetallePedidos.Remove(item);
@@ -1585,7 +1609,7 @@ public partial class NotaDePedido : BasePage
 
 
             }
-            else if (det.CodigoCompleto.Trim() == "2506600030082")
+            else if (det.CodigoCompleto.Trim() == "2506600030085")
             {
 
                 /// /// /// ///  Codigo Anterior /// /// /// ///  
@@ -1603,8 +1627,17 @@ public partial class NotaDePedido : BasePage
                 /// 2.50.6600.030.079       Catálogo SM x 5 u 2015 01        (2 artículos de este que sumen las 10 unidades) 
                 /// 2.15.0000.021.006       Descuento Catálogo x 10 u. 2015 01        (sólo 1 artículo de este) 
 
+
+                /// /// /// ///  Cambio 16/06/2015 /// /// /// ///  
+                /// Nuevo Producto Inicial: 2506600030085  Catálogo SM x 10 2015 03 
+                /// Si esta este producto y se esta realizando el pedido, no se debe
+                /// agregar este producto sino que se tiene que reemplazar por:
+                /// 2506600030086        Catálogo SM x 5 u 2015 03        (2 artículos de este que sumen las 10 unidades) 
+                /// 2150000021006       Descuento Catálogo x 10 u. 2015 01        (sólo 1 artículo de este) 
+
+
                 Presentacion preCatalogoSM = (from P in Contexto.Presentacions
-                                              where P.Codigo == "2506600030076"
+                                              where P.Codigo == "2506600030086"
                                               select P).FirstOrDefault<Presentacion>();
 
                 Presentacion preDescuentoCatalogo = (from P in Contexto.Presentacions
@@ -1614,6 +1647,46 @@ public partial class NotaDePedido : BasePage
 
                 DetallePedido newDetalleSI = new DetallePedido();
                 newDetalleSI.Cantidad = det.Cantidad * 2;
+                newDetalleSI.CodigoCompleto = preCatalogoSM.Codigo;
+                newDetalleSI.Presentacion = preCatalogoSM.IdPresentacion;
+                newDetalleSI.Producto = preCatalogoSM.objProducto.IdProducto;
+                newDetalleSI.ValorUnitario = preCatalogoSM.Precio;
+                newDetalleSI.ValorTotal = newDetalleSI.Cantidad * preCatalogoSM.Precio;
+                nuevosDetalles.Add(newDetalleSI);
+
+                DetallePedido newDetallePlacerAD = new DetallePedido();
+                newDetallePlacerAD.Cantidad = det.Cantidad;
+                newDetallePlacerAD.CodigoCompleto = preDescuentoCatalogo.Codigo;
+                newDetallePlacerAD.Presentacion = preDescuentoCatalogo.IdPresentacion;
+                newDetallePlacerAD.Producto = preDescuentoCatalogo.objProducto.IdProducto;
+                newDetallePlacerAD.ValorUnitario = preDescuentoCatalogo.Precio * -1;
+                newDetallePlacerAD.ValorTotal = det.Cantidad * preDescuentoCatalogo.Precio * -1;
+                nuevosDetalles.Add(newDetallePlacerAD);
+
+
+            }
+            else if (det.CodigoCompleto.Trim() == "2506600030089")
+            {
+
+                /// /// /// ///  Cambio 16/06/2015 /// /// /// ///  
+                /// Nuevo Producto Inicial: 2506600030089   Catálogo SM x 50 2015 03 
+                /// Si esta este producto y se esta realizando el pedido, no se debe
+                /// agregar este producto sino que se tiene que reemplazar por:
+                /// 2506600030086        Catálogo SM x 5 u 2015 03        (2 artículos de este que sumen las 10 unidades) 
+                /// 2150000021030       Descuento Catálogo x 50 u. (sólo 1 artículo de este) 
+
+
+                Presentacion preCatalogoSM = (from P in Contexto.Presentacions
+                                              where P.Codigo == "2506600030086"
+                                              select P).FirstOrDefault<Presentacion>();
+
+                Presentacion preDescuentoCatalogo = (from P in Contexto.Presentacions
+                                                     where P.Codigo == "2150000021030"
+                                                     select P).FirstOrDefault<Presentacion>();
+
+
+                DetallePedido newDetalleSI = new DetallePedido();
+                newDetalleSI.Cantidad = det.Cantidad * 10;
                 newDetalleSI.CodigoCompleto = preCatalogoSM.Codigo;
                 newDetalleSI.Presentacion = preCatalogoSM.IdPresentacion;
                 newDetalleSI.Producto = preCatalogoSM.objProducto.IdProducto;
