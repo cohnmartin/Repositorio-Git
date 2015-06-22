@@ -24,7 +24,7 @@ public partial class NotaDePedido : BasePage
     public List<Producto> _productos = null;
     public long _idDireccionGrabada = 0;
     public string idProductoIncorporacion_0 = "4693";
-    
+
     // Incorporacion 0 para el 2014 y 2015 (_0_2014)
     public string idProductoIncorporacion_0_2014 = "6823";
     public long idPresentacionIncorporacion_0_2014 = 6878;
@@ -38,8 +38,8 @@ public partial class NotaDePedido : BasePage
     public List<long> idsPresentacionIncorporaciones_1_2_2014 = new List<long>() { 6877, 6879 };
 
     public List<string> idsProductosIncorporaciones_1_2015 = new List<string>() { "6935" };
-    public List<long> idsPresentacionIncorporaciones_1_2015 = new List<long>() { 6947};
-    
+    public List<long> idsPresentacionIncorporaciones_1_2015 = new List<long>() { 6947 };
+
     // Presentaciones de las incorporaciones de la 1  al a 4
     //5796	2516700021001   	Unidad	5714	30.00	1	00025167001
     //5797	2516700021002   	Unidad	5715	175.00	1	00025167002
@@ -50,7 +50,7 @@ public partial class NotaDePedido : BasePage
     // 2516700019020        Incorporación Nº 0 Catálogo SM  -->  2516700021005        Incorporación Costo 0 - Catálogo + Revista + Carpe 
     // 2516700021001        Incorporación_N°1  -->  2516700021007        Incorporación Bolso SM     (idPre: 6877) - (IdProd: 6822)
     // 2516700021002        Incorporación_N°2  -->  2516700021006        Incorporación Valija SM  - (idPre: 6879) - (IdProd: 6824)
-    
+
     // Presentaciones 2015
     //                                         -->  2516700021008        Incorporación Económica SM  - (idPre: 6947) - (IdProd: 6935)
 
@@ -1005,7 +1005,7 @@ public partial class NotaDePedido : BasePage
             }
 
         }
-        #endregion 
+        #endregion
     }
 
     #region Eventos
@@ -1494,7 +1494,7 @@ public partial class NotaDePedido : BasePage
                 }
             }
 
- 
+
             foreach (DetallePedido item in DetallesEliminar)
             {
                 cabecera.DetallePedidos.Remove(item);
@@ -2552,11 +2552,13 @@ public partial class NotaDePedido : BasePage
 
                 if (!EsTemporal)
                 {
-                    //string[] CodigosAromatizadores = new string[] { "1010200001   -018-50 ", "1010100001   -009-50 ", "1010300001   -142-50 ", "1010100001   -003-50 ", "1010507001   -203-50 "
+
+                    string[] CodigosAromatizadoresEspeciales = new string[] { "1054300001   -148-50 " };
+                        //, "1010100001   -009-50 ", "1010300001   -142-50 ", "1010100001   -003-50 ", "1010507001   -203-50 "
                     //    , "1010100001   -012-50 ", "1010300001   -244-50 ", "1010300001   -021-50 ", "1010200001   -015-50 ", "1010100001   -017-50 ", "1010100001   -011-50 ","1010200001   -017-50 ","1010300001   -026-50 "
                     //    ,"1010100001   -001-50 ","1010100001   -005-50 ","1010100001   -008-50 ","1010100001   -131-50 ","101100001   -013-50 ","1010300001   -025-50 ","1010300001   -024-50 ","1010300001   -027-50 ","1010300001   -028-50 ","1010300001   -180-50 ","1010300001   -152-50 ","1010300001   -022-50 ","1010300001   -023-50 ","1010504001   -115-50 "
                     //    ,"1010100001   -013-50 ","1010100001   -130-50 ","1010200001   -014-50 ","1010200001   -016-50 ","1010100001   -007-50 ","1010100001   -002-50 ","1010100001   -109-50 ","1010501001   -116-50 "};
-
+                   
                     // 1493	01	Fresh
                     // 1507	02	Aromaterapia
                     // 1513	03	Selectivo
@@ -2568,12 +2570,13 @@ public partial class NotaDePedido : BasePage
 
 
                     string[] CodigosAromatizadores = (from p in Contexto.Presentacions
-                                                      where IdLineasIncluidas.Contains(p.Padre.Value) && p.Descripcion == "500 ml" && p.Codigo != "1010300001   -133-50 "
+                                                      where (IdLineasIncluidas.Contains(p.Padre.Value) && p.Descripcion == "500 ml" && p.Codigo != "1010300001   -133-50 ")
                                                       select p.Codigo.Trim()).ToArray();
 
 
                     long CantidadAromatizador = Convert.ToInt64(((from N in cabecera.DetallePedidos
-                                                                  where CodigosAromatizadores.Contains(N.CodigoCompleto.Trim())
+                                                                  where CodigosAromatizadores.Contains(N.CodigoCompleto.Trim()) ||
+                                                                  CodigosAromatizadoresEspeciales.Contains(N.CodigoCompleto.Trim())
                                                                   select N.Cantidad.Value).Sum() * 1));
 
 
@@ -3201,21 +3204,21 @@ public partial class NotaDePedido : BasePage
                     string CodigoVarrila = "2500000110106"; //Paquete Varillas de Bambú x 16 u (sólo 1) 
                     string CodigoRepuestoDif = "2506900125001"; //Embudo Repuesto Difusor (sólo 1) 
                     string CodigoDescuentoRepDif = "2150000021025"; // Descuento Embudo Repuesto Difusor (sólo 1) 
-                    
+
 
 
                     /// si en el detalle esta el producto buscado: CodigoDifusorPet entonces AGREGO 
                     /// el producto elejido: CodigoVarrila y CodigoRepuestoDif
                     long CantidadDifusorPet = Convert.ToInt64(((from N in cabecera.DetallePedidos
-                                                                 where N.CodigoCompleto.Trim() == CodigoDifusorPet.Trim()
-                                                                 select N.Cantidad.Value).Sum()));
+                                                                where N.CodigoCompleto.Trim() == CodigoDifusorPet.Trim()
+                                                                select N.Cantidad.Value).Sum()));
 
                     if (CantidadDifusorPet > 0)
                     {
 
                         Presentacion preVarille = (from P in Contexto.Presentacions
-                                                      where P.Codigo.Trim() == CodigoVarrila
-                                                      select P).FirstOrDefault();
+                                                   where P.Codigo.Trim() == CodigoVarrila
+                                                   select P).FirstOrDefault();
 
 
                         if (preVarille != null)
@@ -3234,7 +3237,7 @@ public partial class NotaDePedido : BasePage
 
                         Presentacion preRepuestoDifusor = (from P in Contexto.Presentacions
                                                            where P.Codigo.Trim() == CodigoRepuestoDif
-                                                   select P).FirstOrDefault();
+                                                           select P).FirstOrDefault();
 
 
                         if (preRepuestoDifusor != null)
@@ -3251,8 +3254,8 @@ public partial class NotaDePedido : BasePage
                         }
 
                         Presentacion preDescuentoRepuestoDifusor = (from P in Contexto.Presentacions
-                                                           where P.Codigo.Trim() == CodigoDescuentoRepDif
-                                                   select P).FirstOrDefault();
+                                                                    where P.Codigo.Trim() == CodigoDescuentoRepDif
+                                                                    select P).FirstOrDefault();
 
 
                         if (preDescuentoRepuestoDifusor != null)
@@ -3262,13 +3265,13 @@ public partial class NotaDePedido : BasePage
                             newDetalle.CodigoCompleto = preDescuentoRepuestoDifusor.Codigo;
                             newDetalle.Presentacion = preDescuentoRepuestoDifusor.IdPresentacion;
                             newDetalle.Producto = preDescuentoRepuestoDifusor.objProducto.IdProducto;
-                            newDetalle.ValorUnitario = preDescuentoRepuestoDifusor.Precio *- 1;
+                            newDetalle.ValorUnitario = preDescuentoRepuestoDifusor.Precio * -1;
                             newDetalle.ValorTotal = newDetalle.ValorUnitario * newDetalle.Cantidad;
 
                             cabecera.DetallePedidos.Add(newDetalle);
                         }
 
-                        
+
                     }
                 }
 
@@ -5519,7 +5522,7 @@ public partial class NotaDePedido : BasePage
                                                  where P.Codigo.Trim() == codigoPromoPedidoMayor
                                                  select P.objProducto).FirstOrDefault<Producto>();
 
-                    if (promoPedidoMayor!= null && promoPedidoMayor.objConfPromocion != null && promoPedidoMayor.objConfPromocion.FechaInicio <= DateTime.Now && promoPedidoMayor.objConfPromocion.FechaFinal > DateTime.Now)
+                    if (promoPedidoMayor != null && promoPedidoMayor.objConfPromocion != null && promoPedidoMayor.objConfPromocion.FechaInicio <= DateTime.Now && promoPedidoMayor.objConfPromocion.FechaFinal > DateTime.Now)
                     {
 
                         List<string> descripcionPromo = new List<string>();
@@ -6233,6 +6236,7 @@ public partial class NotaDePedido : BasePage
             /// aquello donde el código comienza con un 1.
             decimal TotalComprado = (from P in (HttpContext.Current.Session["detPedido"] as List<DetallePedido>)
                                      where (P.CodigoCompleto.Substring(0, 1) == "1" && P.Tipo == "A") || (P.Tipo == "P") || (P.Tipo == "D")
+                                   || (P.CodigoCompleto.Trim() == "2506600030085") || (P.CodigoCompleto.Trim() == "2506600030089") 
                                      select P.ValorTotal.Value).Sum();
 
 
