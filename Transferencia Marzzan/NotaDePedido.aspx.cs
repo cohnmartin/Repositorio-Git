@@ -1665,46 +1665,46 @@ public partial class NotaDePedido : BasePage
 
 
             }
-            else if (det.CodigoCompleto.Trim() == "2506600030089")
-            {
+            //else if (det.CodigoCompleto.Trim() == "2506600030089")
+            //{
 
-                /// /// /// ///  Cambio 16/06/2015 /// /// /// ///  
-                /// Nuevo Producto Inicial: 2506600030089   Catálogo SM x 50 2015 03 
-                /// Si esta este producto y se esta realizando el pedido, no se debe
-                /// agregar este producto sino que se tiene que reemplazar por:
-                /// 2506600030086        Catálogo SM x 5 u 2015 03        (2 artículos de este que sumen las 10 unidades) 
-                /// 2150000021030       Descuento Catálogo x 50 u. (sólo 1 artículo de este) 
-
-
-                Presentacion preCatalogoSM = (from P in Contexto.Presentacions
-                                              where P.Codigo == "2506600030086"
-                                              select P).FirstOrDefault<Presentacion>();
-
-                Presentacion preDescuentoCatalogo = (from P in Contexto.Presentacions
-                                                     where P.Codigo == "2150000021030"
-                                                     select P).FirstOrDefault<Presentacion>();
+            //    /// /// /// ///  Cambio 16/06/2015 /// /// /// ///  
+            //    /// Nuevo Producto Inicial: 2506600030089   Catálogo SM x 50 2015 03 
+            //    /// Si esta este producto y se esta realizando el pedido, no se debe
+            //    /// agregar este producto sino que se tiene que reemplazar por:
+            //    /// 2506600030086        Catálogo SM x 5 u 2015 03        (2 artículos de este que sumen las 10 unidades) 
+            //    /// 2150000021030       Descuento Catálogo x 50 u. (sólo 1 artículo de este) 
 
 
-                DetallePedido newDetalleSI = new DetallePedido();
-                newDetalleSI.Cantidad = det.Cantidad * 10;
-                newDetalleSI.CodigoCompleto = preCatalogoSM.Codigo;
-                newDetalleSI.Presentacion = preCatalogoSM.IdPresentacion;
-                newDetalleSI.Producto = preCatalogoSM.objProducto.IdProducto;
-                newDetalleSI.ValorUnitario = preCatalogoSM.Precio;
-                newDetalleSI.ValorTotal = newDetalleSI.Cantidad * preCatalogoSM.Precio;
-                nuevosDetalles.Add(newDetalleSI);
+            //    Presentacion preCatalogoSM = (from P in Contexto.Presentacions
+            //                                  where P.Codigo == "2506600030086"
+            //                                  select P).FirstOrDefault<Presentacion>();
 
-                DetallePedido newDetallePlacerAD = new DetallePedido();
-                newDetallePlacerAD.Cantidad = det.Cantidad;
-                newDetallePlacerAD.CodigoCompleto = preDescuentoCatalogo.Codigo;
-                newDetallePlacerAD.Presentacion = preDescuentoCatalogo.IdPresentacion;
-                newDetallePlacerAD.Producto = preDescuentoCatalogo.objProducto.IdProducto;
-                newDetallePlacerAD.ValorUnitario = preDescuentoCatalogo.Precio * -1;
-                newDetallePlacerAD.ValorTotal = det.Cantidad * preDescuentoCatalogo.Precio * -1;
-                nuevosDetalles.Add(newDetallePlacerAD);
+            //    Presentacion preDescuentoCatalogo = (from P in Contexto.Presentacions
+            //                                         where P.Codigo == "2150000021030"
+            //                                         select P).FirstOrDefault<Presentacion>();
 
 
-            }
+            //    DetallePedido newDetalleSI = new DetallePedido();
+            //    newDetalleSI.Cantidad = det.Cantidad * 10;
+            //    newDetalleSI.CodigoCompleto = preCatalogoSM.Codigo;
+            //    newDetalleSI.Presentacion = preCatalogoSM.IdPresentacion;
+            //    newDetalleSI.Producto = preCatalogoSM.objProducto.IdProducto;
+            //    newDetalleSI.ValorUnitario = preCatalogoSM.Precio;
+            //    newDetalleSI.ValorTotal = newDetalleSI.Cantidad * preCatalogoSM.Precio;
+            //    nuevosDetalles.Add(newDetalleSI);
+
+            //    DetallePedido newDetallePlacerAD = new DetallePedido();
+            //    newDetallePlacerAD.Cantidad = det.Cantidad;
+            //    newDetallePlacerAD.CodigoCompleto = preDescuentoCatalogo.Codigo;
+            //    newDetallePlacerAD.Presentacion = preDescuentoCatalogo.IdPresentacion;
+            //    newDetallePlacerAD.Producto = preDescuentoCatalogo.objProducto.IdProducto;
+            //    newDetallePlacerAD.ValorUnitario = preDescuentoCatalogo.Precio * -1;
+            //    newDetallePlacerAD.ValorTotal = det.Cantidad * preDescuentoCatalogo.Precio * -1;
+            //    nuevosDetalles.Add(newDetallePlacerAD);
+
+
+            //}
         }
 
         cabecera.DetallePedidos.AddRange(nuevosDetalles);
