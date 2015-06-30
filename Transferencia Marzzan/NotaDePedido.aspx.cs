@@ -2608,7 +2608,7 @@ public partial class NotaDePedido : BasePage
                 1.01.8500.170.003-000-00        Hornillo Geo Salmón - -        :         
                 1.01.8500.170.004-000-00        Hornillo Geo Verde - -         
                 1.01.8500.170.001-000-00        Hornillo Prisma - - 
-
+                1.01.8500.170.007-000-00        Hornillo Deco - -   
                 Cada vez que pidan cualquiera de los hornillos, la nota de pedido de agregar una vela por cada hornillo pedido. 
 
                 El artículo correspondiente a la vela es 2.50.0000.110.001        Vela de Regalo Hornillo         
@@ -2617,7 +2617,7 @@ public partial class NotaDePedido : BasePage
 
                 if (!EsTemporal)
                 {
-                    string[] CodigosHornillos = new string[] { "1018500170003-000-00 ", "1018500170004-000-00 ", "1018500170001-000-00 " };
+                    string[] CodigosHornillos = new string[] { "1018500170003-000-00 ", "1018500170004-000-00 ", "1018500170001-000-00 ", "1018500170007-000-00 " };
 
                     long CantidadHornillos = Convert.ToInt64(((from N in cabecera.DetallePedidos
                                                                where CodigosHornillos.Contains(N.CodigoCompleto)
@@ -3116,15 +3116,15 @@ public partial class NotaDePedido : BasePage
 
                 #endregion
 
-                #region  Detalle  Aromatizador Valentina 500 ml 01/01/2015
+                #region  Detalle  Aromatizador Mujercitas Inqu 500 ml
                 if (!EsTemporal)
                 {
-
-                    string CodigoAromatizadorValentina = "1010300001   -182-50";
+                    /// cambio del 30-06-2015
+                    /// Se cambio a este producto: Aromatizador Mujercitas Inqu 500 ml   
+                    string CodigoAromatizadorValentina = "1054300001   -148-50";
                     string CodigoGatilloAromatizador = "2500000032001";
 
-                    /// si en el detalle esta el producto buscado: CodigoHornilloTao entonces AGREGO 
-                    /// el producto elejido: CodigoVelaRegalo
+                    /// si en el detalle esta el producto Aromatizador Mujercitas Inqu 500 ml   doy de regalo Gatillo Aromatizador 500 ml
                     long CantidadCodigoAromatizadorValentina = Convert.ToInt64(((from N in cabecera.DetallePedidos
                                                                                  where N.CodigoCompleto.Trim() == CodigoAromatizadorValentina.Trim()
                                                                                  select N.Cantidad.Value).Sum()));
@@ -3138,20 +3138,69 @@ public partial class NotaDePedido : BasePage
                                                                select P).FirstOrDefault();
 
 
-                        //if (preGatilloAromatizador != null)
-                        //{
-                        //    newDetalle = new DetallePedido();
-                        //    newDetalle.Cantidad = CantidadCodigoAromatizadorValentina;
-                        //    newDetalle.CodigoCompleto = preGatilloAromatizador.Codigo;
-                        //    newDetalle.Presentacion = preGatilloAromatizador.IdPresentacion;
-                        //    newDetalle.Producto = preGatilloAromatizador.objProducto.IdProducto;
-                        //    newDetalle.ValorUnitario = preGatilloAromatizador.Precio;
-                        //    newDetalle.ValorTotal = newDetalle.ValorUnitario * newDetalle.Cantidad;
+                        if (preGatilloAromatizador != null)
+                        {
+                            newDetalle = new DetallePedido();
+                            newDetalle.Cantidad = CantidadCodigoAromatizadorValentina;
+                            newDetalle.CodigoCompleto = preGatilloAromatizador.Codigo;
+                            newDetalle.Presentacion = preGatilloAromatizador.IdPresentacion;
+                            newDetalle.Producto = preGatilloAromatizador.objProducto.IdProducto;
+                            newDetalle.ValorUnitario = preGatilloAromatizador.Precio;
+                            newDetalle.ValorTotal = newDetalle.ValorUnitario * newDetalle.Cantidad;
 
-                        //    cabecera.DetallePedidos.Add(newDetalle);
-                        //}
+                            cabecera.DetallePedidos.Add(newDetalle);
+                        }
                     }
                 }
+
+                #endregion
+
+                #region Valija Vacía 
+                /// 30/06/2015: Cambio implementado 
+                
+                //Cada vez que se pida el siguiente artículo: 
+                //2506900023020        Cartuchera SM (Vacía)   
+   
+                //Debe agregar en la nota de pedido el siguiente artículo 4 veces: 
+                //2506900023029        Blister Vacío      ( 4 unidades)
+
+
+                if (!EsTemporal)
+                {
+                    /// cambio del 30-06-2015
+                    /// Se cambio a este producto: Aromatizador Mujercitas Inqu 500 ml   
+                    string CodigoCartucheraVacia = "2506900023020";
+                    string CodigoBlisterVacio = "2506900023029";
+
+                    /// si en el detalle esta el producto Aromatizador Mujercitas Inqu 500 ml   doy de regalo Gatillo Aromatizador 500 ml
+                    long CantidadCartucherasVacias = Convert.ToInt64(((from N in cabecera.DetallePedidos
+                                                                                 where N.CodigoCompleto.Trim() == CodigoCartucheraVacia.Trim()
+                                                                                 select N.Cantidad.Value).Sum()));
+
+
+                    if (CantidadCartucherasVacias > 0)
+                    {
+
+                        Presentacion preBlisterVacio = (from P in Contexto.Presentacions
+                                                        where P.Codigo.Trim() == CodigoBlisterVacio
+                                                               select P).FirstOrDefault();
+
+
+                        if (preBlisterVacio != null)
+                        {
+                            newDetalle = new DetallePedido();
+                            newDetalle.Cantidad = 4 * CantidadCartucherasVacias;
+                            newDetalle.CodigoCompleto = preBlisterVacio.Codigo;
+                            newDetalle.Presentacion = preBlisterVacio.IdPresentacion;
+                            newDetalle.Producto = preBlisterVacio.objProducto.IdProducto;
+                            newDetalle.ValorUnitario = preBlisterVacio.Precio;
+                            newDetalle.ValorTotal = newDetalle.ValorUnitario * newDetalle.Cantidad;
+
+                            cabecera.DetallePedidos.Add(newDetalle);
+                        }
+                    }
+                }
+
 
                 #endregion
 
@@ -3194,15 +3243,15 @@ public partial class NotaDePedido : BasePage
 
                 #endregion
 
-
-
-                #region  Repuesto Difusor Pet Flores Cítricas 100ml : 17/04/2015
+                #region  Repuesto Difusores varios
                 if (!EsTemporal)
                 {
+                    List<string> CodigoDifusorPet = new List<string>() { "1010700126   -193-23", "1010700126   -192-23", "1010700126   -190-23", "1010700126   -308-23", "1010700126   -200-23", "1010700126   -191-23", "1010700126   -198-23" };
+               
 
-                    string CodigoDifusorPet = "1010700126   -193-23";
+                    //string CodigoDifusorPet = "1010700126   -193-23";
                     string CodigoVarrila = "2500000110106"; //Paquete Varillas de Bambú x 16 u (sólo 1) 
-                    string CodigoRepuestoDif = "2506900125001"; //Embudo Repuesto Difusor (sólo 1) 
+                    //string CodigoRepuestoDif = "2506900125001"; //Embudo Repuesto Difusor (sólo 1) 
                     string CodigoDescuentoRepDif = "2150000021025"; // Descuento Embudo Repuesto Difusor (sólo 1) 
 
 
@@ -3210,7 +3259,7 @@ public partial class NotaDePedido : BasePage
                     /// si en el detalle esta el producto buscado: CodigoDifusorPet entonces AGREGO 
                     /// el producto elejido: CodigoVarrila y CodigoRepuestoDif
                     long CantidadDifusorPet = Convert.ToInt64(((from N in cabecera.DetallePedidos
-                                                                where N.CodigoCompleto.Trim() == CodigoDifusorPet.Trim()
+                                                                where CodigoDifusorPet.Contains(N.CodigoCompleto.Trim())
                                                                 select N.Cantidad.Value).Sum()));
 
                     if (CantidadDifusorPet > 0)
@@ -3234,48 +3283,50 @@ public partial class NotaDePedido : BasePage
                             cabecera.DetallePedidos.Add(newDetalle);
                         }
 
-
-                        Presentacion preRepuestoDifusor = (from P in Contexto.Presentacions
-                                                           where P.Codigo.Trim() == CodigoRepuestoDif
-                                                           select P).FirstOrDefault();
-
-
-                        if (preRepuestoDifusor != null)
-                        {
-                            newDetalle = new DetallePedido();
-                            newDetalle.Cantidad = CantidadDifusorPet;
-                            newDetalle.CodigoCompleto = preRepuestoDifusor.Codigo;
-                            newDetalle.Presentacion = preRepuestoDifusor.IdPresentacion;
-                            newDetalle.Producto = preRepuestoDifusor.objProducto.IdProducto;
-                            newDetalle.ValorUnitario = preRepuestoDifusor.Precio;
-                            newDetalle.ValorTotal = newDetalle.ValorUnitario * newDetalle.Cantidad;
-
-                            cabecera.DetallePedidos.Add(newDetalle);
-                        }
-
-                        Presentacion preDescuentoRepuestoDifusor = (from P in Contexto.Presentacions
-                                                                    where P.Codigo.Trim() == CodigoDescuentoRepDif
-                                                                    select P).FirstOrDefault();
+                        /// 30/06/2015: No se utiliza mas esta regla de negocio
+                        
+                        //Presentacion preRepuestoDifusor = (from P in Contexto.Presentacions
+                        //                                   where P.Codigo.Trim() == CodigoRepuestoDif
+                        //                                   select P).FirstOrDefault();
 
 
-                        if (preDescuentoRepuestoDifusor != null)
-                        {
-                            newDetalle = new DetallePedido();
-                            newDetalle.Cantidad = CantidadDifusorPet;
-                            newDetalle.CodigoCompleto = preDescuentoRepuestoDifusor.Codigo;
-                            newDetalle.Presentacion = preDescuentoRepuestoDifusor.IdPresentacion;
-                            newDetalle.Producto = preDescuentoRepuestoDifusor.objProducto.IdProducto;
-                            newDetalle.ValorUnitario = preDescuentoRepuestoDifusor.Precio * -1;
-                            newDetalle.ValorTotal = newDetalle.ValorUnitario * newDetalle.Cantidad;
+                        //if (preRepuestoDifusor != null)
+                        //{
+                        //    newDetalle = new DetallePedido();
+                        //    newDetalle.Cantidad = CantidadDifusorPet;
+                        //    newDetalle.CodigoCompleto = preRepuestoDifusor.Codigo;
+                        //    newDetalle.Presentacion = preRepuestoDifusor.IdPresentacion;
+                        //    newDetalle.Producto = preRepuestoDifusor.objProducto.IdProducto;
+                        //    newDetalle.ValorUnitario = preRepuestoDifusor.Precio;
+                        //    newDetalle.ValorTotal = newDetalle.ValorUnitario * newDetalle.Cantidad;
 
-                            cabecera.DetallePedidos.Add(newDetalle);
-                        }
+                        //    cabecera.DetallePedidos.Add(newDetalle);
+                        //}
+
+                        //Presentacion preDescuentoRepuestoDifusor = (from P in Contexto.Presentacions
+                        //                                            where P.Codigo.Trim() == CodigoDescuentoRepDif
+                        //                                            select P).FirstOrDefault();
+
+
+                        //if (preDescuentoRepuestoDifusor != null)
+                        //{
+                        //    newDetalle = new DetallePedido();
+                        //    newDetalle.Cantidad = CantidadDifusorPet;
+                        //    newDetalle.CodigoCompleto = preDescuentoRepuestoDifusor.Codigo;
+                        //    newDetalle.Presentacion = preDescuentoRepuestoDifusor.IdPresentacion;
+                        //    newDetalle.Producto = preDescuentoRepuestoDifusor.objProducto.IdProducto;
+                        //    newDetalle.ValorUnitario = preDescuentoRepuestoDifusor.Precio * -1;
+                        //    newDetalle.ValorTotal = newDetalle.ValorUnitario * newDetalle.Cantidad;
+
+                        //    cabecera.DetallePedidos.Add(newDetalle);
+                        //}
 
 
                     }
                 }
 
                 #endregion
+           
                 #endregion
 
                 #region Generacion del Gasto de Envio del Pedido
@@ -5573,19 +5624,22 @@ public partial class NotaDePedido : BasePage
 
                 #region Promociones por Forma de Pago hasta el 12/01/2015
 
-                if (DateTime.Now.Date < DateTime.Parse("12/01/2016"))
+                if (DateTime.Now.Date < DateTime.Parse("12/01/2017"))
                 {
-                    /// 02/05/2013: Si ya posee una promoción de pago anticipado durente el mes actual
-                    /// entonces no se debe entregar mas promociones de este tipo.
+                    /// 30/06/2015: Si ya posee una promoción de pago anticipado durente el mes actual
+                    /// entonces no se debe entregar mas promociones de este tipo y ademas se cambiaron por las nuevas
+                    /// promociones de pago por adelantado.
                     if (!PoseePromoPedidoPagoAnticipado((Session["Cliente"] as Cliente).IdCliente))
                     {
 
                         if (cboFormaPago.Text.Contains("Pago Fácil") || cboFormaPago.Text.Contains("Pago Mis Cuentas") || cboFormaPago.Text.Contains("Rapi Pago"))
                         {
-                            string codigoPromoPagoAdelantado = "1150000021052";
-                            if (decimal.Parse(txtMontoGeneral.Text.Replace("$", "")) > Convert.ToDecimal("1814,99"))
+                            string codigoPromoPagoAdelantado = "";
+                            if (decimal.Parse(txtMontoGeneral.Text.Replace("$", "")) >= Convert.ToDecimal("850") && decimal.Parse(txtMontoGeneral.Text.Replace("$", "")) <= Convert.ToDecimal("1999"))
+                                 codigoPromoPagoAdelantado = "1150000021133";
+                            else if (decimal.Parse(txtMontoGeneral.Text.Replace("$", "")) >= Convert.ToDecimal("2000"))
                             {
-                                codigoPromoPagoAdelantado = "1150000021073";
+                                codigoPromoPagoAdelantado = "1150000021135";
                             }
 
                             Producto promoPagoAdelantado = (from P in Contexto.Presentacions
@@ -5640,6 +5694,72 @@ public partial class NotaDePedido : BasePage
                                 }
                             }
                         }
+
+                    ///// 02/05/2013: Si ya posee una promoción de pago anticipado durente el mes actual
+                    ///// entonces no se debe entregar mas promociones de este tipo.
+                    //if (!PoseePromoPedidoPagoAnticipado((Session["Cliente"] as Cliente).IdCliente))
+                    //{
+
+                    //    if (cboFormaPago.Text.Contains("Pago Fácil") || cboFormaPago.Text.Contains("Pago Mis Cuentas") || cboFormaPago.Text.Contains("Rapi Pago"))
+                    //    {
+                    //        string codigoPromoPagoAdelantado = "1150000021052";
+                    //        if (decimal.Parse(txtMontoGeneral.Text.Replace("$", "")) > Convert.ToDecimal("1814,99"))
+                    //        {
+                    //            codigoPromoPagoAdelantado = "1150000021073";
+                    //        }
+
+                    //        Producto promoPagoAdelantado = (from P in Contexto.Presentacions
+                    //                                        where P.Codigo.Trim() == codigoPromoPagoAdelantado
+                    //                                        select P.objProducto).First<Producto>();
+
+
+
+                    //        if (promoPagoAdelantado.objConfPromocion != null && promoPagoAdelantado.objConfPromocion.FechaInicio <= DateTime.Now && promoPagoAdelantado.objConfPromocion.FechaFinal > DateTime.Now
+                    //           && TotalCompradoParaPromociones() >= promoPagoAdelantado.objConfPromocion.MontoMinimo.Value
+                    //           && (promoPagoAdelantado.objConfPromocion.ColTransportistas.Count == 0 || promoPagoAdelantado.objConfPromocion.ColTransportistas.Any(w => w.Transporte.ToUpper() == lblTransporte.Text.ToUpper())))
+                    //        {
+                    //            List<string> descripcionPromo = new List<string>();
+                    //            string descripcionPromoPagoAdelantado = cboFormaPago.Text.Contains("Pago Fácil") ? "Pago|Fácil" : cboFormaPago.Text.Contains("Pago Mis Cuentas") ? "Pago| Mis Cuentas" : "Rapi|Pago";
+                    //            descripcionPromo.Add(descripcionPromoPagoAdelantado);
+
+                    //            DetallePedido detallePagoAdelantado = new DetallePedido();
+
+
+                    //            var composicionRegalo = from R in promoPagoAdelantado.ColComposiciones
+                    //                                    where R.TipoComposicion == "O"
+                    //                                    group R by R.Grupo into c
+                    //                                    select new { Grupo = c.Key, componentes = c };
+
+                    //            if (composicionRegalo.Count() > 0)
+                    //            {
+                    //                foreach (var itemComponente in composicionRegalo)
+                    //                {
+                    //                    List<Producto> productos = (from P in itemComponente.componentes
+                    //                                                select P.objProductoHijo).ToList<Producto>();
+
+                    //                    DetalleRegalos newRegalo = new DetalleRegalos();
+                    //                    newRegalo.DescripcionRegalo = Helper.ObtenerDescripcionCompletaProductoEnComun(productos) + " x " + itemComponente.componentes.First().objPresentacion.Descripcion;
+                    //                    newRegalo.IdPresentacionRegaloSeleccionado = 0;
+                    //                    newRegalo.TipoRegalo = "Producto";
+                    //                    newRegalo.objDetallePedido = detallePagoAdelantado;
+                    //                    newRegalo.Grupo = itemComponente.componentes.First().Grupo.Value;
+                    //                    detallePagoAdelantado.ColRegalos.Add(newRegalo);
+                    //                }
+
+                    //                detallePagoAdelantado.Cantidad = 1;
+                    //                detallePagoAdelantado.Producto = promoPagoAdelantado.IdProducto;
+                    //                detallePagoAdelantado.Presentacion = promoPagoAdelantado.ColPresentaciones[0].IdPresentacion;
+                    //                detallePagoAdelantado.ProductoDesc = promoPagoAdelantado.Descripcion;
+                    //                detallePagoAdelantado.PresentacionDesc = promoPagoAdelantado.ColPresentaciones[0].Descripcion;
+                    //                detallePagoAdelantado.DescripcionCompleta = detallePagoAdelantado.ProductoDesc;
+                    //                detallePagoAdelantado.DescProductosUtilizados = descripcionPromo;
+                    //                detallePagoAdelantado.CodigoCompleto = promoPagoAdelantado.ColPresentaciones[0].Codigo;
+                    //                detallePagoAdelantado.Tipo = "E";
+
+                    //                AllPromosGeneradas.Add(detallePagoAdelantado);
+                    //            }
+                    //        }
+                    //    }
 
 
 
@@ -5834,92 +5954,94 @@ public partial class NotaDePedido : BasePage
                         }
                         else if (cboFormaPago.Text.Contains("Contra Reembolso"))
                         {
-                            /// Limite de compra con la forma de pago contra reembolso.
-                            decimal LimiteContraReembolso = decimal.Parse((from P in Session["ParametrosSistema"] as List<Parametro>
-                                                                           where P.IdParametro == (int)TiposDeParametros.LimiteContraReembolso
-                                                                           select P.Valor).Single());
+                            /// 30/06/2015: No existe mas la promoción combinada de contra reembolso y pago adelantado.
+                            
+                            ///// Limite de compra con la forma de pago contra reembolso.
+                            //decimal LimiteContraReembolso = decimal.Parse((from P in Session["ParametrosSistema"] as List<Parametro>
+                            //                                               where P.IdParametro == (int)TiposDeParametros.LimiteContraReembolso
+                            //                                               select P.Valor).Single());
 
-                            string codigoPromoContraReembolso = "";
+                            //string codigoPromoContraReembolso = "";
 
-                            /// Monto total del pedido
-                            decimal MontoPedidoActual = decimal.Parse(txtMontoGeneral.Text.Replace("$", ""));
-                            /// Diferencia a pagar con el saldo de la cta cte.
-                            decimal DiferenciaCtaCte = MontoPedidoActual - LimiteContraReembolso;
-
-
-                            // 1. Determinimo que promoción es la que se debe dar.
-                            if (DiferenciaCtaCte >= 1815)
-                                codigoPromoContraReembolso = "1150000021593";
-                            else
-                                codigoPromoContraReembolso = "1150000021244";
-
-                            /// 2. Si el monto del pedido es mayor al limite en contra reembolso y la diferencia se puede pagar
-                            /// con el saldo de la cta cte continuo.
-                            if (MontoPedidoActual > LimiteContraReembolso && Math.Abs(SaldoPagoAnticipado) >= DiferenciaCtaCte)
-                            {
-
-                                Producto promoContraReembolso = (from P in Contexto.Presentacions
-                                                                 where P.Codigo.Trim() == codigoPromoContraReembolso
-                                                                 select P.objProducto).FirstOrDefault<Producto>();
-
-                                /// Controlo que exista la promocion y que el transporte este habilitado para dicha promoción
-                                if (promoContraReembolso != null && (promoContraReembolso.objConfPromocion.ColTransportistas.Count == 0 || promoContraReembolso.objConfPromocion.ColTransportistas.Any(w => w.Transporte.ToUpper() == lblTransporte.Text.ToUpper())))
-                                {
-                                    decimal MontoMinimoPromocion = promoContraReembolso.objConfPromocion.MontoMinimo.Value;
+                            ///// Monto total del pedido
+                            //decimal MontoPedidoActual = decimal.Parse(txtMontoGeneral.Text.Replace("$", ""));
+                            ///// Diferencia a pagar con el saldo de la cta cte.
+                            //decimal DiferenciaCtaCte = MontoPedidoActual - LimiteContraReembolso;
 
 
-                                    /// 3. Detalle Total: Si el pedido es realizado con la forma de pago contra reembolso, 
-                                    /// el monto del pedido es mayor o igual al parámetro: limite de compra en contra reembolso y 
-                                    /// el cliente de la nota de pedido posee en ese momento un valor en la cuenta corriente a favor (en negativo)
-                                    /// y superior al MontoMinimo, entonces se generará para dicho pedido la promoción en cuestión
-                                    if (promoContraReembolso != null && promoContraReembolso.objConfPromocion != null && promoContraReembolso.objConfPromocion.FechaInicio <= DateTime.Now && promoContraReembolso.objConfPromocion.FechaFinal > DateTime.Now
-                                       && Math.Abs(SaldoPagoAnticipado) >= MontoMinimoPromocion)
-                                    {
-                                        List<string> descripcionPromo = new List<string>();
-                                        descripcionPromo.Add("Contra|Reembolso y Poseer un Saldo Mayor a $" + (MontoMinimoPromocion - decimal.Parse("0,01")) + " en Cta. Cte.");
+                            //// 1. Determinimo que promoción es la que se debe dar.
+                            //if (DiferenciaCtaCte >= 1815)
+                            //    codigoPromoContraReembolso = "1150000021593";
+                            //else
+                            //    codigoPromoContraReembolso = "1150000021244";
 
-                                        DetallePedido pedidoPagoFacil = new DetallePedido();
+                            ///// 2. Si el monto del pedido es mayor al limite en contra reembolso y la diferencia se puede pagar
+                            ///// con el saldo de la cta cte continuo.
+                            //if (MontoPedidoActual > LimiteContraReembolso && Math.Abs(SaldoPagoAnticipado) >= DiferenciaCtaCte)
+                            //{
 
+                            //    Producto promoContraReembolso = (from P in Contexto.Presentacions
+                            //                                     where P.Codigo.Trim() == codigoPromoContraReembolso
+                            //                                     select P.objProducto).FirstOrDefault<Producto>();
 
-                                        var composicionRegalo = from R in promoContraReembolso.ColComposiciones
-                                                                where R.TipoComposicion == "O"
-                                                                group R by R.Grupo into c
-                                                                select new { Grupo = c.Key, componentes = c };
-
-                                        if (composicionRegalo.Count() > 0)
-                                        {
-                                            foreach (var itemComponente in composicionRegalo)
-                                            {
-                                                List<Producto> productos = (from P in itemComponente.componentes
-                                                                            select P.objProductoHijo).ToList<Producto>();
-
-                                                DetalleRegalos newRegalo = new DetalleRegalos();
-                                                newRegalo.DescripcionRegalo = Helper.ObtenerDescripcionCompletaProductoEnComun(productos) + " x " + itemComponente.componentes.First().objPresentacion.Descripcion;
-                                                newRegalo.IdPresentacionRegaloSeleccionado = 0;
-                                                newRegalo.TipoRegalo = "Producto";
-                                                newRegalo.objDetallePedido = pedidoPagoFacil;
-                                                newRegalo.Grupo = itemComponente.componentes.First().Grupo.Value;
-                                                pedidoPagoFacil.ColRegalos.Add(newRegalo);
-                                            }
+                            //    /// Controlo que exista la promocion y que el transporte este habilitado para dicha promoción
+                            //    if (promoContraReembolso != null && (promoContraReembolso.objConfPromocion.ColTransportistas.Count == 0 || promoContraReembolso.objConfPromocion.ColTransportistas.Any(w => w.Transporte.ToUpper() == lblTransporte.Text.ToUpper())))
+                            //    {
+                            //        decimal MontoMinimoPromocion = promoContraReembolso.objConfPromocion.MontoMinimo.Value;
 
 
+                            //        /// 3. Detalle Total: Si el pedido es realizado con la forma de pago contra reembolso, 
+                            //        /// el monto del pedido es mayor o igual al parámetro: limite de compra en contra reembolso y 
+                            //        /// el cliente de la nota de pedido posee en ese momento un valor en la cuenta corriente a favor (en negativo)
+                            //        /// y superior al MontoMinimo, entonces se generará para dicho pedido la promoción en cuestión
+                            //        if (promoContraReembolso != null && promoContraReembolso.objConfPromocion != null && promoContraReembolso.objConfPromocion.FechaInicio <= DateTime.Now && promoContraReembolso.objConfPromocion.FechaFinal > DateTime.Now
+                            //           && Math.Abs(SaldoPagoAnticipado) >= MontoMinimoPromocion)
+                            //        {
+                            //            List<string> descripcionPromo = new List<string>();
+                            //            descripcionPromo.Add("Contra|Reembolso y Poseer un Saldo Mayor a $" + (MontoMinimoPromocion - decimal.Parse("0,01")) + " en Cta. Cte.");
+
+                            //            DetallePedido pedidoPagoFacil = new DetallePedido();
 
 
-                                            pedidoPagoFacil.Cantidad = 1;
-                                            pedidoPagoFacil.Producto = promoContraReembolso.IdProducto;
-                                            pedidoPagoFacil.Presentacion = promoContraReembolso.ColPresentaciones[0].IdPresentacion;
-                                            pedidoPagoFacil.ProductoDesc = promoContraReembolso.Descripcion;
-                                            pedidoPagoFacil.PresentacionDesc = promoContraReembolso.ColPresentaciones[0].Descripcion;
-                                            pedidoPagoFacil.DescripcionCompleta = pedidoPagoFacil.ProductoDesc;
-                                            pedidoPagoFacil.DescProductosUtilizados = descripcionPromo;
-                                            pedidoPagoFacil.CodigoCompleto = promoContraReembolso.ColPresentaciones[0].Codigo;
-                                            pedidoPagoFacil.Tipo = "E";
+                            //            var composicionRegalo = from R in promoContraReembolso.ColComposiciones
+                            //                                    where R.TipoComposicion == "O"
+                            //                                    group R by R.Grupo into c
+                            //                                    select new { Grupo = c.Key, componentes = c };
 
-                                            AllPromosGeneradas.Add(pedidoPagoFacil);
-                                        }
-                                    }
-                                }
-                            }
+                            //            if (composicionRegalo.Count() > 0)
+                            //            {
+                            //                foreach (var itemComponente in composicionRegalo)
+                            //                {
+                            //                    List<Producto> productos = (from P in itemComponente.componentes
+                            //                                                select P.objProductoHijo).ToList<Producto>();
+
+                            //                    DetalleRegalos newRegalo = new DetalleRegalos();
+                            //                    newRegalo.DescripcionRegalo = Helper.ObtenerDescripcionCompletaProductoEnComun(productos) + " x " + itemComponente.componentes.First().objPresentacion.Descripcion;
+                            //                    newRegalo.IdPresentacionRegaloSeleccionado = 0;
+                            //                    newRegalo.TipoRegalo = "Producto";
+                            //                    newRegalo.objDetallePedido = pedidoPagoFacil;
+                            //                    newRegalo.Grupo = itemComponente.componentes.First().Grupo.Value;
+                            //                    pedidoPagoFacil.ColRegalos.Add(newRegalo);
+                            //                }
+
+
+
+
+                            //                pedidoPagoFacil.Cantidad = 1;
+                            //                pedidoPagoFacil.Producto = promoContraReembolso.IdProducto;
+                            //                pedidoPagoFacil.Presentacion = promoContraReembolso.ColPresentaciones[0].IdPresentacion;
+                            //                pedidoPagoFacil.ProductoDesc = promoContraReembolso.Descripcion;
+                            //                pedidoPagoFacil.PresentacionDesc = promoContraReembolso.ColPresentaciones[0].Descripcion;
+                            //                pedidoPagoFacil.DescripcionCompleta = pedidoPagoFacil.ProductoDesc;
+                            //                pedidoPagoFacil.DescProductosUtilizados = descripcionPromo;
+                            //                pedidoPagoFacil.CodigoCompleto = promoContraReembolso.ColPresentaciones[0].Codigo;
+                            //                pedidoPagoFacil.Tipo = "E";
+
+                            //                AllPromosGeneradas.Add(pedidoPagoFacil);
+                            //            }
+                            //        }
+                            //    }
+                            //}
                         }
                     }
                 }
@@ -6080,7 +6202,10 @@ public partial class NotaDePedido : BasePage
 
         long año = DateTime.Now.Year;
         long mes = DateTime.Now.Month;
-        List<string> promosPagoAdelantado = new List<string>() { "1150000021052", "1150000021073", "1150000021506", "1150000021207", "1150000021208", "1150000021516", "1150000021518", "1150000021593", "1150000021244" };
+        /// 30/06/2015: No se utiliza mas esta regla de negocio, se paso a utilizar nuevas promociones de pago adelantado
+        //List<string> promosPagoAdelantado = new List<string>() {"1150000021052", "1150000021073", "1150000021506", "1150000021207", "1150000021208", "1150000021516", "1150000021518", "1150000021593", "1150000021244" };
+        // Nuevas Promociones Pago Adelantado
+        List<string> promosPagoAdelantado = new List<string>() { "1150000021133", "1150000021135"};
         bool result = false;
 
         if (Request.QueryString["IdPedido"] != null)
