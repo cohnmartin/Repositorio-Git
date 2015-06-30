@@ -5592,7 +5592,6 @@ public partial class NotaDePedido : BasePage
                     /// promociones de pago por adelantado.
                     if (!PoseePromoPedidoPagoAnticipado((Session["Cliente"] as Cliente).IdCliente))
                     {
-                        DivHelp.InnerHtml += "No tiene mas de una promocion</br>";
                         if (cboFormaPago.Text.Contains("Pago Fácil") || cboFormaPago.Text.Contains("Pago Mis Cuentas") || cboFormaPago.Text.Contains("Rapi Pago"))
                         {
                             string codigoPromoPagoAdelantado = "";
@@ -5601,7 +5600,7 @@ public partial class NotaDePedido : BasePage
                             else if (decimal.Parse(txtMontoGeneral.Text.Replace("$", "")) >= Convert.ToDecimal("2000"))
                             {
                                 codigoPromoPagoAdelantado = "1150000021135";
-                                DivHelp.InnerHtml += "Utiliza la promocion mayor a 2000</br>";
+                               
                             }
 
                             Producto promoPagoAdelantado = (from P in Contexto.Presentacions
@@ -5614,7 +5613,6 @@ public partial class NotaDePedido : BasePage
                                && TotalCompradoParaPromociones() >= promoPagoAdelantado.objConfPromocion.MontoMinimo.Value
                                && (promoPagoAdelantado.objConfPromocion.ColTransportistas.Count == 0 || promoPagoAdelantado.objConfPromocion.ColTransportistas.Any(w => w.Transporte.ToUpper() == lblTransporte.Text.ToUpper())))
                             {
-                                DivHelp.InnerHtml += "Paso los filtros</br>";
 
                                 List<string> descripcionPromo = new List<string>();
                                 string descripcionPromoPagoAdelantado = cboFormaPago.Text.Contains("Pago Fácil") ? "Pago|Fácil" : cboFormaPago.Text.Contains("Pago Mis Cuentas") ? "Pago| Mis Cuentas" : "Rapi|Pago";
@@ -5658,7 +5656,7 @@ public partial class NotaDePedido : BasePage
                                 }
                             }
                         }
-                        upCabeceraPagina.Update();
+                       
                     ///// 02/05/2013: Si ya posee una promoción de pago anticipado durente el mes actual
                     ///// entonces no se debe entregar mas promociones de este tipo.
                     //if (!PoseePromoPedidoPagoAnticipado((Session["Cliente"] as Cliente).IdCliente))
