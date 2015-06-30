@@ -340,6 +340,7 @@ public partial class NotaDePedido : BasePage
 
                     ControlarCambiosPrecios(CurrentCabecera);
                     ActualizarTotalesGenerales();
+                    CalcularPromociones();
 
                 }
                 else
