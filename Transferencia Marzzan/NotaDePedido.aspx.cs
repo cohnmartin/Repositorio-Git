@@ -5605,64 +5605,66 @@ public partial class NotaDePedido : BasePage
 
                             Producto promoPagoAdelantado = (from P in Contexto.Presentacions
                                                             where P.Codigo.Trim() == codigoPromoPagoAdelantado
-                                                            select P.objProducto).First<Producto>();
+                                                            select P.objProducto).FirstOrDefault<Producto>();
 
 
-
-                            if (promoPagoAdelantado.objConfPromocion != null && promoPagoAdelantado.objConfPromocion.FechaInicio <= DateTime.Now && promoPagoAdelantado.objConfPromocion.FechaFinal > DateTime.Now
-                               && TotalCompradoParaPromociones() >= promoPagoAdelantado.objConfPromocion.MontoMinimo.Value
-                               && (promoPagoAdelantado.objConfPromocion.ColTransportistas.Count == 0 || promoPagoAdelantado.objConfPromocion.ColTransportistas.Any(w => w.Transporte.ToUpper() == lblTransporte.Text.ToUpper())))
+                            if (promoPagoAdelantado != null)
                             {
-
-                                List<string> descripcionPromo = new List<string>();
-                                string descripcionPromoPagoAdelantado = cboFormaPago.Text.Contains("Pago Fácil") ? "Pago|Fácil" : cboFormaPago.Text.Contains("Pago Mis Cuentas") ? "Pago| Mis Cuentas" : "Rapi|Pago";
-                                descripcionPromo.Add(descripcionPromoPagoAdelantado);
-
-                                DetallePedido detallePagoAdelantado = new DetallePedido();
-
-
-                                var composicionRegalo = from R in promoPagoAdelantado.ColComposiciones
-                                                        where R.TipoComposicion == "O"
-                                                        group R by R.Grupo into c
-                                                        select new { Grupo = c.Key, componentes = c };
-
-                                if (composicionRegalo.Count() > 0)
+                                if (promoPagoAdelantado.objConfPromocion != null && promoPagoAdelantado.objConfPromocion.FechaInicio <= DateTime.Now && promoPagoAdelantado.objConfPromocion.FechaFinal > DateTime.Now
+                                   && TotalCompradoParaPromociones() >= promoPagoAdelantado.objConfPromocion.MontoMinimo.Value
+                                   && (promoPagoAdelantado.objConfPromocion.ColTransportistas.Count == 0 || promoPagoAdelantado.objConfPromocion.ColTransportistas.Any(w => w.Transporte.ToUpper() == lblTransporte.Text.ToUpper())))
                                 {
-                                    foreach (var itemComponente in composicionRegalo)
+
+                                    List<string> descripcionPromo = new List<string>();
+                                    string descripcionPromoPagoAdelantado = cboFormaPago.Text.Contains("Pago Fácil") ? "Pago|Fácil" : cboFormaPago.Text.Contains("Pago Mis Cuentas") ? "Pago| Mis Cuentas" : "Rapi|Pago";
+                                    descripcionPromo.Add(descripcionPromoPagoAdelantado);
+
+                                    DetallePedido detallePagoAdelantado = new DetallePedido();
+
+
+                                    var composicionRegalo = from R in promoPagoAdelantado.ColComposiciones
+                                                            where R.TipoComposicion == "O"
+                                                            group R by R.Grupo into c
+                                                            select new { Grupo = c.Key, componentes = c };
+
+                                    if (composicionRegalo.Count() > 0)
                                     {
-                                        List<Producto> productos = (from P in itemComponente.componentes
-                                                                    select P.objProductoHijo).ToList<Producto>();
+                                        foreach (var itemComponente in composicionRegalo)
+                                        {
+                                            List<Producto> productos = (from P in itemComponente.componentes
+                                                                        select P.objProductoHijo).ToList<Producto>();
 
-                                        DetalleRegalos newRegalo = new DetalleRegalos();
-                                        newRegalo.DescripcionRegalo = Helper.ObtenerDescripcionCompletaProductoEnComun(productos) + " x " + itemComponente.componentes.First().objPresentacion.Descripcion;
-                                        newRegalo.IdPresentacionRegaloSeleccionado = 0;
-                                        newRegalo.TipoRegalo = "Producto";
-                                        newRegalo.objDetallePedido = detallePagoAdelantado;
-                                        newRegalo.Grupo = itemComponente.componentes.First().Grupo.Value;
-                                        detallePagoAdelantado.ColRegalos.Add(newRegalo);
+                                            DetalleRegalos newRegalo = new DetalleRegalos();
+                                            newRegalo.DescripcionRegalo = Helper.ObtenerDescripcionCompletaProductoEnComun(productos) + " x " + itemComponente.componentes.First().objPresentacion.Descripcion;
+                                            newRegalo.IdPresentacionRegaloSeleccionado = 0;
+                                            newRegalo.TipoRegalo = "Producto";
+                                            newRegalo.objDetallePedido = detallePagoAdelantado;
+                                            newRegalo.Grupo = itemComponente.componentes.First().Grupo.Value;
+                                            detallePagoAdelantado.ColRegalos.Add(newRegalo);
+                                        }
+
+                                        detallePagoAdelantado.Cantidad = 1;
+                                        detallePagoAdelantado.Producto = promoPagoAdelantado.IdProducto;
+                                        detallePagoAdelantado.Presentacion = promoPagoAdelantado.ColPresentaciones[0].IdPresentacion;
+                                        detallePagoAdelantado.ProductoDesc = promoPagoAdelantado.Descripcion;
+                                        detallePagoAdelantado.PresentacionDesc = promoPagoAdelantado.ColPresentaciones[0].Descripcion;
+                                        detallePagoAdelantado.DescripcionCompleta = detallePagoAdelantado.ProductoDesc;
+                                        detallePagoAdelantado.DescProductosUtilizados = descripcionPromo;
+                                        detallePagoAdelantado.CodigoCompleto = promoPagoAdelantado.ColPresentaciones[0].Codigo;
+                                        detallePagoAdelantado.Tipo = "E";
+
+                                        AllPromosGeneradas.Add(detallePagoAdelantado);
                                     }
-
-                                    detallePagoAdelantado.Cantidad = 1;
-                                    detallePagoAdelantado.Producto = promoPagoAdelantado.IdProducto;
-                                    detallePagoAdelantado.Presentacion = promoPagoAdelantado.ColPresentaciones[0].IdPresentacion;
-                                    detallePagoAdelantado.ProductoDesc = promoPagoAdelantado.Descripcion;
-                                    detallePagoAdelantado.PresentacionDesc = promoPagoAdelantado.ColPresentaciones[0].Descripcion;
-                                    detallePagoAdelantado.DescripcionCompleta = detallePagoAdelantado.ProductoDesc;
-                                    detallePagoAdelantado.DescProductosUtilizados = descripcionPromo;
-                                    detallePagoAdelantado.CodigoCompleto = promoPagoAdelantado.ColPresentaciones[0].Codigo;
-                                    detallePagoAdelantado.Tipo = "E";
-
-                                    AllPromosGeneradas.Add(detallePagoAdelantado);
                                 }
                             }
                         }
+                    //{
+
+                    //    if (cboFormaPago.Text.Contains("Pago Fácil") || cboFormaPago.Text.Contains("Pago Mis Cuentas") || cboFormaPago.T
                        
                     ///// 02/05/2013: Si ya posee una promoción de pago anticipado durente el mes actual
                     ///// entonces no se debe entregar mas promociones de este tipo.
-                    //if (!PoseePromoPedidoPagoAnticipado((Session["Cliente"] as Cliente).IdCliente))
-                    //{
-
-                    //    if (cboFormaPago.Text.Contains("Pago Fácil") || cboFormaPago.Text.Contains("Pago Mis Cuentas") || cboFormaPago.Text.Contains("Rapi Pago"))
+                    //if (!PoseePromoPedidoPagoAnticipado((Session["Cliente"] as Cliente).IdCliente))ext.Contains("Rapi Pago"))
                     //    {
                     //        string codigoPromoPagoAdelantado = "1150000021052";
                     //        if (decimal.Parse(txtMontoGeneral.Text.Replace("$", "")) > Convert.ToDecimal("1814,99"))
