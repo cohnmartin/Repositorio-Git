@@ -3116,45 +3116,6 @@ public partial class NotaDePedido : BasePage
 
                 #endregion
 
-                #region  Detalle  Aromatizador Mujercitas Inqu 500 ml
-                if (!EsTemporal)
-                {
-                    /// cambio del 30-06-2015
-                    /// Se cambio a este producto: Aromatizador Mujercitas Inqu 500 ml   
-                    string CodigoAromatizadorValentina = "1054300001   -148-50";
-                    string CodigoGatilloAromatizador = "2500000032001";
-
-                    /// si en el detalle esta el producto Aromatizador Mujercitas Inqu 500 ml   doy de regalo Gatillo Aromatizador 500 ml
-                    long CantidadCodigoAromatizadorValentina = Convert.ToInt64(((from N in cabecera.DetallePedidos
-                                                                                 where N.CodigoCompleto.Trim() == CodigoAromatizadorValentina.Trim()
-                                                                                 select N.Cantidad.Value).Sum()));
-
-
-                    if (CantidadCodigoAromatizadorValentina > 0)
-                    {
-
-                        Presentacion preGatilloAromatizador = (from P in Contexto.Presentacions
-                                                               where P.Codigo.Trim() == CodigoGatilloAromatizador
-                                                               select P).FirstOrDefault();
-
-
-                        if (preGatilloAromatizador != null)
-                        {
-                            newDetalle = new DetallePedido();
-                            newDetalle.Cantidad = CantidadCodigoAromatizadorValentina;
-                            newDetalle.CodigoCompleto = preGatilloAromatizador.Codigo;
-                            newDetalle.Presentacion = preGatilloAromatizador.IdPresentacion;
-                            newDetalle.Producto = preGatilloAromatizador.objProducto.IdProducto;
-                            newDetalle.ValorUnitario = preGatilloAromatizador.Precio;
-                            newDetalle.ValorTotal = newDetalle.ValorUnitario * newDetalle.Cantidad;
-
-                            cabecera.DetallePedidos.Add(newDetalle);
-                        }
-                    }
-                }
-
-                #endregion
-
                 #region Valija Vacía 
                 /// 30/06/2015: Cambio implementado 
                 
@@ -5631,7 +5592,7 @@ public partial class NotaDePedido : BasePage
                     /// promociones de pago por adelantado.
                     if (!PoseePromoPedidoPagoAnticipado((Session["Cliente"] as Cliente).IdCliente))
                     {
-
+                        DivHelp.InnerHtml += "No tiene mas de una promocion</br>";
                         if (cboFormaPago.Text.Contains("Pago Fácil") || cboFormaPago.Text.Contains("Pago Mis Cuentas") || cboFormaPago.Text.Contains("Rapi Pago"))
                         {
                             string codigoPromoPagoAdelantado = "";
@@ -5640,6 +5601,7 @@ public partial class NotaDePedido : BasePage
                             else if (decimal.Parse(txtMontoGeneral.Text.Replace("$", "")) >= Convert.ToDecimal("2000"))
                             {
                                 codigoPromoPagoAdelantado = "1150000021135";
+                                DivHelp.InnerHtml += "Utiliza la promocion mayor a 2000</br>";
                             }
 
                             Producto promoPagoAdelantado = (from P in Contexto.Presentacions
@@ -5652,6 +5614,8 @@ public partial class NotaDePedido : BasePage
                                && TotalCompradoParaPromociones() >= promoPagoAdelantado.objConfPromocion.MontoMinimo.Value
                                && (promoPagoAdelantado.objConfPromocion.ColTransportistas.Count == 0 || promoPagoAdelantado.objConfPromocion.ColTransportistas.Any(w => w.Transporte.ToUpper() == lblTransporte.Text.ToUpper())))
                             {
+                                DivHelp.InnerHtml += "Paso los filtros</br>";
+
                                 List<string> descripcionPromo = new List<string>();
                                 string descripcionPromoPagoAdelantado = cboFormaPago.Text.Contains("Pago Fácil") ? "Pago|Fácil" : cboFormaPago.Text.Contains("Pago Mis Cuentas") ? "Pago| Mis Cuentas" : "Rapi|Pago";
                                 descripcionPromo.Add(descripcionPromoPagoAdelantado);
@@ -5694,7 +5658,7 @@ public partial class NotaDePedido : BasePage
                                 }
                             }
                         }
-
+                        upCabeceraPagina.Update();
                     ///// 02/05/2013: Si ya posee una promoción de pago anticipado durente el mes actual
                     ///// entonces no se debe entregar mas promociones de este tipo.
                     //if (!PoseePromoPedidoPagoAnticipado((Session["Cliente"] as Cliente).IdCliente))
