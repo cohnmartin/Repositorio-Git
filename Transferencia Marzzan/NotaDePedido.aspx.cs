@@ -6314,7 +6314,7 @@ public partial class NotaDePedido : BasePage
 
     [WebMethod(EnableSession = true)]
     [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-    public static string ControlesDeGrabacion(decimal subTotal, decimal saldoPagoAnticipado, decimal valorTransporte, string formaDePago, string provincia, string localidad)
+    public static string ControlesDeGrabacion(decimal subTotal, decimal saldoPagoAnticipado, decimal valorTransporte, string formaDePago, string provincia, string localidad, decimal totalPedido)
     {
         string alertaControles = "";
         bool esClienteEspecial = (HttpContext.Current.Session["ClienteLogeado"] as Cliente).Clasif1.Contains("DIRECTORIO") ? true : false;
@@ -6504,7 +6504,7 @@ public partial class NotaDePedido : BasePage
                         }
                     case "Contra Reembolso":
                         {
-                            if ((subTotal - SaldoActual) > decimal.Parse(LimiteContraReembolso))
+                            if ((totalPedido - SaldoActual) > decimal.Parse(LimiteContraReembolso))
                             {
                                 alertaControles = "AlertaSaldoInsuficiente('El monto del pedido supera el límite en contra reemboldo ($ " + LimiteContraReembolso + "), el mismo no puede ser realizado. Si lo desea puede guardar el pedido temporalmente para realizarlo en otro momento.');";
                                 return alertaControles;

@@ -373,7 +373,7 @@
 
     function ControlarDatos(accion) {
 
-        //debugger;
+        debugger;
         var promosCompletas = $get("TotalizadorPromos1_PromosCompletasHiden").value;
         var combo = $find("<%= cboConsultores.ClientID%>");
         var comboFP = $find("<%= cboFormaPago.ClientID%>");
@@ -416,13 +416,15 @@
             var valorTransporte = parseFloat(document.getElementById("<%= lblCostoFlete.ClientID%>").innerText.replace("$", "").replace(",", "."));
             var provincia = document.getElementById("<%= lblDireccionEntrega.ClientID%>").innerText.split('-')[0];
             var localidad = document.getElementById("<%= lblDireccionEntrega.ClientID%>").innerText.split('-')[1];
+            var totalPedido = parseFloat($find("<%= txtMontoGeneral.ClientID%>").get_value().replace("$", "").replace(",", "."));
 
+            
 
             MostarLoading();
 
 
             $.ajax({ type: "POST",
-                data: "{ subTotal:" + subTotal + " , saldoPagoAnticipado: " + saldoPagoAnticipado + ",valorTransporte: " + valorTransporte + ",formaDePago:'" + formaPago + "',provincia: '" + provincia + "',localidad:'" + localidad + "' }",
+                data: "{ subTotal:" + subTotal + " , saldoPagoAnticipado: " + saldoPagoAnticipado + ",valorTransporte: " + valorTransporte + ",formaDePago:'" + formaPago + "',provincia: '" + provincia + "',localidad:'" + localidad + "',totalPedido:'" + totalPedido + "' }",
                 url: "NotaDePedido.aspx/ControlesDeGrabacion",
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
@@ -1283,11 +1285,9 @@
                                                                     </telerik:RadToolTip>
                                                                     <td align="right" style="width: 50%; padding-right: 15px">
                                                                         <asp:Button SkinID="btnBasic" ID="btnPedido" Text="Realizar Pedido" runat="server"
-                                                                            OnClientClick="return ControlarDatos('Solicitar');"
-                                                                            ToolTip="Esta acción enviará la solitud del pedido para que sea preparada y enviada." />
-                                                                        
-                                                                         <asp:Button ID="btnHacerPedido" runat="server" OnClick="btnPedido_RealizarPedido" style="display:none" />
-
+                                                                            OnClientClick="return ControlarDatos('Solicitar');" ToolTip="Esta acción enviará la solitud del pedido para que sea preparada y enviada." />
+                                                                        <asp:Button ID="btnHacerPedido" runat="server" OnClick="btnPedido_RealizarPedido"
+                                                                            Style="display: none" />
                                                                     </td>
                                                                     <td align="left" style="width: 50%; padding-left: 15px">
                                                                         <asp:Button SkinID="btnBasic" ID="btnPedidoTemporal" Text="Guardar Pedido" runat="server"
