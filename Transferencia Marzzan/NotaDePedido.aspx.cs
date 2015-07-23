@@ -5526,10 +5526,10 @@ public partial class NotaDePedido : BasePage
 
                     }
                 }
-                else if (decimal.Parse(txtMontoGeneral.Text.Replace("$", "")) > 900)
+                else if (decimal.Parse(txtMontoGeneral.Text.Replace("$", "")) >= 950)
                 {
                     // Promo Pedido Hasta $900
-                    string codigoPromoPedidoMayor = "1150000122007"; // Premio incentivo enero 2015
+                    string codigoPromoPedidoMayor = "1150000122009"; // Beneficio Invierno 2015- Soliflor x 500 ml
 
                     Producto promoPedidoMayor = (from P in Contexto.Presentacions
                                                  where P.Codigo.Trim() == codigoPromoPedidoMayor
@@ -5539,7 +5539,7 @@ public partial class NotaDePedido : BasePage
                     {
 
                         List<string> descripcionPromo = new List<string>();
-                        descripcionPromo.Add("Mas de|$900");
+                        descripcionPromo.Add("Mas de|$950");
 
                         DetallePedido pedidoPedidoMayor = new DetallePedido();
 
@@ -6504,6 +6504,8 @@ public partial class NotaDePedido : BasePage
                         }
                     case "Contra Reembolso":
                         {
+                            /// 02/07/2015: Se aplico regla para controlar el limite en contra reembolso, contra el total del pedido
+                            /// el cual incluye producto, fletes e impuestos.
                             if ((totalPedido - SaldoActual) > decimal.Parse(LimiteContraReembolso))
                             {
                                 alertaControles = "AlertaSaldoInsuficiente('El monto del pedido supera el límite en contra reemboldo ($ " + LimiteContraReembolso + "), el mismo no puede ser realizado. Si lo desea puede guardar el pedido temporalmente para realizarlo en otro momento.');";
