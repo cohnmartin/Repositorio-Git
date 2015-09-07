@@ -373,7 +373,7 @@
 
     function ControlarDatos(accion) {
 
-        debugger;
+ 
         var promosCompletas = $get("TotalizadorPromos1_PromosCompletasHiden").value;
         var combo = $find("<%= cboConsultores.ClientID%>");
         var comboFP = $find("<%= cboFormaPago.ClientID%>");
@@ -424,7 +424,7 @@
 
 
             $.ajax({ type: "POST",
-                data: "{ subTotal:" + subTotal + " , saldoPagoAnticipado: " + saldoPagoAnticipado + ",valorTransporte: " + valorTransporte + ",formaDePago:'" + formaPago + "',provincia: '" + provincia + "',localidad:'" + localidad + "',totalPedido:'" + totalPedido + "' }",
+                data: "{ subTotal:" + subTotal + " , saldoPagoAnticipado: " + saldoPagoAnticipado + ",valorTransporte: " + valorTransporte + ",formaDePago:'" + formaPago + "',provincia: '" + provincia + "',localidad:'" + localidad + "',totalPedido:'" + totalPedido + "',transporte:'" + TransporteSeleccionado + "'}",
                 url: "NotaDePedido.aspx/ControlesDeGrabacion",
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",

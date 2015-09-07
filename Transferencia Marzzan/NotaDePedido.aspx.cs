@@ -6314,7 +6314,7 @@ public partial class NotaDePedido : BasePage
 
     [WebMethod(EnableSession = true)]
     [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-    public static string ControlesDeGrabacion(decimal subTotal, decimal saldoPagoAnticipado, decimal valorTransporte, string formaDePago, string provincia, string localidad, decimal totalPedido)
+    public static string ControlesDeGrabacion(decimal subTotal, decimal saldoPagoAnticipado, decimal valorTransporte, string formaDePago, string provincia, string localidad, decimal totalPedido, string transporte)
     {
         string alertaControles = "";
         bool esClienteEspecial = (HttpContext.Current.Session["ClienteLogeado"] as Cliente).Clasif1.Contains("DIRECTORIO") ? true : false;
@@ -6504,18 +6504,33 @@ public partial class NotaDePedido : BasePage
                         }
                     case "Contra Reembolso":
                         {
-                            /// 02/07/2015: Se aplico regla para controlar el limite en contra reembolso, contra el total del pedido
-                            /// el cual incluye producto, fletes e impuestos.
-                            if ((totalPedido - SaldoActual) > decimal.Parse(LimiteContraReembolso))
-                            {
-                                alertaControles = "AlertaSaldoInsuficiente('El monto del pedido supera el límite en contra reemboldo ($ " + LimiteContraReembolso + "), el mismo no puede ser realizado. Si lo desea puede guardar el pedido temporalmente para realizarlo en otro momento.');";
-                                return alertaControles;
 
-                                //ScriptManager.RegisterStartupScript(upSolicitudPedido, typeof(UpdatePanel), "SaldoReq", "AlertaSaldoInsuficiente('El monto del pedido supera el límite en contra reemboldo ($ " + LimiteContraReembolso + "), el mismo no puede ser realizado. Si lo desea puede guardar el pedido temporalmente para realizarlo en otro momento.');", true);
-                                //return;
+                            if (transporte.ToUpper().Contains("VILA"))
+                            {
+                                if ((totalPedido - SaldoActual) > decimal.Parse("1500"))
+                                {
+                                    alertaControles = "AlertaSaldoInsuficiente('El monto del pedido supera el límite en contra reemboldo ($ 1500), el mismo no puede ser realizado. Si lo desea puede guardar el pedido temporalmente para realizarlo en otro momento.');";
+                                    return alertaControles;
+                                }
+                                else
+                                    break;
                             }
                             else
-                                break;
+                            {
+                                /// 02/07/2015: Se aplico regla para controlar el limite en contra reembolso, contra el total del pedido
+                                /// el cual incluye producto, fletes e impuestos.
+                                if ((totalPedido - SaldoActual) > decimal.Parse(LimiteContraReembolso))
+                                {
+                                    alertaControles = "AlertaSaldoInsuficiente('El monto del pedido supera el límite en contra reemboldo ($ " + LimiteContraReembolso + "), el mismo no puede ser realizado. Si lo desea puede guardar el pedido temporalmente para realizarlo en otro momento.');";
+                                    return alertaControles;
+
+                                    //ScriptManager.RegisterStartupScript(upSolicitudPedido, typeof(UpdatePanel), "SaldoReq", "AlertaSaldoInsuficiente('El monto del pedido supera el límite en contra reemboldo ($ " + LimiteContraReembolso + "), el mismo no puede ser realizado. Si lo desea puede guardar el pedido temporalmente para realizarlo en otro momento.');", true);
+                                    //return;
+                                }
+                                else
+                                    break;
+                            }
+                            break;
 
                         }
                     case "Rapi Pago":
