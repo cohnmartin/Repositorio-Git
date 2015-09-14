@@ -5526,10 +5526,10 @@ public partial class NotaDePedido : BasePage
 
                     }
                 }
-                else if (decimal.Parse(txtMontoGeneral.Text.Replace("$", "")) >= 950)
+                else if (decimal.Parse(txtMontoGeneral.Text.Replace("$", "")) >= 990)
                 {
                     // Promo Pedido Hasta $900
-                    string codigoPromoPedidoMayor = "1150000122009"; // Beneficio Invierno 2015- Soliflor x 500 ml
+                    string codigoPromoPedidoMayor = "1150000122010"; // Beneficio Primavera- 212 Men x 500 ml
 
                     Producto promoPedidoMayor = (from P in Contexto.Presentacions
                                                  where P.Codigo.Trim() == codigoPromoPedidoMayor
@@ -5539,7 +5539,7 @@ public partial class NotaDePedido : BasePage
                     {
 
                         List<string> descripcionPromo = new List<string>();
-                        descripcionPromo.Add("Mas de|$950");
+                        descripcionPromo.Add("Mas de|$990");
 
                         DetallePedido pedidoPedidoMayor = new DetallePedido();
 
