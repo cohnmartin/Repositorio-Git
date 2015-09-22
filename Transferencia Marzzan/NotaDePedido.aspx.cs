@@ -1477,10 +1477,10 @@ public partial class NotaDePedido : BasePage
                     DetallesEliminar.Add(item);
                 }
             }
-
-            /// Elimino el producto Catálogo x 10 unidades  (2506600030085)
+            
+            /// Elimino el producto Catálogo x 10 unidades  (2506600030159)
             List<DetallePedido> detallesCatalogox10 = (from d in cabecera.DetallePedidos
-                                                       where d.Presentacion == 7098
+                                                       where d.Presentacion == 7212
                                                        select d).ToList();
 
             if (detallesCatalogox10.Count > 0)
@@ -1637,8 +1637,20 @@ public partial class NotaDePedido : BasePage
                 /// 2150000021006       Descuento Catálogo x 10 u. 2015 01        (sólo 1 artículo de este) 
 
 
+                 /// /// /// ///  Cambio 24/09/2015 /// /// /// ///  
+                /// Nuevo Producto Inicial: 2506600030159 Catálogo SM x 10 u 2015 04 
+                /// Si esta este producto y se esta realizando el pedido, no se debe
+                /// agregar este producto sino que se tiene que reemplazar por:
+                /// 2506600030158  Catálogo SM x 5 u 2015 04        (2 artículos de este que sumen las 10 unidades) 
+                /// 2150000021006  Descuento Catoalogo x 10 u.        (sólo 1 artículo de este) 
+                
+
+
+
+
+
                 Presentacion preCatalogoSM = (from P in Contexto.Presentacions
-                                              where P.Codigo == "2506600030086"
+                                              where P.Codigo == "2506600030158"
                                               select P).FirstOrDefault<Presentacion>();
 
                 Presentacion preDescuentoCatalogo = (from P in Contexto.Presentacions
@@ -6326,7 +6338,7 @@ public partial class NotaDePedido : BasePage
             /// aquello donde el código comienza con un 1.
             decimal TotalComprado = (from P in (HttpContext.Current.Session["detPedido"] as List<DetallePedido>)
                                      where (P.CodigoCompleto.Substring(0, 1) == "1" && P.Tipo == "A") || (P.Tipo == "P") || (P.Tipo == "D")
-                                   || (P.CodigoCompleto.Trim() == "2506600030085") || (P.CodigoCompleto.Trim() == "2506600030089") 
+                                   || (P.CodigoCompleto.Trim() == "2506600030159") || (P.CodigoCompleto.Trim() == "2506600030089") 
                                      select P.ValorTotal.Value).Sum();
 
 
@@ -6515,6 +6527,33 @@ public partial class NotaDePedido : BasePage
                                 else
                                     break;
                             }
+                            /// CAMBIO SOLICITADO EL 23/09/2015
+                            /// La modificación del valor de contra rembolso para el transporte Koliseo y Koliseo II debería 
+                            /// quedar implementada en la web de producción el 25/09/2015 a partir de las 16 hs. 
+                            else if ((transporte.ToUpper().Contains("KOLISEO") || transporte.ToUpper().Contains("KOLISEO II")) && DateTime.Now >= DateTime.Parse("23/09/2015 12:00:00"))
+                            {
+                                if ((totalPedido - SaldoActual) > decimal.Parse("1500"))
+                                {
+                                    alertaControles = "AlertaSaldoInsuficiente('El monto del pedido supera el límite en contra reemboldo ($ 1500), el mismo no puede ser realizado. Si lo desea puede guardar el pedido temporalmente para realizarlo en otro momento.');";
+                                    return alertaControles;
+                                }
+                                else
+                                    break;
+                            }
+                            /// CAMBIO SOLICITADO EL 23/09/2015 
+                            /// La modificación del valor de contra rembolso para el transporte Castillo 
+                            /// debería quedar implementada en la web de producción el 01/10/2015 a partir de las 16 hs. 
+                            else if (transporte.ToUpper().Contains("CASTILLO") && DateTime.Now >= DateTime.Parse("23/09/2015 12:00:00"))
+                            {
+                                if ((totalPedido - SaldoActual) > decimal.Parse("1500"))
+                                {
+                                    alertaControles = "AlertaSaldoInsuficiente('El monto del pedido supera el límite en contra reemboldo ($ 1500), el mismo no puede ser realizado. Si lo desea puede guardar el pedido temporalmente para realizarlo en otro momento.');";
+                                    return alertaControles;
+                                }
+                                else
+                                    break;
+                            }
+
                             else
                             {
                                 /// 02/07/2015: Se aplico regla para controlar el limite en contra reembolso, contra el total del pedido
