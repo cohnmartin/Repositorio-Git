@@ -1610,7 +1610,7 @@ public partial class NotaDePedido : BasePage
 
 
             }
-            else if (det.CodigoCompleto.Trim() == "2506600030085")
+            else if (det.CodigoCompleto.Trim() == "2506600030159")
             {
 
                 /// /// /// ///  Codigo Anterior /// /// /// ///  
@@ -6530,7 +6530,7 @@ public partial class NotaDePedido : BasePage
                             /// CAMBIO SOLICITADO EL 23/09/2015
                             /// La modificación del valor de contra rembolso para el transporte Koliseo y Koliseo II debería 
                             /// quedar implementada en la web de producción el 25/09/2015 a partir de las 16 hs. 
-                            else if ((transporte.ToUpper().Contains("KOLISEO") || transporte.ToUpper().Contains("KOLISEO II")) && DateTime.Now >= DateTime.Parse("23/09/2015 12:00:00"))
+                            else if ((transporte.ToUpper().Contains("KOLISEO") || transporte.ToUpper().Contains("KOLISEO II")) && DateTime.Now >= DateTime.Parse("24/09/2015 12:00:00"))
                             {
                                 if ((totalPedido - SaldoActual) > decimal.Parse("1500"))
                                 {
@@ -6543,7 +6543,7 @@ public partial class NotaDePedido : BasePage
                             /// CAMBIO SOLICITADO EL 23/09/2015 
                             /// La modificación del valor de contra rembolso para el transporte Castillo 
                             /// debería quedar implementada en la web de producción el 01/10/2015 a partir de las 16 hs. 
-                            else if (transporte.ToUpper().Contains("CASTILLO") && DateTime.Now >= DateTime.Parse("23/09/2015 12:00:00"))
+                            else if (transporte.ToUpper().Contains("CASTILLO") && DateTime.Now >= DateTime.Parse("01/10/2015 16:00:00"))
                             {
                                 if ((totalPedido - SaldoActual) > decimal.Parse("1500"))
                                 {
