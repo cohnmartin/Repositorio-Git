@@ -2544,74 +2544,57 @@ public partial class NotaDePedido : BasePage
 
                 #endregion
 
-                #region  Detalle Gatillo Aromatizador 500 ml: 26/09/2014
-                // Producto Difusor: 4868
-                // Presentaciones con descripcion: Repuesto
+                #region  Detalle Gatillo Aromatizador 500 ml
+                /// Cambio solicitado 30/09/2015: Se desactiva los gatillos por productos xq los mismos se cobras desde esta fecha.
+                //if (!EsTemporal)
+                //{
 
-
-                /*
-                 * Cambio 24/09/2014
-                 1.01.0200.001.   -018-50        Aromatizador Sensaciones 500 ml 
-                 1.01.0100.001.   -009-50        Aromatizador Soliflor 500 ml 
-                 1.01.0300.001.   -142-50        Aromatizador Arrorró 500 ml        01 
-                 1.01.0100.001.   -003-50        Aromatizador Brisas 500 ml        01 
-                 1.01.0507.001.   -203-50        Aromatizador Rio en Flor 500 ml        01 
-                 1.01.0100.001.   -012-50        Aromatizador Suavechito 500 ml        01
-                 * 
-                 Debe asignarle el siguiente artículo: 
-
-                 2.50.0000.032.001        Gatillo Aromatizador 500 ml 
-                 */
-
-                if (!EsTemporal)
-                {
-
-                    string[] CodigosAromatizadoresEspeciales = new string[] { "1054300001   -148-50" };
-                        //, "1010100001   -009-50 ", "1010300001   -142-50 ", "1010100001   -003-50 ", "1010507001   -203-50 "
-                    //    , "1010100001   -012-50 ", "1010300001   -244-50 ", "1010300001   -021-50 ", "1010200001   -015-50 ", "1010100001   -017-50 ", "1010100001   -011-50 ","1010200001   -017-50 ","1010300001   -026-50 "
-                    //    ,"1010100001   -001-50 ","1010100001   -005-50 ","1010100001   -008-50 ","1010100001   -131-50 ","101100001   -013-50 ","1010300001   -025-50 ","1010300001   -024-50 ","1010300001   -027-50 ","1010300001   -028-50 ","1010300001   -180-50 ","1010300001   -152-50 ","1010300001   -022-50 ","1010300001   -023-50 ","1010504001   -115-50 "
-                    //    ,"1010100001   -013-50 ","1010100001   -130-50 ","1010200001   -014-50 ","1010200001   -016-50 ","1010100001   -007-50 ","1010100001   -002-50 ","1010100001   -109-50 ","1010501001   -116-50 "};
+                //    string[] CodigosAromatizadoresEspeciales = new string[] { "1054300001   -148-50" };
+                //        //, "1010100001   -009-50 ", "1010300001   -142-50 ", "1010100001   -003-50 ", "1010507001   -203-50 "
+                //    //    , "1010100001   -012-50 ", "1010300001   -244-50 ", "1010300001   -021-50 ", "1010200001   -015-50 ", "1010100001   -017-50 ", "1010100001   -011-50 ","1010200001   -017-50 ","1010300001   -026-50 "
+                //    //    ,"1010100001   -001-50 ","1010100001   -005-50 ","1010100001   -008-50 ","1010100001   -131-50 ","101100001   -013-50 ","1010300001   -025-50 ","1010300001   -024-50 ","1010300001   -027-50 ","1010300001   -028-50 ","1010300001   -180-50 ","1010300001   -152-50 ","1010300001   -022-50 ","1010300001   -023-50 ","1010504001   -115-50 "
+                //    //    ,"1010100001   -013-50 ","1010100001   -130-50 ","1010200001   -014-50 ","1010200001   -016-50 ","1010100001   -007-50 ","1010100001   -002-50 ","1010100001   -109-50 ","1010501001   -116-50 "};
                    
-                    // 1493	01	Fresh
-                    // 1507	02	Aromaterapia
-                    // 1513	03	Selectivo
-                    // 1522	04	Aromas de la Casa
+                //    // 1493	01	Fresh
+                //    // 1507	02	Aromaterapia
+                //    // 1513	03	Selectivo
+                //    // 1522	04	Aromas de la Casa
 
-                    var IdLineasIncluidas = (from p in Contexto.Productos
-                                             where p.Padre == 1493 || p.Padre == 1507 || p.Padre == 1513 || p.Padre == 1525
-                                             select p.IdProducto).ToList();
-
-
-                    string[] CodigosAromatizadores = (from p in Contexto.Presentacions
-                                                      where (IdLineasIncluidas.Contains(p.Padre.Value) && p.Descripcion == "500 ml" && p.Codigo != "1010300001   -133-50 ")
-                                                      select p.Codigo.Trim()).ToArray();
+                //    var IdLineasIncluidas = (from p in Contexto.Productos
+                //                             where p.Padre == 1493 || p.Padre == 1507 || p.Padre == 1513 || p.Padre == 1525
+                //                             select p.IdProducto).ToList();
 
 
-                    long CantidadAromatizador = Convert.ToInt64(((from N in cabecera.DetallePedidos
-                                                                  where CodigosAromatizadores.Contains(N.CodigoCompleto.Trim()) ||
-                                                                  CodigosAromatizadoresEspeciales.Contains(N.CodigoCompleto.Trim())
-                                                                  select N.Cantidad.Value).Sum() * 1));
+                //    string[] CodigosAromatizadores = (from p in Contexto.Presentacions
+                //                                      where (IdLineasIncluidas.Contains(p.Padre.Value) && p.Descripcion == "500 ml" && p.Codigo != "1010300001   -133-50 ")
+                //                                      select p.Codigo.Trim()).ToArray();
 
 
-                    if (CantidadAromatizador > 0)
-                    {
-
-                        Presentacion preGatilloAromatizador = (from P in Contexto.Presentacions
-                                                               where P.Codigo == "2500000032001"
-                                                               select P).SingleOrDefault();
+                //    long CantidadAromatizador = Convert.ToInt64(((from N in cabecera.DetallePedidos
+                //                                                  where CodigosAromatizadores.Contains(N.CodigoCompleto.Trim()) ||
+                //                                                  CodigosAromatizadoresEspeciales.Contains(N.CodigoCompleto.Trim())
+                //                                                  select N.Cantidad.Value).Sum() * 1));
 
 
-                        newDetalle = new DetallePedido();
-                        newDetalle.Cantidad = CantidadAromatizador;
-                        newDetalle.CodigoCompleto = preGatilloAromatizador.Codigo;
-                        newDetalle.Presentacion = preGatilloAromatizador.IdPresentacion;
-                        newDetalle.Producto = preGatilloAromatizador.objProducto.IdProducto;
-                        newDetalle.ValorUnitario = 0; // preGatilloAromatizador.Precio; Solicitado 04/02/2015
-                        newDetalle.ValorTotal = newDetalle.ValorUnitario * newDetalle.Cantidad;
+                //    if (CantidadAromatizador > 0)
+                //    {
 
-                        cabecera.DetallePedidos.Add(newDetalle);
-                    }
-                }
+                //        Presentacion preGatilloAromatizador = (from P in Contexto.Presentacions
+                //                                               where P.Codigo == "2500000032001"
+                //                                               select P).SingleOrDefault();
+
+
+                //        newDetalle = new DetallePedido();
+                //        newDetalle.Cantidad = CantidadAromatizador;
+                //        newDetalle.CodigoCompleto = preGatilloAromatizador.Codigo;
+                //        newDetalle.Presentacion = preGatilloAromatizador.IdPresentacion;
+                //        newDetalle.Producto = preGatilloAromatizador.objProducto.IdProducto;
+                //        newDetalle.ValorUnitario = 0; // preGatilloAromatizador.Precio; Solicitado 04/02/2015
+                //        newDetalle.ValorTotal = newDetalle.ValorUnitario * newDetalle.Cantidad;
+
+                //        cabecera.DetallePedidos.Add(newDetalle);
+                //    }
+                //}
 
                 #endregion
 
