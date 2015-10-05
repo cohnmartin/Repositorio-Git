@@ -6125,16 +6125,19 @@ public partial class NotaDePedido : BasePage
                             {
                                 if (promoReGenerada.ColRegalos.Count() > 0)
                                 {
-                                    promoReGenerada.ColRegalos[indexRegalo].TipoRegalo = "Producto";
-                                    promoReGenerada.ColRegalos[indexRegalo].IdPresentacionPreSeleccionado = detProdSel.objPresentacion.IdPresentacion;
-                                    promoReGenerada.IdRegaloSeleccionado = detProdSel.objPresentacion.IdPresentacion;
+                                    if (promoReGenerada.ColRegalos[indexRegalo] != null)
+                                    {
+                                        promoReGenerada.ColRegalos[indexRegalo].TipoRegalo = "Producto";
+                                        promoReGenerada.ColRegalos[indexRegalo].IdPresentacionPreSeleccionado = detProdSel.objPresentacion.IdPresentacion;
+                                        promoReGenerada.IdRegaloSeleccionado = detProdSel.objPresentacion.IdPresentacion;
 
-                                    if (!detProdSel.objProducto.Descripcion.Contains("x Unidad"))
-                                        promoReGenerada.ColRegalos[indexRegalo].DescripcionPreSeleccionado = detProdSel.objProducto.objPadre.Descripcion + " " + detProdSel.objProducto.Descripcion + " x " + detProdSel.objPresentacion.Descripcion;
-                                    else
-                                        promoReGenerada.ColRegalos[indexRegalo].DescripcionPreSeleccionado = detProdSel.objProducto.Descripcion;
+                                        if (!detProdSel.objProducto.Descripcion.Contains("x Unidad"))
+                                            promoReGenerada.ColRegalos[indexRegalo].DescripcionPreSeleccionado = detProdSel.objProducto.objPadre.Descripcion + " " + detProdSel.objProducto.Descripcion + " x " + detProdSel.objPresentacion.Descripcion;
+                                        else
+                                            promoReGenerada.ColRegalos[indexRegalo].DescripcionPreSeleccionado = detProdSel.objProducto.Descripcion;
 
-                                    indexRegalo++;
+                                        indexRegalo++;
+                                    }
                                 }
                             }
 
