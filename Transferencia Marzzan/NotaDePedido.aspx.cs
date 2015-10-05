@@ -6125,7 +6125,7 @@ public partial class NotaDePedido : BasePage
                             {
                                 if (promoReGenerada.ColRegalos.Count() > 0)
                                 {
-                                    if (promoReGenerada.ColRegalos[indexRegalo] != null)
+                                    if (promoReGenerada.ColRegalos.Count < indexRegalo)
                                     {
                                         promoReGenerada.ColRegalos[indexRegalo].TipoRegalo = "Producto";
                                         promoReGenerada.ColRegalos[indexRegalo].IdPresentacionPreSeleccionado = detProdSel.objPresentacion.IdPresentacion;
