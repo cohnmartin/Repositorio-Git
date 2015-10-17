@@ -306,7 +306,7 @@ public partial class NotaDePedido : BasePage
                         else
                         {
                             if (item.objPresentacion.Descripcion.Contains("5 ml") ||
-                            item.objPresentacion.Descripcion.Contains("55 ml") ||
+                            // item.objPresentacion.Descripcion.Contains("55 ml") || // Cambio solicitado 15/10/215
                             ((item.objPresentacion.objProducto.Tipo == 'P' || item.objPresentacion.objProducto.Tipo == 'D') && item.objPresentacion.objProducto.objConfPromocion != null && item.objProducto.objConfPromocion.UnaPorPedido.Value))
 
                                 item.UnoPorPedido = true;
@@ -1155,7 +1155,7 @@ public partial class NotaDePedido : BasePage
                                 else
                                 {
                                     if (presentacion.Descripcion.Contains("5 ml") ||
-                                        presentacion.Descripcion.Contains("55 ml") ||
+                                        //presentacion.Descripcion.Contains("55 ml") || // Cambio solicitado 15/10/215
                                         ((presentacion.objProducto.Tipo == 'P' || presentacion.objProducto.Tipo == 'D') && presentacion.objProducto.objConfPromocion != null && presentacion.objProducto.objConfPromocion.UnaPorPedido.Value))
 
                                         detPedido.UnoPorPedido = true;
