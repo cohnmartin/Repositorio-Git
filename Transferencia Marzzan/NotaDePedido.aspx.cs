@@ -5576,6 +5576,225 @@ public partial class NotaDePedido : BasePage
 
                     }
                 }
+                /// Promociones fijas por monto y para productos de tipo nivel.
+                if (decimal.Parse(txtMontoGeneral.Text.Replace("$", "")) >= 850 && decimal.Parse(txtMontoGeneral.Text.Replace("$", "")) <= decimal.Parse("1099,99")) //$850 a $1099.99
+                {
+                    // Promo Pedido Hasta $900
+                    string codigoPromoNivel = "1150000041001";    //Nivel 1 Premiamos tu Crecimiento Noviembre 15        
+
+                    Producto promoPedidoNivel= (from P in Contexto.Presentacions
+                                                 where P.Codigo.Trim() == codigoPromoNivel
+                                                 select P.objProducto).FirstOrDefault<Producto>();
+
+                    if (promoPedidoNivel != null && promoPedidoNivel.objConfPromocion != null && promoPedidoNivel.objConfPromocion.FechaInicio <= DateTime.Now && promoPedidoNivel.objConfPromocion.FechaFinal > DateTime.Now)
+                    {
+
+                        List<string> descripcionPromo = new List<string>();
+                        descripcionPromo.Add("Entre $850 y|$1100");
+
+                        DetallePedido pedidoPromoNivel = new DetallePedido();
+
+
+                        var composicionRegalo = from R in promoPedidoNivel.ColComposiciones
+                                                where R.TipoComposicion == "O"
+                                                group R by R.Grupo into c
+                                                select new { Grupo = c.Key, componentes = c };
+
+                        if (composicionRegalo.Count() > 0)
+                        {
+                            foreach (var itemComponente in composicionRegalo)
+                            {
+                                List<Producto> productos = (from P in itemComponente.componentes
+                                                            select P.objProductoHijo).ToList<Producto>();
+
+                                DetalleRegalos newRegalo = new DetalleRegalos();
+                                newRegalo.DescripcionRegalo = productos.First().Descripcion + " x " + itemComponente.componentes.First().objPresentacion.Descripcion;
+                                newRegalo.IdPresentacionRegaloSeleccionado = itemComponente.componentes.First().objPresentacion.IdPresentacion;
+                                newRegalo.TipoRegalo = "Producto";
+                                newRegalo.objDetallePedido = pedidoPromoNivel;
+                                newRegalo.Grupo = itemComponente.componentes.First().Grupo.Value;
+                                pedidoPromoNivel.ColRegalos.Add(newRegalo);
+                            }
+
+
+                            pedidoPromoNivel.Cantidad = 1;
+                            pedidoPromoNivel.Producto = promoPedidoNivel.IdProducto;
+                            pedidoPromoNivel.Presentacion = promoPedidoNivel.ColPresentaciones[0].IdPresentacion;
+                            pedidoPromoNivel.ProductoDesc = promoPedidoNivel.Descripcion;
+                            pedidoPromoNivel.PresentacionDesc = promoPedidoNivel.ColPresentaciones[0].Descripcion;
+                            pedidoPromoNivel.DescripcionCompleta = pedidoPromoNivel.ProductoDesc;
+                            pedidoPromoNivel.DescProductosUtilizados = descripcionPromo;
+                            pedidoPromoNivel.CodigoCompleto = promoPedidoNivel.ColPresentaciones[0].Codigo;
+                            pedidoPromoNivel.Tipo = "M";
+
+                            AllPromosGeneradas.Add(pedidoPromoNivel);
+                        }
+
+                    }
+                }
+                else if (decimal.Parse(txtMontoGeneral.Text.Replace("$", "")) >= 1010 && decimal.Parse(txtMontoGeneral.Text.Replace("$", "")) <= decimal.Parse("1999,99"))
+                {
+                    // Promo Pedido Hasta $900
+                    string codigoPromoNivel = "1150000041002";  //Nivel 2 Premiamos tu Crecimiento Noviembre 15        
+
+                    Producto promoPedidoNivel = (from P in Contexto.Presentacions
+                                                 where P.Codigo.Trim() == codigoPromoNivel
+                                                 select P.objProducto).FirstOrDefault<Producto>();
+
+                    if (promoPedidoNivel != null && promoPedidoNivel.objConfPromocion != null && promoPedidoNivel.objConfPromocion.FechaInicio <= DateTime.Now && promoPedidoNivel.objConfPromocion.FechaFinal > DateTime.Now)
+                    {
+
+                        List<string> descripcionPromo = new List<string>();
+                        descripcionPromo.Add("Entre $1010 y|$2000");
+
+                        DetallePedido pedidoPromoNivel = new DetallePedido();
+
+
+                        var composicionRegalo = from R in promoPedidoNivel.ColComposiciones
+                                                where R.TipoComposicion == "O"
+                                                group R by R.Grupo into c
+                                                select new { Grupo = c.Key, componentes = c };
+
+                        if (composicionRegalo.Count() > 0)
+                        {
+                            foreach (var itemComponente in composicionRegalo)
+                            {
+                                List<Producto> productos = (from P in itemComponente.componentes
+                                                            select P.objProductoHijo).ToList<Producto>();
+
+                                DetalleRegalos newRegalo = new DetalleRegalos();
+                                newRegalo.DescripcionRegalo = productos.First().Descripcion + " x " + itemComponente.componentes.First().objPresentacion.Descripcion;
+                                newRegalo.IdPresentacionRegaloSeleccionado = itemComponente.componentes.First().objPresentacion.IdPresentacion;
+                                newRegalo.TipoRegalo = "Producto";
+                                newRegalo.objDetallePedido = pedidoPromoNivel;
+                                newRegalo.Grupo = itemComponente.componentes.First().Grupo.Value;
+                                pedidoPromoNivel.ColRegalos.Add(newRegalo);
+                            }
+
+
+                            pedidoPromoNivel.Cantidad = 1;
+                            pedidoPromoNivel.Producto = promoPedidoNivel.IdProducto;
+                            pedidoPromoNivel.Presentacion = promoPedidoNivel.ColPresentaciones[0].IdPresentacion;
+                            pedidoPromoNivel.ProductoDesc = promoPedidoNivel.Descripcion;
+                            pedidoPromoNivel.PresentacionDesc = promoPedidoNivel.ColPresentaciones[0].Descripcion;
+                            pedidoPromoNivel.DescripcionCompleta = pedidoPromoNivel.ProductoDesc;
+                            pedidoPromoNivel.DescProductosUtilizados = descripcionPromo;
+                            pedidoPromoNivel.CodigoCompleto = promoPedidoNivel.ColPresentaciones[0].Codigo;
+                            pedidoPromoNivel.Tipo = "M";
+
+                            AllPromosGeneradas.Add(pedidoPromoNivel);
+                        }
+
+                    }
+                }
+                else if (decimal.Parse(txtMontoGeneral.Text.Replace("$", "")) >= 2000 && decimal.Parse(txtMontoGeneral.Text.Replace("$", "")) <= decimal.Parse("2999,99"))
+                {
+                    string codigoPromoNivel = "1150000041003"; //Nivel 3 Premiamos tu Crecimiento Noviembre 15        
+
+                    Producto promoPedidoNivel = (from P in Contexto.Presentacions
+                                                 where P.Codigo.Trim() == codigoPromoNivel
+                                                 select P.objProducto).FirstOrDefault<Producto>();
+
+                    if (promoPedidoNivel != null && promoPedidoNivel.objConfPromocion != null && promoPedidoNivel.objConfPromocion.FechaInicio <= DateTime.Now && promoPedidoNivel.objConfPromocion.FechaFinal > DateTime.Now)
+                    {
+
+                        List<string> descripcionPromo = new List<string>();
+                        descripcionPromo.Add("Entre $2000 y|$3000");
+
+                        DetallePedido pedidoPromoNivel = new DetallePedido();
+
+
+                        var composicionRegalo = from R in promoPedidoNivel.ColComposiciones
+                                                where R.TipoComposicion == "O"
+                                                group R by R.Grupo into c
+                                                select new { Grupo = c.Key, componentes = c };
+
+                        if (composicionRegalo.Count() > 0)
+                        {
+                            foreach (var itemComponente in composicionRegalo)
+                            {
+                                List<Producto> productos = (from P in itemComponente.componentes
+                                                            select P.objProductoHijo).ToList<Producto>();
+
+                                DetalleRegalos newRegalo = new DetalleRegalos();
+                                newRegalo.DescripcionRegalo = productos.First().Descripcion + " x " + itemComponente.componentes.First().objPresentacion.Descripcion;
+                                newRegalo.IdPresentacionRegaloSeleccionado = itemComponente.componentes.First().objPresentacion.IdPresentacion;
+                                newRegalo.TipoRegalo = "Producto";
+                                newRegalo.objDetallePedido = pedidoPromoNivel;
+                                newRegalo.Grupo = itemComponente.componentes.First().Grupo.Value;
+                                pedidoPromoNivel.ColRegalos.Add(newRegalo);
+                            }
+
+
+                            pedidoPromoNivel.Cantidad = 1;
+                            pedidoPromoNivel.Producto = promoPedidoNivel.IdProducto;
+                            pedidoPromoNivel.Presentacion = promoPedidoNivel.ColPresentaciones[0].IdPresentacion;
+                            pedidoPromoNivel.ProductoDesc = promoPedidoNivel.Descripcion;
+                            pedidoPromoNivel.PresentacionDesc = promoPedidoNivel.ColPresentaciones[0].Descripcion;
+                            pedidoPromoNivel.DescripcionCompleta = pedidoPromoNivel.ProductoDesc;
+                            pedidoPromoNivel.DescProductosUtilizados = descripcionPromo;
+                            pedidoPromoNivel.CodigoCompleto = promoPedidoNivel.ColPresentaciones[0].Codigo;
+                            pedidoPromoNivel.Tipo = "M";
+
+                            AllPromosGeneradas.Add(pedidoPromoNivel);
+                        }
+
+                    }
+                }
+                else if (decimal.Parse(txtMontoGeneral.Text.Replace("$", "")) >= 3000 )
+                {
+                    string codigoPromoNivel = "1150000041004";  //Nivel 4 Premiamos tu Crecimiento Noviembre 15        
+
+                    Producto promoPedidoNivel = (from P in Contexto.Presentacions
+                                                 where P.Codigo.Trim() == codigoPromoNivel
+                                                 select P.objProducto).FirstOrDefault<Producto>();
+
+                    if (promoPedidoNivel != null && promoPedidoNivel.objConfPromocion != null && promoPedidoNivel.objConfPromocion.FechaInicio <= DateTime.Now && promoPedidoNivel.objConfPromocion.FechaFinal > DateTime.Now)
+                    {
+
+                        List<string> descripcionPromo = new List<string>();
+                        descripcionPromo.Add("Mayor a |$3000");
+
+                        DetallePedido pedidoPromoNivel = new DetallePedido();
+
+
+                        var composicionRegalo = from R in promoPedidoNivel.ColComposiciones
+                                                where R.TipoComposicion == "O"
+                                                group R by R.Grupo into c
+                                                select new { Grupo = c.Key, componentes = c };
+
+                        if (composicionRegalo.Count() > 0)
+                        {
+                            foreach (var itemComponente in composicionRegalo)
+                            {
+                                List<Producto> productos = (from P in itemComponente.componentes
+                                                            select P.objProductoHijo).ToList<Producto>();
+
+                                DetalleRegalos newRegalo = new DetalleRegalos();
+                                newRegalo.DescripcionRegalo = productos.First().Descripcion + " x " + itemComponente.componentes.First().objPresentacion.Descripcion;
+                                newRegalo.IdPresentacionRegaloSeleccionado = itemComponente.componentes.First().objPresentacion.IdPresentacion;
+                                newRegalo.TipoRegalo = "Producto";
+                                newRegalo.objDetallePedido = pedidoPromoNivel;
+                                newRegalo.Grupo = itemComponente.componentes.First().Grupo.Value;
+                                pedidoPromoNivel.ColRegalos.Add(newRegalo);
+                            }
+
+
+                            pedidoPromoNivel.Cantidad = 1;
+                            pedidoPromoNivel.Producto = promoPedidoNivel.IdProducto;
+                            pedidoPromoNivel.Presentacion = promoPedidoNivel.ColPresentaciones[0].IdPresentacion;
+                            pedidoPromoNivel.ProductoDesc = promoPedidoNivel.Descripcion;
+                            pedidoPromoNivel.PresentacionDesc = promoPedidoNivel.ColPresentaciones[0].Descripcion;
+                            pedidoPromoNivel.DescripcionCompleta = pedidoPromoNivel.ProductoDesc;
+                            pedidoPromoNivel.DescProductosUtilizados = descripcionPromo;
+                            pedidoPromoNivel.CodigoCompleto = promoPedidoNivel.ColPresentaciones[0].Codigo;
+                            pedidoPromoNivel.Tipo = "M";
+
+                            AllPromosGeneradas.Add(pedidoPromoNivel);
+                        }
+
+                    }
+                }
 
                 #endregion
 
