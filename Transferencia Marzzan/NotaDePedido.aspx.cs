@@ -2370,7 +2370,7 @@ public partial class NotaDePedido : BasePage
 
 
                                 newDetalle = new DetallePedido();
-                                newDetalle.Cantidad = long.Parse(det.Cantidad.ToString());
+                                newDetalle.Cantidad = detRegalo.Cantidad;// long.Parse(det.Cantidad.ToString());
                                 newDetalle.CodigoCompleto = PresentacionRegalo.Codigo;
                                 newDetalle.Presentacion = PresentacionRegalo.IdPresentacion;
                                 newDetalle.Producto = PresentacionRegalo.objProducto.IdProducto;
@@ -5590,7 +5590,7 @@ public partial class NotaDePedido : BasePage
                     {
 
                         List<string> descripcionPromo = new List<string>();
-                        descripcionPromo.Add("Entre $850 y|$1100");
+                        descripcionPromo.Add("Desde $850 Hasta|$1099");
 
                         DetallePedido pedidoPromoNivel = new DetallePedido();
 
@@ -5613,6 +5613,7 @@ public partial class NotaDePedido : BasePage
                                 newRegalo.TipoRegalo = "Producto";
                                 newRegalo.objDetallePedido = pedidoPromoNivel;
                                 newRegalo.Grupo = itemComponente.componentes.First().Grupo.Value;
+                                newRegalo.Cantidad = int.Parse(itemComponente.componentes.First().Cantidad);
                                 pedidoPromoNivel.ColRegalos.Add(newRegalo);
                             }
 
@@ -5645,7 +5646,7 @@ public partial class NotaDePedido : BasePage
                     {
 
                         List<string> descripcionPromo = new List<string>();
-                        descripcionPromo.Add("Entre $1010 y|$2000");
+                        descripcionPromo.Add("Desde $1100 Hasta|$1999");
 
                         DetallePedido pedidoPromoNivel = new DetallePedido();
 
@@ -5668,6 +5669,7 @@ public partial class NotaDePedido : BasePage
                                 newRegalo.TipoRegalo = "Producto";
                                 newRegalo.objDetallePedido = pedidoPromoNivel;
                                 newRegalo.Grupo = itemComponente.componentes.First().Grupo.Value;
+                                newRegalo.Cantidad = int.Parse(itemComponente.componentes.First().Cantidad);
                                 pedidoPromoNivel.ColRegalos.Add(newRegalo);
                             }
 
@@ -5699,7 +5701,7 @@ public partial class NotaDePedido : BasePage
                     {
 
                         List<string> descripcionPromo = new List<string>();
-                        descripcionPromo.Add("Entre $2000 y|$3000");
+                        descripcionPromo.Add("Desde $2000 Hasta|$2999");
 
                         DetallePedido pedidoPromoNivel = new DetallePedido();
 
@@ -5722,6 +5724,7 @@ public partial class NotaDePedido : BasePage
                                 newRegalo.TipoRegalo = "Producto";
                                 newRegalo.objDetallePedido = pedidoPromoNivel;
                                 newRegalo.Grupo = itemComponente.componentes.First().Grupo.Value;
+                                newRegalo.Cantidad = int.Parse(itemComponente.componentes.First().Cantidad);
                                 pedidoPromoNivel.ColRegalos.Add(newRegalo);
                             }
 
@@ -5776,6 +5779,7 @@ public partial class NotaDePedido : BasePage
                                 newRegalo.TipoRegalo = "Producto";
                                 newRegalo.objDetallePedido = pedidoPromoNivel;
                                 newRegalo.Grupo = itemComponente.componentes.First().Grupo.Value;
+                                newRegalo.Cantidad = int.Parse(itemComponente.componentes.First().Cantidad);
                                 pedidoPromoNivel.ColRegalos.Add(newRegalo);
                             }
 
