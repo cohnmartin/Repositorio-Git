@@ -317,7 +317,7 @@ public partial class NotaDePedido : BasePage
 
 
                     Session["PromosGuardadas"] = (from d in CurrentCabecera.DetallePedidos
-                                                  where (d.objProducto.Tipo == 'P' || d.objProducto.Tipo == 'D') && d.ValorTotal < 0
+                                                  where (d.objProducto.Tipo == 'P' || d.objProducto.Tipo == 'D' || d.objProducto.Tipo == 'N') && d.ValorTotal < 0
                                                   select d).ToList();
 
                     Session["productosRegalosSeleccionados"] = (from d in CurrentCabecera.DetallePedidos
@@ -5580,7 +5580,7 @@ public partial class NotaDePedido : BasePage
                 if (decimal.Parse(txtMontoGeneral.Text.Replace("$", "")) >= 850 && decimal.Parse(txtMontoGeneral.Text.Replace("$", "")) <= decimal.Parse("1099,99")) //$850 a $1099.99
                 {
                     // Promo Pedido Hasta $900
-                    string codigoPromoNivel = "1150000041001";    //Nivel 1 Premiamos tu Crecimiento Noviembre 15        
+                    string codigoPromoNivel = "1156500041407"; // "1150000041001";    //Nivel 1 Premiamos tu Crecimiento Noviembre 15        
 
                     Producto promoPedidoNivel= (from P in Contexto.Presentacions
                                                  where P.Codigo.Trim() == codigoPromoNivel
