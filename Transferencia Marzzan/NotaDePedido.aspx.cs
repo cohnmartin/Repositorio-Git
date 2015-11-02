@@ -2211,7 +2211,7 @@ public partial class NotaDePedido : BasePage
 
                             /// Asocio al detalle de tipo promo los productos requeridos seleccionados
                             /// para luego poder reconstruir cuando se edite
-                            if (det.IdRelacionDetallePromo != 0 && det.Tipo == "P" && EsTemporal)
+                            if (det.IdRelacionDetallePromo != 0 && (det.Tipo == "P" || det.Tipo == "N" || det.Tipo == "D") && EsTemporal)
                             {
                                 List<DetallePedido> promos = (Session["PromosGeneradas"] as List<DetallePedido>).Where(w => w.IdRelacionDetallePromo == det.IdRelacionDetallePromo).ToList();
                                 int grupo = 0;
@@ -2255,7 +2255,7 @@ public partial class NotaDePedido : BasePage
 
                             /// Asocio al detalle de tipo promo los productos requeridos seleccionados
                             /// para luego poder reconstruir cuando se edite
-                            if (detGuardado.IdRelacionDetallePromo != 0 && (det.Tipo == "P" || det.Tipo == "D"))
+                            if (detGuardado.IdRelacionDetallePromo != 0 && (det.Tipo == "P" || det.Tipo == "D" || det.Tipo == "N"))
                             {
                                 if (EsTemporal)
                                 {
