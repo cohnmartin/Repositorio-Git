@@ -4939,11 +4939,11 @@ public partial class NotaDePedido : BasePage
         {
             Cliente clienteSuperior = (from C in Contexto.Clientes
                                        where C.CodTipoCliente != TipoClientesConstantes.CONSULTOR
-                                          && C.CodClasif1 == CurrentCliente.CodClasif1
+                                          && C.CodClasif1 == CurrentCliente.CodClasif1 && C.Habilitado.Value
                                        select C).First();
 
             if ((clienteSuperior.CodTipoCliente == TipoClientesConstantes.SUBCONGESTION || clienteSuperior.CodTipoCliente == TipoClientesConstantes.SUBSINGESTION)
-                && clienteSuperior.TipoCliente.ToUpper().Contains("SUB"))
+                && clienteSuperior.TipoCliente.ToUpper().Contains("SUB") && !clienteSuperior.TipoCliente.ToUpper().Contains("POTEN"))
             {
                 lblResponsable.Text = clienteSuperior.Vendedor.ToLower();
 
@@ -5524,7 +5524,7 @@ public partial class NotaDePedido : BasePage
                 else if (decimal.Parse(txtMontoGeneral.Text.Replace("$", "")) >= 990)
                 {
                     // Promo Pedido Hasta $900
-                    string codigoPromoPedidoMayor = "1150000122010"; // Beneficio Primavera- 212 Men x 500 ml
+                    string codigoPromoPedidoMayor =  "1150000122010"; // Beneficio Primavera- 212 Men x 500 ml
 
                     Producto promoPedidoMayor = (from P in Contexto.Presentacions
                                                  where P.Codigo.Trim() == codigoPromoPedidoMayor
@@ -5580,7 +5580,7 @@ public partial class NotaDePedido : BasePage
                 if (decimal.Parse(txtMontoGeneral.Text.Replace("$", "")) >= 850 && decimal.Parse(txtMontoGeneral.Text.Replace("$", "")) <= decimal.Parse("1099,99")) //$850 a $1099.99
                 {
                     // Promo Pedido Hasta $900
-                    string codigoPromoNivel =  "1150000041001";    //Nivel 1 Premiamos tu Crecimiento Noviembre 15        
+                    string codigoPromoNivel = "1156500041407";//"1150000041001";    //Nivel 1 Premiamos tu Crecimiento Noviembre 15        
 
                     Producto promoPedidoNivel= (from P in Contexto.Presentacions
                                                  where P.Codigo.Trim() == codigoPromoNivel
@@ -6486,11 +6486,11 @@ public partial class NotaDePedido : BasePage
             {
                 Cliente clienteSuperior = (from C in dc.Clientes
                                            where C.CodTipoCliente != TipoClientesConstantes.CONSULTOR
-                                              && C.CodClasif1 == CurrentConsultor.CodClasif1
+                                              && C.CodClasif1 == CurrentConsultor.CodClasif1 && C.Habilitado.Value
                                            select C).First();
 
                 if ((clienteSuperior.CodTipoCliente == TipoClientesConstantes.SUBCONGESTION ||
-                    clienteSuperior.CodTipoCliente == TipoClientesConstantes.SUBSINGESTION) && clienteSuperior.TipoCliente.ToUpper().Contains("SUB"))
+                    clienteSuperior.CodTipoCliente == TipoClientesConstantes.SUBSINGESTION) && clienteSuperior.TipoCliente.ToUpper().Contains("SUB") && !clienteSuperior.TipoCliente.ToUpper().Contains("POTEN"))
                 {
                     SubConsultor = clienteSuperior.Nombre.ToLower();
                     Coordinador = clienteSuperior.Vendedor.ToLower();
