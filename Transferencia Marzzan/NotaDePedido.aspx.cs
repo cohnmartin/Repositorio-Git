@@ -5580,7 +5580,7 @@ public partial class NotaDePedido : BasePage
                 if (decimal.Parse(txtMontoGeneral.Text.Replace("$", "")) >= 850 && decimal.Parse(txtMontoGeneral.Text.Replace("$", "")) <= decimal.Parse("1099,99")) //$850 a $1099.99
                 {
                     // Promo Pedido Hasta $900
-                    string codigoPromoNivel = "1156500041407";//"1150000041001";    //Nivel 1 Premiamos tu Crecimiento Noviembre 15        
+                    string codigoPromoNivel = "1150000041001";    //Nivel 1 Premiamos tu Crecimiento Noviembre 15        
 
                     Producto promoPedidoNivel= (from P in Contexto.Presentacions
                                                  where P.Codigo.Trim() == codigoPromoNivel
@@ -6348,8 +6348,9 @@ public partial class NotaDePedido : BasePage
                             {
                                 if (promoReGenerada.ColRegalos.Count() > 0)
                                 {
-                                    if (promoReGenerada.ColRegalos.Count < indexRegalo)
-                                    {
+                                    /// Esta condicion la comente, porque me parece que esta obsoleta: 16/11/2015
+                                    //if (promoReGenerada.ColRegalos.Count < indexRegalo)
+                                    //{
                                         promoReGenerada.ColRegalos[indexRegalo].TipoRegalo = "Producto";
                                         promoReGenerada.ColRegalos[indexRegalo].IdPresentacionPreSeleccionado = detProdSel.objPresentacion.IdPresentacion;
                                         promoReGenerada.IdRegaloSeleccionado = detProdSel.objPresentacion.IdPresentacion;
@@ -6360,7 +6361,7 @@ public partial class NotaDePedido : BasePage
                                             promoReGenerada.ColRegalos[indexRegalo].DescripcionPreSeleccionado = detProdSel.objProducto.Descripcion;
 
                                         indexRegalo++;
-                                    }
+                                    //}
                                 }
                             }
 
