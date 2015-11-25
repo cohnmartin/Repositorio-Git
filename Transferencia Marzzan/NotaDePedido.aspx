@@ -836,7 +836,7 @@
 <body style="background-image: url(Imagenes/repetido.jpg); margin-top: 1px; background-repeat: repeat-x;
     background-color: White;">
     <form id="form1" runat="server">
-    <asp:ScriptManager ID="ScriptManager1" runat="server">
+    <asp:ScriptManager ID="ScriptManager1" runat="server" AsyncPostBackTimeOut= "360000" >
         <Scripts>
             <asp:ScriptReference Path="ProductosV1.js" />
         </Scripts>

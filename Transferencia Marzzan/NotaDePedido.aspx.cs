@@ -3203,13 +3203,14 @@ public partial class NotaDePedido : BasePage
                 #region  Repuesto Difusores varios
                 if (!EsTemporal)
                 {
-                    List<string> CodigoDifusorPet = new List<string>() { "1010700126   -193-23", "1010700126   -192-23", "1010700126   -190-23", "1010700126   -308-23", "1010700126   -200-23", "1010700126   -191-23", "1010700126   -198-23" };
-               
+                    List<string> CodigoDifusorPet = new List<string>() { "1010700126   -193-23", "1010700126   -192-23", "1010700126   -190-23", "1010700126   -308-23", "1010700126   -200-23", "1010700126   -191-23", "1010700126   -198-23",
+                    "1010700126   -190-30","1010700126   -191-30","1010700126   -192-30","1010700126   -193-30","1010700126   -198-30","1010700126   -200-30","1010700126   -308-30"};
+
 
                     //string CodigoDifusorPet = "1010700126   -193-23";
                     string CodigoVarrila = "2500000110106"; //Paquete Varillas de Bambú x 16 u (sólo 1) 
                     //string CodigoRepuestoDif = "2506900125001"; //Embudo Repuesto Difusor (sólo 1) 
-                    string CodigoDescuentoRepDif = "2150000021025"; // Descuento Embudo Repuesto Difusor (sólo 1) 
+                    //string CodigoDescuentoRepDif = "2150000021025"; // Descuento Embudo Repuesto Difusor (sólo 1) 
 
 
 
